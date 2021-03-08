@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/just_color_ffffff">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/btn_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/white_round_5"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="4dp"
+        android:text="跳过"
+        android:textColor="@color/just_color_ffffff"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:background="@drawable/cffffff_round_5"
+        android:gravity="center"
+        android:paddingBottom="6dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="6dp"
+        android:text="立即体验"
+        android:textColor="@color/just_color_ffffff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+      />
+
+    <RadioGroup
+        android:id="@+id/rg_indicate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radiobutton1"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/guide_radiobutton"
+            android:button="@null"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radiobutton2"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/guide_radiobutton"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/radiobutton3"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/guide_radiobutton"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/radiobutton4"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/guide_radiobutton"
+            android:button="@null" />
+
+    </RadioGroup>
+
+</RelativeLayout>

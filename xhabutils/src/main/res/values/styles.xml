@@ -1,0 +1,38 @@
+<resources>
+
+    <style name="dlg" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!--EditText输入-->
+    <style name="EditText_Input">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@null</item>
+        <item name="android:hint">"请输入"</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/just_color_333333</item>
+    </style>
+
+    <style name="Line_Margin_15">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:background">@color/just_color_f7f7f7</item>
+    </style>
+
+    <!--提交按钮-->
+    <style name="Btn_submit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/shape_gradient_btn</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/just_color_ffffff</item>
+    </style>
+</resources>
