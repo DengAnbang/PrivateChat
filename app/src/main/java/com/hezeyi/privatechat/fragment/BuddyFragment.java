@@ -1,38 +1,35 @@
 package com.hezeyi.privatechat.fragment;
 
-
 import android.view.View;
 
 import com.hezeyi.privatechat.R;
 import com.xhab.utils.LogUtils;
 import com.xhab.utils.base.LazyFragment;
 
-import org.jetbrains.annotations.Nullable;
 
 /**
- * Created by dab on 2021/3/6 14:42
+ * Created by dab on 2021/3/9 09:54
  */
-public class ChatFragment extends LazyFragment {
-
+public class BuddyFragment extends LazyFragment {
     @Override
     public int viewLayoutID() {
-        return R.layout.fragment_chat;
+        return R.layout.fragment_buddy;
     }
-
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
-        LogUtils.e("onVisibleToUser*****: ChatFragment");
+        LogUtils.e("onVisibleToUser*****: BuddyFragment");
     }
 
     @Override
     public void onInvisibleToUser() {
         super.onInvisibleToUser();
-        LogUtils.e("onInvisibleToUser*****: ChatFragment");
+        LogUtils.e("onInvisibleToUser*****: BuddyFragment");
     }
 
     @Override
-    public void onFirstVisibleToUser(@Nullable View view) {
-        LogUtils.e("onFirstVisibleToUser*****: ChatFragment");
+    public void onFirstVisibleToUser(View view) {
+
+        LogUtils.e("onFirstVisibleToUser*****: BuddyFragment");
     }
 }

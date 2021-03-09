@@ -4,7 +4,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hezeyi.privatechat.fragment.AdminFragment;
+import com.hezeyi.privatechat.fragment.BuddyFragment;
 import com.hezeyi.privatechat.fragment.ChatFragment;
+import com.hezeyi.privatechat.fragment.MeFragment;
 import com.hezeyi.privatechat.inteface.OnDataClick;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.utils.LogUtils;
@@ -23,23 +26,16 @@ public class MainActivity extends BaseBottomTabActivity {
     private List<Integer> mTabRes = Arrays.asList(R.mipmap.tab_jiaoliu, R.mipmap.tab_tongxunlu, R.mipmap.tab_wode, R.mipmap.tab_shouye);
     private List<Integer> mTabResPressed = Arrays.asList(R.mipmap.tab_jiaoliu1, R.mipmap.tab_tongxunlu1, R.mipmap.tab_wode1, R.mipmap.tab_shouye1);
 
-    @Override
-    public ArrayList<Fragment> fragments() {
-        ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new ChatFragment());
-        fragments.add(new ChatFragment());
-        fragments.add(new ChatFragment());
-        fragments.add(new ChatFragment());
-
-        return fragments;
-    }
 
 
     @Override
     public int getTabViewResID(int position) {
         return R.layout.layout_bottom_tab_view;
     }
-
+    @Override
+    public int getContentViewRes() {
+        return R.layout.layout_bottom_tab;
+    }
     @Override
     public void changeTab(View view, int position, boolean isSelected) {
         int tabIconRes;
@@ -59,6 +55,8 @@ public class MainActivity extends BaseBottomTabActivity {
 //        tabText.setTextColor(ContextCompat.getColor(this, color));
     }
 
+
+
     @Override
     public void initData() {
         super.initData();
@@ -69,4 +67,34 @@ public class MainActivity extends BaseBottomTabActivity {
             }
         });
     }
+
+
+
+
+//    @NotNull
+//    @Override
+//    public Fragment[] fragments() {
+//        Fragment[] fragments1 = new Fragment[4];
+//        fragments1[0] = new ChatFragment();
+//        fragments1[1] = new BuddyFragment();
+//        fragments1[2] = new MeFragment();
+//        fragments1[3] = new AdminFragment();
+////        ArrayList<Fragment> fragments = new ArrayList<>();
+////        fragments.add(new ChatFragment());
+////        fragments.add(new BuddyFragment());
+////        fragments.add(new MeFragment());
+////        fragments.add(new AdminFragment());
+//
+//        return fragments1;
+//    }
+@Override
+public ArrayList<Fragment> fragments() {
+    ArrayList<Fragment> fragments = new ArrayList<>();
+    fragments.add(new ChatFragment());
+    fragments.add(new BuddyFragment());
+    fragments.add(new MeFragment());
+    fragments.add(new AdminFragment());
+    return fragments;
+}
+
 }

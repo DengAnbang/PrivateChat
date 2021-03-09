@@ -7,32 +7,31 @@ import com.hezeyi.privatechat.R;
 import com.xhab.utils.LogUtils;
 import com.xhab.utils.base.LazyFragment;
 
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by dab on 2021/3/6 14:42
  */
-public class ChatFragment extends LazyFragment {
+public class MeFragment extends LazyFragment {
 
     @Override
     public int viewLayoutID() {
-        return R.layout.fragment_chat;
+        return R.layout.fragment_me;
     }
-
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
-        LogUtils.e("onVisibleToUser*****: ChatFragment");
+        LogUtils.e("onVisibleToUser*****: MeFragment");
     }
 
     @Override
     public void onInvisibleToUser() {
         super.onInvisibleToUser();
-        LogUtils.e("onInvisibleToUser*****: ChatFragment");
+        LogUtils.e("onInvisibleToUser*****: MeFragment");
     }
 
     @Override
-    public void onFirstVisibleToUser(@Nullable View view) {
-        LogUtils.e("onFirstVisibleToUser*****: ChatFragment");
+    public void onFirstVisibleToUser(View view) {
+
+        LogUtils.e("onFirstVisibleToUser*****: MeFragment");
     }
 }

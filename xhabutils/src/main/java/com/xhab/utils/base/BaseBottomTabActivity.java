@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 import com.xhab.utils.R;
-import com.xhab.utils.base.BaseActivity;
 
 import java.util.ArrayList;
 
@@ -28,7 +27,6 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
      * @return
      */
     public abstract ArrayList<Fragment> fragments();
-
 
 
     /**
@@ -80,13 +78,7 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
         mFragments = fragments();
         mTabLayout = findViewById(R.id.bottom_tab_layout);
         addFragment();
-        int showTab = showTab();
-        // 提供自定义的布局添加Tab
-        for (int i = 0; i < mFragments.size(); i++) {
-            View tabView = getTabView(this, i);
-            mTabLayout.addTab(mTabLayout.newTab().setCustomView(tabView));
-            changeTab(tabView, i, i == showTab);
-        }
+
     }
 
     @Override
@@ -121,6 +113,13 @@ public abstract class BaseBottomTabActivity extends BaseActivity {
 
             }
         });
+        int showTab = showTab();
+        // 提供自定义的布局添加Tab
+        for (int i = 0; i < mFragments.size(); i++) {
+            View tabView = getTabView(this, i);
+            mTabLayout.addTab(mTabLayout.newTab().setCustomView(tabView));
+            changeTab(tabView, i, i == showTab);
+        }
     }
 
     private void addFragment() {
