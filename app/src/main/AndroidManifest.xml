@@ -65,13 +65,17 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="MainActivity"/>
+        <activity android:name=".MainActivity"/>
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent"/>
         <activity android:name=".activity.GuiderActivity"/>
-        <activity android:name=".activity.LoginActivity"/>
+        <activity android:name=".activity.account.LoginActivity"/>
+        <activity android:name=".activity.account.RegisterActivity"/>
+        <activity android:name=".activity.account.ForgetActivity"/>
+        <activity android:name=".activity.account.MeDetailsActivity"/>
+        <activity android:name=".activity.account.MeQrCodeActivity"/>
     </application>
 
 </manifest>

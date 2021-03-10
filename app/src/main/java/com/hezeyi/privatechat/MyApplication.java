@@ -9,7 +9,7 @@ import android.os.StrictMode;
 import android.text.TextUtils;
 
 import com.tencent.bugly.Bugly;
-import com.xhab.utils.SPUtils;
+import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.StackManager;
 
 import java.util.LinkedList;

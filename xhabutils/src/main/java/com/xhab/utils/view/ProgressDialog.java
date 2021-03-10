@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xhab.utils.R;
-import com.xhab.utils.RxUtils;
+import com.xhab.utils.utils.RxUtils;
 
 /**
  * 自定义进度框

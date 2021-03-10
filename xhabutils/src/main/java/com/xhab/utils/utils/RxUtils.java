@@ -1,4 +1,4 @@
-package com.xhab.utils;
+package com.xhab.utils.utils;
 
 
 import io.reactivex.Observable;

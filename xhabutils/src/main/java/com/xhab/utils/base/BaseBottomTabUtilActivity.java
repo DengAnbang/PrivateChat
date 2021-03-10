@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 /**
  * Created by dab on 2021/3/6 12:09
  */
-public abstract class BaseBottomTabActivity extends BaseActivity {
+public abstract class BaseBottomTabUtilActivity extends BaseUtilActivity {
 
     private ArrayList<Fragment> mFragments;
     private TabLayout mTabLayout;

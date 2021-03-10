@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+#zxing
+-keep class me.devilsen.czxing.**
+-keep class me.devilsen.czxing.** { *; }

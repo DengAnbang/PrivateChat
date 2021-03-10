@@ -8,7 +8,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.hezeyi.privatechat.Const;
-import com.xhab.utils.LogUtils;
+import com.xhab.utils.utils.LogUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

@@ -25,10 +25,19 @@ public interface ApiService {
             @Query("versionCode") int versionCode,
             @Query("version_channel") String version_channel
     );
+
     @POST("/app/user/login")
     Observable<ResultData<UserMsgBean>> login(
             @Query("account") String account,
             @Query("pwd") String password
+    );
+
+    @POST("/app/user/register")
+    Observable<ResultData<UserMsgBean>> register(
+            @Query("account") String account,
+            @Query("pwd") String pwd,
+            @Query("user_name") String user_name,
+            @Query("headPortrait") String headPortrait
     );
 
 }

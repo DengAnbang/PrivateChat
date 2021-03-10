@@ -1,4 +1,4 @@
-package com.xhab.utils;
+package com.xhab.utils.utils;
 
 import android.app.Application;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.xhab.utils.StackManager;
 
 
 /**

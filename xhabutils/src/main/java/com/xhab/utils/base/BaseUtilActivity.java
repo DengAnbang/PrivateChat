@@ -5,9 +5,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.xhab.utils.LogUtils;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
+import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.view.TwoTextLinearView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
@@ -16,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 /**
  * Created by dab on 2021/3/6 12:02
  */
-public abstract class BaseActivity extends AppCompatActivity implements RequestHelperImp {
+public abstract class BaseUtilActivity extends AppCompatActivity implements RequestHelperImp {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +69,25 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestH
             LogUtils.e("visibility*****: textView instanceof TextView !!!!!!!");
             return "";
         }
+    }
+
+    public void setTextViewString(@IdRes int res, CharSequence charSequence) {
+        View textView = findViewById(res);
+        if (textView instanceof TextView) {
+            ((TextView) textView).setText(charSequence);
+        } else {
+            LogUtils.e("visibility*****: textView instanceof TextView !!!!!!!");
+        }
+    }
+
+    public TwoTextLinearView setTwoTextLinearRightText(@IdRes int res, CharSequence charSequence) {
+        TwoTextLinearView twoTextLinearView = findViewById(res);
+        if (twoTextLinearView != null) {
+            twoTextLinearView.setRightText(charSequence);
+        } else {
+            LogUtils.e("visibility*****: textView instanceof TextView !!!!!!!");
+        }
+        return twoTextLinearView;
     }
 
     private RequestHelperAgency mRequestHelperAgency;

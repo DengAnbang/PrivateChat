@@ -2,8 +2,8 @@ package com.xhab.utils.net;
 
 import android.content.Context;
 
-import com.xhab.utils.RxUtils;
-import com.xhab.utils.ToastUtil;
+import com.xhab.utils.utils.RxUtils;
+import com.xhab.utils.utils.ToastUtil;
 import com.xhab.utils.view.ProgressDialog;
 
 import io.reactivex.disposables.CompositeDisposable;

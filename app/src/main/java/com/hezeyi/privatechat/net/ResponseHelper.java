@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.google.gson.JsonSyntaxException;
 import com.hezeyi.privatechat.inteface.OnDataClick;
-import com.xhab.utils.LogUtils;
+import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.net.RequestHelper;
 
 import java.net.ConnectException;

@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.xhab.utils.net.RequestHelperAgency;
+import com.xhab.utils.net.RequestHelperImp;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,7 +15,7 @@ import androidx.fragment.app.Fragment;
 /**
  * Created by dab on 2021/3/6 14:25
  */
-public abstract class LazyFragment extends Fragment {
+public abstract class LazyFragment extends Fragment implements RequestHelperImp{
     private boolean isPrepared = false;//是否已经加载好了
     private boolean isVisibleToMe = false;//自己是否用户可见
     private boolean isHidden = false;//自己当前的状态是否是隐藏了的
@@ -97,5 +100,16 @@ public abstract class LazyFragment extends Fragment {
         } else {
             invisible();
         }
+    }
+
+    private RequestHelperAgency mRequestHelperAgency;
+
+
+    @Override
+    public RequestHelperAgency initRequestHelper() {
+        if (mRequestHelperAgency == null) {
+            mRequestHelperAgency = new RequestHelperAgency(getActivity());
+        }
+        return mRequestHelperAgency;
     }
 }

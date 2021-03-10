@@ -1,4 +1,4 @@
-package com.xhab.utils;
+package com.xhab.utils.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -4,15 +4,15 @@ package com.hezeyi.privatechat.fragment;
 import android.view.View;
 
 import com.hezeyi.privatechat.R;
-import com.xhab.utils.LogUtils;
-import com.xhab.utils.base.LazyFragment;
+import com.hezeyi.privatechat.base.BaseFragment;
+import com.xhab.utils.utils.LogUtils;
 
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by dab on 2021/3/6 14:42
  */
-public class ChatFragment extends LazyFragment {
+public class ChatFragment extends BaseFragment {
 
     @Override
     public int viewLayoutID() {

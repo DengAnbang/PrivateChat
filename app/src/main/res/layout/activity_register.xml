@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_layout"/>
+
+    <EditText
+        android:id="@+id/et_account"
+        style="@style/EditText_Input"
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:layout_marginTop="150dp"
+        android:digits="0123456789qazwsxedcrfvtgbyhnujmikolp"
+        android:drawableLeft="@mipmap/tab_wode1"
+        android:drawablePadding="20dp"
+        android:hint="请输入账号"
+        android:inputType="text"
+        android:maxLength="16"
+        />
+
+    <View
+        style="@style/Line_Margin_15"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/et_password"
+        style="@style/EditText_Input"
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@mipmap/b1_icon2"
+        android:drawablePadding="20dp"
+        android:hint="请输入6-16位字母、数字新密码 "
+        android:inputType="textPassword"
+        android:maxLength="16"
+        />
+
+    <View
+        style="@style/Line_Margin_15"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/et_password_again"
+        style="@style/EditText_Input"
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@mipmap/b1_icon2"
+        android:drawablePadding="20dp"
+        android:hint="请再次输入新密码"
+        android:inputType="textPassword"
+        android:maxLength="16"
+        />
+
+    <View
+        style="@style/Line_Margin_15"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        style="@style/Btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/et_password"
+        android:layout_marginTop="70dp"
+        android:text="注册"/>
+</LinearLayout>

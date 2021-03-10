@@ -19,7 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 /**
  * Created by dab on 2021/3/8 12:01
  */
-public abstract class BaseGuiderActivity extends BaseActivity {
+public abstract class BaseGuiderUtilActivity extends BaseUtilActivity {
     @Override
     public int getContentViewRes() {
         return R.layout.activity_just_guide;

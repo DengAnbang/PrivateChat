@@ -21,30 +21,18 @@
             android:layout_height="80dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
+            android:layout_toLeftOf="@+id/view_01"
             android:src="@mipmap/c38_touxiang"/>
 
         <TextView
-            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="22dp"
-            android:layout_toRightOf="@+id/iv_head_portrait"
-            android:text="名字"
+            android:text="\u3000头像"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/tv_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_name"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/iv_head_portrait"
-            android:text="账号:sddsadsa"
-            android:textSize="16sp"
-            />
 
         <ImageView
             android:id="@+id/view_01"
@@ -55,59 +43,36 @@
             android:layout_marginRight="10dp"
             android:src="@mipmap/c14_2_icon1"/>
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
 
-            android:layout_toLeftOf="@+id/view_01"
-            android:src="@mipmap/erweima"/>
     </RelativeLayout>
 
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_account"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000账号\u3000"
+        app:rightText=""
+        app:rightDrawable="@mipmap/c14_2_icon1"
+        />
+
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000名称\u3000"
+        app:rightDrawable="@mipmap/c14_2_icon1"
+        />
     <com.xhab.utils.view.TwoTextLinearView
         android:id="@+id/ttv_qr"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        app:leftDrawable="@mipmap/c1_1_icon1"
-        app:leftText="\u3000扫一扫\u3000"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000二维码\u3000"
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        app:leftDrawable="@mipmap/f1_icon5"
-        app:leftText="\u3000设置\u3000"
-        app:rightDrawable="@mipmap/c14_2_icon1"
-        />
 
-    <com.xhab.utils.view.TwoTextLinearView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        app:leftDrawable="@mipmap/d1_icon2"
-        app:leftText="\u3000新消息通知\u3000"
-        app:rightDrawable="@mipmap/c14_2_icon1"
-        />
-
-    <com.xhab.utils.view.TwoTextLinearView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        app:leftDrawable="@mipmap/f1_icon2"
-        app:leftText="\u3000关于我们\u3000"
-        app:rightDrawable="@mipmap/c14_2_icon1"
-        />
-
-    <com.xhab.utils.view.TwoTextLinearView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        app:leftDrawable="@mipmap/c1_icon2"
-        app:leftText="\u3000联系我们\u3000"
-        app:rightDrawable="@mipmap/c14_2_icon1"
-        />
 
 </LinearLayout>

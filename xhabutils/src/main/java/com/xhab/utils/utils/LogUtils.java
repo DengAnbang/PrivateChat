@@ -1,6 +1,8 @@
-package com.xhab.utils;
+package com.xhab.utils.utils;
 
 import android.util.Log;
+
+import com.xhab.utils.BuildConfig;
 
 /**
  * Created by Mei on 2017/4/8.

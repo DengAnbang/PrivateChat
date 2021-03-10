@@ -2,7 +2,7 @@ package com.hezeyi.privatechat.activity;
 
 import android.content.Intent;
 
-import com.xhab.utils.base.BaseActivity;
+import com.xhab.utils.base.BaseUtilActivity;
 
 /**
  * 启动页
@@ -11,7 +11,7 @@ import com.xhab.utils.base.BaseActivity;
  * @time 2017/2/6 9:00
  */
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseUtilActivity {
 
 
     @Override

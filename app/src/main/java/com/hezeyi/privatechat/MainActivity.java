@@ -10,17 +10,18 @@ import com.hezeyi.privatechat.fragment.ChatFragment;
 import com.hezeyi.privatechat.fragment.MeFragment;
 import com.hezeyi.privatechat.inteface.OnDataClick;
 import com.hezeyi.privatechat.net.HttpManager;
-import com.xhab.utils.LogUtils;
-import com.xhab.utils.base.BaseBottomTabActivity;
+import com.xhab.utils.base.BaseBottomTabUtilActivity;
+import com.xhab.utils.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 
-public class MainActivity extends BaseBottomTabActivity {
+public class MainActivity extends BaseBottomTabUtilActivity {
 
     private List<String> mTabTitle = Arrays.asList("消息", "通讯录", "我的", "管理");
     private List<Integer> mTabRes = Arrays.asList(R.mipmap.tab_jiaoliu, R.mipmap.tab_tongxunlu, R.mipmap.tab_wode, R.mipmap.tab_shouye);
@@ -39,20 +40,20 @@ public class MainActivity extends BaseBottomTabActivity {
     @Override
     public void changeTab(View view, int position, boolean isSelected) {
         int tabIconRes;
-//        int color;
+        int color;
 
         if (isSelected) {
             tabIconRes = mTabResPressed.get(position);
-//            color = R.color.color_4864f3
+            color = R.color.just_color_btn_end;
         } else {
             tabIconRes = mTabRes.get(position);
-//            color = R.color.color_d8c7f2
+            color = R.color.just_color_999999;
         }
         ImageView tabIcon = view.findViewById(R.id.tab_content_image);
         tabIcon.setImageResource(tabIconRes);
         TextView tabText = view.findViewById(R.id.tab_content_text);
         tabText.setText(mTabTitle.get(position));
-//        tabText.setTextColor(ContextCompat.getColor(this, color));
+        tabText.setTextColor(ContextCompat.getColor(this, color));
     }
 
 
