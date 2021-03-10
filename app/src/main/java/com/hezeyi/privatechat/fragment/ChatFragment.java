@@ -7,7 +7,8 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.xhab.utils.utils.LogUtils;
 
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
+
 
 /**
  * Created by dab on 2021/3/6 14:42

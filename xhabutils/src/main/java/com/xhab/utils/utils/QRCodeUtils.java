@@ -22,6 +22,14 @@ import me.devilsen.czxing.view.ScanView;
 public class QRCodeUtils {
     private static final int CODE_SELECT_IMAGE = 0x520;
 
+//    public static Bitmap createQR(String text, int size, int color, Bitmap logo) {
+//
+//        return null;
+//    }
+//
+//    public static void scanQrCode(Context context, OnDataCallBack<String> onDataCallBack) {
+//
+//    }
 
     public static Bitmap createQR(String text, int size) {
         return createQR(text, size, Color.BLACK, null);

@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat.net;
 
+import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 
 import io.reactivex.Observable;

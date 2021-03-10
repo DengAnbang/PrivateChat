@@ -1,4 +1,4 @@
-package com.hezeyi.privatechat.net;
+package com.hezeyi.privatechat.bean;
 
 /**
  * Created by dab on 2018/1/4 0004 13:35
@@ -8,7 +8,7 @@ public class ResultData<T> {
 
 
     private T data;
-    private String code;
+    private int code;
     private String msg;
     private String debugMsg;
 
@@ -20,11 +20,11 @@ public class ResultData<T> {
         this.data = data;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

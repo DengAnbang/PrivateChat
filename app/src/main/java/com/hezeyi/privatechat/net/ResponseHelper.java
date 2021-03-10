@@ -3,6 +3,7 @@ package com.hezeyi.privatechat.net;
 import android.text.TextUtils;
 
 import com.google.gson.JsonSyntaxException;
+import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.inteface.OnDataClick;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.net.RequestHelper;
@@ -59,7 +60,7 @@ public class ResponseHelper {
                 }
             }
         }
-        if (!stateBean.getCode().equals("0")) {
+        if (stateBean.getCode() != 0) {
             requestHelper.showToast(stateBean.getMsg());
             return true;
         }
