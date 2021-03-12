@@ -61,7 +61,7 @@ public class ResponseHelper {
             }
         }
         if (stateBean.getCode() != 0) {
-            requestHelper.showToast(stateBean.getMsg());
+            requestHelper.showSnackBar(stateBean.getMsg());
             return true;
         }
         return false;
@@ -147,10 +147,10 @@ public class ResponseHelper {
                         } while (false);
                         dataClick.onClick(null);
                         if (!TextUtils.isEmpty(message)) {
-                            requestHelper.showToast(message);
+                            requestHelper.showSnackBar(message);
                         }
                         LogUtils.e(e.getMessage());
-                        requestHelper.showToast(e.getMessage());
+                        requestHelper.showSnackBar(e.getMessage());
                         e.printStackTrace();
                     }
 

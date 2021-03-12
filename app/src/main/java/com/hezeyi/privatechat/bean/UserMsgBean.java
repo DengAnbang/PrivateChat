@@ -15,7 +15,7 @@ public class UserMsgBean {
 
     private String user_name;
     private String user_id;
-    private String account;
+    private String account = "";
     private String head_portrait;
     private String vip_time;
 

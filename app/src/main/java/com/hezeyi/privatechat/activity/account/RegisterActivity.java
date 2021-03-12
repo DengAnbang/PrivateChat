@@ -35,11 +35,11 @@ public class RegisterActivity extends BaseActivity {
             if (FunUtils.checkIsNullable(password, "请输入密码!")) return;
             if (FunUtils.checkIsNullable(passwordAgain, "请确认密码!")) return;
             if (!TextUtils.equals(password, passwordAgain)) {
-                showToast("两次密码不一致!");
+                showSnackBar("两次密码不一致!");
                 return;
             }
             HttpManager.register(account, password, FunUtils.getChineseName(), "", this, userMsgBean -> {
-                showToast("注册成功!");
+                showSnackBar("注册成功!");
                 finish();
             });
         });

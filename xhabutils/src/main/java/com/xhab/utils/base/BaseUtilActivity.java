@@ -90,6 +90,16 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
         return twoTextLinearView;
     }
 
+    public String getTwoTextLinearRightText(@IdRes int res) {
+        TwoTextLinearView twoTextLinearView = findViewById(res);
+        if (twoTextLinearView != null) {
+            return twoTextLinearView.getRightText().toString();
+        } else {
+            LogUtils.e("visibility*****: textView instanceof TextView !!!!!!!");
+        }
+        return "";
+    }
+
     private RequestHelperAgency mRequestHelperAgency;
 
 

@@ -34,13 +34,17 @@ public class ToastUtil {
         return true;
     }
 
-    public static void showShort(int resId) {
-        if (check()) {
-            Toast.makeText(sContext, resId, Toast.LENGTH_SHORT).show();
-        }
+
+
+    public static void showToast(String message) {
+        RxUtils.runOnUiThread(() -> {
+            if (StackManager.currentActivity() != null) {
+                Toast.makeText(StackManager.currentActivity(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public static void showShort(final String message) {
+    public static void showSnackBar(final String message) {
         RxUtils.runOnUiThread(() -> {
             if (StackManager.currentActivity() != null) {
                 View childAt = ((ViewGroup) StackManager.currentActivity().findViewById(android.R.id.content)).getChildAt(0);
@@ -51,8 +55,6 @@ public class ToastUtil {
             }
 
         });
-
-
     }
 
     public static void showLong(int resId) {

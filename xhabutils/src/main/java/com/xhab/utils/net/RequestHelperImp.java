@@ -13,8 +13,8 @@ public interface RequestHelperImp extends RequestHelper {
     RequestHelperAgency initRequestHelper();
 
     @Override
-    default void showToast(String msg) {
-        initRequestHelper().showToast(msg);
+    default void showSnackBar(String msg) {
+        initRequestHelper().showSnackBar(msg);
     }
 
     @Override

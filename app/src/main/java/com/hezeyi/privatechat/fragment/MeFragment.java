@@ -3,16 +3,17 @@ package com.hezeyi.privatechat.fragment;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.hezeyi.privatechat.DataInMemory;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.MeDetailsActivity;
+import com.hezeyi.privatechat.activity.account.NewMsgSetUpActivity;
+import com.hezeyi.privatechat.activity.account.SetupActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.QRCodeUtils;
-import com.xhab.utils.utils.RxUtils;
+import com.xhab.utils.utils.ToastUtil;
 
 
 /**
@@ -51,13 +52,20 @@ public class MeFragment extends BaseFragment {
             startActivity(intent);
 
         });
+        click(R.id.ttv_setup, view1 -> {
+            Intent intent = new Intent(getActivity(), SetupActivity.class);
+            startActivity(intent);
+
+        });
+        click(R.id.ttv_new_msg_setup, view1 -> {
+            Intent intent = new Intent(getActivity(), NewMsgSetUpActivity.class);
+            startActivity(intent);
+        });
         click(R.id.ttv_qr, view1 -> {
             QRCodeUtils.scanQrCode(getActivity(), s -> {
                 LogUtils.e("onFirstVisibleToUser*****: " + s);
-//                showToast(s);
-                RxUtils.runOnUiThread(() -> {
-                    Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
-                });
+//                showSnackBar(s);
+                ToastUtil.showToast(s);
 
             });
 

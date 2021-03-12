@@ -1,6 +1,7 @@
 package com.hezeyi.privatechat.net;
 
 import com.hezeyi.privatechat.bean.ResultData;
+import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 
 import io.reactivex.Observable;
@@ -41,4 +42,25 @@ public interface ApiService {
             @Query("headPortrait") String headPortrait
     );
 
+    @POST("/app/user/update")
+    Observable<ResultData<UserMsgBean>> userUpdate(
+            @Query("account") String account,
+            @Query("pwd") String pwd,
+            @Query("user_name") String user_name,
+            @Query("headPortrait") String headPortrait
+    );
+
+    @POST("/app/user/security/update")
+    Observable<ResultData<Object>> securityUpdate(
+            @Query("account") String account,
+            @Query("q1") String q1,
+            @Query("a1") String a1,
+            @Query("q2") String q2,
+            @Query("a2") String a2
+    );
+
+    @POST("/app/user/select/security")
+    Observable<ResultData<SecurityBean>> securitySelect(
+            @Query("account") String account
+    );
 }

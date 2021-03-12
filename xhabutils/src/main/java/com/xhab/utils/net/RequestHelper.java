@@ -12,11 +12,11 @@ import io.reactivex.disposables.Disposable;
 
 public interface RequestHelper {
     /**
-     * 显示Toast消息
+     * 显示SnackBar消息
      *
      * @param msg 消息
      */
-    void showToast(String msg);
+    void showSnackBar(String msg);
 
     /**
      * 显示加载进度

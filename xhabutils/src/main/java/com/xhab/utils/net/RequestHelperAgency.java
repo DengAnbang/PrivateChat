@@ -35,8 +35,8 @@ public class RequestHelperAgency implements RequestHelper {
     }
 
     @Override
-    public void showToast(String msg) {
-        ToastUtil.showShort(msg);
+    public void showSnackBar(String msg) {
+        ToastUtil.showSnackBar(msg);
     }
 
     @Override

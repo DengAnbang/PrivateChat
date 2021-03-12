@@ -13,7 +13,7 @@ import java.util.Random;
 public class FunUtils {
     public static boolean checkIsNullable(String s, String hint) {
         if (TextUtils.isEmpty(s)) {
-            ToastUtil.showShort(hint);
+            ToastUtil.showSnackBar(hint);
             return true;
         }
         return false;

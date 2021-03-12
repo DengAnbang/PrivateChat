@@ -76,6 +76,11 @@
         <activity android:name=".activity.account.ForgetActivity"/>
         <activity android:name=".activity.account.MeDetailsActivity"/>
         <activity android:name=".activity.account.MeQrCodeActivity"/>
+        <activity android:name=".activity.account.SetupActivity"/>
+        <activity android:name=".activity.account.NewMsgSetUpActivity"/>
+        <activity android:name=".activity.account.SecurityCodeSetupActivity"/>
+        <activity android:name=".activity.account.SecurityQuestionSetupActivity"/>
+        <activity android:name=".activity.account.SecurityQuestionVerifyActivity"/>
     </application>
 
 </manifest>
