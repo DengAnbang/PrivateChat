@@ -4,6 +4,8 @@ import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -62,5 +64,21 @@ public interface ApiService {
     @POST("/app/user/select/security")
     Observable<ResultData<SecurityBean>> securitySelect(
             @Query("account") String account
+    );
+
+    @POST("/app/user/add/friend")
+    Observable<ResultData<Object>> addFriend(
+            @Query("user_id") String account,
+            @Query("to_user_id") String to_user_id,
+            @Query("friend_type") String friend_type
+    );
+
+    @POST("/app/user/select/by/id")
+    Observable<ResultData<UserMsgBean>> userSelectById(
+            @Query("user_id") String account
+    );
+    @POST("/app/user/select/friend")
+    Observable<ResultData<List<UserMsgBean>>> userSelectFriend(
+            @Query("user_id") String account
     );
 }

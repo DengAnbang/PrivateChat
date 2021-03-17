@@ -1,9 +1,13 @@
 package com.hezeyi.privatechat.bean;
 
+import com.xhab.utils.bean.Sortable;
+
+import androidx.annotation.NonNull;
+
 /**
  * Created by dab on 2021/3/8 21:36
  */
-public class UserMsgBean {
+public class UserMsgBean extends Sortable {
 
     /**
      * user_name :
@@ -57,5 +61,11 @@ public class UserMsgBean {
 
     public void setVip_time(String vip_time) {
         this.vip_time = vip_time;
+    }
+
+    @NonNull
+    @Override
+    public String getSortableString() {
+        return user_name;
     }
 }

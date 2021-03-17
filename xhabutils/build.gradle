@@ -28,7 +28,7 @@ android {
     }
 }
 
-ext.support_version = '26.0.2'
+ext.support_version = '26.0.2+'
 ext.retrofit_version = '2.3.0'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -39,9 +39,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     //support
-    implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:recyclerview-v7:$support_version"
-    implementation "com.android.support:design:$support_version"
+    compile "com.android.support:appcompat-v7:$support_version"
+    compile "com.android.support:recyclerview-v7:$support_version"
+    compile "com.android.support:design:$support_version"
     //rxjava
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
@@ -51,6 +51,8 @@ dependencies {
 
     //二维码 https://github.com/devilsen/CZXing
     compile 'me.devilsen:czxing:1.0.17'
+    //拼音库
+    implementation 'com.github.SilenceDut:jpinyin:v1.0'
 }
 repositories {
     mavenCentral()

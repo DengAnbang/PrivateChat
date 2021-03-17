@@ -20,6 +20,7 @@ public class Const {
     private static String getUrl() {
         switch (BuildConfig.FLAVOR) {
             case "nb":
+//                return "http://192.168.155.2:9090/";
                 return "http://47.108.172.20:9090/";
             default:
                 return "http://192.168.31.213:9090/";

@@ -19,4 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-#zxing
+#czxing
+-keep class me.devilsen.czxing.**
+-keep class me.devilsen.czxing.** { *; }
+-keep class com.xhab.utils.bean.** { *; }

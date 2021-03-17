@@ -7,7 +7,6 @@ import com.hezeyi.privatechat.DataInMemory;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
-import com.hezeyi.privatechat.net.HttpManager;
 
 /**
  * Created by dab on 2021/3/9 20:33
@@ -33,9 +32,9 @@ public class MeDetailsActivity extends BaseActivity {
             startActivity(intent);
         });
         click(R.id.ttv_name, view -> {
-            HttpManager.userUpdate(userMsgBean.getAccount(), "", "修改名字测试1", "", this, userMsgBean1 -> {
-                showSnackBar("修改完成");
-            });
+//            HttpManager.userUpdate(userMsgBean.getAccount(), "", "修改名字测试1", "", this, userMsgBean1 -> {
+//                showSnackBar("修改完成");
+//            });
         });
     }
 

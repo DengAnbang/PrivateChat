@@ -6,6 +6,8 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.inteface.OnDataClick;
 import com.xhab.utils.net.RequestHelper;
 
+import java.util.List;
+
 /**
  * Created by dab on 2018/4/11 17:52
  */
@@ -41,6 +43,20 @@ public class HttpManager {
     public static void securitySelect(String account, final RequestHelper requestHelper, final OnDataClick<SecurityBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .securitySelect(account), requestHelper, true, dataClick);
+    }
+
+    public static void addFriend(String user_id, String to_user_id, String friend_type, final RequestHelper requestHelper, final OnDataClick<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .addFriend(user_id, to_user_id, friend_type), requestHelper, true, dataClick);
+    }
+
+    public static void userSelectById(String user_id, final RequestHelper requestHelper, final OnDataClick<UserMsgBean> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .userSelectById(user_id), requestHelper, true, dataClick);
+    }
+    public static void userSelectFriend(String user_id, final RequestHelper requestHelper, final OnDataClick<List<UserMsgBean>> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .userSelectFriend(user_id), requestHelper, true, dataClick);
     }
 
 

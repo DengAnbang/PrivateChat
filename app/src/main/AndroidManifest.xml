@@ -81,6 +81,7 @@
         <activity android:name=".activity.account.SecurityCodeSetupActivity"/>
         <activity android:name=".activity.account.SecurityQuestionSetupActivity"/>
         <activity android:name=".activity.account.SecurityQuestionVerifyActivity"/>
+        <activity android:name=".activity.account.UserDetailsActivity"/>
     </application>
 
 </manifest>

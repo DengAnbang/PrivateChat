@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/just_color_dedede"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_layout"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_details"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/just_color_ffffff">
+
+        <ImageView
+            android:id="@+id/iv_head_portrait"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toLeftOf="@+id/view_01"
+            android:src="@mipmap/c38_touxiang"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="\u3000头像"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+
+        <ImageView
+            android:id="@+id/view_01"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/c14_2_icon1"/>
+
+
+    </RelativeLayout>
+
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_account"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000账号\u3000"
+        app:rightText=""
+        />
+
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000名称\u3000"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_submit"
+        style="@style/Btn_submit"
+        android:layout_marginTop="30dp"
+        android:text="添加好友"/>
+
+
+</LinearLayout>

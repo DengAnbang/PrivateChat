@@ -202,8 +202,10 @@
 -keep public class com.tencent.bugly.**{*;}
 -keep class android.support.**{*;}
 
--keep class me.devilsen.czxing.**
--keep class me.devilsen.czxing.** { *; }
 
 -keep class com.hezeyi.privatechat.bean.** { *; }
+
+-keep class me.devilsen.czxing.**
+-keep class me.devilsen.czxing.** { *; }
+-keep class com.xhab.utils.bean.** { *; }
 

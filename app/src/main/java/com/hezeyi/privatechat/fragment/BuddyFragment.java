@@ -2,34 +2,82 @@ package com.hezeyi.privatechat.fragment;
 
 import android.view.View;
 
+import com.hezeyi.privatechat.DataInMemory;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.adapter.BuddyAdapter;
 import com.hezeyi.privatechat.base.BaseFragment;
-import com.xhab.utils.utils.LogUtils;
+import com.hezeyi.privatechat.net.HttpManager;
+import com.xhab.utils.view.SuspendDecoration;
+import com.xhab.utils.view.WaveSideBar;
+
+import java.util.Objects;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
  * Created by dab on 2021/3/9 09:54
+ * 通讯录
  */
 public class BuddyFragment extends BaseFragment {
     @Override
     public int viewLayoutID() {
         return R.layout.fragment_buddy;
     }
+
+    private BuddyAdapter mBuddyAdapter = new BuddyAdapter();
+    private boolean isChange;
+
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
-        LogUtils.e("onVisibleToUser*****: BuddyFragment");
+        if (isChange) {
+            getUserList();
+        }
     }
 
     @Override
     public void onInvisibleToUser() {
         super.onInvisibleToUser();
-        LogUtils.e("onInvisibleToUser*****: BuddyFragment");
+
     }
 
     @Override
     public void onFirstVisibleToUser(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.rv_content);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mBuddyAdapter);
+        recyclerView.addItemDecoration(new SuspendDecoration(getActivity()) {
+            @Override
+            public boolean isSameGroup(int priorGroupId, int nowGroupId) throws Exception {
+                return Objects.equals(mBuddyAdapter.getUserMsgBeans().get(priorGroupId).getSortableString(), mBuddyAdapter.getUserMsgBeans().get(nowGroupId).getSortableString());
+            }
 
-        LogUtils.e("onFirstVisibleToUser*****: BuddyFragment");
+            @Override
+            public String showTitle(int position) throws Exception {
+                return mBuddyAdapter.getUserMsgBeans().get(position).getInitial();
+            }
+        });
+        WaveSideBar waveSideBar = view.findViewById(R.id.side_bar);
+        waveSideBar.setOnSelectIndexItemListener(index -> {
+            for (int i = 0; i < mBuddyAdapter.getUserMsgBeans().size(); i++) {
+                if (mBuddyAdapter.getUserMsgBeans().get(i).getSortableString().equals(index)) {
+                    layoutManager.scrollToPositionWithOffset(i, 0);
+                    return;
+                }
+            }
+        });
+
+
+        getUserList();
+    }
+
+    private void getUserList() {
+        String user_id = DataInMemory.getInstance().getUserMsgBean().getUser_id();
+        HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
+            mBuddyAdapter.setUserMsgBeans(userMsgBeans);
+        });
     }
 }
