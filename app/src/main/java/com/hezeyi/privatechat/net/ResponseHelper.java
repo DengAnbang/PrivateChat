@@ -60,7 +60,7 @@ public class ResponseHelper {
                 }
             }
         }
-        if (stateBean.getCode() != 0) {
+        if (!stateBean.getCode().equals("0")) {
             requestHelper.showSnackBar(stateBean.getMsg());
             return true;
         }

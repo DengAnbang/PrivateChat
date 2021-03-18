@@ -51,6 +51,7 @@ dependencies {
 
     //二维码 https://github.com/devilsen/CZXing
     implementation 'me.devilsen:czxing:1.0.17'
+//    implementation 'me.devilsen:czxing:1.0.0'
     //拼音库
     implementation 'com.github.SilenceDut:jpinyin:v1.0'
 }

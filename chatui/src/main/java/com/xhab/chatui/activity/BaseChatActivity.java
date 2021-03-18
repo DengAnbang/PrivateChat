@@ -128,7 +128,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                         }
                         AnimationDrawable drawable = (AnimationDrawable) ivAudio.getBackground();
                         drawable.start();
-                        MediaManager.playSound(BaseChatActivity.this, ((AudioMsgBody) mAdapter.getData().get(position).getBody()).getLocalPath(), new MediaPlayer.OnCompletionListener() {
+                        MediaManager.playSound(BaseChatActivity.this, ((AudioMsgBody) mAdapter.getData().get(position)).getLocalPath(), new MediaPlayer.OnCompletionListener() {
                             @Override
                             public void onCompletion(MediaPlayer mp) {
                                 if (isSend) {
@@ -226,7 +226,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
             PictureFileUtil.openFile(this, REQUEST_CODE_FILE);
         });
         findViewById(R.id.rlLocation).setOnClickListener(v -> {
-            ToastUtils.s(this, "录音按钮");
+            ToastUtils.s(this, "语音通话按钮");
         });
 
 
@@ -259,58 +259,58 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //文件消息
     private void sendFileMessage(String from, String to, final String path) {
-        final Message mMessgae = getBaseSendMessage(MsgType.FILE);
+        final Message message = getBaseSendMessage(MsgType.FILE);
         FileMsgBody mFileMsgBody = new FileMsgBody();
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDisplayName(FileUtils.getFileName(path));
         mFileMsgBody.setSize(FileUtils.getFileLength(path));
-        mMessgae.setBody(mFileMsgBody);
+        mFileMsgBody.setMessage(message);
         //开始发送
-        mAdapter.addData(mMessgae);
-        sendMsg(mMessgae);
+        mAdapter.addData(mFileMsgBody);
+        sendMsg(mFileMsgBody);
     }
 
     //语音消息
     private void sendAudioMessage(final String path, int time) {
-        final Message mMessgae = getBaseSendMessage(MsgType.AUDIO);
+        final Message message = getBaseSendMessage(MsgType.AUDIO);
         AudioMsgBody mFileMsgBody = new AudioMsgBody();
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDuration(time);
-        mMessgae.setBody(mFileMsgBody);
+        mFileMsgBody.setMessage(message);
         //开始发送
-        mAdapter.addData(mMessgae);
-        sendMsg(mMessgae);
+        mAdapter.addData(mFileMsgBody);
+        sendMsg(mFileMsgBody);
     }
 
 
     //文本消息
     private void sendTextMsg(String hello) {
-        final Message mMessgae = getBaseSendMessage(MsgType.TEXT);
+        final Message message = getBaseSendMessage(MsgType.TEXT);
         TextMsgBody mTextMsgBody = new TextMsgBody();
-        mTextMsgBody.setMessage(hello);
-        mMessgae.setBody(mTextMsgBody);
+        mTextMsgBody.setMsg(hello);
+        mTextMsgBody.setMessage(message);
         //开始发送
-        mAdapter.addData(mMessgae);
-        sendMsg(mMessgae);
+        mAdapter.addData(mTextMsgBody);
+        sendMsg(mTextMsgBody);
     }
 
 
     //图片消息
     private void sendImageMessage(final LocalMedia media) {
-        final Message mMessgae = getBaseSendMessage(MsgType.IMAGE);
+        final Message message = getBaseSendMessage(MsgType.IMAGE);
         ImageMsgBody mImageMsgBody = new ImageMsgBody();
         mImageMsgBody.setThumbUrl(media.getCompressPath());
-        mMessgae.setBody(mImageMsgBody);
+        mImageMsgBody.setMessage(message);
         //开始发送
-        mAdapter.addData(mMessgae);
-        sendMsg(mMessgae);
+        mAdapter.addData(mImageMsgBody);
+        sendMsg(mImageMsgBody);
     }
 
 
     //视频消息
     private void sendVedioMessage(final LocalMedia media) {
         try {
-            final Message mMessgae = getBaseSendMessage(MsgType.VIDEO);
+            final Message message = getBaseSendMessage(MsgType.VIDEO);
             //生成缩略图路径
 //            String vedioPath = media.getRealPath()==null?media.getPath():media.getRealPath();
             String vedioPath = media.getPath();
@@ -335,10 +335,11 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
             }
             VideoMsgBody mImageMsgBody = new VideoMsgBody();
             mImageMsgBody.setExtra(urlpath);
-            mMessgae.setBody(mImageMsgBody);
+            mImageMsgBody.setMessage(message);
+
             //开始发送
-            mAdapter.addData(mMessgae);
-            sendMsg(mMessgae);
+            mAdapter.addData(mImageMsgBody);
+            sendMsg(mImageMsgBody);
         } catch (Exception e) {
             LogUtil.d("视频缩略图路径获取失败：" + e.toString());
             e.printStackTrace();
@@ -359,6 +360,10 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                 return;
             }
         }
+    }
+
+    public void addMsg(Message message) {
+        mAdapter.addData(message);
     }
 
     @Override
@@ -394,27 +399,27 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     @Override
     public void onRefresh() {
         //下拉刷新模拟获取历史消息
-        List<Message> mReceiveMsgList = new ArrayList<Message>();
-        //构建文本消息
-        Message mMessgaeText = getBaseReceiveMessage(MsgType.TEXT);
-        TextMsgBody mTextMsgBody = new TextMsgBody();
-        mTextMsgBody.setMessage("收到的消息");
-        mMessgaeText.setBody(mTextMsgBody);
-        mReceiveMsgList.add(mMessgaeText);
-        //构建图片消息
-        Message mMessgaeImage = getBaseReceiveMessage(MsgType.IMAGE);
-        ImageMsgBody mImageMsgBody = new ImageMsgBody();
-        mImageMsgBody.setThumbUrl("https://c-ssl.duitang.com/uploads/item/201208/30/20120830173930_PBfJE.thumb.700_0.jpeg");
-        mMessgaeImage.setBody(mImageMsgBody);
-        mReceiveMsgList.add(mMessgaeImage);
-        //构建文件消息
-        Message mMessgaeFile = getBaseReceiveMessage(MsgType.FILE);
-        FileMsgBody mFileMsgBody = new FileMsgBody();
-        mFileMsgBody.setDisplayName("收到的文件");
-        mFileMsgBody.setSize(12);
-        mMessgaeFile.setBody(mFileMsgBody);
-        mReceiveMsgList.add(mMessgaeFile);
-        mAdapter.addData(0, mReceiveMsgList);
+//        List<Message> mReceiveMsgList = new ArrayList<Message>();
+//        //构建文本消息
+//        Message mMessgaeText = getBaseReceiveMessage(MsgType.TEXT);
+//        TextMsgBody mTextMsgBody = new TextMsgBody();
+//        mTextMsgBody.setMsg("收到的消息");
+//        mMessgaeText.setBody(mTextMsgBody);
+//        mReceiveMsgList.add(mMessgaeText);
+//        //构建图片消息
+//        Message mMessgaeImage = getBaseReceiveMessage(MsgType.IMAGE);
+//        ImageMsgBody mImageMsgBody = new ImageMsgBody();
+//        mImageMsgBody.setThumbUrl("https://c-ssl.duitang.com/uploads/item/201208/30/20120830173930_PBfJE.thumb.700_0.jpeg");
+//        mMessgaeImage.setBody(mImageMsgBody);
+//        mReceiveMsgList.add(mMessgaeImage);
+//        //构建文件消息
+//        Message mMessgaeFile = getBaseReceiveMessage(MsgType.FILE);
+//        FileMsgBody mFileMsgBody = new FileMsgBody();
+//        mFileMsgBody.setDisplayName("收到的文件");
+//        mFileMsgBody.setSize(12);
+//        mMessgaeFile.setBody(mFileMsgBody);
+//        mReceiveMsgList.add(mMessgaeFile);
+//        mAdapter.addData(0, mReceiveMsgList);
         mSwipeRefresh.setRefreshing(false);
     }
 

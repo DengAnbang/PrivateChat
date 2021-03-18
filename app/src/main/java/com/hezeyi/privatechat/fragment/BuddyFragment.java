@@ -72,8 +72,11 @@ public class BuddyFragment extends BaseFragment {
             }
         });
         mBuddyAdapter.setOnItemClickListener((view1, position, userMsgBean) -> {
+            String user_id = DataInMemory.getInstance().getUserMsgBean().getUser_id();
             Intent intent = new Intent(getActivity(), ChatActivity.class);
             intent.putExtra("user_name", userMsgBean.getUser_name());
+            intent.putExtra("senderId", user_id);
+            intent.putExtra("targetId", userMsgBean.getUser_id());
             startActivity(intent);
         });
 

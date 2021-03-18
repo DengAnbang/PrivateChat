@@ -1,10 +1,10 @@
 package com.xhab.chatui.bean.chat;
 
 
-public class FileMsgBody extends MsgBody{
+public class FileMsgBody extends Message {
 
     //文件后缀名
-    private String ext ;
+    private String ext;
     //文件名称,可以和文件名不同，仅用于界面展示
     private String displayName;
     //文件长度(字节)
@@ -25,6 +25,7 @@ public class FileMsgBody extends MsgBody{
     public void setExtra(String extra) {
         this.extra = extra;
     }
+
     public String getExt() {
         return ext;
     }
@@ -74,4 +75,12 @@ public class FileMsgBody extends MsgBody{
     }
 
 
+    public void setMessage(Message message) {
+        setUuid(message.getUuid());
+        setSenderId(message.getSenderId());
+        setTargetId(message.getTargetId());
+        setSentTime(message.getSentTime());
+        setSentStatus(message.getSentStatus());
+        setMsgType(message.getMsgType());
+    }
 }

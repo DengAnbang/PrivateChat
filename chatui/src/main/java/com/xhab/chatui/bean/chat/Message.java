@@ -6,7 +6,7 @@ public class Message {
     private String uuid;
     private String msgId;
     private MsgType msgType;
-    private MsgBody body;
+
     private MsgSendStatus sentStatus;
     private String senderId;
     private String targetId;
@@ -37,13 +37,7 @@ public class Message {
         this.msgType = msgType;
     }
 
-    public MsgBody getBody() {
-        return body;
-    }
 
-    public void setBody(MsgBody body) {
-        this.body = body;
-    }
 
     public String getSenderId() {
         return senderId;

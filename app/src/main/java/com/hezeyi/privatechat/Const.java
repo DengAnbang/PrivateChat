@@ -13,20 +13,31 @@ public class Const {
     }
 
     public static class Api {
-        public static final String API_HOST = getUrl();
+        public static final String API_HOST = "http://" + getUrl() + ":9090/";
+        public static final String SOCKET_SERVER = getUrl();
+        public static final int SOCKET_PORT = 9091;
     }
 
 
     private static String getUrl() {
         switch (BuildConfig.FLAVOR) {
             case "nb":
-//                return "http://192.168.155.2:9090/";
-                return "http://47.108.172.20:9090/";
+//                return "http://192.168.155.2";
+//                return "http://47.108.172.20";
+                return "192.168.31.213";
             default:
-                return "http://192.168.31.213:9090/";
+                return "http://192.168.31.213";
         }
     }
 
+    public static class RxType {
+        public static final String CONNECTION = "connection";//连接
+        public static final String TYPE_OTHER_LOGIN = "10001";//其他人登陆
+        public static final String TYPE_LOGIN = "10002"; //登录
+        //消息
+        public static final String TYPE_MSG_STATUS_SEND = "20000";//状态,表示对方收到
+        public static final String TYPE_MSG_TEXT = "20001";
+    }
 
     public static boolean isNB() {
         return "nb".equals(BuildConfig.FLAVOR);

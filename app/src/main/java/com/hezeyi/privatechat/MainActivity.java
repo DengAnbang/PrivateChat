@@ -1,14 +1,20 @@
 package com.hezeyi.privatechat;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hezeyi.privatechat.activity.account.LoginActivity;
+import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.fragment.AdminFragment;
 import com.hezeyi.privatechat.fragment.BuddyFragment;
 import com.hezeyi.privatechat.fragment.ChatFragment;
 import com.hezeyi.privatechat.fragment.MeFragment;
+import com.xhab.utils.StackManager;
 import com.xhab.utils.base.BaseBottomTabUtilActivity;
+import com.xhab.utils.utils.RxBus;
+import com.xhab.utils.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +22,7 @@ import java.util.List;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import io.reactivex.disposables.Disposable;
 
 
 public class MainActivity extends BaseBottomTabUtilActivity {
@@ -58,6 +65,19 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     @Override
     public void initData() {
         super.initData();
+        UserMsgBean userMsgBean = DataInMemory.getInstance().getUserMsgBean();
+//        String s = ResultData.create("0", Const.RxType.TYPE_LOGIN, userMsgBean).toJson();
+//        Message message = new Message();
+//        message.setMsgType();
+        MyApplication.getInstance().loginSocket(userMsgBean.getUser_id());
+//        MyApplication.getInstance().sendSendMsgBean(s);
+
+        Disposable subscribe = RxBus.get().register(Const.RxType.TYPE_OTHER_LOGIN, Object.class).subscribe(o -> {
+            ToastUtil.showToast("其他人登录了此账号,请重新登陆!");
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            StackManager.finishExcludeActivity(LoginActivity.class);
+        });
     }
 
 

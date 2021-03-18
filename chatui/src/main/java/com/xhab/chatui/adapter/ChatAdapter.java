@@ -12,7 +12,6 @@ import com.xhab.chatui.bean.chat.AudioMsgBody;
 import com.xhab.chatui.bean.chat.FileMsgBody;
 import com.xhab.chatui.bean.chat.ImageMsgBody;
 import com.xhab.chatui.bean.chat.Message;
-import com.xhab.chatui.bean.chat.MsgBody;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
 import com.xhab.chatui.bean.chat.TextMsgBody;
@@ -101,8 +100,7 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
 
 
     private void setStatus(BaseViewHolder helper, Message item) {
-        MsgBody msgContent = item.getBody();
-        if (msgContent instanceof TextMsgBody || msgContent instanceof AudioMsgBody || msgContent instanceof VideoMsgBody || msgContent instanceof FileMsgBody) {
+        if (item instanceof TextMsgBody || item instanceof AudioMsgBody || item instanceof VideoMsgBody || item instanceof FileMsgBody) {
             //只需要设置自己发送的状态
             MsgSendStatus sentStatus = item.getSentStatus();
             boolean isSend = item.getSenderId().equals(mSenderId);
@@ -115,7 +113,7 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
                     helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, false);
                 }
             }
-        } else if (msgContent instanceof ImageMsgBody) {
+        } else if (item instanceof ImageMsgBody) {
             boolean isSend = item.getSenderId().equals(mSenderId);
             if (isSend) {
                 MsgSendStatus sentStatus = item.getSentStatus();
@@ -136,10 +134,10 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
 
     private void setContent(BaseViewHolder helper, Message item) {
         if (item.getMsgType().equals(MsgType.TEXT)) {
-            TextMsgBody msgBody = (TextMsgBody) item.getBody();
-            helper.setText(R.id.chat_item_content_text, msgBody.getMessage());
+            TextMsgBody msgBody = (TextMsgBody) item;
+            helper.setText(R.id.chat_item_content_text, msgBody.getMsg());
         } else if (item.getMsgType().equals(MsgType.IMAGE)) {
-            ImageMsgBody msgBody = (ImageMsgBody) item.getBody();
+            ImageMsgBody msgBody = (ImageMsgBody) item;
             if (TextUtils.isEmpty(msgBody.getThumbPath())) {
                 GlideUtils.loadChatImage(mContext, msgBody.getThumbUrl(), (ImageView) helper.getView(R.id.bivPic));
             } else {
@@ -151,7 +149,7 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
                 }
             }
         } else if (item.getMsgType().equals(MsgType.VIDEO)) {
-            VideoMsgBody msgBody = (VideoMsgBody) item.getBody();
+            VideoMsgBody msgBody = (VideoMsgBody) item;
             File file = new File(msgBody.getExtra());
             if (file.exists()) {
                 GlideUtils.loadChatImage(mContext, msgBody.getExtra(), (ImageView) helper.getView(R.id.bivPic));
@@ -159,19 +157,18 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
                 GlideUtils.loadChatImage(mContext, msgBody.getExtra(), (ImageView) helper.getView(R.id.bivPic));
             }
         } else if (item.getMsgType().equals(MsgType.FILE)) {
-            FileMsgBody msgBody = (FileMsgBody) item.getBody();
+            FileMsgBody msgBody = (FileMsgBody) item;
             helper.setText(R.id.msg_tv_file_name, msgBody.getDisplayName());
             helper.setText(R.id.msg_tv_file_size, msgBody.getSize() + "B");
         } else if (item.getMsgType().equals(MsgType.AUDIO)) {
-            AudioMsgBody msgBody = (AudioMsgBody) item.getBody();
+            AudioMsgBody msgBody = (AudioMsgBody) item;
             helper.setText(R.id.tvDuration, msgBody.getDuration() + "\"");
         }
     }
 
 
     private void setOnClick(BaseViewHolder helper, Message item) {
-        MsgBody msgContent = item.getBody();
-        if (msgContent instanceof AudioMsgBody) {
+        if (item instanceof AudioMsgBody) {
             helper.addOnClickListener(R.id.rlAudio);
         }
         if (item.getSentStatus().equals(MsgSendStatus.FAILED)) {

@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.StrictMode;
-import android.text.TextUtils;
 
+import com.hezeyi.privatechat.bean.SocketData;
+import com.hezeyi.privatechat.net.SocketManager;
 import com.tencent.bugly.Bugly;
+import com.xhab.chatui.bean.chat.Message;
 import com.xhab.chatui.emoji.EmojiDao;
 import com.xhab.utils.StackManager;
+import com.xhab.utils.net.socket.OkioSocket;
 import com.xhab.utils.utils.SPUtils;
 
 import java.util.LinkedList;
@@ -25,18 +28,7 @@ public class MyApplication extends Application {
 
     private static MyApplication instance;
     private LinkedList<Activity> mActivities = new LinkedList<>();//添加activity管理
-    private String appName = "BIM管理";
 
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppName(String appName) {
-        if (!TextUtils.isEmpty(appName)) {
-            this.appName = appName;
-        }
-
-    }
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -67,6 +59,7 @@ public class MyApplication extends Application {
         builder.detectFileUriExposure();
         SPUtils.init(this, "privatechat");
 
+        initSocket();
 //        ResponseHelper.addInterceptResponse("login", stateBean -> {
 //            if (stateBean == null || stateBean.getCode().equals("1")) return false;
 //            if (stateBean.getMsg().contains("登录失效") || stateBean.getMsg().contains("请登录")) {
@@ -84,30 +77,41 @@ public class MyApplication extends Application {
 //        });
     }
 
-    public static MyApplication getContext() {
+    public static MyApplication getInstance() {
         return instance;
     }
 
+    private OkioSocket okioSocket = new OkioSocket();
 
-    /**
-     * 整个应用退出
-     */
-    public void exit() {
-        StackManager.finishExcludeActivity();
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.gc();
-        System.exit(0);
-//        Activity activity;
-//        while (mActivities.size() != 0) {
-//            activity = mActivities.poll();
-//            if (!activity.isFinishing()) {
-//                activity.finish();
-//            }
-//            android.os.Process.killProcess(android.os.Process.myPid());
-//            System.gc();
-//            System.exit(0);
-//        }
-//        System.exit(0);
+    private void initSocket() {
+        okioSocket.setOnMessageChange(SocketManager::parseJson);
 
+    }
+
+    public void connectSocket() {
+        okioSocket.connect(Const.Api.SOCKET_SERVER, Const.Api.SOCKET_PORT);
+    }
+
+    //    public void send(String s) {
+//        okioSocket.send(s);
+//    }
+    public void loginSocket(String userId) {
+        Message data = new Message();
+        data.setSenderId(userId);
+        String s = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
+        okioSocket.send(s);
+    }
+
+    public void msgSend(String userId, String uuid) {
+        Message data = new Message();
+        data.setSenderId(userId);
+        data.setTargetId(uuid);
+        String s = SocketData.create("0", Const.RxType.TYPE_MSG_STATUS_SEND, data).toJson();
+        okioSocket.send(s);
+    }
+
+    public void sendSendMsgBean(Message sendMsg) {
+        String s = SocketData.create("0", Const.RxType.TYPE_MSG_TEXT, sendMsg).toJson();
+        okioSocket.send(s);
     }
 }

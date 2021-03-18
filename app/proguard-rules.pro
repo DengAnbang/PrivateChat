@@ -209,3 +209,5 @@
 -keep class me.devilsen.czxing.** { *; }
 -keep class com.xhab.utils.bean.** { *; }
 
+-keep class com.xhab.chatui.bean.** { *; }
+
