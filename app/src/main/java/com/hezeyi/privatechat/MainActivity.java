@@ -8,10 +8,7 @@ import com.hezeyi.privatechat.fragment.AdminFragment;
 import com.hezeyi.privatechat.fragment.BuddyFragment;
 import com.hezeyi.privatechat.fragment.ChatFragment;
 import com.hezeyi.privatechat.fragment.MeFragment;
-import com.hezeyi.privatechat.inteface.OnDataClick;
-import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.utils.base.BaseBottomTabUtilActivity;
-import com.xhab.utils.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,15 +25,16 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     private List<Integer> mTabResPressed = Arrays.asList(R.mipmap.tab_jiaoliu1, R.mipmap.tab_tongxunlu1, R.mipmap.tab_wode1, R.mipmap.tab_shouye1);
 
 
-
     @Override
     public int getTabViewResID(int position) {
         return R.layout.layout_bottom_tab_view;
     }
+
     @Override
     public int getContentViewRes() {
         return R.layout.layout_bottom_tab;
     }
+
     @Override
     public void changeTab(View view, int position, boolean isSelected) {
         int tabIconRes;
@@ -57,22 +55,13 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     }
 
 
-
     @Override
     public void initData() {
         super.initData();
-        HttpManager.updatesCheck(BuildConfig.VERSION_CODE, BuildConfig.FLAVOR, this, new OnDataClick<Object>() {
-            @Override
-            public void onClick(Object o) {
-                LogUtils.e("onClick*****: " + o);
-            }
-        });
     }
 
 
-
-
-//    @NotNull
+    //    @NotNull
 //    @Override
 //    public Fragment[] fragments() {
 //        Fragment[] fragments1 = new Fragment[4];
@@ -88,14 +77,14 @@ public class MainActivity extends BaseBottomTabUtilActivity {
 //
 //        return fragments1;
 //    }
-@Override
-public ArrayList<Fragment> fragments() {
-    ArrayList<Fragment> fragments = new ArrayList<>();
-    fragments.add(new ChatFragment());
-    fragments.add(new BuddyFragment());
-    fragments.add(new MeFragment());
-    fragments.add(new AdminFragment());
-    return fragments;
-}
+    @Override
+    public ArrayList<Fragment> fragments() {
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(new ChatFragment());
+        fragments.add(new BuddyFragment());
+        fragments.add(new MeFragment());
+        fragments.add(new AdminFragment());
+        return fragments;
+    }
 
 }

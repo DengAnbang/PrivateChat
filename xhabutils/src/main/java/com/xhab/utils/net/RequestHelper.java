@@ -2,7 +2,7 @@ package com.xhab.utils.net;
 
 import android.content.Context;
 
-import com.xhab.utils.view.ProgressDialog;
+import com.xhab.utils.dialog.ProgressDialog;
 
 import io.reactivex.disposables.Disposable;
 

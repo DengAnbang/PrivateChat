@@ -85,6 +85,8 @@ android {
 
 
 }
+ext.support_version = '26.0.2+'
+ext.retrofit_version = '2.3.0'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -96,11 +98,21 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.tencent.bugly:crashreport_upgrade:1.4.1'
     implementation project(path: ':xhabutils')
-//    rxjava
+
+    implementation project(path: ':chatui')
+//    implementation project(path: ':chatui')
+
+//support
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "com.android.support:recyclerview-v7:$support_version"
+    implementation "com.android.support:design:$support_version"
+    //rxjava
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-
-
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 
 }
 repositories {

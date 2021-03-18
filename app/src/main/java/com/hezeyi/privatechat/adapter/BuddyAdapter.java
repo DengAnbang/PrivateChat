@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.UserMsgBean;
+import com.xhab.utils.inteface.OnItemClickListener;
 
 import java.util.List;
 
@@ -19,6 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class BuddyAdapter extends RecyclerView.Adapter<BuddyAdapter.ViewHolder> {
     private List<UserMsgBean> mUserMsgBeans;
+    private OnItemClickListener<UserMsgBean> mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener<UserMsgBean> onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
 
     public List<UserMsgBean> getUserMsgBeans() {
         return mUserMsgBeans;
@@ -39,6 +45,11 @@ public class BuddyAdapter extends RecyclerView.Adapter<BuddyAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull BuddyAdapter.ViewHolder holder, int position) {
         UserMsgBean userMsgBean = mUserMsgBeans.get(position);
         holder.mTvName.setText(userMsgBean.getUser_name());
+        if (mOnItemClickListener != null) {
+            holder.mView.setOnClickListener(view -> {
+                mOnItemClickListener.onItemClick(view, position, userMsgBean);
+            });
+        }
     }
 
     @Override
@@ -49,9 +60,11 @@ public class BuddyAdapter extends RecyclerView.Adapter<BuddyAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTvName;
         ImageView mIvHeadPortrait;
+        View mView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            mView = itemView;
             mTvName = itemView.findViewById(R.id.tv_name);
             mIvHeadPortrait = itemView.findViewById(R.id.iv_head_portrait);
         }

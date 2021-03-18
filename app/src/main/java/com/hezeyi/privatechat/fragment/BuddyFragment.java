@@ -1,9 +1,11 @@
 package com.hezeyi.privatechat.fragment;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.hezeyi.privatechat.DataInMemory;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.adapter.BuddyAdapter;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.net.HttpManager;
@@ -69,7 +71,11 @@ public class BuddyFragment extends BaseFragment {
                 }
             }
         });
-
+        mBuddyAdapter.setOnItemClickListener((view1, position, userMsgBean) -> {
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            intent.putExtra("user_name", userMsgBean.getUser_name());
+            startActivity(intent);
+        });
 
         getUserList();
     }

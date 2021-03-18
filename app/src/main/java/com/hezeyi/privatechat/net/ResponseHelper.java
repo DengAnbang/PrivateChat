@@ -4,9 +4,9 @@ import android.text.TextUtils;
 
 import com.google.gson.JsonSyntaxException;
 import com.hezeyi.privatechat.bean.ResultData;
-import com.hezeyi.privatechat.inteface.OnDataClick;
-import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.inteface.OnDataCallBack;
 import com.xhab.utils.net.RequestHelper;
+import com.xhab.utils.utils.LogUtils;
 
 import java.net.ConnectException;
 import java.net.SocketException;
@@ -83,11 +83,11 @@ public class ResponseHelper {
      * @param <O>
      * @param <I>
      */
-    public static <O, I extends ResultData<O>> void requestSucceed(Observable<I> observable, final RequestHelper requestHelper, final boolean showLoadDialog, final OnDataClick<O> dataClick) {
+    public static <O, I extends ResultData<O>> void requestSucceed(Observable<I> observable, final RequestHelper requestHelper, final boolean showLoadDialog, final OnDataCallBack<O> dataClick) {
         request(observable, requestHelper, showLoadDialog, i -> {
             if (i == null) return;
             if (interceptResponse(i, requestHelper)) return;
-            dataClick.onClick(i.getData());
+            dataClick.onCallBack(i.getData());
         });
     }
 
@@ -100,7 +100,7 @@ public class ResponseHelper {
      * @param dataClick
      * @param <T>
      */
-    public static <T> void request(Observable<T> observable, final RequestHelper requestHelper, final boolean showLoadDialog, final OnDataClick<T> dataClick) {
+    public static <T> void request(Observable<T> observable, final RequestHelper requestHelper, final boolean showLoadDialog, final OnDataCallBack<T> dataClick) {
 
         observable.subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> {
@@ -112,7 +112,7 @@ public class ResponseHelper {
                 .subscribe(new Observer<T>() {
                     @Override
                     public void onNext(T value) {
-                        dataClick.onClick(value);
+                        dataClick.onCallBack(value);
                     }
 
                     @Override
@@ -145,7 +145,7 @@ public class ResponseHelper {
                                 break;
                             }
                         } while (false);
-                        dataClick.onClick(null);
+                        dataClick.onCallBack(null);
                         if (!TextUtils.isEmpty(message)) {
                             requestHelper.showSnackBar(message);
                         }

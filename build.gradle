@@ -19,11 +19,15 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter/" }
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         google()
         jcenter()
+        maven {
+            url  "http://dl.bintray.com/lukaville/maven"
+        }
     }
 }
 

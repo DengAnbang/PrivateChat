@@ -1,1 +1,1 @@
-include ':app', ':xhabutils'
+include ':app', ':xhabutils', ':chatui'

@@ -9,8 +9,9 @@ import android.os.StrictMode;
 import android.text.TextUtils;
 
 import com.tencent.bugly.Bugly;
-import com.xhab.utils.utils.SPUtils;
+import com.xhab.chatui.emoji.EmojiDao;
 import com.xhab.utils.StackManager;
+import com.xhab.utils.utils.SPUtils;
 
 import java.util.LinkedList;
 
@@ -49,7 +50,7 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         StackManager.initStackManager(this);
-
+        EmojiDao.init(this);
         //初始化Bugly
 //        CrashReport.initCrashReport(getApplicationContext(), "ec8f9b812a", true);
         Bugly.init(getApplicationContext(), "ebd08610e4", true);

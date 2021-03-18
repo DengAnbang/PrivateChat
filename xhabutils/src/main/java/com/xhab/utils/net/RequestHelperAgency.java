@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.xhab.utils.utils.RxUtils;
 import com.xhab.utils.utils.ToastUtil;
-import com.xhab.utils.view.ProgressDialog;
+import com.xhab.utils.dialog.ProgressDialog;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;

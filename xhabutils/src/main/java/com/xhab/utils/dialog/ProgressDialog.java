@@ -1,4 +1,4 @@
-package com.xhab.utils.view;
+package com.xhab.utils.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
