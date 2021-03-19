@@ -12,6 +12,10 @@ public class Const {
         public static final String UserPwd = "UserPwd";
     }
 
+    public static class FilePath {
+        public static final String chatFileType = "chat/file";
+    }
+
     public static class Api {
         public static final String API_HOST = "http://" + getUrl() + ":9090/";
         public static final String SOCKET_SERVER = getUrl();
@@ -22,9 +26,8 @@ public class Const {
     private static String getUrl() {
         switch (BuildConfig.FLAVOR) {
             case "nb":
-//                return "http://192.168.155.2";
-//                return "http://47.108.172.20";
-                return "192.168.31.213";
+//                return "192.168.0.102";
+                return "47.108.172.20";
             default:
                 return "http://192.168.31.213";
         }

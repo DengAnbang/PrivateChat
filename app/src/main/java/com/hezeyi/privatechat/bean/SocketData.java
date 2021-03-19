@@ -1,7 +1,7 @@
 package com.hezeyi.privatechat.bean;
 
 import com.google.gson.Gson;
-import com.xhab.chatui.bean.chat.Message;
+import com.xhab.chatui.bean.chat.ChatMessage;
 
 /**
  * Created by dab on 2018/1/4 0004 13:35
@@ -74,7 +74,7 @@ public class SocketData {
         this.senderId = senderId;
     }
 
-    public static SocketData create(String code, String type, Message data) {
+    public static SocketData create(String code, String type, ChatMessage data) {
         SocketData socketData = new SocketData();
         socketData.setCode(code);
         socketData.setData(new Gson().toJson(data));

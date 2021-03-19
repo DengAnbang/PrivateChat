@@ -10,7 +10,7 @@ import android.os.StrictMode;
 import com.hezeyi.privatechat.bean.SocketData;
 import com.hezeyi.privatechat.net.SocketManager;
 import com.tencent.bugly.Bugly;
-import com.xhab.chatui.bean.chat.Message;
+import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.emoji.EmojiDao;
 import com.xhab.utils.StackManager;
 import com.xhab.utils.net.socket.OkioSocket;
@@ -96,22 +96,22 @@ public class MyApplication extends Application {
 //        okioSocket.send(s);
 //    }
     public void loginSocket(String userId) {
-        Message data = new Message();
+        ChatMessage data = new ChatMessage();
         data.setSenderId(userId);
         String s = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
         okioSocket.send(s);
     }
 
     public void msgSend(String userId, String uuid) {
-        Message data = new Message();
+        ChatMessage data = new ChatMessage();
         data.setSenderId(userId);
         data.setTargetId(uuid);
         String s = SocketData.create("0", Const.RxType.TYPE_MSG_STATUS_SEND, data).toJson();
         okioSocket.send(s);
     }
 
-    public void sendSendMsgBean(Message sendMsg) {
-        String s = SocketData.create("0", Const.RxType.TYPE_MSG_TEXT, sendMsg).toJson();
+    public void sendSendMsgBean(ChatMessage sendMsg, String type) {
+        String s = SocketData.create("0", type, sendMsg).toJson();
         okioSocket.send(s);
     }
 }

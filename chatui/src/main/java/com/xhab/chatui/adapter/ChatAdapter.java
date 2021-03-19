@@ -8,21 +8,16 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.util.MultiTypeDelegate;
 import com.xhab.chatui.R;
-import com.xhab.chatui.bean.chat.AudioMsgBody;
-import com.xhab.chatui.bean.chat.FileMsgBody;
-import com.xhab.chatui.bean.chat.ImageMsgBody;
-import com.xhab.chatui.bean.chat.Message;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
-import com.xhab.chatui.bean.chat.TextMsgBody;
-import com.xhab.chatui.bean.chat.VideoMsgBody;
+import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.utils.GlideUtils;
 
 import java.io.File;
 import java.util.List;
 
 
-public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
+public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
 
 
     private static final int TYPE_SEND_TEXT = 1;
@@ -58,11 +53,11 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
         mSenderId = senderId;
     }
 
-    public ChatAdapter(Context context, List<Message> data) {
+    public ChatAdapter(Context context, List<ChatMessage> data) {
         super(data);
-        setMultiTypeDelegate(new MultiTypeDelegate<Message>() {
+        setMultiTypeDelegate(new MultiTypeDelegate<ChatMessage>() {
             @Override
-            protected int getItemType(Message entity) {
+            protected int getItemType(ChatMessage entity) {
                 boolean isSend = entity.getSenderId().equals(mSenderId);
                 if (MsgType.TEXT == entity.getMsgType()) {
                     return isSend ? TYPE_SEND_TEXT : TYPE_RECEIVE_TEXT;
@@ -91,7 +86,7 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Message item) {
+    protected void convert(BaseViewHolder helper, ChatMessage item) {
         setContent(helper, item);
         setStatus(helper, item);
         setOnClick(helper, item);
@@ -99,10 +94,14 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
     }
 
 
-    private void setStatus(BaseViewHolder helper, Message item) {
-        if (item instanceof TextMsgBody || item instanceof AudioMsgBody || item instanceof VideoMsgBody || item instanceof FileMsgBody) {
+    private void setStatus(BaseViewHolder helper, ChatMessage item) {
+        if (item.getMsgType() == MsgType.TEXT
+                || item.getMsgType() == MsgType.AUDIO
+                || item.getMsgType() == MsgType.VIDEO
+                || item.getMsgType() == MsgType.FILE
+        ) {
             //只需要设置自己发送的状态
-            MsgSendStatus sentStatus = item.getSentStatus();
+            int sentStatus = item.getSentStatus();
             boolean isSend = item.getSenderId().equals(mSenderId);
             if (isSend) {
                 if (sentStatus == MsgSendStatus.SENDING) {
@@ -113,10 +112,10 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
                     helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, false);
                 }
             }
-        } else if (item instanceof ImageMsgBody) {
+        } else if (item.getMsgType()== MsgType.IMAGE) {
             boolean isSend = item.getSenderId().equals(mSenderId);
             if (isSend) {
-                MsgSendStatus sentStatus = item.getSentStatus();
+                int sentStatus = item.getSentStatus();
                 if (sentStatus == MsgSendStatus.SENDING) {
                     helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, false);
                 } else if (sentStatus == MsgSendStatus.FAILED) {
@@ -132,46 +131,42 @@ public class ChatAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
 
     }
 
-    private void setContent(BaseViewHolder helper, Message item) {
-        if (item.getMsgType().equals(MsgType.TEXT)) {
-            TextMsgBody msgBody = (TextMsgBody) item;
-            helper.setText(R.id.chat_item_content_text, msgBody.getMsg());
-        } else if (item.getMsgType().equals(MsgType.IMAGE)) {
-            ImageMsgBody msgBody = (ImageMsgBody) item;
-            if (TextUtils.isEmpty(msgBody.getThumbPath())) {
-                GlideUtils.loadChatImage(mContext, msgBody.getThumbUrl(), (ImageView) helper.getView(R.id.bivPic));
+    private void setContent(BaseViewHolder helper, ChatMessage item) {
+        if (item.getMsgType() == (MsgType.TEXT)) {
+            helper.setText(R.id.chat_item_content_text, item.getMsg());
+        } else if (item.getMsgType() == (MsgType.IMAGE)) {
+            if (TextUtils.isEmpty(item.getLocalPath())) {
+                GlideUtils.loadChatImage(mContext, item.getRemoteUrl(), (ImageView) helper.getView(R.id.bivPic));
             } else {
-                File file = new File(msgBody.getThumbPath());
+                File file = new File(item.getLocalPath());
                 if (file.exists()) {
-                    GlideUtils.loadChatImage(mContext, msgBody.getThumbPath(), (ImageView) helper.getView(R.id.bivPic));
+                    GlideUtils.loadChatImage(mContext, item.getLocalPath(), (ImageView) helper.getView(R.id.bivPic));
                 } else {
-                    GlideUtils.loadChatImage(mContext, msgBody.getThumbUrl(), (ImageView) helper.getView(R.id.bivPic));
+                    GlideUtils.loadChatImage(mContext, item.getRemoteUrl(), (ImageView) helper.getView(R.id.bivPic));
                 }
             }
-        } else if (item.getMsgType().equals(MsgType.VIDEO)) {
-            VideoMsgBody msgBody = (VideoMsgBody) item;
-            File file = new File(msgBody.getExtra());
+        } else if (item.getMsgType() == (MsgType.VIDEO)) {
+            File file = new File(item.getExtra());
             if (file.exists()) {
-                GlideUtils.loadChatImage(mContext, msgBody.getExtra(), (ImageView) helper.getView(R.id.bivPic));
+                GlideUtils.loadChatImage(mContext, item.getExtra(), (ImageView) helper.getView(R.id.bivPic));
             } else {
-                GlideUtils.loadChatImage(mContext, msgBody.getExtra(), (ImageView) helper.getView(R.id.bivPic));
+                GlideUtils.loadChatImage(mContext, item.getExtra(), (ImageView) helper.getView(R.id.bivPic));
             }
-        } else if (item.getMsgType().equals(MsgType.FILE)) {
-            FileMsgBody msgBody = (FileMsgBody) item;
-            helper.setText(R.id.msg_tv_file_name, msgBody.getDisplayName());
-            helper.setText(R.id.msg_tv_file_size, msgBody.getSize() + "B");
-        } else if (item.getMsgType().equals(MsgType.AUDIO)) {
-            AudioMsgBody msgBody = (AudioMsgBody) item;
-            helper.setText(R.id.tvDuration, msgBody.getDuration() + "\"");
+        } else if (item.getMsgType() == (MsgType.FILE)) {
+
+            helper.setText(R.id.msg_tv_file_name, item.getDisplayName());
+            helper.setText(R.id.msg_tv_file_size, item.getSize() + "B");
+        } else if (item.getMsgType() == (MsgType.AUDIO)) {
+            helper.setText(R.id.tvDuration, item.getDuration() + "\"");
         }
     }
 
 
-    private void setOnClick(BaseViewHolder helper, Message item) {
-        if (item instanceof AudioMsgBody) {
+    private void setOnClick(BaseViewHolder helper, ChatMessage item) {
+        if (item.getMsgType() == MsgType.AUDIO) {
             helper.addOnClickListener(R.id.rlAudio);
         }
-        if (item.getSentStatus().equals(MsgSendStatus.FAILED)) {
+        if (item.getSentStatus() == (MsgSendStatus.FAILED)) {
             helper.addOnClickListener(R.id.chat_item_fail);
             helper.getView(R.id.chat_item_fail).setTag(item);
         }

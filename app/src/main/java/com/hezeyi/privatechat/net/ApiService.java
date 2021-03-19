@@ -7,9 +7,12 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
@@ -29,6 +32,13 @@ public interface ApiService {
             @Query("versionCode") int versionCode,
             @Query("version_channel") String version_channel
     );
+
+    //文件上传
+    @Multipart
+    @POST("/public/file/upload")
+    Observable<ResultData<String>> fileUpload(
+            @Query("fileType") String fileType
+            , @Part MultipartBody.Part body);
 
     @POST("/app/user/login")
     Observable<ResultData<UserMsgBean>> login(
@@ -77,6 +87,7 @@ public interface ApiService {
     Observable<ResultData<UserMsgBean>> userSelectById(
             @Query("user_id") String account
     );
+
     @POST("/app/user/select/friend")
     Observable<ResultData<List<UserMsgBean>>> userSelectFriend(
             @Query("user_id") String account

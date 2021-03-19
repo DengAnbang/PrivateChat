@@ -23,14 +23,9 @@ import com.luck.picture.lib.tools.ToastUtils;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.xhab.chatui.R;
 import com.xhab.chatui.adapter.ChatAdapter;
-import com.xhab.chatui.bean.chat.AudioMsgBody;
-import com.xhab.chatui.bean.chat.FileMsgBody;
-import com.xhab.chatui.bean.chat.ImageMsgBody;
-import com.xhab.chatui.bean.chat.Message;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
-import com.xhab.chatui.bean.chat.TextMsgBody;
-import com.xhab.chatui.bean.chat.VideoMsgBody;
+import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.utils.ChatUiHelper;
 import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.LogUtil;
@@ -69,7 +64,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     public abstract String getTargetId();
 
     //发送消息
-    public abstract void sendMsg(Message message);
+    public abstract void sendMsg(ChatMessage message);
 
     public void setTitleUser(String title) {
         TextView textView = findViewById(R.id.common_toolbar_title);
@@ -98,7 +93,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     public void initContent() {
 
-        mAdapter = new ChatAdapter(this, new ArrayList<Message>());
+        mAdapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
         mAdapter.setSenderId(mSenderId);
         LinearLayoutManager mLinearLayout = new LinearLayoutManager(this);
         mRvChat.setLayoutManager(mLinearLayout);
@@ -128,7 +123,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                         }
                         AnimationDrawable drawable = (AnimationDrawable) ivAudio.getBackground();
                         drawable.start();
-                        MediaManager.playSound(BaseChatActivity.this, ((AudioMsgBody) mAdapter.getData().get(position)).getLocalPath(), new MediaPlayer.OnCompletionListener() {
+                        MediaManager.playSound(BaseChatActivity.this, (mAdapter.getData().get(position)).getLocalPath(), new MediaPlayer.OnCompletionListener() {
                             @Override
                             public void onCompletion(MediaPlayer mp) {
                                 if (isSend) {
@@ -142,7 +137,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                         });
                     }
                 } else if (view.getId() == R.id.chat_item_fail) {
-                    Message message = (Message) view.getTag();
+                    ChatMessage message = (ChatMessage) view.getTag();
                     updateMsg(message.getUuid(), MsgSendStatus.SENDING);
                     sendMsg(message);
                 }
@@ -233,8 +228,8 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     }
 
 
-    private Message getBaseSendMessage(MsgType msgType) {
-        Message mMessgae = new Message();
+    private ChatMessage getBaseSendMessage(@MsgType int msgType) {
+        ChatMessage mMessgae = new ChatMessage();
         mMessgae.setUuid(UUID.randomUUID() + "");
         mMessgae.setSenderId(mSenderId);
         mMessgae.setTargetId(mTargetId);
@@ -245,26 +240,12 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     }
 
 
-    private Message getBaseReceiveMessage(MsgType msgType) {
-        Message mMessgae = new Message();
-        mMessgae.setUuid(UUID.randomUUID() + "");
-        mMessgae.setSenderId(mTargetId);
-        mMessgae.setTargetId(mSenderId);
-        mMessgae.setSentTime(System.currentTimeMillis());
-        mMessgae.setSentStatus(MsgSendStatus.SENDING);
-        mMessgae.setMsgType(msgType);
-        return mMessgae;
-    }
-
-
     //文件消息
     private void sendFileMessage(String from, String to, final String path) {
-        final Message message = getBaseSendMessage(MsgType.FILE);
-        FileMsgBody mFileMsgBody = new FileMsgBody();
+        final ChatMessage mFileMsgBody = getBaseSendMessage(MsgType.FILE);
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDisplayName(FileUtils.getFileName(path));
         mFileMsgBody.setSize(FileUtils.getFileLength(path));
-        mFileMsgBody.setMessage(message);
         //开始发送
         mAdapter.addData(mFileMsgBody);
         sendMsg(mFileMsgBody);
@@ -272,11 +253,9 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //语音消息
     private void sendAudioMessage(final String path, int time) {
-        final Message message = getBaseSendMessage(MsgType.AUDIO);
-        AudioMsgBody mFileMsgBody = new AudioMsgBody();
+        final ChatMessage mFileMsgBody = getBaseSendMessage(MsgType.AUDIO);
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDuration(time);
-        mFileMsgBody.setMessage(message);
         //开始发送
         mAdapter.addData(mFileMsgBody);
         sendMsg(mFileMsgBody);
@@ -285,10 +264,8 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //文本消息
     private void sendTextMsg(String hello) {
-        final Message message = getBaseSendMessage(MsgType.TEXT);
-        TextMsgBody mTextMsgBody = new TextMsgBody();
+        final ChatMessage mTextMsgBody = getBaseSendMessage(MsgType.TEXT);
         mTextMsgBody.setMsg(hello);
-        mTextMsgBody.setMessage(message);
         //开始发送
         mAdapter.addData(mTextMsgBody);
         sendMsg(mTextMsgBody);
@@ -297,10 +274,8 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //图片消息
     private void sendImageMessage(final LocalMedia media) {
-        final Message message = getBaseSendMessage(MsgType.IMAGE);
-        ImageMsgBody mImageMsgBody = new ImageMsgBody();
-        mImageMsgBody.setThumbUrl(media.getCompressPath());
-        mImageMsgBody.setMessage(message);
+        final ChatMessage mImageMsgBody = getBaseSendMessage(MsgType.IMAGE);
+        mImageMsgBody.setLocalPath(media.getCompressPath());
         //开始发送
         mAdapter.addData(mImageMsgBody);
         sendMsg(mImageMsgBody);
@@ -308,12 +283,12 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
 
     //视频消息
-    private void sendVedioMessage(final LocalMedia media) {
+    private void sendVideoMessage(final LocalMedia media) {
         try {
-            final Message message = getBaseSendMessage(MsgType.VIDEO);
+            final ChatMessage message = getBaseSendMessage(MsgType.VIDEO);
             //生成缩略图路径
-//            String vedioPath = media.getRealPath()==null?media.getPath():media.getRealPath();
-            String vedioPath = media.getPath();
+            String vedioPath = media.getRealPath() == null ? media.getPath() : media.getRealPath();
+//            String vedioPath = media.getPath();
             MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
 //            mediaMetadataRetriever.setDataSource(vedioPath);
             mediaMetadataRetriever.setDataSource(this, Uri.parse(vedioPath));
@@ -333,9 +308,9 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                 LogUtil.d("视频缩略图路径获取失败：" + e.toString());
                 e.printStackTrace();
             }
-            VideoMsgBody mImageMsgBody = new VideoMsgBody();
+            ChatMessage mImageMsgBody = new ChatMessage();
             mImageMsgBody.setExtra(urlpath);
-            mImageMsgBody.setMessage(message);
+            mImageMsgBody.setLocalPath(vedioPath);
 
             //开始发送
             mAdapter.addData(mImageMsgBody);
@@ -349,10 +324,10 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     }
 
 
-    public void updateMsg(String uuid, MsgSendStatus msgSendStatus) {
+    public void updateMsg(String uuid, @MsgSendStatus int msgSendStatus) {
         int position = 0;
         for (int i = 0; i < mAdapter.getData().size(); i++) {
-            Message mAdapterMessage = mAdapter.getData().get(i);
+            ChatMessage mAdapterMessage = mAdapter.getData().get(i);
             if (uuid.equals(mAdapterMessage.getUuid())) {
                 position = i;
                 mAdapterMessage.setSentStatus(msgSendStatus);
@@ -362,7 +337,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         }
     }
 
-    public void addMsg(Message message) {
+    public void addMsg(ChatMessage message) {
         mAdapter.addData(message);
     }
 
@@ -389,7 +364,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                     List<LocalMedia> selectListVideo = PictureSelector.obtainMultipleResult(data);
                     for (LocalMedia media : selectListVideo) {
                         LogUtil.d("获取视频路径成功:" + media.getPath());
-                        sendVedioMessage(media);
+                        sendVideoMessage(media);
                     }
                     break;
             }

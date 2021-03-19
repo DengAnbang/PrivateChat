@@ -1,14 +1,19 @@
 package com.xhab.chatui.bean.chat;
 
-public enum MsgSendStatus {
-    DEFAULT,
-    //发送中
-    SENDING,
-    //发送失败
-    FAILED,
-    //已发送
-    SENT;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
+import androidx.annotation.IntDef;
 
+/**
+ * Created by dab on 2021/3/19 18:01
+ */
 
+@IntDef({MsgSendStatus.DEFAULT, MsgSendStatus.SENDING, MsgSendStatus.FAILED, MsgSendStatus.SENT})
+@Retention(RetentionPolicy.SOURCE)
+public @interface MsgSendStatus {
+    int DEFAULT = 0;//默认
+    int SENDING = 1;//发送中
+    int FAILED = 2;//发送失败
+    int SENT = 3;//已发送
 }
