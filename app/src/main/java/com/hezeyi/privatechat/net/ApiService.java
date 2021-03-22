@@ -27,6 +27,7 @@ public interface ApiService {
     @POST
     Observable<Response<ResponseBody>> downloadFile(@Url String fileUrl);
 
+
     @POST("/public/app/updates/check")
     Observable<ResultData<Object>> updatesCheck(
             @Query("versionCode") int versionCode,

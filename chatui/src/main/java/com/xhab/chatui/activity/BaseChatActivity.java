@@ -241,7 +241,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
 
     //文件消息
-    private void sendFileMessage(String from, String to, final String path) {
+    private void sendFileMessage(final String path) {
         final ChatMessage mFileMsgBody = getBaseSendMessage(MsgType.FILE);
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDisplayName(FileUtils.getFileName(path));
@@ -285,7 +285,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     //视频消息
     private void sendVideoMessage(final LocalMedia media) {
         try {
-            final ChatMessage message = getBaseSendMessage(MsgType.VIDEO);
+            final ChatMessage mImageMsgBody = getBaseSendMessage(MsgType.VIDEO);
             //生成缩略图路径
             String vedioPath = media.getRealPath() == null ? media.getPath() : media.getRealPath();
 //            String vedioPath = media.getPath();
@@ -308,9 +308,8 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                 LogUtil.d("视频缩略图路径获取失败：" + e.toString());
                 e.printStackTrace();
             }
-            ChatMessage mImageMsgBody = new ChatMessage();
-            mImageMsgBody.setExtra(urlpath);
-            mImageMsgBody.setLocalPath(vedioPath);
+            mImageMsgBody.setExtra(vedioPath);
+            mImageMsgBody.setLocalPath(urlpath);
 
             //开始发送
             mAdapter.addData(mImageMsgBody);
@@ -349,7 +348,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                 case REQUEST_CODE_FILE:
                     String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
                     LogUtil.d("获取到的文件路径:" + filePath);
-                    sendFileMessage(mSenderId, mTargetId, filePath);
+                    sendFileMessage(filePath);
                     break;
                 case REQUEST_CODE_IMAGE:
                     // 图片选择结果回调

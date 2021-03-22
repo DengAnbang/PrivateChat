@@ -38,6 +38,8 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     //图片查看器
     implementation 'com.github.bumptech.glide:glide:4.5.0'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
 //    implementation 'com.github.SuperKotlin:PictureViewer:2.0.1'  //新版本
 //    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.3'

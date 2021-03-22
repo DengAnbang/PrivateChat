@@ -7,12 +7,13 @@ import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.chatui.activity.BaseChatActivity;
+import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
-import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.utils.RxBus;
+import com.xhab.utils.utils.RxUtils;
 
 import androidx.annotation.Nullable;
 
@@ -35,21 +36,17 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
 
     @Override
     public void sendMsg(ChatMessage message) {
-        if (message.getMsgType() == MsgType.IMAGE) {
+        if (message.getMsgType() == MsgType.TEXT || message.getMsgType() == MsgType.SYSTEM) {
+            MyApplication.getInstance().sendSendMsgBean(message, Const.RxType.TYPE_MSG_TEXT);
+            updateMsg(message.getUuid(), MsgSendStatus.SENT);
+        } else {
             String localPath = (message).getLocalPath();
             HttpManager.fileUpload(Const.FilePath.chatFileType, localPath, this, url -> {
                 message.setRemoteUrl(url);
                 MyApplication.getInstance().sendSendMsgBean(message, Const.RxType.TYPE_MSG_TEXT);
+                updateMsg(message.getUuid(), MsgSendStatus.SENT);
             });
-        }else {
-            MyApplication.getInstance().sendSendMsgBean(message, Const.RxType.TYPE_MSG_TEXT);
         }
-
-
-
-
-//        int i = new Random().nextInt(2);
-//        new Handler().postDelayed(() -> updateMsg(message.getUuid(), i != 1 ? MsgSendStatus.FAILED : MsgSendStatus.SENT), 2000);
     }
 
 
@@ -60,13 +57,30 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         //收到文本消息
         addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_TEXT, String.class).subscribe(s -> {
             ChatMessage message = new Gson().fromJson(s, ChatMessage.class);
-            addMsg(message);
+            downloadMsgFile(message);
             MyApplication.getInstance().msgSend(message.getSenderId(), message.getUuid());
         }));
         //对方收到消息
         addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_STATUS_SEND, String.class).subscribe(s -> {
-            updateMsg(s, MsgSendStatus.SENT);
+            updateMsg(s, MsgSendStatus.RECEIVE);
         }));
+    }
+
+    private void downloadMsgFile(ChatMessage message) {
+        if (message.getMsgType() == MsgType.TEXT
+                || message.getMsgType() == MsgType.SYSTEM
+                || message.getMsgType() == MsgType.FILE
+        ) {
+            addMsg(message);
+            return;
+        }
+        String completePath = Const.FilePath.chatFileLocalPath + message.getRemoteUrl();
+        HttpManager.downloadFileNew(Const.Api.API_HOST + message.getRemoteUrl(), completePath, this, aBoolean -> {
+            message.setLocalPath(completePath);
+            RxUtils.runOnUiThread(() -> addMsg(message));
+
+        });
+
     }
 
     @Override

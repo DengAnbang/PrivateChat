@@ -5,13 +5,22 @@ import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.utils.inteface.OnDataCallBack;
 import com.xhab.utils.net.RequestHelper;
+import com.xhab.utils.utils.LogUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 /**
  * Created by dab on 2018/4/11 17:52
@@ -27,6 +36,30 @@ public class HttpManager {
                     .fileUpload(fileType, part), requestHelper, false, dataClick);
         }
 
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param fileUrl
+     * @return
+     */
+    public static void downloadFileNew(final String fileUrl, final String completePath, final RequestHelper requestHelper, final OnDataCallBack<Boolean> onDataClick) {
+
+        Disposable disposable = RetrofitFactory.getService(ApiService.class).downloadFile(fileUrl)
+                .subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+                .subscribe(responseBodyResponse -> writeResponseBodyToDiskNew(completePath, responseBodyResponse, (msg, finish) -> {
+                    if (!finish) {
+
+                    } else {
+                        onDataClick.onCallBack(true);
+                    }
+                }), throwable -> {
+            throwable.printStackTrace();
+            onDataClick.onCallBack(false);
+
+        });
+        requestHelper.addDisposable(disposable);
     }
 
     public static void updatesCheck(int version_code, String version_channel, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
@@ -75,5 +108,58 @@ public class HttpManager {
                 .userSelectFriend(user_id), requestHelper, true, dataClick);
     }
 
+    public static boolean writeResponseBodyToDiskNew(String completePath, Response<ResponseBody> response, DownLoadCallback downLoadCallback) {
+        try {
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            ResponseBody body = response.body();
+            if (response.code() != 200 && response.code() != 201) {
+                return false;
+            }
+            File futureStudioIconFile = new File(completePath);//创建文件
+            File dir = new File(futureStudioIconFile.getParent());
+            if (!dir.exists()) {//如果该文件夹不存在，则进行创建  
+                dir.mkdirs();//创建文件夹  
+            }
+            try {
+                byte[] fileReader = new byte[1024];
 
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+
+                long startTime = System.currentTimeMillis();
+                int read;
+                long mProgress = 0;
+                while ((read = inputStream.read(fileReader)) != -1) {
+                    outputStream.write(fileReader, 0, read);
+                    fileSizeDownloaded += read;
+                    long progress = (long) (((float) fileSizeDownloaded / fileSize) * 100);
+                    downLoadCallback.onDownLoad("正在下载..." + progress + "%", fileSizeDownloaded >= fileSize);
+                }
+                outputStream.flush();
+                return true;
+            } catch (IOException e) {
+                LogUtils.getTag(e.getMessage() + ">>>>下载写入错误");
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            LogUtils.getTag(e.getMessage() + ">>>>下载写入错误");
+            return false;
+        }
+    }
+
+    public interface DownLoadCallback {
+        void onDownLoad(String msg, boolean finish);
+    }
 }

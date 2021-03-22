@@ -1,6 +1,8 @@
 package com.hezeyi.privatechat;
 
 
+import android.os.Environment;
+
 /**
  * Created by dab on 2018/4/11 17:40
  */
@@ -13,7 +15,11 @@ public class Const {
     }
 
     public static class FilePath {
+        public final static String TEMP_DOCUMENTS_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + MyApplication.getInstance().getPackageName() + "/";
+
         public static final String chatFileType = "chat/file";
+        public static final String chatFileLocalPath = TEMP_DOCUMENTS_PATH;
+
     }
 
     public static class Api {

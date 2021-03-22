@@ -99,6 +99,7 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
                 || item.getMsgType() == MsgType.AUDIO
                 || item.getMsgType() == MsgType.VIDEO
                 || item.getMsgType() == MsgType.FILE
+                || item.getMsgType() == MsgType.IMAGE
         ) {
             //只需要设置自己发送的状态
             int sentStatus = item.getSentStatus();
@@ -110,21 +111,9 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
                     helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, true);
                 } else if (sentStatus == MsgSendStatus.SENT) {
                     helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, false);
-                }
-            }
-        } else if (item.getMsgType()== MsgType.IMAGE) {
-            boolean isSend = item.getSenderId().equals(mSenderId);
-            if (isSend) {
-                int sentStatus = item.getSentStatus();
-                if (sentStatus == MsgSendStatus.SENDING) {
-                    helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, false);
-                } else if (sentStatus == MsgSendStatus.FAILED) {
-                    helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, true);
-                } else if (sentStatus == MsgSendStatus.SENT) {
+                } else if (sentStatus == MsgSendStatus.RECEIVE) {
                     helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, false);
                 }
-            } else {
-
             }
         }
 
@@ -146,11 +135,11 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
                 }
             }
         } else if (item.getMsgType() == (MsgType.VIDEO)) {
-            File file = new File(item.getExtra());
+            File file = new File(item.getLocalPath());
             if (file.exists()) {
-                GlideUtils.loadChatImage(mContext, item.getExtra(), (ImageView) helper.getView(R.id.bivPic));
+                GlideUtils.loadChatImage(mContext, item.getLocalPath(), (ImageView) helper.getView(R.id.bivPic));
             } else {
-                GlideUtils.loadChatImage(mContext, item.getExtra(), (ImageView) helper.getView(R.id.bivPic));
+                GlideUtils.loadChatImage(mContext, item.getLocalPath(), (ImageView) helper.getView(R.id.bivPic));
             }
         } else if (item.getMsgType() == (MsgType.FILE)) {
 

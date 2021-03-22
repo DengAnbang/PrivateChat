@@ -1,5 +1,7 @@
 package com.xhab.chatui.bean.chat;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by dab on 2021/3/19 17:50
  */
@@ -24,6 +26,7 @@ public class ChatMessage {
     //文件长度(字节)
     private long size;
     //本地文件保存路径
+    @Expose()
     private String localPath;
     //文件下载地址
     private String remoteUrl;
