@@ -1,10 +1,12 @@
 package com.hezeyi.privatechat.net;
 
 
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.utils.inteface.OnDataCallBack;
 import com.xhab.utils.net.RequestHelper;
+import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.utils.LogUtils;
 
 import java.io.File;
@@ -38,13 +40,24 @@ public class HttpManager {
 
     }
 
+    public static void fileUpload(String fileType, String filePath, final OnDataCallBack<String> dataClick) {
+        File file = new File(filePath);
+        if (file.exists()) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+            ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                    .fileUpload(fileType, part), new RequestHelperAgency(MyApplication.getInstance()), false, dataClick);
+        }
+
+    }
+
     /**
      * 下载文件
      *
      * @param fileUrl
      * @return
      */
-    public static void downloadFileNew(final String fileUrl, final String completePath, final RequestHelper requestHelper, final OnDataCallBack<Boolean> onDataClick) {
+    public static Disposable downloadFileNew(final String fileUrl, final String completePath, final OnDataCallBack<Boolean> onDataClick) {
 
         Disposable disposable = RetrofitFactory.getService(ApiService.class).downloadFile(fileUrl)
                 .subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
@@ -55,11 +68,11 @@ public class HttpManager {
                         onDataClick.onCallBack(true);
                     }
                 }), throwable -> {
-            throwable.printStackTrace();
-            onDataClick.onCallBack(false);
+                    throwable.printStackTrace();
+                    onDataClick.onCallBack(false);
 
-        });
-        requestHelper.addDisposable(disposable);
+                });
+        return disposable;
     }
 
     public static void updatesCheck(int version_code, String version_channel, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {

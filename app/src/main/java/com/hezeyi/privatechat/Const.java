@@ -34,18 +34,23 @@ public class Const {
             case "nb":
 //                return "192.168.0.102";
                 return "47.108.172.20";
+//                return "192.168.31.213";
+//                return "192.168.31.213:9090/public/file/upload";
             default:
                 return "http://192.168.31.213";
         }
     }
 
     public static class RxType {
-        public static final String CONNECTION = "connection";//连接
+        public static final String CONNECTION = "10002";//连接
         public static final String TYPE_OTHER_LOGIN = "10001";//其他人登陆
+        public static final String TypeHeartbeat = "2";//心跳
         public static final String TYPE_LOGIN = "10002"; //登录
         //消息
-        public static final String TYPE_MSG_STATUS_SEND = "20000";//状态,表示对方收到
-        public static final String TYPE_MSG_TEXT = "20001";
+        public static final String TYPE_MSG_UPDATE = "20000";//更新消息状态
+        public static final String TYPE_MSG_SEND = "20001";//发送消息
+        public static final String TYPE_MSG_RECEIVE = "20002";//接收消息
+        public static final String TYPE_MSG_ADD = "20004";//添加消息
     }
 
     public static boolean isNB() {

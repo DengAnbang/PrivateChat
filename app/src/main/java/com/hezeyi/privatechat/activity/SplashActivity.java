@@ -2,7 +2,7 @@ package com.hezeyi.privatechat.activity;
 
 import android.content.Intent;
 
-import com.hezeyi.privatechat.MyApplication;
+import com.hezeyi.privatechat.service.ChatService;
 import com.xhab.utils.base.BaseUtilActivity;
 
 /**
@@ -18,7 +18,8 @@ public class SplashActivity extends BaseUtilActivity {
     @Override
     public void initView() {
         super.initView();
-        MyApplication.getInstance().connectSocket();
+        Intent startIntent = new Intent(this, ChatService.class);
+        startService(startIntent);
         //停留1.5S进入主页
         getWindow().getDecorView().postDelayed(() -> {
             startActivity(new Intent(SplashActivity.this, GuiderActivity.class));

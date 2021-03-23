@@ -32,16 +32,22 @@ public class SocketManager {
     public static void dispense(String type, String content) {
         switch (type) {
             case Const.RxType.CONNECTION:
-                RxBus.get().post(Const.RxType.CONNECTION, content);
+                RxBus.get().post(type, content);
                 break;
             case Const.RxType.TYPE_OTHER_LOGIN:
-                RxBus.get().post(Const.RxType.TYPE_OTHER_LOGIN, content);
+                RxBus.get().post(type, content);
                 break;
-            case Const.RxType.TYPE_MSG_TEXT:
-                RxBus.get().post(Const.RxType.TYPE_MSG_TEXT, content);
+            case Const.RxType.TYPE_MSG_SEND:
+                RxBus.get().post(type, content);
                 break;
-            case Const.RxType.TYPE_MSG_STATUS_SEND:
-                RxBus.get().post(Const.RxType.TYPE_MSG_STATUS_SEND, content);
+            case Const.RxType.TYPE_MSG_UPDATE:
+                RxBus.get().post(type, content);
+                break;
+            case Const.RxType.TYPE_MSG_RECEIVE:
+                RxBus.get().post(type, content);
+                break;
+            case Const.RxType.TypeHeartbeat:
+
                 break;
         }
     }

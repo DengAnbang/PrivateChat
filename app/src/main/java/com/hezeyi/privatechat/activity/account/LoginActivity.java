@@ -9,8 +9,10 @@ import com.hezeyi.privatechat.MainActivity;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
+import com.hezeyi.privatechat.service.ChatService;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xhab.utils.utils.FunUtils;
+import com.xhab.utils.utils.SPUtils;
 
 import io.reactivex.disposables.Disposable;
 
@@ -35,7 +37,10 @@ public class LoginActivity extends BaseActivity {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         });
-
+        String account = SPUtils.getString("account", "");
+        String password = SPUtils.getString("password", "");
+        setTextViewString(R.id.et_account, account);
+        setTextViewString(R.id.et_password, password);
     }
 
     private void checkLogin() {
@@ -48,7 +53,14 @@ public class LoginActivity extends BaseActivity {
 
     private void login(String account, String password) {
         HttpManager.login(account, password, this, userMsgBean -> {
+            Intent startIntent = new Intent(this, ChatService.class);
+            startIntent.putExtra("userId", userMsgBean.getUser_id());
+            startIntent.putExtra("account", account);
+            startIntent.putExtra("password", password);
+            startService(startIntent);
             DataInMemory.getInstance().setUserMsgBean(userMsgBean);
+            SPUtils.save("account", account);
+            SPUtils.save("password", password);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();

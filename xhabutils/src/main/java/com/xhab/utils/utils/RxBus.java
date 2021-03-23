@@ -71,7 +71,7 @@ public class RxBus {
             Subject subject = maps.get(tag);
             subject.onNext(o);
         } else {
-            throw new RuntimeException("没有注册这个" + tag.toString() + "Subject");
+            LogUtils.e("post*****: " + "没有注册这个" + tag.toString() + "Subject");
         }
     }
 }

@@ -26,7 +26,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-
+def room_version = "2.2.6"
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -44,4 +44,5 @@ dependencies {
 //    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.3'
     implementation 'com.nbsp:library:1.8'
+
 }

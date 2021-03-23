@@ -23,9 +23,10 @@ import com.luck.picture.lib.tools.ToastUtils;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.xhab.chatui.R;
 import com.xhab.chatui.adapter.ChatAdapter;
+import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
-import com.xhab.chatui.bean.chat.ChatMessage;
+import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.chatui.utils.ChatUiHelper;
 import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.LogUtil;
@@ -63,6 +64,8 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     public abstract String getTargetId();
 
+    public abstract String getUserId();
+
     //发送消息
     public abstract void sendMsg(ChatMessage message);
 
@@ -88,7 +91,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         mRvChat = findViewById(R.id.rv_chat_list);
         mSwipeRefresh = findViewById(R.id.swipe_chat);
         initContent();
-
+        onRefresh();
     }
 
     public void initContent() {
@@ -236,6 +239,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         mMessgae.setSentTime(System.currentTimeMillis());
         mMessgae.setSentStatus(MsgSendStatus.SENDING);
         mMessgae.setMsgType(msgType);
+
         return mMessgae;
     }
 
@@ -245,9 +249,9 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         final ChatMessage mFileMsgBody = getBaseSendMessage(MsgType.FILE);
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDisplayName(FileUtils.getFileName(path));
-        mFileMsgBody.setSize(FileUtils.getFileLength(path));
+        mFileMsgBody.setSize(FileUtils.getFileLength(path) + "");
         //开始发送
-        mAdapter.addData(mFileMsgBody);
+        addMsg(mFileMsgBody, true);
         sendMsg(mFileMsgBody);
     }
 
@@ -255,9 +259,9 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     private void sendAudioMessage(final String path, int time) {
         final ChatMessage mFileMsgBody = getBaseSendMessage(MsgType.AUDIO);
         mFileMsgBody.setLocalPath(path);
-        mFileMsgBody.setDuration(time);
+        mFileMsgBody.setDuration(time + "");
         //开始发送
-        mAdapter.addData(mFileMsgBody);
+        addMsg(mFileMsgBody, true);
         sendMsg(mFileMsgBody);
     }
 
@@ -267,7 +271,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         final ChatMessage mTextMsgBody = getBaseSendMessage(MsgType.TEXT);
         mTextMsgBody.setMsg(hello);
         //开始发送
-        mAdapter.addData(mTextMsgBody);
+        addMsg(mTextMsgBody, true);
         sendMsg(mTextMsgBody);
     }
 
@@ -277,7 +281,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         final ChatMessage mImageMsgBody = getBaseSendMessage(MsgType.IMAGE);
         mImageMsgBody.setLocalPath(media.getCompressPath());
         //开始发送
-        mAdapter.addData(mImageMsgBody);
+        addMsg(mImageMsgBody, true);
         sendMsg(mImageMsgBody);
     }
 
@@ -312,7 +316,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
             mImageMsgBody.setLocalPath(urlpath);
 
             //开始发送
-            mAdapter.addData(mImageMsgBody);
+            addMsg(mImageMsgBody, true);
             sendMsg(mImageMsgBody);
         } catch (Exception e) {
             LogUtil.d("视频缩略图路径获取失败：" + e.toString());
@@ -336,8 +340,11 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         }
     }
 
-    public void addMsg(ChatMessage message) {
+    public void addMsg(ChatMessage message, boolean isAddDb) {
         mAdapter.addData(message);
+        if (isAddDb) {
+            ChatDatabaseHelper.get(this, getUserId()).chatDbInsert(message);
+        }
     }
 
     @Override
@@ -372,29 +379,14 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     @Override
     public void onRefresh() {
-        //下拉刷新模拟获取历史消息
-//        List<Message> mReceiveMsgList = new ArrayList<Message>();
-//        //构建文本消息
-//        Message mMessgaeText = getBaseReceiveMessage(MsgType.TEXT);
-//        TextMsgBody mTextMsgBody = new TextMsgBody();
-//        mTextMsgBody.setMsg("收到的消息");
-//        mMessgaeText.setBody(mTextMsgBody);
-//        mReceiveMsgList.add(mMessgaeText);
-//        //构建图片消息
-//        Message mMessgaeImage = getBaseReceiveMessage(MsgType.IMAGE);
-//        ImageMsgBody mImageMsgBody = new ImageMsgBody();
-//        mImageMsgBody.setThumbUrl("https://c-ssl.duitang.com/uploads/item/201208/30/20120830173930_PBfJE.thumb.700_0.jpeg");
-//        mMessgaeImage.setBody(mImageMsgBody);
-//        mReceiveMsgList.add(mMessgaeImage);
-//        //构建文件消息
-//        Message mMessgaeFile = getBaseReceiveMessage(MsgType.FILE);
-//        FileMsgBody mFileMsgBody = new FileMsgBody();
-//        mFileMsgBody.setDisplayName("收到的文件");
-//        mFileMsgBody.setSize(12);
-//        mMessgaeFile.setBody(mFileMsgBody);
-//        mReceiveMsgList.add(mMessgaeFile);
-//        mAdapter.addData(0, mReceiveMsgList);
-        mSwipeRefresh.setRefreshing(false);
+        new Thread(() -> {
+            List<ChatMessage> chatMessages = ChatDatabaseHelper.get(this, getUserId()).selectMsg(mAdapter.getData(), getSenderId(), getTargetId());
+            mSwipeRefresh.post(() -> {
+                mAdapter.addData(0, chatMessages);
+                mSwipeRefresh.setRefreshing(false);
+            });
+        }).start();
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.hezeyi.privatechat.bean;
 
 import com.google.gson.Gson;
+import com.hezeyi.privatechat.Const;
 import com.xhab.chatui.bean.chat.ChatMessage;
 
 /**
@@ -81,6 +82,15 @@ public class SocketData {
         socketData.setType(type);
         socketData.setSenderId(data.getSenderId());
         socketData.setTargetId(data.getTargetId());
+        return socketData;
+    }
+
+    public static SocketData createHeartbeat() {
+        SocketData socketData = new SocketData();
+        socketData.setCode("0");
+        socketData.setData("PING");
+        socketData.setType(Const.RxType.TypeHeartbeat);
+
         return socketData;
     }
 
