@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
 
-
+    private static final int TYPE_SYSTEM = 0;
     private static final int TYPE_SEND_TEXT = 1;
     private static final int TYPE_RECEIVE_TEXT = 2;
     private static final int TYPE_SEND_IMAGE = 3;
@@ -31,6 +31,7 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
     private static final int TYPE_SEND_AUDIO = 9;
     private static final int TYPE_RECEIVE_AUDIO = 10;
 
+
     private static final int SEND_TEXT = R.layout.item_text_send;
     private static final int RECEIVE_TEXT = R.layout.item_text_receive;
     private static final int SEND_IMAGE = R.layout.item_image_send;
@@ -41,6 +42,7 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
     private static final int RECEIVE_FILE = R.layout.item_file_receive;
     private static final int RECEIVE_AUDIO = R.layout.item_audio_receive;
     private static final int SEND_AUDIO = R.layout.item_audio_send;
+    private static final int SEND_RECEIVE_SYSTEM = R.layout.item_send_receive_system;
     /*
     private static final int SEND_LOCATION = R.layout.item_location_send;
     private static final int RECEIVE_LOCATION = R.layout.item_location_receive;*/
@@ -69,6 +71,8 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
                     return isSend ? TYPE_SEND_FILE : TYPE_RECEIVE_FILE;
                 } else if (MsgType.AUDIO == entity.getMsgType()) {
                     return isSend ? TYPE_SEND_AUDIO : TYPE_RECEIVE_AUDIO;
+                } else if (MsgType.SYSTEM == entity.getMsgType()) {
+                    return isSend ? TYPE_SYSTEM : TYPE_SYSTEM;
                 }
                 return 0;
             }
@@ -82,7 +86,8 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
                 .registerItemType(TYPE_SEND_FILE, SEND_FILE)
                 .registerItemType(TYPE_RECEIVE_FILE, RECEIVE_FILE)
                 .registerItemType(TYPE_SEND_AUDIO, SEND_AUDIO)
-                .registerItemType(TYPE_RECEIVE_AUDIO, RECEIVE_AUDIO);
+                .registerItemType(TYPE_RECEIVE_AUDIO, RECEIVE_AUDIO)
+                .registerItemType(TYPE_SYSTEM, SEND_RECEIVE_SYSTEM);
     }
 
     @Override
@@ -147,6 +152,8 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
             helper.setText(R.id.msg_tv_file_size, item.getSize() + "B");
         } else if (item.getMsgType() == (MsgType.AUDIO)) {
             helper.setText(R.id.tvDuration, item.getDuration() + "\"");
+        } else if (item.getMsgType() == (MsgType.SYSTEM)) {
+            helper.setText(R.id.chat_item_content_text, item.getMsg());
         }
     }
 

@@ -2,6 +2,7 @@ package com.hezeyi.privatechat.net.socket;
 
 
 import com.xhab.utils.utils.AESEncryptUtil;
+import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 
 import org.json.JSONException;
@@ -40,6 +41,7 @@ public class SocketDispense {
         }
         if (senderId != null) {
             String decrypt = AESEncryptUtil.decrypt(senderId.toString(), content);
+            LogUtils.e("dispense*****: " + decrypt);
             RxBus.get().post(type, decrypt);
         } else {
             RxBus.get().post(type, content);

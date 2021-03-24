@@ -4,6 +4,8 @@ import android.database.Cursor;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.UUID;
+
 
 /**
  * Created by dab on 2021/3/19 17:50
@@ -40,6 +42,9 @@ public class ChatMessage {
     private String msg;
     //////////////////////////////////视频
 
+
+    private ChatMessage() {
+    }
 
     public String getUuid() {
         return uuid;
@@ -176,6 +181,17 @@ public class ChatMessage {
         chatMessage.setRemoteUrl(cursor.getString(cursor.getColumnIndex("remoteUrl")));
         chatMessage.setMsg(cursor.getString(cursor.getColumnIndex("msg")));
 
+        return chatMessage;
+    }
+
+    public static ChatMessage getBaseSendMessage(@MsgType int msgType, String senderId, String targetId) {
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setUuid(UUID.randomUUID() + "");
+        chatMessage.setSenderId(senderId);
+        chatMessage.setTargetId(targetId);
+        chatMessage.setSentTime(System.currentTimeMillis());
+        chatMessage.setSentStatus(MsgSendStatus.SENDING);
+        chatMessage.setMsgType(msgType);
         return chatMessage;
     }
 

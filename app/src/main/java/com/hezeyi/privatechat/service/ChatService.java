@@ -106,7 +106,7 @@ public class ChatService extends Service {
     }
 
     public void loginSocket(String userId) {
-        ChatMessage data = new ChatMessage();
+        ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "");
         data.setSenderId(userId);
         String s = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
         okioSocket.send(s);

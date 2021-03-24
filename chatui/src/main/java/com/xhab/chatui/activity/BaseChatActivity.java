@@ -1,5 +1,6 @@
 package com.xhab.chatui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
@@ -39,7 +40,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -161,6 +161,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     private LinearLayout mLlAdd;//添加布局
     private LinearLayout mLlEmotion;//表情布局
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initChatUi() {
         mBtnSend = findViewById(R.id.btn_send);
         mEtContent = findViewById(R.id.et_content);
@@ -232,22 +233,9 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     }
 
 
-    private ChatMessage getBaseSendMessage(@MsgType int msgType) {
-        ChatMessage mMessgae = new ChatMessage();
-        mMessgae.setUuid(UUID.randomUUID() + "");
-        mMessgae.setSenderId(mSenderId);
-        mMessgae.setTargetId(mTargetId);
-        mMessgae.setSentTime(System.currentTimeMillis());
-        mMessgae.setSentStatus(MsgSendStatus.SENDING);
-        mMessgae.setMsgType(msgType);
-
-        return mMessgae;
-    }
-
-
     //文件消息
     private void sendFileMessage(final String path) {
-        final ChatMessage mFileMsgBody = getBaseSendMessage(MsgType.FILE);
+        ChatMessage mFileMsgBody = ChatMessage.getBaseSendMessage(MsgType.FILE, mSenderId, mTargetId);
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDisplayName(FileUtils.getFileName(path));
         mFileMsgBody.setSize(FileUtils.getFileLength(path) + "");
@@ -258,7 +246,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //语音消息
     private void sendAudioMessage(final String path, int time) {
-        final ChatMessage mFileMsgBody = getBaseSendMessage(MsgType.AUDIO);
+        ChatMessage mFileMsgBody = ChatMessage.getBaseSendMessage(MsgType.AUDIO, mSenderId, mTargetId);
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDuration(time + "");
         //开始发送
@@ -269,7 +257,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //文本消息
     private void sendTextMsg(String hello) {
-        final ChatMessage mTextMsgBody = getBaseSendMessage(MsgType.TEXT);
+        ChatMessage mTextMsgBody = ChatMessage.getBaseSendMessage(MsgType.TEXT, mSenderId, mTargetId);
         mTextMsgBody.setMsg(hello);
         //开始发送
         addMsg(mTextMsgBody, true);
@@ -279,7 +267,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //图片消息
     private void sendImageMessage(final LocalMedia media) {
-        final ChatMessage mImageMsgBody = getBaseSendMessage(MsgType.IMAGE);
+        ChatMessage mImageMsgBody = ChatMessage.getBaseSendMessage(MsgType.IMAGE, mSenderId, mTargetId);
         mImageMsgBody.setLocalPath(media.getCompressPath());
         //开始发送
         addMsg(mImageMsgBody, true);
@@ -290,7 +278,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     //视频消息
     private void sendVideoMessage(final LocalMedia media) {
         try {
-            final ChatMessage mImageMsgBody = getBaseSendMessage(MsgType.VIDEO);
+            ChatMessage mImageMsgBody = ChatMessage.getBaseSendMessage(MsgType.VIDEO, mSenderId, mTargetId);
             //生成缩略图路径
             String vedioPath = media.getRealPath() == null ? media.getPath() : media.getRealPath();
 //            String vedioPath = media.getPath();

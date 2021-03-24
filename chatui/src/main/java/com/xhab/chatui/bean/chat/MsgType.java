@@ -8,9 +8,10 @@ import androidx.annotation.IntDef;
 /**
  * 消息类型
  */
-@IntDef({MsgType.TEXT, MsgType.AUDIO, MsgType.VIDEO, MsgType.IMAGE, MsgType.FILE, MsgType.SYSTEM})
+@IntDef({MsgType.POINTLESS, MsgType.TEXT, MsgType.AUDIO, MsgType.VIDEO, MsgType.IMAGE, MsgType.FILE, MsgType.SYSTEM})
 @Retention(RetentionPolicy.SOURCE)
 public @interface MsgType {
+    int POINTLESS = -1;//无意义的消息
     int TEXT = 0;//文本消息
     int AUDIO = 1;//语音消息
     int VIDEO = 2;//视频消息

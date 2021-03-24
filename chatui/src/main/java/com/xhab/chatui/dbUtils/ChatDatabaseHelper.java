@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.xhab.chatui.bean.chat.ChatListMessage;
 import com.xhab.chatui.bean.chat.ChatMessage;
+import com.xhab.chatui.bean.chat.MsgType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class ChatDatabaseHelper {
 
 
     public void chatDbInsert(ChatMessage message) {
+        if (message.getMsgType() == MsgType.SYSTEM) return;
         String tableName = mChatDatabase.getChatTableName(message.getSenderId(), message.getTargetId());
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         ContentValues cv = new ContentValues();

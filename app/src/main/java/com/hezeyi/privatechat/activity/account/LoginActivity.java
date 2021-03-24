@@ -1,7 +1,6 @@
 package com.hezeyi.privatechat.activity.account;
 
 import android.Manifest;
-import android.content.ComponentName;
 import android.content.Intent;
 
 import com.hezeyi.privatechat.BuildConfig;
@@ -29,6 +28,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
+
         click(R.id.tv_submit, view -> requestPermissions());
         click(R.id.tv_forget, view -> {
             Intent intent = new Intent(this, ForgetActivity.class);
@@ -75,6 +75,7 @@ public class LoginActivity extends BaseActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,//存储权限
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA,
+                Manifest.permission.BLUETOOTH,
                 Manifest.permission.RECORD_AUDIO
         )
                 .subscribe(aBoolean -> {
@@ -88,20 +89,5 @@ public class LoginActivity extends BaseActivity {
         addDisposable(subscribe);
     }
 
-    /**
-     * 华为的权限管理页面
-     */
-    private void gotoHuaweiPermission() {
-        try {
-            Intent intent = new Intent();
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            ComponentName comp = new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity");//华为权限管理
-            intent.setComponent(comp);
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-//                startActivity(getAppDetailSettingIntent());
-        }
 
-    }
 }
