@@ -92,6 +92,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         mSwipeRefresh = findViewById(R.id.swipe_chat);
         initContent();
         onRefresh();
+
     }
 
     public void initContent() {
@@ -345,6 +346,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         if (isAddDb) {
             ChatDatabaseHelper.get(this, getUserId()).chatDbInsert(message);
         }
+
     }
 
     @Override
@@ -380,10 +382,11 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     @Override
     public void onRefresh() {
         new Thread(() -> {
-            List<ChatMessage> chatMessages = ChatDatabaseHelper.get(this, getUserId()).selectMsg(mAdapter.getData(), getSenderId(), getTargetId());
+            List<ChatMessage> chatMessages = ChatDatabaseHelper.get(this, getUserId()).chatMsgSelect(mAdapter.getData(), getSenderId(), getTargetId());
             mSwipeRefresh.post(() -> {
                 mAdapter.addData(0, chatMessages);
                 mSwipeRefresh.setRefreshing(false);
+                mRvChat.scrollToPosition(mAdapter.getItemCount() - 1);
             });
         }).start();
 

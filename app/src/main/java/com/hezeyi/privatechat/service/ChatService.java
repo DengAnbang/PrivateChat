@@ -9,7 +9,7 @@ import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.hezeyi.privatechat.bean.SocketData;
 import com.hezeyi.privatechat.net.HttpManager;
-import com.hezeyi.privatechat.net.SocketManager;
+import com.hezeyi.privatechat.net.socket.SocketDispense;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
@@ -33,6 +33,7 @@ public class ChatService extends Service {
     private boolean isConnection;
 
     public ChatService() {
+
         okioSocket = new OkioSocket();
         initSocket();
         connectSocket();
@@ -42,7 +43,7 @@ public class ChatService extends Service {
 
 
     private void initSocket() {
-        Disposable subscribe4 = Observable.interval(8, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        Disposable subscribe4 = Observable.interval(15, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
                 okioSocket.send(s);
@@ -50,10 +51,13 @@ public class ChatService extends Service {
         });
 
         Disposable subscribe5 = RxBus.get().register(Const.RxType.CONNECTION, Object.class).subscribe(s -> {
-            isConnection = false;
+            isConnection = true;
+            if (mUserId != null) {
+                loginSocket(mUserId);
+            }
         });
 
-        okioSocket.setOnMessageChange(SocketManager::parseJson);
+        okioSocket.setOnMessageChange(SocketDispense::parseJson);
         //接收消息
         Disposable subscribe = RxBus.get().register(Const.RxType.TYPE_MSG_RECEIVE, String.class).subscribe(s -> {
             ChatMessage message = new Gson().fromJson(s, ChatMessage.class);
@@ -96,7 +100,9 @@ public class ChatService extends Service {
     }
 
     public void connectSocket() {
-        okioSocket.connect(Const.Api.SOCKET_SERVER, Const.Api.SOCKET_PORT);
+        if (!okioSocket.isConnect()) {
+            okioSocket.connect(Const.Api.SOCKET_SERVER, Const.Api.SOCKET_PORT);
+        }
     }
 
     public void loginSocket(String userId) {

@@ -16,6 +16,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
     public ChatDatabase(Context context, String user_id) {
         super(context, name, null, dbVersion);
         this.user_id = user_id;
+        initChatListDatabase("chat_" + user_id);
     }
 
     @Override
@@ -23,7 +24,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
 
     }
 
-    public String getTableName(String senderId, String targetId) {
+    public String getChatTableName(String senderId, String targetId) {
         String s;
         if (user_id.equals(senderId)) {
             s = "chat_" + senderId + "_to_" + targetId;
@@ -32,6 +33,12 @@ public class ChatDatabase extends SQLiteOpenHelper {
         }
 
         initChatDatabase(s);
+        return s;
+    }
+
+    public String getChatListTableName() {
+        String s = "chat_" + user_id;
+        initChatListDatabase(s);
         return s;
     }
 
@@ -51,6 +58,26 @@ public class ChatDatabase extends SQLiteOpenHelper {
             stringBuilder.append(",size varchar(20)");
             stringBuilder.append(",localPath varchar(255)");
             stringBuilder.append(",remoteUrl varchar(255)");
+            stringBuilder.append(",extra text");
+            stringBuilder.append(",msg text");
+            stringBuilder.append(")");
+            //创建数据库sql语句 并 执行
+            getWritableDatabase().execSQL(stringBuilder.toString());
+        }
+    }
+
+    private void initChatListDatabase(String tableName) {
+        if (!TextUtils.isEmpty(tableName)) {
+            StringBuilder stringBuilder = new StringBuilder("create table if not exists ");
+            stringBuilder.append(tableName);
+            stringBuilder.append("(id integer primary key autoincrement");
+            stringBuilder.append(",target_id varchar(20)");
+            stringBuilder.append(",msgType integer");
+            stringBuilder.append(",target_name varchar(255)");
+            stringBuilder.append(",target_portrait varchar(255)");
+            stringBuilder.append(",sentTime integer");
+            stringBuilder.append(",unread integer");
+            stringBuilder.append(",is_group integer");
             stringBuilder.append(",extra text");
             stringBuilder.append(",msg text");
             stringBuilder.append(")");

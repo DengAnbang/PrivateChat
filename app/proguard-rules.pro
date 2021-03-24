@@ -211,3 +211,7 @@
 
 -keep class com.xhab.chatui.bean.** { *; }
 
+
+-keep class com.easysocket.entity.basemsg.** { *; }
+-keep class com.easysocket.entity.OriginReadData
+

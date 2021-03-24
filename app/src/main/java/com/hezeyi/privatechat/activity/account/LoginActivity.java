@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
 
+import com.hezeyi.privatechat.BuildConfig;
 import com.hezeyi.privatechat.DataInMemory;
 import com.hezeyi.privatechat.MainActivity;
 import com.hezeyi.privatechat.R;
@@ -41,6 +42,7 @@ public class LoginActivity extends BaseActivity {
         String password = SPUtils.getString("password", "");
         setTextViewString(R.id.et_account, account);
         setTextViewString(R.id.et_password, password);
+        setTextViewString(R.id.tv_version, "版本号:v" + BuildConfig.VERSION_NAME);
     }
 
     private void checkLogin() {

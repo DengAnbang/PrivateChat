@@ -29,9 +29,12 @@ public abstract class BaseGuiderUtilActivity extends BaseUtilActivity {
 
     public abstract void next();
 
+    public abstract void isFirst();
+
     @Override
     public void initView() {
         super.initView();
+        isFirst();
         ViewPager viewPager = findViewById(R.id.viewpager);
         GuideAdapter guideAdapter = new GuideAdapter(setImages());
         viewPager.setAdapter(guideAdapter);

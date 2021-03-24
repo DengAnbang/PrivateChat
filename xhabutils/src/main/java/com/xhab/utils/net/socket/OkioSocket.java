@@ -46,6 +46,10 @@ public class OkioSocket implements Closeable {
     private final Handler mHandler;
     private boolean isClose;// 是否关闭
 
+    public boolean isConnect() {
+        return isConnect;
+    }
+
     /**
      * 设置是否可以连接(马上会尝试连接)
      *

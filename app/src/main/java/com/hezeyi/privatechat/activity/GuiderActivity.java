@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.xhab.utils.base.BaseGuiderUtilActivity;
+import com.xhab.utils.utils.SPUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,5 +24,16 @@ public class GuiderActivity extends BaseGuiderUtilActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void isFirst() {
+        boolean notFirst = SPUtils.getBoolean("notFirst");
+        if (!notFirst) {
+            SPUtils.save("notFirst", true);
+        } else {
+            next();
+
+        }
     }
 }

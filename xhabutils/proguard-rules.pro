@@ -23,3 +23,6 @@
 -keep class me.devilsen.czxing.**
 -keep class me.devilsen.czxing.** { *; }
 -keep class com.xhab.utils.bean.** { *; }
+
+-keep class com.easysocket.entity.basemsg.** { *; }
+-keep class com.easysocket.entity.OriginReadData

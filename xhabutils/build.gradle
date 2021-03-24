@@ -54,6 +54,7 @@ dependencies {
 //    implementation 'me.devilsen:czxing:1.0.0'
     //拼音库
     implementation 'com.github.SilenceDut:jpinyin:v1.0'
+
 }
 repositories {
     mavenCentral()

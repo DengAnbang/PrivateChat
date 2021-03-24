@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.xhab.chatui.bean.chat.ChatListMessage;
 import com.xhab.chatui.bean.chat.ChatMessage;
 
 import java.util.ArrayList;
@@ -34,8 +35,9 @@ public class ChatDatabaseHelper {
         return instance;
     }
 
+
     public void chatDbInsert(ChatMessage message) {
-        String tableName = mChatDatabase.getTableName(message.getSenderId(), message.getTargetId());
+        String tableName = mChatDatabase.getChatTableName(message.getSenderId(), message.getTargetId());
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("uuid", message.getUuid());
@@ -58,27 +60,43 @@ public class ChatDatabaseHelper {
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("sentStatus", sentStatus);
-        String tableName = mChatDatabase.getTableName(senderId, targetId);
+        String tableName = mChatDatabase.getChatTableName(senderId, targetId);
         long insert = writableDatabase.update(tableName, cv, "uuid = ?", new String[]{uuid});
-
     }
 
-    public List<ChatMessage> selectMsg(List<ChatMessage> oldChatMessages, String senderId, String targetId) {
+    public List<ChatMessage> chatMsgSelect(List<ChatMessage> oldChatMessages, String senderId, String targetId) {
         long lastSendTime = System.currentTimeMillis();
         if (oldChatMessages.size() > 0) {
             lastSendTime = oldChatMessages.get(0).getSentTime();
         }
         List<ChatMessage> chatMessages = new ArrayList<>();
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
-        String tableName = mChatDatabase.getTableName(senderId, targetId);
+        String tableName = mChatDatabase.getChatTableName(senderId, targetId);
 //        Cursor cursor = writableDatabase.rawQuery("select * from " + tableName + " WHERE senderId= ? AND sentTime < ? limit ? offset ?  order by sentTime desc", new String[]{mChatDatabase.getSenderId(), lastSendTime + "", oldChatMessages.size() + "", "5"});
         Cursor cursor = writableDatabase.rawQuery("select * from " + tableName + " WHERE  sentTime < ? ", new String[]{lastSendTime + ""});
         while (cursor.moveToNext()) {
             ChatMessage chatMessage1 = ChatMessage.create(cursor);
             chatMessages.add(chatMessage1);
-
         }
         cursor.close();
         return chatMessages;
+    }
+
+
+    public void chatListDbInsert(ChatListMessage message) {
+        String chatListTableName = mChatDatabase.getChatListTableName();
+        SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("target_id", message.getTarget_id());
+        cv.put("msgType", message.getMsgType());
+        cv.put("target_name", message.getTarget_name());
+        cv.put("target_portrait", message.getTarget_portrait());
+        cv.put("sentTime", message.getSentTime());
+        cv.put("unread", message.getUnread());
+        cv.put("is_group", message.getIs_group());
+        cv.put("extra", message.getExtra());
+        cv.put("msg", message.getMsg());
+        long insert = writableDatabase.insert(chatListTableName, null, cv);
+        Log.e("555555555555", "chatListDbInsert: " + insert);
     }
 }

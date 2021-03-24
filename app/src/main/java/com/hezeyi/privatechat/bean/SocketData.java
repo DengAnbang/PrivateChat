@@ -3,6 +3,7 @@ package com.hezeyi.privatechat.bean;
 import com.google.gson.Gson;
 import com.hezeyi.privatechat.Const;
 import com.xhab.chatui.bean.chat.ChatMessage;
+import com.xhab.utils.utils.AESEncryptUtil;
 
 /**
  * Created by dab on 2018/1/4 0004 13:35
@@ -78,7 +79,8 @@ public class SocketData {
     public static SocketData create(String code, String type, ChatMessage data) {
         SocketData socketData = new SocketData();
         socketData.setCode(code);
-        socketData.setData(new Gson().toJson(data));
+        String encrypt = AESEncryptUtil.encrypt(data.getSenderId(), new Gson().toJson(data));
+        socketData.setData(encrypt);
         socketData.setType(type);
         socketData.setSenderId(data.getSenderId());
         socketData.setTargetId(data.getTargetId());
