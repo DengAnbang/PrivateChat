@@ -86,11 +86,43 @@ public interface ApiService {
 
     @POST("/app/user/select/by/id")
     Observable<ResultData<UserMsgBean>> userSelectById(
-            @Query("user_id") String account
+            @Query("user_id") String user_id
     );
 
     @POST("/app/user/select/friend")
     Observable<ResultData<List<UserMsgBean>>> userSelectFriend(
             @Query("user_id") String account
+    );
+
+    @POST("/app/group/register")
+    Observable<ResultData<Object>> groupRegister(
+            @Query("user_id") String user_id
+    );
+
+    @POST("/app/group/add/user")
+    Observable<ResultData<Object>> groupAddUser(
+            @Query("user_id") String user_id,
+            @Query("group_id") String group_id
+    );
+
+    @POST("/app/group/remove/user")
+    Observable<ResultData<Object>> groupRemoveUser(
+            @Query("user_id") String user_id,
+            @Query("group_id") String group_id
+    );
+
+    @POST("/app/group/select/list")
+    Observable<ResultData<Object>> groupSelectList(
+            @Query("user_id") String user_id
+    );
+
+    @POST("/app/group/select/user")
+    Observable<ResultData<Object>> groupSelectUser(
+            @Query("group_id") String group_id
+    );
+
+    @POST("/app/group/select/user/msg")
+    Observable<ResultData<Object>> groupSelectUserMsg(
+            @Query("group_id") String group_id
     );
 }

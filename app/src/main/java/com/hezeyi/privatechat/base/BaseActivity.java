@@ -10,4 +10,5 @@ public abstract class BaseActivity extends BaseUtilActivity {
     public void setTitleString(String titleString) {
         setTextViewString(R.id.tv_title, titleString);
     }
+
 }

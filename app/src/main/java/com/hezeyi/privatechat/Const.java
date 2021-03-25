@@ -9,9 +9,10 @@ import android.os.Environment;
 
 public class Const {
     public static class Sp {
-        public static final String BaseUrl = "baseUrl";
-        public static final String UserPhone = "UserPhone";
-        public static final String UserPwd = "UserPwd";
+        public static final String account = "account";
+        public static final String password = "password";
+        public static final String SecurityCode = "SecurityCode";
+        public static final String isOpenSecurityCode =  "isOpenSecurityCode";
     }
 
     public static class FilePath {
@@ -33,8 +34,8 @@ public class Const {
         switch (BuildConfig.FLAVOR) {
             case "nb":
 //                return "192.168.0.102";
-//                return "47.108.172.20";
-                return "192.168.155.2";
+                return "47.108.172.20";
+//                return "192.168.155.2";
 //                return "192.168.31.213:9090/public/file/upload";
             default:
                 return "192.168.31.213";

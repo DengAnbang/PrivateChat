@@ -51,29 +51,6 @@ public class HttpManager {
 
     }
 
-    /**
-     * 下载文件
-     *
-     * @param fileUrl
-     * @return
-     */
-    public static Disposable downloadFileNew(final String fileUrl, final String completePath, final OnDataCallBack<Boolean> onDataClick) {
-
-        Disposable disposable = RetrofitFactory.getService(ApiService.class).downloadFile(fileUrl)
-                .subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
-                .subscribe(responseBodyResponse -> writeResponseBodyToDiskNew(completePath, responseBodyResponse, (msg, finish) -> {
-                    if (!finish) {
-
-                    } else {
-                        onDataClick.onCallBack(true);
-                    }
-                }), throwable -> {
-                    throwable.printStackTrace();
-                    onDataClick.onCallBack(false);
-
-                });
-        return disposable;
-    }
 
     public static void updatesCheck(int version_code, String version_channel, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
@@ -121,7 +98,62 @@ public class HttpManager {
                 .userSelectFriend(user_id), requestHelper, true, dataClick);
     }
 
-    public static boolean writeResponseBodyToDiskNew(String completePath, Response<ResponseBody> response, DownLoadCallback downLoadCallback) {
+    public static void groupRegister(String user_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .groupRegister(user_id), requestHelper, true, dataClick);
+    }
+
+    public static void groupAddUser(String user_id, String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .groupAddUser(user_id, group_id), requestHelper, true, dataClick);
+    }
+
+    public static void groupRemoveUser(String user_id, String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .groupRemoveUser(user_id, group_id), requestHelper, true, dataClick);
+    }
+
+
+    public static void groupSelectList(String user_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .groupSelectList(user_id), requestHelper, true, dataClick);
+    }
+
+    public static void groupSelectUser(String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .groupSelectUser(group_id), requestHelper, true, dataClick);
+    }
+
+    public static void groupSelectUserMsg(String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .groupSelectUserMsg(group_id), requestHelper, true, dataClick);
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param fileUrl
+     * @return
+     */
+    public static Disposable downloadFileNew(final String fileUrl, final String completePath, final OnDataCallBack<Boolean> onDataClick) {
+
+        Disposable disposable = RetrofitFactory.getService(ApiService.class).downloadFile(fileUrl)
+                .subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+                .subscribe(responseBodyResponse -> writeResponseBodyToDiskNew(completePath, responseBodyResponse, (msg, finish) -> {
+                    if (!finish) {
+
+                    } else {
+                        onDataClick.onCallBack(true);
+                    }
+                }), throwable -> {
+                    throwable.printStackTrace();
+                    onDataClick.onCallBack(false);
+
+                });
+        return disposable;
+    }
+
+    private static boolean writeResponseBodyToDiskNew(String completePath, Response<ResponseBody> response, DownLoadCallback downLoadCallback) {
         try {
             InputStream inputStream = null;
             OutputStream outputStream = null;

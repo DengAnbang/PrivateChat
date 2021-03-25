@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 
 import com.hezeyi.privatechat.BuildConfig;
+import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.DataInMemory;
 import com.hezeyi.privatechat.MainActivity;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
@@ -38,8 +40,8 @@ public class LoginActivity extends BaseActivity {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         });
-        String account = SPUtils.getString("account", "");
-        String password = SPUtils.getString("password", "");
+        String account = SPUtils.getString(Const.Sp.account, "");
+        String password = SPUtils.getString(Const.Sp.password, "");
         setTextViewString(R.id.et_account, account);
         setTextViewString(R.id.et_password, password);
         setTextViewString(R.id.tv_version, "版本号:v" + BuildConfig.VERSION_NAME);
@@ -61,8 +63,9 @@ public class LoginActivity extends BaseActivity {
             startIntent.putExtra("password", password);
             startService(startIntent);
             DataInMemory.getInstance().setUserMsgBean(userMsgBean);
-            SPUtils.save("account", account);
-            SPUtils.save("password", password);
+            SPUtils.save(Const.Sp.account, account);
+            SPUtils.save(Const.Sp.password, password);
+            MyApplication.getInstance().setLock(true);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();

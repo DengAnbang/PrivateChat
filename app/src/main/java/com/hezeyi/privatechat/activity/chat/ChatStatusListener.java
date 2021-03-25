@@ -22,7 +22,7 @@ public class ChatStatusListener {
 
     }
 
-    protected void onResume() {
+    public void onResume() {
 
         BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
         if (blueadapter != null) {
@@ -40,7 +40,7 @@ public class ChatStatusListener {
         mContext.registerReceiver(mReceiver, intentFilter);
     }
 
-    protected void onPause() {
+    public void onPause() {
         stopScreenShotListen();
         mContext.unregisterReceiver(mReceiver);
     }

@@ -10,6 +10,7 @@
 
 
     <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_is_open"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
@@ -25,10 +26,10 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         app:rightGravity="right"
         app:rightText="退出后立即锁定"
-        app:rightTextColor="@color/czxing_black"
         />
 
     <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_set_security_code"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"

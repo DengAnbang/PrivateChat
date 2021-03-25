@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.xhab.utils.R;
 
+import androidx.annotation.DrawableRes;
+
 /**
  * Created by dab on 2021/3/9 18:13
  */
@@ -109,6 +111,10 @@ public class TwoTextLinearView extends LinearLayout {
 
     public TextView getRightTextView() {
         return rightView;
+    }
+
+    public void setRightDrawable(@DrawableRes int drawableRight) {
+        rightView.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableRight, 0);
     }
 
     /**
