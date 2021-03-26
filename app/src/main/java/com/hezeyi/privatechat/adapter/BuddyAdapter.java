@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hezeyi.privatechat.R;
-import com.hezeyi.privatechat.bean.UserMsgBean;
+import com.hezeyi.privatechat.inteface.BuddyShowAble;
 import com.xhab.utils.inteface.OnItemClickListener;
 
 import java.util.List;
@@ -18,20 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Created by dab on 2021/3/17 10:10
  */
-public class BuddyAdapter extends RecyclerView.Adapter<BuddyAdapter.ViewHolder> {
-    private List<UserMsgBean> mUserMsgBeans;
-    private OnItemClickListener<UserMsgBean> mOnItemClickListener;
+public class BuddyAdapter<T extends BuddyShowAble> extends RecyclerView.Adapter<BuddyAdapter.ViewHolder> {
+    private List<T> mDataList;
+    private OnItemClickListener<T> mOnItemClickListener;
 
-    public void setOnItemClickListener(OnItemClickListener<UserMsgBean> onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
 
-    public List<UserMsgBean> getUserMsgBeans() {
-        return mUserMsgBeans;
+    public List<T> getDataList() {
+        return mDataList;
     }
 
-    public void setUserMsgBeans(List<UserMsgBean> userMsgBeans) {
-        mUserMsgBeans = userMsgBeans;
+    public void setDataList(List<T> dataList) {
+        mDataList = dataList;
         notifyDataSetChanged();
     }
 
@@ -43,18 +43,18 @@ public class BuddyAdapter extends RecyclerView.Adapter<BuddyAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull BuddyAdapter.ViewHolder holder, int position) {
-        UserMsgBean userMsgBean = mUserMsgBeans.get(position);
-        holder.mTvName.setText(userMsgBean.getUser_name());
+        T t = mDataList.get(position);
+        holder.mTvName.setText(t.getShowName());
         if (mOnItemClickListener != null) {
             holder.mView.setOnClickListener(view -> {
-                mOnItemClickListener.onItemClick(view, position, userMsgBean);
+                mOnItemClickListener.onItemClick(view, position, t);
             });
         }
     }
 
     @Override
     public int getItemCount() {
-        return mUserMsgBeans == null ? 0 : mUserMsgBeans.size();
+        return mDataList == null ? 0 : mDataList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

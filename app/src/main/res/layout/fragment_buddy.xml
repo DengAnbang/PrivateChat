@@ -31,6 +31,7 @@
             android:src="@mipmap/d1_icon1"/>
 
         <TextView
+            android:id="@+id/tv_group"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"

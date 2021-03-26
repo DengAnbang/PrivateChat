@@ -6,8 +6,10 @@ import android.view.View;
 import com.hezeyi.privatechat.DataInMemory;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.chat.ChatActivity;
+import com.hezeyi.privatechat.activity.chat.ChatGroupActivity;
 import com.hezeyi.privatechat.adapter.BuddyAdapter;
 import com.hezeyi.privatechat.base.BaseFragment;
+import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.utils.view.SuspendDecoration;
 import com.xhab.utils.view.WaveSideBar;
@@ -28,7 +30,7 @@ public class BuddyFragment extends BaseFragment {
         return R.layout.fragment_buddy;
     }
 
-    private BuddyAdapter mBuddyAdapter = new BuddyAdapter();
+    private BuddyAdapter<UserMsgBean> mBuddyAdapter = new BuddyAdapter<>();
     private boolean isChange;
 
     @Override
@@ -47,6 +49,7 @@ public class BuddyFragment extends BaseFragment {
 
     @Override
     public void onFirstVisibleToUser(View view) {
+        setTitleString("通讯录");
         RecyclerView recyclerView = view.findViewById(R.id.rv_content);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -54,18 +57,18 @@ public class BuddyFragment extends BaseFragment {
         recyclerView.addItemDecoration(new SuspendDecoration(getActivity()) {
             @Override
             public boolean isSameGroup(int priorGroupId, int nowGroupId) throws Exception {
-                return Objects.equals(mBuddyAdapter.getUserMsgBeans().get(priorGroupId).getSortableString(), mBuddyAdapter.getUserMsgBeans().get(nowGroupId).getSortableString());
+                return Objects.equals(mBuddyAdapter.getDataList().get(priorGroupId).getSortableString(), mBuddyAdapter.getDataList().get(nowGroupId).getSortableString());
             }
 
             @Override
             public String showTitle(int position) throws Exception {
-                return mBuddyAdapter.getUserMsgBeans().get(position).getInitial();
+                return mBuddyAdapter.getDataList().get(position).getInitial();
             }
         });
         WaveSideBar waveSideBar = view.findViewById(R.id.side_bar);
         waveSideBar.setOnSelectIndexItemListener(index -> {
-            for (int i = 0; i < mBuddyAdapter.getUserMsgBeans().size(); i++) {
-                if (mBuddyAdapter.getUserMsgBeans().get(i).getSortableString().equals(index)) {
+            for (int i = 0; i < mBuddyAdapter.getDataList().size(); i++) {
+                if (mBuddyAdapter.getDataList().get(i).getSortableString().equals(index)) {
                     layoutManager.scrollToPositionWithOffset(i, 0);
                     return;
                 }
@@ -79,18 +82,21 @@ public class BuddyFragment extends BaseFragment {
             intent.putExtra("userId", userMsgBean.getUser_id());
             intent.putExtra("senderId", user_id);
             intent.putExtra("targetId", userMsgBean.getUser_id());
-//            intent.putExtra("senderId", user_id);
-//            intent.putExtra("targetId", userMsgBean.getUser_id());
             startActivity(intent);
         });
-
+        click(R.id.tv_group, v -> {
+            String user_id = DataInMemory.getInstance().getUserMsgBean().getUser_id();
+            Intent intent = new Intent(getActivity(), ChatGroupActivity.class);
+            intent.putExtra("userId", user_id);
+            startActivity(intent);
+        });
         getUserList();
     }
 
     private void getUserList() {
         String user_id = DataInMemory.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
-            mBuddyAdapter.setUserMsgBeans(userMsgBeans);
+            mBuddyAdapter.setDataList(userMsgBeans);
         });
     }
 }

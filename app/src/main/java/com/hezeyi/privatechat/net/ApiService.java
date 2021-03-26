@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat.net;
 
+import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -95,7 +96,7 @@ public interface ApiService {
     );
 
     @POST("/app/group/register")
-    Observable<ResultData<Object>> groupRegister(
+    Observable<ResultData<ChatGroupBean>> groupRegister(
             @Query("user_id") String user_id
     );
 
@@ -112,17 +113,17 @@ public interface ApiService {
     );
 
     @POST("/app/group/select/list")
-    Observable<ResultData<Object>> groupSelectList(
+    Observable<ResultData<List<ChatGroupBean>>> groupSelectList(
             @Query("user_id") String user_id
     );
 
     @POST("/app/group/select/user")
-    Observable<ResultData<Object>> groupSelectUser(
+    Observable<ResultData<List<ChatGroupBean>>> groupSelectUser(
             @Query("group_id") String group_id
     );
 
     @POST("/app/group/select/user/msg")
-    Observable<ResultData<Object>> groupSelectUserMsg(
+    Observable<ResultData<List<UserMsgBean>>> groupSelectUserMsg(
             @Query("group_id") String group_id
     );
 }

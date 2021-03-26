@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat.bean;
 
+import com.hezeyi.privatechat.inteface.BuddyShowAble;
 import com.xhab.utils.bean.Sortable;
 
 import androidx.annotation.NonNull;
@@ -7,7 +8,7 @@ import androidx.annotation.NonNull;
 /**
  * Created by dab on 2021/3/8 21:36
  */
-public class UserMsgBean extends Sortable {
+public class UserMsgBean extends Sortable implements BuddyShowAble {
 
     /**
      * user_name :
@@ -67,5 +68,15 @@ public class UserMsgBean extends Sortable {
     @Override
     public String getSortableString() {
         return user_name;
+    }
+
+    @Override
+    public String getShowName() {
+        return user_name == null ? "" : user_name;
+    }
+
+    @Override
+    public String getShowPortrait() {
+        return head_portrait == null ? "" : head_portrait;
     }
 }

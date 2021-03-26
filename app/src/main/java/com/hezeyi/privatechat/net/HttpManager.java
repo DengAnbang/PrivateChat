@@ -2,6 +2,7 @@ package com.hezeyi.privatechat.net;
 
 
 import com.hezeyi.privatechat.MyApplication;
+import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.utils.inteface.OnDataCallBack;
@@ -98,7 +99,7 @@ public class HttpManager {
                 .userSelectFriend(user_id), requestHelper, true, dataClick);
     }
 
-    public static void groupRegister(String user_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void groupRegister(String user_id, final RequestHelper requestHelper, final OnDataCallBack<ChatGroupBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .groupRegister(user_id), requestHelper, true, dataClick);
     }
@@ -114,17 +115,17 @@ public class HttpManager {
     }
 
 
-    public static void groupSelectList(String user_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void groupSelectList(String user_id, final RequestHelper requestHelper, final OnDataCallBack<List<ChatGroupBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .groupSelectList(user_id), requestHelper, true, dataClick);
     }
 
-    public static void groupSelectUser(String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void groupSelectUser(String group_id, final RequestHelper requestHelper, final OnDataCallBack<List<ChatGroupBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .groupSelectUser(group_id), requestHelper, true, dataClick);
     }
 
-    public static void groupSelectUserMsg(String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void groupSelectUserMsg(String group_id, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .groupSelectUserMsg(group_id), requestHelper, true, dataClick);
     }

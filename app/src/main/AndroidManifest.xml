@@ -104,6 +104,7 @@
         <activity android:name=".activity.account.SecurityQuestionVerifyActivity"/>
         <activity android:name=".activity.account.UserDetailsActivity"/>
         <activity android:name=".activity.LockActivity"/>
+        <activity android:name=".activity.chat.ChatGroupActivity"/>
     </application>
 
 </manifest>

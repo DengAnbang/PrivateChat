@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
  * senderId
  * targetId
  * userId
+ * isGroup 是否是群
  */
 public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     @Override

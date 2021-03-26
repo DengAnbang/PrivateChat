@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="78dp"
-              android:background="@color/colorPrimaryDark"
-              android:fitsSystemWindows="true"
-              android:orientation="horizontal">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:background="@color/colorPrimaryDark"
+                android:fitsSystemWindows="true"
+    >
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textColor="@color/just_color_ffffff"
         android:textSize="18dp"
         tools:text="这是标题"/>
 
-</LinearLayout>
+    <TextView
+        android:paddingTop="10dp"
+        android:id="@+id/tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:paddingRight="12dp"
+        android:textColor="@color/just_color_ffffff"
+        android:textSize="14dp"
+        tools:text="创建群"/>
+
+</RelativeLayout>
