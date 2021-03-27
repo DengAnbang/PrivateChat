@@ -33,6 +33,9 @@ public class LoginActivity extends BaseActivity {
 
         click(R.id.tv_submit, view -> requestPermissions());
         click(R.id.tv_forget, view -> {
+//            Intent intent = new Intent(this, ChatGroupMsgActivity.class);
+//            intent.putExtra("group_id", getIntent().getStringExtra("targetId"));
+//            startActivity(intent);
             Intent intent = new Intent(this, ForgetActivity.class);
             startActivity(intent);
         });

@@ -91,7 +91,7 @@ public class SocketData {
         SocketData socketData = new SocketData();
         socketData.setCode("0");
         socketData.setData("PING");
-        socketData.setType(Const.RxType.TypeHeartbeat);
+        socketData.setType(Const.RxType.TYPE_HEARTBEAT);
 
         return socketData;
     }

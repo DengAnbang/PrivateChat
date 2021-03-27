@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-
-    <View android:layout_width="match_parent"
-        android:background="#fff"
-        android:visibility="gone"
-        android:layout_height="20dp"/>
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/common_toolbar"
@@ -19,23 +13,14 @@
         android:background="#fff"
         app:contentInsetStart="0dp">
 
-
-        <RelativeLayout
-            android:id="@+id/common_toolbar_back"
+        <ImageView
+            android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-              >
+            android:padding="15dp"
+            android:src="@mipmap/ic_title_back"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="30px"
-                android:layout_marginRight="30px"
-                android:src="@mipmap/ic_title_back" />
-
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/common_toolbar_title"
@@ -47,10 +32,16 @@
             android:singleLine="true"
             android:text="联系人"
             android:textColor="#333"
-             android:textSize="16dp" />
+            android:textSize="16dp"/>
 
-
-
+        <ImageView
+            android:id="@+id/iv_msg"
+            android:scaleType="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:padding="15dp"
+            android:src="@mipmap/tab_wode1"/>
     </RelativeLayout>
 
 </LinearLayout>

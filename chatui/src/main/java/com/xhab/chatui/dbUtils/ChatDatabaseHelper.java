@@ -42,18 +42,7 @@ public class ChatDatabaseHelper {
         String tableName = mChatDatabase.getChatTableName(message.getSenderId(), message.getTargetId());
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("uuid", message.getUuid());
-        cv.put("msgType", message.getMsgType());
-        cv.put("sentStatus", message.getSentStatus());
-        cv.put("senderId", message.getSenderId());
-        cv.put("targetId", message.getTargetId());
-        cv.put("sentTime", message.getSentTime());
-        cv.put("duration", message.getDuration());
-        cv.put("displayName", message.getDisplayName());
-        cv.put("size", message.getSize());
-        cv.put("localPath", message.getLocalPath());
-        cv.put("remoteUrl", message.getRemoteUrl());
-        cv.put("msg", message.getMsg());
+        ChatMessage.setContentValues(cv, message);
         long insert = writableDatabase.insert(tableName, null, cv);
         Log.e("555555555555", "chatDbInsert: " + insert);
     }

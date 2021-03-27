@@ -56,6 +56,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
             stringBuilder.append(",duration varchar(20)");
             stringBuilder.append(",displayName varchar(255)");
             stringBuilder.append(",size varchar(20)");
+            stringBuilder.append(",isGroup integer");
             stringBuilder.append(",localPath varchar(255)");
             stringBuilder.append(",remoteUrl varchar(255)");
             stringBuilder.append(",extra text");

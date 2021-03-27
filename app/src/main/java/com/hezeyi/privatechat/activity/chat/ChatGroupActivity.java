@@ -8,7 +8,7 @@ import com.hezeyi.privatechat.adapter.BuddyAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.net.HttpManager;
-import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.ToastUtil;
 import com.xhab.utils.view.SuspendDecoration;
 import com.xhab.utils.view.WaveSideBar;
 
@@ -76,6 +76,7 @@ public class ChatGroupActivity extends BaseActivity {
             intent.putExtra("senderId", user_id);
             intent.putExtra("targetId", userMsgBean.getGroup_id());
             intent.putExtra("isGroup", true);
+            intent.putExtra("isGroupAdmin", userMsgBean.getUser_type().equals("1"));
             startActivity(intent);
         });
 
@@ -87,7 +88,8 @@ public class ChatGroupActivity extends BaseActivity {
         setRightTitleString("创建群", v -> {
             String userId = getIntent().getStringExtra("userId");
             HttpManager.groupRegister(userId, this, o -> {
-                LogUtils.e("initEvent*****: " + o.getGroup_name());
+                ToastUtil.showToast("创建成功!");
+                finish();
             });
         });
     }

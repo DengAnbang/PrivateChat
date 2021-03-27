@@ -210,7 +210,13 @@
 -keep class com.xhab.utils.bean.** { *; }
 
 -keep class com.xhab.chatui.bean.** { *; }
-
+-dontwarn com.juphoon.*
+-keep class com.juphoon.**{*;}
+#//底层sdk
+-dontwarn com.justalk.*
+-keep class com.justalk.**{*;}
+-keepattributes InnerClasses
+-keep class **.R$* {*;}
 
 -keep class com.easysocket.entity.basemsg.** { *; }
 -keep class com.easysocket.entity.OriginReadData

@@ -6,5 +6,7 @@ package com.hezeyi.privatechat.inteface;
 public interface BuddyShowAble {
     String getShowName();
 
+    String getId();
+
     String getShowPortrait();
 }

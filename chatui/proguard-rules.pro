@@ -20,3 +20,11 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep com.xhab.chatui.bean.** { *; }
+
+-dontwarn com.juphoon.*
+-keep class com.juphoon.**{*;}
+#//底层sdk
+-dontwarn com.justalk.*
+-keep class com.justalk.**{*;}
+-keepattributes InnerClasses
+-keep class **.R$* {*;}

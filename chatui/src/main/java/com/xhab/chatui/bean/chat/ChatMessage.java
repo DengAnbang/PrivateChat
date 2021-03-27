@@ -1,5 +1,6 @@
 package com.xhab.chatui.bean.chat;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.google.gson.annotations.Expose;
@@ -40,6 +41,7 @@ public class ChatMessage {
     private String extra;//视频消息的时候,是视频完整的源地址
     ///////////////////////////////////////////文件
     private String msg;
+    private boolean isGroup;//是群消息
     //////////////////////////////////视频
 
 
@@ -156,12 +158,19 @@ public class ChatMessage {
     }
 
     public String getMsg() {
-
         return msg;
     }
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public boolean isGroup() {
+        return isGroup;
+    }
+
+    public void setGroup(boolean group) {
+        isGroup = group;
     }
 
     public static ChatMessage create(Cursor cursor) {
@@ -170,7 +179,6 @@ public class ChatMessage {
         chatMessage.setMsgType(cursor.getInt(cursor.getColumnIndex("msgType")));
         chatMessage.setSentStatus(cursor.getInt(cursor.getColumnIndex("sentStatus")));
         chatMessage.setUuid(cursor.getString(cursor.getColumnIndex("uuid")));
-
         chatMessage.setSenderId(cursor.getString(cursor.getColumnIndex("senderId")));
         chatMessage.setTargetId(cursor.getString(cursor.getColumnIndex("targetId")));
         chatMessage.setSentTime(cursor.getLong(cursor.getColumnIndex("sentTime")));
@@ -180,11 +188,29 @@ public class ChatMessage {
         chatMessage.setLocalPath(cursor.getString(cursor.getColumnIndex("localPath")));
         chatMessage.setRemoteUrl(cursor.getString(cursor.getColumnIndex("remoteUrl")));
         chatMessage.setMsg(cursor.getString(cursor.getColumnIndex("msg")));
+        chatMessage.setGroup(cursor.getInt(cursor.getColumnIndex("isGroup")) == 1);
 
         return chatMessage;
     }
 
-    public static ChatMessage getBaseSendMessage(@MsgType int msgType, String senderId, String targetId) {
+    public static ContentValues setContentValues(ContentValues contentValues, ChatMessage message) {
+        contentValues.put("uuid", message.getUuid());
+        contentValues.put("msgType", message.getMsgType());
+        contentValues.put("sentStatus", message.getSentStatus());
+        contentValues.put("senderId", message.getSenderId());
+        contentValues.put("targetId", message.getTargetId());
+        contentValues.put("sentTime", message.getSentTime());
+        contentValues.put("duration", message.getDuration());
+        contentValues.put("displayName", message.getDisplayName());
+        contentValues.put("size", message.getSize());
+        contentValues.put("localPath", message.getLocalPath());
+        contentValues.put("remoteUrl", message.getRemoteUrl());
+        contentValues.put("msg", message.getMsg());
+        contentValues.put("isGroup", message.isGroup() ? 1 : 0);
+        return contentValues;
+    }
+
+    public static ChatMessage getBaseSendMessage(@MsgType int msgType, String senderId, String targetId, boolean isGroup) {
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setUuid(UUID.randomUUID() + "");
         chatMessage.setSenderId(senderId);
@@ -192,6 +218,7 @@ public class ChatMessage {
         chatMessage.setSentTime(System.currentTimeMillis());
         chatMessage.setSentStatus(MsgSendStatus.SENDING);
         chatMessage.setMsgType(msgType);
+        chatMessage.setGroup(isGroup);
         return chatMessage;
     }
 

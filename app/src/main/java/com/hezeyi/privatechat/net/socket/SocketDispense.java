@@ -64,7 +64,7 @@ public class SocketDispense {
 //            case Const.RxType.TYPE_MSG_RECEIVE:
 //                RxBus.get().post(type, content);
 //                break;
-//            case Const.RxType.TypeHeartbeat:
+//            case Const.RxType.TYPE_HEARTBEAT:
 //
 //                break;
 //        }

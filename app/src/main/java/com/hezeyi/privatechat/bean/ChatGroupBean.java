@@ -70,6 +70,11 @@ public class ChatGroupBean extends Sortable implements BuddyShowAble {
     }
 
     @Override
+    public String getId() {
+        return group_id;
+    }
+
+    @Override
     public String getShowPortrait() {
         return group_portrait == null ? "" : group_portrait;
     }

@@ -13,6 +13,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.xhab.chatui.R;
 import com.xhab.chatui.bean.ImageSize;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -44,6 +45,17 @@ public class GlideUtils {
                                 .into(imageView);
                     }
                 });
+    }
+
+    public static void loadChatImage(@DrawableRes int imgUrl, final ImageView imageView) {
+        final RequestOptions options = new RequestOptions()
+                .placeholder(R.mipmap.default_img_failed)// 正在加载中的图片
+                .error(R.mipmap.default_img_failed); // 加载失败的图片
+
+        Glide.with(imageView.getContext())
+                .load(imgUrl)
+                .apply(options) // 参数
+                .into(imageView);
     }
 
 }

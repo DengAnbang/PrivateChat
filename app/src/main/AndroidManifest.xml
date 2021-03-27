@@ -105,6 +105,9 @@
         <activity android:name=".activity.account.UserDetailsActivity"/>
         <activity android:name=".activity.LockActivity"/>
         <activity android:name=".activity.chat.ChatGroupActivity"/>
+        <activity android:name=".activity.chat.ChatGroupMsgActivity"/>
+        <activity android:name=".activity.chat.ChatVoiceActivity"/>
+        <activity android:name=".activity.chat.SelectFriendsActivity"/>
     </application>
 
 </manifest>

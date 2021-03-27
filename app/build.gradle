@@ -101,6 +101,7 @@ dependencies {
 
     implementation project(path: ':chatui')
 //    implementation project(path: ':chatui')
+//    compile project(path: ':chatui')
 
 //support
     implementation "com.android.support:appcompat-v7:$support_version"

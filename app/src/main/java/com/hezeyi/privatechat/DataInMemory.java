@@ -1,6 +1,7 @@
 package com.hezeyi.privatechat;
 
 import com.hezeyi.privatechat.bean.UserMsgBean;
+import com.juphoon.cloud.JCCallItem;
 
 /**
  * Created by dab on 2018/4/18 09:42
@@ -35,5 +36,15 @@ public class DataInMemory {
 
     public void setUserMsgBean(UserMsgBean userMsgBean) {
         mUserMsgBean = userMsgBean;
+    }
+
+    private JCCallItem mJCCallItem;
+
+    public JCCallItem getJCCallItem() {
+        return mJCCallItem;
+    }
+
+    public void setJCCallItem(JCCallItem JCCallItem) {
+        mJCCallItem = JCCallItem;
     }
 }

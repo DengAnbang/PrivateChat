@@ -6,7 +6,9 @@ import android.os.IBinder;
 
 import com.google.gson.Gson;
 import com.hezeyi.privatechat.Const;
+import com.hezeyi.privatechat.DataInMemory;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
+import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
 import com.hezeyi.privatechat.bean.SocketData;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.net.socket.SocketDispense;
@@ -14,6 +16,7 @@ import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
 import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
+import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.StackManager;
 import com.xhab.utils.net.socket.OkioSocket;
 import com.xhab.utils.utils.LogUtils;
@@ -33,16 +36,28 @@ public class ChatService extends Service {
     private boolean isConnection;
 
     public ChatService() {
-
+        init();
         okioSocket = new OkioSocket();
         initSocket();
         connectSocket();
+    }
+
+    private void init() {
+
     }
 
     private OkioSocket okioSocket;
 
 
     private void initSocket() {
+        JuphoonUtils.get().setCallBackAdd(item -> {
+            DataInMemory.getInstance().setJCCallItem(item);
+            Intent intent = new Intent(ChatService.this, ChatVoiceActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
+
+
         Disposable subscribe4 = Observable.interval(15, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
@@ -62,12 +77,15 @@ public class ChatService extends Service {
         Disposable subscribe = RxBus.get().register(Const.RxType.TYPE_MSG_RECEIVE, String.class).subscribe(s -> {
             ChatMessage message = new Gson().fromJson(s, ChatMessage.class);
             downloadMsgFile(message);
-            msgSend(message);
+            if (!message.isGroup()) {
+                msgReceive(message);
+            }
+
         });
         //发送消息
         Disposable subscribe2 = RxBus.get().register(Const.RxType.TYPE_MSG_SEND, ChatMessage.class).subscribe(message -> {
             if (message.getMsgType() == MsgType.TEXT || message.getMsgType() == MsgType.SYSTEM) {
-                sendSendMsgBean(message, Const.RxType.TYPE_MSG_SEND);
+                sendSendMsgBean(message);
                 message.setSentStatus(MsgSendStatus.SENT);
                 //消息发送出去了,对方还未收到
                 RxBus.get().post(Const.RxType.TYPE_MSG_UPDATE, message);
@@ -75,7 +93,7 @@ public class ChatService extends Service {
                 String localPath = (message).getLocalPath();
                 HttpManager.fileUpload(Const.FilePath.chatFileType, localPath, url -> {
                     message.setRemoteUrl(url);
-                    sendSendMsgBean(message, Const.RxType.TYPE_MSG_SEND);
+                    sendSendMsgBean(message);
                     //消息发送出去了,对方还未收到
                     message.setSentStatus(MsgSendStatus.SENT);
                     RxBus.get().post(Const.RxType.TYPE_MSG_UPDATE, message);
@@ -106,19 +124,24 @@ public class ChatService extends Service {
     }
 
     public void loginSocket(String userId) {
-        ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "");
+//        JuphoonUtils.get().login(userId, "123456");
+        ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "",false);
         data.setSenderId(userId);
         String s = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
         okioSocket.send(s);
     }
 
-    public void msgSend(ChatMessage data) {
+    public void msgReceive(ChatMessage data) {
         data.setSentStatus(MsgSendStatus.RECEIVE);
         String s = SocketData.create("0", Const.RxType.TYPE_MSG_UPDATE, data).toJson();
         okioSocket.send(s);
     }
 
-    public void sendSendMsgBean(ChatMessage sendMsg, String type) {
+    public void sendSendMsgBean(ChatMessage sendMsg) {
+        String type = Const.RxType.TYPE_MSG_SEND;
+        if (sendMsg.isGroup()) {
+            type = Const.RxType.TYPE_MSG_GROUP_SEND;
+        }
         String s = SocketData.create("0", type, sendMsg).toJson();
         okioSocket.send(s);
     }

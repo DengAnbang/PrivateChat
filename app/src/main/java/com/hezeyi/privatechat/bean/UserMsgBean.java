@@ -2,13 +2,14 @@ package com.hezeyi.privatechat.bean;
 
 import com.hezeyi.privatechat.inteface.BuddyShowAble;
 import com.xhab.utils.bean.Sortable;
+import com.xhab.utils.inteface.ChooseAble;
 
 import androidx.annotation.NonNull;
 
 /**
  * Created by dab on 2021/3/8 21:36
  */
-public class UserMsgBean extends Sortable implements BuddyShowAble {
+public class UserMsgBean extends Sortable implements BuddyShowAble, ChooseAble {
 
     /**
      * user_name :
@@ -76,7 +77,30 @@ public class UserMsgBean extends Sortable implements BuddyShowAble {
     }
 
     @Override
+    public String getId() {
+        return user_id;
+    }
+
+    @Override
     public String getShowPortrait() {
         return head_portrait == null ? "" : head_portrait;
+    }
+
+
+    private boolean isChoose = false;
+
+    @Override
+    public boolean isChoose() {
+        return isChoose;
+    }
+
+    @Override
+    public void choose() {
+        isChoose = !isChoose;
+    }
+
+    @Override
+    public String getShowString() {
+        return user_id;
     }
 }

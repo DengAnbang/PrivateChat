@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_layout"/>
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="200dp"
+        android:background="@color/just_color_dedede"
+        android:gravity="center"
+        android:text="接听"/>
+
+    <TextView
+        android:id="@+id/tv_finish"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/just_color_dedede"
+        android:gravity="center"
+        android:text="挂断"/>
+</LinearLayout>
