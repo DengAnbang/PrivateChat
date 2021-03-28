@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.xhab.utils.R;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.utils.LogUtils;
@@ -78,6 +79,9 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
         } else {
             LogUtils.e("visibility*****: textView instanceof TextView !!!!!!!");
         }
+    }
+    public void setTitleString(String titleString) {
+        setTextViewString(R.id.tv_title, titleString);
     }
 
     public TwoTextLinearView setTwoTextLinearRightText(@IdRes int res, CharSequence charSequence) {

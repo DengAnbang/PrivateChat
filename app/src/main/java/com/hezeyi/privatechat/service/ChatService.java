@@ -109,7 +109,7 @@ public class ChatService extends Service {
         });
         //更新数据库的消息状态
         Disposable subscribe1 = RxBus.get().register(Const.RxType.TYPE_MSG_UPDATE, ChatMessage.class).subscribe(chatMessage -> {
-            ChatDatabaseHelper.get(this, mUserId).updateMsg(chatMessage.getUuid(), chatMessage.getSentStatus(), chatMessage.getSenderId(), chatMessage.getTargetId());
+            ChatDatabaseHelper.get(this, mUserId).updateMsg(chatMessage);
         });
         //添加到数据库的消息
         Disposable subscribe6 = RxBus.get().register(Const.RxType.TYPE_MSG_ADD, ChatMessage.class).subscribe(chatMessage -> {
@@ -124,8 +124,8 @@ public class ChatService extends Service {
     }
 
     public void loginSocket(String userId) {
-//        JuphoonUtils.get().login(userId, "123456");
-        ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "",false);
+        JuphoonUtils.get().login(userId, "123456");
+        ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "", false);
         data.setSenderId(userId);
         String s = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
         okioSocket.send(s);

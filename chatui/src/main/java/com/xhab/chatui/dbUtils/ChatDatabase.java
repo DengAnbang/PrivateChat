@@ -19,22 +19,36 @@ public class ChatDatabase extends SQLiteOpenHelper {
         initChatListDatabase("chat_" + user_id);
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
     }
 
-    public String getChatTableName(String senderId, String targetId) {
+    /**
+     * @param special 如果是我发送的消息或者收到的群消息,填targetId,如果是不是群消息填且是别人发我的senderId
+     * @return
+     */
+    public String getChatTableName(String special) {
         String s;
-        if (user_id.equals(senderId)) {
-            s = "chat_" + senderId + "_to_" + targetId;
-        } else {
-            s = "chat_" + targetId + "_to_" + senderId;
-        }
-
+        s = "chat_" + user_id + "_to_" + special;  //群表名+我发送时候
         initChatDatabase(s);
         return s;
     }
+//    public String getChatTableName(String senderId, String targetId) {
+//        String s;
+//        if (user_id.equals(senderId)) {
+//            s = "chat_" + senderId + "_to_" + targetId;
+//        } else {
+//            s = "chat_" + targetId + "_to_" + senderId;
+//        }
+//
+//        initChatDatabase(s);
+//        return s;
+//    }
 
     public String getChatListTableName() {
         String s = "chat_" + user_id;

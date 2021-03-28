@@ -17,6 +17,7 @@ public class AdminFragment extends BaseFragment {
     public int viewLayoutID() {
         return R.layout.fragment_admin;
     }
+
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
@@ -31,7 +32,6 @@ public class AdminFragment extends BaseFragment {
 
     @Override
     public void onFirstVisibleToUser(View view) {
-
         LogUtils.e("onFirstVisibleToUser*****: AdminFragment");
     }
 }

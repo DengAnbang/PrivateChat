@@ -39,10 +39,23 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     public void changeTab(View view, int position, boolean isSelected) {
         int tabIconRes;
         int color;
-
         if (isSelected) {
             tabIconRes = mTabResPressed.get(position);
             color = R.color.just_color_btn_end;
+            switch (position) {
+                case 0:
+                    setTitleString("聊天");
+                    break;
+                case 1:
+                    setTitleString("通讯录");
+                    break;
+                case 2:
+                    setTitleString("我的");
+                    break;
+                case 3:
+                    setTitleString("管理页面");
+                    break;
+            }
         } else {
             tabIconRes = mTabRes.get(position);
             color = R.color.just_color_999999;
@@ -53,7 +66,6 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         tabText.setText(mTabTitle.get(position));
         tabText.setTextColor(ContextCompat.getColor(this, color));
     }
-
 
 
     //    @NotNull

@@ -39,7 +39,11 @@ public class ChatDatabaseHelper {
 
     public void chatDbInsert(ChatMessage message) {
         if (message.getMsgType() == MsgType.SYSTEM) return;
-        String tableName = mChatDatabase.getChatTableName(message.getSenderId(), message.getTargetId());
+        String special = message.getTargetId();
+        if (!message.isGroup() && message.getSenderId().equals(mChatDatabase.getUser_id())) {
+            special = message.getSenderId();
+        }
+        String tableName = mChatDatabase.getChatTableName(special);
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         ContentValues cv = new ContentValues();
         ChatMessage.setContentValues(cv, message);
@@ -47,22 +51,26 @@ public class ChatDatabaseHelper {
         Log.e("555555555555", "chatDbInsert: " + insert);
     }
 
-    public void updateMsg(String uuid, int sentStatus, String senderId, String targetId) {
+    public void updateMsg(ChatMessage message) {
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("sentStatus", sentStatus);
-        String tableName = mChatDatabase.getChatTableName(senderId, targetId);
-        long insert = writableDatabase.update(tableName, cv, "uuid = ?", new String[]{uuid});
+        cv.put("sentStatus", message.getSentStatus());
+        String special = message.getTargetId();
+        if (!message.isGroup() && message.getSenderId().equals(mChatDatabase.getUser_id())) {
+            special = message.getSenderId();
+        }
+        String tableName = mChatDatabase.getChatTableName(special);
+        long insert = writableDatabase.update(tableName, cv, "uuid = ?", new String[]{message.getUuid()});
     }
 
-    public List<ChatMessage> chatMsgSelect(List<ChatMessage> oldChatMessages, String senderId, String targetId) {
+    public List<ChatMessage> chatMsgSelect(List<ChatMessage> oldChatMessages, String targetId) {
         long lastSendTime = System.currentTimeMillis();
         if (oldChatMessages.size() > 0) {
             lastSendTime = oldChatMessages.get(0).getSentTime();
         }
         List<ChatMessage> chatMessages = new ArrayList<>();
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
-        String tableName = mChatDatabase.getChatTableName(senderId, targetId);
+        String tableName = mChatDatabase.getChatTableName(targetId);
 //        Cursor cursor = writableDatabase.rawQuery("select * from " + tableName + " WHERE senderId= ? AND sentTime < ? limit ? offset ?  order by sentTime desc", new String[]{mChatDatabase.getSenderId(), lastSendTime + "", oldChatMessages.size() + "", "5"});
         Cursor cursor = writableDatabase.rawQuery("select * from " + tableName + " WHERE  sentTime < ? ", new String[]{lastSendTime + ""});
         while (cursor.moveToNext()) {

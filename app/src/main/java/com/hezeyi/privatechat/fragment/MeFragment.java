@@ -40,7 +40,6 @@ public class MeFragment extends BaseFragment {
 
     @Override
     public void onFirstVisibleToUser(View view) {
-        setTitleString("我的");
         UserMsgBean userMsgBean = DataInMemory.getInstance().getUserMsgBean();
         if (userMsgBean == null) {
             return;

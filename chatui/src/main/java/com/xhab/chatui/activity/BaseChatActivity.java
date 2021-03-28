@@ -243,7 +243,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //文件消息
     private void sendFileMessage(final String path) {
-        ChatMessage mFileMsgBody = ChatMessage.getBaseSendMessage(MsgType.FILE, mSenderId, mTargetId,isGroup);
+        ChatMessage mFileMsgBody = ChatMessage.getBaseSendMessage(MsgType.FILE, mSenderId, mTargetId, isGroup);
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDisplayName(FileUtils.getFileName(path));
         mFileMsgBody.setSize(FileUtils.getFileLength(path) + "");
@@ -254,7 +254,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //语音消息
     private void sendAudioMessage(final String path, int time) {
-        ChatMessage mFileMsgBody = ChatMessage.getBaseSendMessage(MsgType.AUDIO, mSenderId, mTargetId,isGroup);
+        ChatMessage mFileMsgBody = ChatMessage.getBaseSendMessage(MsgType.AUDIO, mSenderId, mTargetId, isGroup);
         mFileMsgBody.setLocalPath(path);
         mFileMsgBody.setDuration(time + "");
         //开始发送
@@ -265,7 +265,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //文本消息
     private void sendTextMsg(String hello) {
-        ChatMessage mTextMsgBody = ChatMessage.getBaseSendMessage(MsgType.TEXT, mSenderId, mTargetId,isGroup);
+        ChatMessage mTextMsgBody = ChatMessage.getBaseSendMessage(MsgType.TEXT, mSenderId, mTargetId, isGroup);
         mTextMsgBody.setMsg(hello);
         //开始发送
         addMsg(mTextMsgBody, true);
@@ -275,7 +275,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
     //图片消息
     private void sendImageMessage(final LocalMedia media) {
-        ChatMessage mImageMsgBody = ChatMessage.getBaseSendMessage(MsgType.IMAGE, mSenderId, mTargetId,isGroup);
+        ChatMessage mImageMsgBody = ChatMessage.getBaseSendMessage(MsgType.IMAGE, mSenderId, mTargetId, isGroup);
         mImageMsgBody.setLocalPath(media.getCompressPath());
         //开始发送
         addMsg(mImageMsgBody, true);
@@ -286,7 +286,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     //视频消息
     private void sendVideoMessage(final LocalMedia media) {
         try {
-            ChatMessage mImageMsgBody = ChatMessage.getBaseSendMessage(MsgType.VIDEO, mSenderId, mTargetId,isGroup);
+            ChatMessage mImageMsgBody = ChatMessage.getBaseSendMessage(MsgType.VIDEO, mSenderId, mTargetId, isGroup);
             //生成缩略图路径
             String vedioPath = media.getRealPath() == null ? media.getPath() : media.getRealPath();
 //            String vedioPath = media.getPath();
@@ -382,7 +382,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     @Override
     public void onRefresh() {
         new Thread(() -> {
-            List<ChatMessage> chatMessages = ChatDatabaseHelper.get(this, getUserId()).chatMsgSelect(mAdapter.getData(), getSenderId(), getTargetId());
+            List<ChatMessage> chatMessages = ChatDatabaseHelper.get(this, getUserId()).chatMsgSelect(mAdapter.getData(), getTargetId());
             mSwipeRefresh.post(() -> {
                 mAdapter.addData(0, chatMessages);
                 mSwipeRefresh.setRefreshing(false);

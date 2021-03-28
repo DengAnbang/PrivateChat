@@ -36,9 +36,10 @@ public class BuddyFragment extends BaseFragment {
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
-        if (isChange) {
-            getUserList();
-        }
+//        if (isChange) {
+//            getUserList();
+//        }
+        getUserList();
     }
 
     @Override
@@ -49,7 +50,6 @@ public class BuddyFragment extends BaseFragment {
 
     @Override
     public void onFirstVisibleToUser(View view) {
-        setTitleString("通讯录");
         RecyclerView recyclerView = view.findViewById(R.id.rv_content);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
