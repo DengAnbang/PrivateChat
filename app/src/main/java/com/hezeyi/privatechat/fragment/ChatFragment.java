@@ -34,10 +34,9 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
-        LogUtils.e("onVisibleToUser*****: ChatFragment");
+
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         List<ChatListMessage> chatListMessages = ChatDatabaseHelper.get(getActivity(), user_id).chatListDbSelect();
-        LogUtils.e("onFirstVisibleToUser*****: ChatFragment" + chatListMessages.size());
         mChatListMessageAdapter.setListMessages(chatListMessages);
     }
 
@@ -59,5 +58,9 @@ public class ChatFragment extends BaseFragment {
             intent.putExtra("targetId", chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
             startActivity(intent);
         });
+
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        List<ChatListMessage> chatListMessages = ChatDatabaseHelper.get(getActivity(), user_id).chatListDbSelect();
+        mChatListMessageAdapter.setListMessages(chatListMessages);
     }
 }

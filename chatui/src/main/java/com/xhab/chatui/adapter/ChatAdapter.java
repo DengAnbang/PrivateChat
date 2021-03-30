@@ -8,9 +8,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.util.MultiTypeDelegate;
 import com.xhab.chatui.R;
+import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
-import com.xhab.chatui.bean.chat.ChatMessage;
+import com.xhab.chatui.inteface.ShowImageCallback;
 import com.xhab.chatui.utils.GlideUtils;
 
 import java.io.File;
@@ -49,6 +50,11 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
 
 
     private String mSenderId;
+    private ShowImageCallback mShowImageCallback;
+
+    public void setShowImageCallback(ShowImageCallback showImageCallback) {
+        mShowImageCallback = showImageCallback;
+    }
 
     //设置发送的人
     public void setSenderId(String senderId) {
@@ -155,6 +161,11 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
         } else if (item.getMsgType() == (MsgType.SYSTEM)) {
             helper.setText(R.id.chat_item_content_text, item.getMsg());
         }
+        if (mShowImageCallback != null) {
+            mShowImageCallback.showImage(item, helper.getView(R.id.chat_item_header));
+        }
+
+
     }
 
 

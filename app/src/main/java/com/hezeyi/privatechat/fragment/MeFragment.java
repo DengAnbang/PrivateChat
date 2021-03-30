@@ -12,6 +12,7 @@ import com.hezeyi.privatechat.activity.account.SetupActivity;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
+import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.QRCodeUtils;
 
@@ -44,6 +45,8 @@ public class MeFragment extends BaseFragment {
         if (userMsgBean == null) {
             return;
         }
+        GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), view.findViewById(R.id.iv_head_portrait), R.mipmap.c38_touxiang);
+
         setTextViewString(R.id.tv_name, userMsgBean.getUser_name());
         setTextViewString(R.id.tv_account, "账号:" + userMsgBean.getAccount());
         click(R.id.rl_details, view1 -> {

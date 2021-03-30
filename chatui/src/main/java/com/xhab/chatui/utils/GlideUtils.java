@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -19,10 +21,9 @@ import androidx.annotation.Nullable;
 
 
 public class GlideUtils {
+    public static String KEY_API_HOST = "";
 
     public static void loadChatImage(final Context mContext, String imgUrl, final ImageView imageView) {
-
-
         final RequestOptions options = new RequestOptions()
                 .placeholder(R.mipmap.default_img_failed)// 正在加载中的图片
                 .error(R.mipmap.default_img_failed); // 加载失败的图片
@@ -55,6 +56,22 @@ public class GlideUtils {
         Glide.with(imageView.getContext())
                 .load(imgUrl)
                 .apply(options) // 参数
+                .into(imageView);
+    }
+
+    public static void loadHeadPortrait(String imgUrl, final ImageView imageView, @DrawableRes final int placeholder) {
+        if (imageView == null) return;
+        imgUrl = KEY_API_HOST + imgUrl;
+        final RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                .placeholder(placeholder)// 正在加载中的图片
+                ; // 加载失败的图片
+        String replace = imgUrl.replace("\\", "/");
+        Glide.with(imageView.getContext())
+                .load(replace)
+                .apply(options)
                 .into(imageView);
     }
 

@@ -70,14 +70,13 @@ public class NotificationManagerUtils {
         }
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channel_id);
         mBuilder.setPriority(Notification.PRIORITY_MAX);//可以让通知显示在最上面
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+//        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         mBuilder.setWhen(System.currentTimeMillis());
         mBuilder.setAutoCancel(true);
         if (shouldRemind) {
             mBuilder.setDefaults(Notification.DEFAULT_ALL);//使用默认的声音、振动、闪光
         }
-        Bitmap bmIcon = BitmapFactory.decodeResource(
-                context.getResources(), R.mipmap.ic_launcher);
+        Bitmap bmIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.default_img_failed);
         Bitmap largeIcon = bmIcon;
 //        Bitmap bmAvatar = null;
         Bitmap bmAvatar = GetImageInputStream(avatar);

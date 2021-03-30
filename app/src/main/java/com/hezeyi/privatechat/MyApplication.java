@@ -15,6 +15,7 @@ import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.juphoon.cloud.JCCallItem;
 import com.tencent.bugly.Bugly;
+import com.xhab.chatui.ChatUi;
 import com.xhab.chatui.emoji.EmojiDao;
 import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.StackManager;
@@ -52,6 +53,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        ChatUi.init(Const.Api.API_HOST,Const.FilePath.databaseFileLocalPath);
         StackManager.initStackManager(this);
         EmojiDao.init(this);
         //初始化Bugly
@@ -74,6 +76,7 @@ public class MyApplication extends Application {
             return;
         }
         initAppStatusListener();
+
     }
 
     public static MyApplication getInstance() {
@@ -189,5 +192,8 @@ public class MyApplication extends Application {
     public UserMsgBean getUserMsgBeanById(String userId) {
         if (userId.equals(mUserMsgBean.getUser_id())) return mUserMsgBean;
         return mMsgBeanMap.get(userId);
+    }
+    public void addUserMsgBeanById(UserMsgBean userMsgBean) {
+        mMsgBeanMap.put(userMsgBean.getUser_id(), userMsgBean);
     }
 }

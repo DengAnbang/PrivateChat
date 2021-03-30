@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.inteface.BuddyShowAble;
+import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.inteface.OnItemClickListener;
 
 import java.util.List;
@@ -45,6 +46,8 @@ public class BuddyAdapter<T extends BuddyShowAble> extends RecyclerView.Adapter<
     public void onBindViewHolder(@NonNull BuddyAdapter.ViewHolder holder, int position) {
         T t = mDataList.get(position);
         holder.mTvName.setText(t.getShowName());
+        GlideUtils.loadHeadPortrait(t.getShowPortrait(), holder.mIvHeadPortrait, R.mipmap.c38_touxiang);
+
         if (mOnItemClickListener != null) {
             holder.mView.setOnClickListener(view -> {
                 mOnItemClickListener.onItemClick(view, position, t);

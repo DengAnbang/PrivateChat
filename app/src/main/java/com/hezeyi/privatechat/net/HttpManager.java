@@ -89,9 +89,9 @@ public class HttpManager {
                 .addFriend(user_id, to_user_id, friend_type), requestHelper, true, dataClick);
     }
 
-    public static void userSelectById(String user_id, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
+    public static void userSelectById(String user_id, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .userSelectById(user_id), requestHelper, true, dataClick);
+                .userSelectById(user_id), requestHelper, showLoadDialog, dataClick);
     }
 
     public static void userSelectFriend(String user_id, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {

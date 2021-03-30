@@ -12,14 +12,17 @@ public class Const {
         public static final String account = "account";
         public static final String password = "password";
         public static final String SecurityCode = "SecurityCode";
-        public static final String isOpenSecurityCode =  "isOpenSecurityCode";
+        public static final String isOpenSecurityCode = "isOpenSecurityCode";
     }
 
     public static class FilePath {
         public final static String TEMP_DOCUMENTS_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + MyApplication.getInstance().getPackageName() + "/";
-
-        public static final String chatFileType = "chat/file";
+        //本地目录
         public static final String chatFileLocalPath = TEMP_DOCUMENTS_PATH;
+        public static final String databaseFileLocalPath = TEMP_DOCUMENTS_PATH;
+        //网络目录
+        public static final String chatFileType = "chat/file";
+        public static final String userFileType = "user/file";
 
     }
 
@@ -34,8 +37,8 @@ public class Const {
         switch (BuildConfig.FLAVOR) {
             case "nb":
 //                return "192.168.0.102";
-                return "47.108.172.20";
-//                return "192.168.0.103";
+//                return "47.108.172.20";
+                return "192.168.31.213";
 //                return "192.168.155.2";
 //                return "192.168.31.213:9090/public/file/upload";
             default:

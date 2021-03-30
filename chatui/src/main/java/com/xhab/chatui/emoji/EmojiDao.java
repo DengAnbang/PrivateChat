@@ -26,6 +26,7 @@ import java.util.List;
  */
 public class EmojiDao {
     private static final String TAG = "EmojiDao";
+    public static String FILE_ROOT_PATH = "";
     private static String path;
     private static EmojiDao dao;
     private static boolean isInit;
@@ -94,7 +95,8 @@ public class EmojiDao {
     public static String CopySqliteFileFromRawToDatabases(String SqliteFileName, Application application) throws IOException {
         // 第一次运行应用程序时，加载数据库到data/data/当前包的名称/database/<db_name>
         //复制的话这里需要换成自己项目的包名
-        File dir = new File("data/data/" + getAppPackageName(application) + "/databases");
+//        File dir = new File("data/data/" + getAppPackageName(application) + "/databases");
+        File dir = new File(FILE_ROOT_PATH + "/databases");
 
         if (!dir.exists() || !dir.isDirectory()) {
             dir.mkdir();

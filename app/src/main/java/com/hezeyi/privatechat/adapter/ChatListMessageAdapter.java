@@ -11,6 +11,7 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.chatui.bean.chat.ChatListMessage;
+import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.chatui.utils.TimeShowUtils;
 import com.xhab.utils.inteface.OnItemClickListener;
 
@@ -50,12 +51,15 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
             ChatGroupBean chatGroupBeanById = MyApplication.getInstance().getChatGroupBeanById(chatListMessage.getTarget_id());
             if (chatGroupBeanById != null) {
                 group_name = chatGroupBeanById.getGroup_name();
+                GlideUtils.loadHeadPortrait(chatGroupBeanById.getGroup_portrait(), holder.portrait, R.mipmap.c38_touxiang);
             }
         } else {
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
             if (userMsgBeanById != null) {
                 group_name = userMsgBeanById.getUser_name();
+                GlideUtils.loadHeadPortrait( userMsgBeanById.getHead_portrait(), holder.portrait, R.mipmap.c38_touxiang);
             }
+
         }
         holder.name.setText(group_name);
         holder.time.setText(TimeShowUtils.getNewChatTime(chatListMessage.getSentTime()));

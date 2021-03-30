@@ -8,9 +8,12 @@ import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
+import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.chatui.activity.BaseChatActivity;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgType;
+import com.xhab.chatui.inteface.ShowImageCallback;
+import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.utils.LogUtils;
@@ -44,6 +47,21 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     @Override
     public String getUserId() {
         return MyApplication.getInstance().getUserMsgBean().getUser_id();
+    }
+
+    @Override
+    public ShowImageCallback getShowImageCallback() {
+        return (item, imageView) -> {
+            UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(item.getSenderId());
+            if (userMsgBeanById == null) {
+                HttpManager.userSelectById(item.getSenderId(), false, this, userMsgBean -> {
+                    MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
+                    GlideUtils.loadHeadPortrait(userMsgBean.getShowPortrait(), imageView, R.mipmap.c38_touxiang);
+                });
+            } else {
+                GlideUtils.loadHeadPortrait(userMsgBeanById.getShowPortrait(), imageView, R.mipmap.c38_touxiang);
+            }
+        };
     }
 
     @Override

@@ -28,6 +28,7 @@ import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
 import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
+import com.xhab.chatui.inteface.ShowImageCallback;
 import com.xhab.chatui.utils.ChatUiHelper;
 import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.LogUtil;
@@ -67,6 +68,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     public abstract boolean isGroup();
 
     public abstract String getUserId();
+    public abstract ShowImageCallback getShowImageCallback();
 
     //发送消息
     public abstract void sendMsg(ChatMessage message);
@@ -107,6 +109,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         findViewById(R.id.rlLocation).setVisibility(isGroup ? View.GONE : View.VISIBLE);
         mAdapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
         mAdapter.setSenderId(mSenderId);
+        mAdapter.setShowImageCallback(getShowImageCallback());
         LinearLayoutManager mLinearLayout = new LinearLayoutManager(this);
         mRvChat.setLayoutManager(mLinearLayout);
         mRvChat.setAdapter(mAdapter);

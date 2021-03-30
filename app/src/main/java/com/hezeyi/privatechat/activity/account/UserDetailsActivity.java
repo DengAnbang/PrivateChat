@@ -26,7 +26,7 @@ public class UserDetailsActivity extends BaseActivity {
         super.initView();
         setTitleString("个人信息");
         String user_id = getIntent().getStringExtra("user_id");
-        HttpManager.userSelectById(user_id, this, userMsgBean -> {
+        HttpManager.userSelectById(user_id, true, this, userMsgBean -> {
             if (userMsgBean != null) {
                 to_user_id = userMsgBean.getUser_id();
                 setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);

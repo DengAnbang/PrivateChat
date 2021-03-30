@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="#00000000"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/just_color_ffffff"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#dedede"/>
+
+        <Button
+            android:id="@android:id/button1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="15dp"
+            android:text="拍照"
+            android:textColor="#333333"
+            android:textSize="14sp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#dedede"/>
+
+        <Button
+            android:id="@android:id/button2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="15dp"
+            android:text="从手机相册选取"
+            android:textColor="#333333"
+            android:textSize="14sp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#dedede"/>
+
+        <Button
+            android:id="@android:id/button3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="15dp"
+            android:text="取消"
+            android:textColor="#333333"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+</LinearLayout>
