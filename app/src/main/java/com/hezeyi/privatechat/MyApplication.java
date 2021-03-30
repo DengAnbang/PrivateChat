@@ -11,6 +11,7 @@ import android.os.StrictMode;
 import android.text.TextUtils;
 
 import com.hezeyi.privatechat.activity.LockActivity;
+import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.juphoon.cloud.JCCallItem;
 import com.tencent.bugly.Bugly;
@@ -21,7 +22,9 @@ import com.xhab.utils.utils.ForegroundCallbacks;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.SPUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.multidex.MultiDex;
 
@@ -115,8 +118,8 @@ public class MyApplication extends Application {
             }
         });
     }
-    private UserMsgBean mUserMsgBean;
 
+    private UserMsgBean mUserMsgBean;
     public UserMsgBean getUserMsgBean() {
         return mUserMsgBean;
     }
@@ -133,5 +136,44 @@ public class MyApplication extends Application {
 
     public void setJCCallItem(JCCallItem JCCallItem) {
         mJCCallItem = JCCallItem;
+    }
+
+    private Map<String, ChatGroupBean> mGroupBeanMap = new HashMap<>();
+    private List<ChatGroupBean> mChatGroupBeans;
+
+    public List<ChatGroupBean> getChatGroupBeans() {
+        return mChatGroupBeans;
+    }
+
+    public void setChatGroupBeans(List<ChatGroupBean> chatGroupBeans) {
+        mChatGroupBeans = chatGroupBeans;
+        mGroupBeanMap.clear();
+        for (int i = 0; i < mChatGroupBeans.size(); i++) {
+            ChatGroupBean chatGroupBean = mChatGroupBeans.get(i);
+            mGroupBeanMap.put(chatGroupBean.getGroup_id(), chatGroupBean);
+        }
+    }
+    public ChatGroupBean getChatGroupBeanById(String group_id) {
+        return mGroupBeanMap.get(group_id);
+    }
+    private List<UserMsgBean> mUserMsgBeans;
+
+    public List<UserMsgBean> getUserMsgBeans() {
+        return mUserMsgBeans;
+    }
+
+    private Map<String, UserMsgBean> mMsgBeanMap = new HashMap<>();
+
+    public void setUserMsgBeans(List<UserMsgBean> userMsgBeans) {
+        mUserMsgBeans = userMsgBeans;
+        mMsgBeanMap.clear();
+        for (int i = 0; i < userMsgBeans.size(); i++) {
+            UserMsgBean userMsgBean = userMsgBeans.get(i);
+            mMsgBeanMap.put(userMsgBean.getUser_id(), userMsgBean);
+        }
+    }
+
+    public UserMsgBean getUserMsgBeanById(String userId) {
+        return mMsgBeanMap.get(userId);
     }
 }

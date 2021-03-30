@@ -36,10 +36,10 @@ public class BuddyFragment extends BaseFragment {
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
-//        if (isChange) {
-//            getUserList();
-//        }
-        getUserList();
+        if (isChange) {
+            getUserList();
+        }
+//        getUserList();
     }
 
     @Override
@@ -75,12 +75,7 @@ public class BuddyFragment extends BaseFragment {
             }
         });
         mBuddyAdapter.setOnItemClickListener((view1, position, userMsgBean) -> {
-            String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
             Intent intent = new Intent(getActivity(), ChatActivity.class);
-            intent.putExtra("target_name", userMsgBean.getUser_name());
-            intent.putExtra("sender_name", MyApplication.getInstance().getUserMsgBean().getUser_name());
-            intent.putExtra("userId", user_id);
-            intent.putExtra("senderId", user_id);
             intent.putExtra("targetId", userMsgBean.getUser_id());
             startActivity(intent);
         });
@@ -90,7 +85,7 @@ public class BuddyFragment extends BaseFragment {
             intent.putExtra("userId", user_id);
             startActivity(intent);
         });
-        getUserList();
+        mBuddyAdapter.setDataList(MyApplication.getInstance().getUserMsgBeans());
     }
 
     private void getUserList() {

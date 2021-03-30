@@ -1,10 +1,12 @@
 package com.hezeyi.privatechat.fragment;
 
 
+import android.content.Intent;
 import android.view.View;
 
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.adapter.ChatListMessageAdapter;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.xhab.chatui.bean.chat.ChatListMessage;
@@ -51,5 +53,11 @@ public class ChatFragment extends BaseFragment {
         RecyclerView recyclerView = view.findViewById(R.id.rv_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mChatListMessageAdapter);
+        mChatListMessageAdapter.setItemClickListener((view1, position, chatListMessage) -> {
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            intent.putExtra("isGroup", chatListMessage.getIs_group() == 1);
+            intent.putExtra("targetId", chatListMessage.getTarget_id());
+            startActivity(intent);
+        });
     }
 }

@@ -29,7 +29,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        click(R.id.tv_submit, view -> requestPermissions());
+        click(R.id.tv_submit, view -> checkLogin());
         click(R.id.tv_forget, view -> {
 //            Intent intent = new Intent(this, ChatGroupMsgActivity.class);
 //            intent.putExtra("group_id", getIntent().getStringExtra("targetId"));
@@ -46,6 +46,12 @@ public class LoginActivity extends BaseActivity {
         setTextViewString(R.id.et_account, account);
         setTextViewString(R.id.et_password, password);
         setTextViewString(R.id.tv_version, "版本号:v" + BuildConfig.VERSION_NAME);
+    }
+
+    @Override
+    public void initEvent() {
+        super.initEvent();
+        requestPermissions();
     }
 
     private void checkLogin() {
@@ -66,10 +72,23 @@ public class LoginActivity extends BaseActivity {
             MyApplication.getInstance().setUserMsgBean(userMsgBean);
             SPUtils.save(Const.Sp.account, account);
             SPUtils.save(Const.Sp.password, password);
-            MyApplication.getInstance().setLock(true);
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            getUserList();
+
+
+        });
+    }
+
+    private void getUserList() {
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
+            MyApplication.getInstance().setUserMsgBeans(userMsgBeans);
+            HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
+                MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
+                MyApplication.getInstance().setLock(true);
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            });
         });
     }
 
@@ -84,7 +103,7 @@ public class LoginActivity extends BaseActivity {
         )
                 .subscribe(aBoolean -> {
                     if (aBoolean) {
-                        checkLogin();
+
                     } else {
                         showSnackBar("请到设置见面打开所需权限!");
 //                        gotoHuaweiPermission();
