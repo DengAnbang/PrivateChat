@@ -52,7 +52,7 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
                 group_name = chatGroupBeanById.getGroup_name();
             }
         } else {
-            UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(chatListMessage.getTarget_id());
+            UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
             if (userMsgBeanById != null) {
                 group_name = userMsgBeanById.getUser_name();
             }
@@ -61,7 +61,7 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
         holder.time.setText(TimeShowUtils.getNewChatTime(chatListMessage.getSentTime()));
         if (mItemClickListener != null) {
             holder.mView.setOnClickListener(v -> {
-                mItemClickListener.onItemClick(v,position,chatListMessage);
+                mItemClickListener.onItemClick(v, position, chatListMessage);
             });
 
         }

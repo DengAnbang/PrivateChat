@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
 
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/> <!-- 基础功能所需权限 -->
@@ -87,12 +88,15 @@
             android:theme="@android:style/Theme.Translucent"/>
         <activity
             android:name=".activity.chat.ChatActivity"
+            android:launchMode="singleTask"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/ChatAppTheme"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activity.GuiderActivity"/>
-        <activity android:name=".activity.account.LoginActivity"/>
+        <activity
+            android:name=".activity.account.LoginActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.account.RegisterActivity"/>
         <activity android:name=".activity.account.ForgetActivity"/>
         <activity android:name=".activity.account.MeDetailsActivity"/>
@@ -106,7 +110,9 @@
         <activity android:name=".activity.LockActivity"/>
         <activity android:name=".activity.chat.ChatGroupActivity"/>
         <activity android:name=".activity.chat.ChatGroupMsgActivity"/>
-        <activity android:name=".activity.chat.ChatVoiceActivity"/>
+        <activity
+            android:name=".activity.chat.ChatVoiceActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.chat.SelectFriendsActivity"/>
     </application>
 

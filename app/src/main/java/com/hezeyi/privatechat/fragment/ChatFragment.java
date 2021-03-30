@@ -56,7 +56,7 @@ public class ChatFragment extends BaseFragment {
         mChatListMessageAdapter.setItemClickListener((view1, position, chatListMessage) -> {
             Intent intent = new Intent(getActivity(), ChatActivity.class);
             intent.putExtra("isGroup", chatListMessage.getIs_group() == 1);
-            intent.putExtra("targetId", chatListMessage.getTarget_id());
+            intent.putExtra("targetId", chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
             startActivity(intent);
         });
     }

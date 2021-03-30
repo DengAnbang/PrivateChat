@@ -238,7 +238,20 @@ public class ChatMessage {
         chatMessage.setSentStatus(MsgSendStatus.SENDING);
         chatMessage.setMsgType(msgType);
         chatMessage.setGroup(isGroup);
+        switch (msgType) {
+            case MsgType.AUDIO:
+                chatMessage.setMsg("[语音]");
+                break;
+            case MsgType.FILE:
+                chatMessage.setMsg("[文件]");
+                break;
+            case MsgType.IMAGE:
+                chatMessage.setMsg("[图片]");
+                break;
+            case MsgType.VIDEO:
+                chatMessage.setMsg("[视频]");
+                break;
+        }
         return chatMessage;
     }
-
 }

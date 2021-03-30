@@ -119,7 +119,18 @@ public class MyApplication extends Application {
         });
     }
 
+    private String anotherId;
+
+    public String getAnotherId() {
+        return anotherId;
+    }
+
+    public void setAnotherId(String anotherId) {
+        this.anotherId = anotherId;
+    }
+
     private UserMsgBean mUserMsgBean;
+
     public UserMsgBean getUserMsgBean() {
         return mUserMsgBean;
     }
@@ -153,9 +164,11 @@ public class MyApplication extends Application {
             mGroupBeanMap.put(chatGroupBean.getGroup_id(), chatGroupBean);
         }
     }
+
     public ChatGroupBean getChatGroupBeanById(String group_id) {
         return mGroupBeanMap.get(group_id);
     }
+
     private List<UserMsgBean> mUserMsgBeans;
 
     public List<UserMsgBean> getUserMsgBeans() {
@@ -174,6 +187,7 @@ public class MyApplication extends Application {
     }
 
     public UserMsgBean getUserMsgBeanById(String userId) {
+        if (userId.equals(mUserMsgBean.getUser_id())) return mUserMsgBean;
         return mMsgBeanMap.get(userId);
     }
 }

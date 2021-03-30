@@ -14,7 +14,7 @@ public class ChatGroupBean extends Sortable implements BuddyShowAble {
     private String chat_pwd;
     private String group_name;
     private String group_id;
-    private String group_portrait;
+    private String group_portrait = "";
 
     public String getGroup_id() {
         return group_id;

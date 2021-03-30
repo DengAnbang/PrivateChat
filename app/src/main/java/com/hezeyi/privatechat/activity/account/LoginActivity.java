@@ -31,9 +31,6 @@ public class LoginActivity extends BaseActivity {
         super.initView();
         click(R.id.tv_submit, view -> checkLogin());
         click(R.id.tv_forget, view -> {
-//            Intent intent = new Intent(this, ChatGroupMsgActivity.class);
-//            intent.putExtra("group_id", getIntent().getStringExtra("targetId"));
-//            startActivity(intent);
             Intent intent = new Intent(this, ForgetActivity.class);
             startActivity(intent);
         });
@@ -99,6 +96,7 @@ public class LoginActivity extends BaseActivity {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA,
                 Manifest.permission.BLUETOOTH,
+                Manifest.permission.ACCESS_NOTIFICATION_POLICY,
                 Manifest.permission.RECORD_AUDIO
         )
                 .subscribe(aBoolean -> {

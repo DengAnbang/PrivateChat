@@ -6,6 +6,8 @@ import android.os.Bundle;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.bean.ChatGroupBean;
+import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.chatui.activity.BaseChatActivity;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgType;
@@ -58,9 +60,11 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         boolean isGroup = getIntent().getBooleanExtra("isGroup", false);
         String target_name;
         if (isGroup) {
-            target_name = MyApplication.getInstance().getChatGroupBeanById(targetId).getGroup_name();
+            ChatGroupBean chatGroupBeanById = MyApplication.getInstance().getChatGroupBeanById(targetId);
+            target_name = chatGroupBeanById.getGroup_name();
         } else {
-            target_name = MyApplication.getInstance().getUserMsgBeanById(targetId).getUser_name();
+            UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(targetId);
+            target_name = userMsgBeanById.getUser_name();
         }
         setTitleUser(target_name);
         mChatStatusListener = new ChatStatusListener(this);
@@ -113,7 +117,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     protected void onResume() {
         super.onResume();
         mChatStatusListener.onResume();
-
+        MyApplication.getInstance().setAnotherId(getTargetId());
     }
 
 
@@ -121,6 +125,8 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     protected void onPause() {
         super.onPause();
         mChatStatusListener.onPause();
+        MyApplication.getInstance().setAnotherId("");
+
     }
 
 

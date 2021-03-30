@@ -8,14 +8,18 @@ import com.google.gson.Gson;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
+import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
+import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.SocketData;
+import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.net.socket.SocketDispense;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
 import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
+import com.xhab.chatui.utils.NotificationManagerUtils;
 import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.StackManager;
 import com.xhab.utils.net.socket.OkioSocket;
@@ -24,6 +28,7 @@ import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.RxUtils;
 import com.xhab.utils.utils.ToastUtil;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -167,6 +172,7 @@ public class ChatService extends Service {
     }
 
     private void downloadMsgFile(ChatMessage message) {
+        showNotification(message);
         if (message.getMsgType() == MsgType.TEXT
                 || message.getMsgType() == MsgType.SYSTEM
                 || message.getMsgType() == MsgType.FILE
@@ -179,6 +185,47 @@ public class ChatService extends Service {
             message.setLocalPath(completePath);
             RxUtils.runOnUiThread(() -> RxBus.get().post(Const.RxType.TYPE_MSG_ADD, message));
         });
-
     }
+
+    private void showNotification(ChatMessage message) {
+        if (message.getMsgType() == MsgType.SYSTEM) return;
+        String anotherId = message.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id());
+        if (Objects.equals(MyApplication.getInstance().getAnotherId(), anotherId)) return;
+        RxUtils.runOnIoThread(() -> {
+            Intent intent = new Intent(this, ChatActivity.class);
+            String name;
+            String portrait;
+            String targetId;
+            String msg = message.getMsg();
+            if (message.isGroup()) {
+                intent.putExtra("isGroup", true);
+                ChatGroupBean chatGroupBean = MyApplication.getInstance().getChatGroupBeanById(message.getTargetId());
+                if (chatGroupBean != null) {
+                    name = chatGroupBean.getGroup_name();
+                    portrait = chatGroupBean.getGroup_portrait();
+                } else {
+                    name = message.getTargetId();
+                    portrait = "";
+                }
+                targetId = message.getTargetId();
+            } else {
+                UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(message.getSenderId());
+                if (userMsgBeanById != null) {
+                    name = userMsgBeanById.getUser_name();
+                    portrait = userMsgBeanById.getHead_portrait();
+                } else {
+                    name = message.getSenderId();
+                    portrait = "";
+                }
+                targetId = message.getSenderId();
+            }
+            intent.putExtra("targetId", targetId);
+            NotificationManagerUtils.showNotification(this, intent,
+                    true, 1,
+                    Const.Api.API_HOST + portrait, name, msg);
+
+        });
+    }
+
+
 }
