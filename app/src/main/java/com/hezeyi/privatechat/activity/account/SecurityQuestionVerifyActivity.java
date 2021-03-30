@@ -1,6 +1,6 @@
 package com.hezeyi.privatechat.activity.account;
 
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.SecurityBean;
@@ -46,7 +46,7 @@ public class SecurityQuestionVerifyActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
-        UserMsgBean userMsgBean = DataInMemory.getInstance().getUserMsgBean();
+        UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
         HttpManager.securitySelect(userMsgBean.getAccount(), this, securityBean -> {
             if (securityBean.getQuestion1().equals("") || securityBean.getQuestion2().equals("")) {
                 setResult(RESULT_CODE_NO_SETUP);

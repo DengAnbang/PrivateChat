@@ -1,6 +1,6 @@
 package com.hezeyi.privatechat.activity.chat;
 
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.juphoon.cloud.JCCallItem;
@@ -22,13 +22,13 @@ public class ChatVoiceActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
-        mJcCallItem = DataInMemory.getInstance().getJCCallItem();
+        mJcCallItem = MyApplication.getInstance().getJCCallItem();
         boolean isCall = getIntent().getBooleanExtra("isCall", false);
         if (isCall) {
             String target_name = getIntent().getStringExtra("target_name");
             setTitleString(target_name);
             String targetId = getIntent().getStringExtra("targetId");
-            JuphoonUtils.get().call(targetId, DataInMemory.getInstance().getUserMsgBean().getUser_name());
+            JuphoonUtils.get().call(targetId, MyApplication.getInstance().getUserMsgBean().getUser_name());
             visibility(R.id.tv_next, false);
         } else {
             String extraParam = mJcCallItem.getExtraParam();

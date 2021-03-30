@@ -2,7 +2,7 @@ package com.hezeyi.privatechat.activity.chat;
 
 import android.content.Intent;
 
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.adapter.SelectFriendsAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
@@ -76,7 +76,7 @@ public class SelectFriendsActivity extends BaseActivity {
     public void initData() {
         super.initData();
         mIds = getIntent().getStringExtra("ids");
-        String user_id = DataInMemory.getInstance().getUserMsgBean().getUser_id();
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
             Disposable subscribe = Observable.fromIterable(userMsgBeans).filter(userMsgBean -> !mIds.contains(userMsgBean.getUser_id()))
                     .toList().subscribe((userMsgBeans1, throwable) -> {

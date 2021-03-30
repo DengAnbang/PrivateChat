@@ -3,7 +3,7 @@ package com.hezeyi.privatechat.activity.account;
 import android.content.Intent;
 import android.view.Gravity;
 
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -22,7 +22,7 @@ public class MeDetailsActivity extends BaseActivity {
     public void initView() {
         super.initView();
         setTitleString("个人信息");
-        UserMsgBean userMsgBean = DataInMemory.getInstance().getUserMsgBean();
+        UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
         if (userMsgBean != null) {
             setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
             setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);

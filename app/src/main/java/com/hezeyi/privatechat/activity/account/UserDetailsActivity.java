@@ -2,7 +2,7 @@ package com.hezeyi.privatechat.activity.account;
 
 import android.view.Gravity;
 
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -36,7 +36,7 @@ public class UserDetailsActivity extends BaseActivity {
                 finish();
             }
         });
-        UserMsgBean userMsgBean = DataInMemory.getInstance().getUserMsgBean();
+        UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
         click(R.id.tv_submit, view -> {
             HttpManager.addFriend(userMsgBean.getUser_id(), to_user_id, "1", this, o -> {
                 ToastUtil.showToast("添加成功!");

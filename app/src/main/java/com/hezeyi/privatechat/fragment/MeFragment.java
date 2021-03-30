@@ -4,7 +4,7 @@ package com.hezeyi.privatechat.fragment;
 import android.content.Intent;
 import android.view.View;
 
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.MeDetailsActivity;
 import com.hezeyi.privatechat.activity.account.NewMsgSetUpActivity;
@@ -40,7 +40,7 @@ public class MeFragment extends BaseFragment {
 
     @Override
     public void onFirstVisibleToUser(View view) {
-        UserMsgBean userMsgBean = DataInMemory.getInstance().getUserMsgBean();
+        UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
         if (userMsgBean == null) {
             return;
         }

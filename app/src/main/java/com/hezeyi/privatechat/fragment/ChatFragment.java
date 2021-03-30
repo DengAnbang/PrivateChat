@@ -3,11 +3,18 @@ package com.hezeyi.privatechat.fragment;
 
 import android.view.View;
 
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.adapter.ChatListMessageAdapter;
 import com.hezeyi.privatechat.base.BaseFragment;
+import com.xhab.chatui.bean.chat.ChatListMessage;
+import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.utils.utils.LogUtils;
 
-import androidx.annotation.Nullable;
+import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -20,10 +27,16 @@ public class ChatFragment extends BaseFragment {
         return R.layout.fragment_chat;
     }
 
+    private ChatListMessageAdapter mChatListMessageAdapter = new ChatListMessageAdapter();
+
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
         LogUtils.e("onVisibleToUser*****: ChatFragment");
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        List<ChatListMessage> chatListMessages = ChatDatabaseHelper.get(getActivity(), user_id).chatListDbSelect();
+        LogUtils.e("onFirstVisibleToUser*****: ChatFragment" + chatListMessages.size());
+        mChatListMessageAdapter.setListMessages(chatListMessages);
     }
 
     @Override
@@ -33,7 +46,10 @@ public class ChatFragment extends BaseFragment {
     }
 
     @Override
-    public void onFirstVisibleToUser(@Nullable View view) {
-        LogUtils.e("onFirstVisibleToUser*****: ChatFragment");
+    public void onFirstVisibleToUser(View view) {
+        super.onFirstVisibleToUser(view);
+        RecyclerView recyclerView = view.findViewById(R.id.rv_content);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(mChatListMessageAdapter);
     }
 }

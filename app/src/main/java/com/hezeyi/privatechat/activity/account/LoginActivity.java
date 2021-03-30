@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.hezeyi.privatechat.BuildConfig;
 import com.hezeyi.privatechat.Const;
-import com.hezeyi.privatechat.DataInMemory;
 import com.hezeyi.privatechat.MainActivity;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
@@ -30,7 +29,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-
         click(R.id.tv_submit, view -> requestPermissions());
         click(R.id.tv_forget, view -> {
 //            Intent intent = new Intent(this, ChatGroupMsgActivity.class);
@@ -65,7 +63,7 @@ public class LoginActivity extends BaseActivity {
             startIntent.putExtra("account", account);
             startIntent.putExtra("password", password);
             startService(startIntent);
-            DataInMemory.getInstance().setUserMsgBean(userMsgBean);
+            MyApplication.getInstance().setUserMsgBean(userMsgBean);
             SPUtils.save(Const.Sp.account, account);
             SPUtils.save(Const.Sp.password, password);
             MyApplication.getInstance().setLock(true);

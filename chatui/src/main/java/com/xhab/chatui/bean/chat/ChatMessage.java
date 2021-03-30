@@ -173,9 +173,15 @@ public class ChatMessage {
         isGroup = group;
     }
 
+    public String getAnotherId(String userId) {
+        if (getTargetId().equals(userId)) {
+            return getSenderId();
+        }
+        return getTargetId();
+    }
+
     public static ChatMessage create(Cursor cursor) {
         ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setId(cursor.getInt(cursor.getColumnIndex("id")));
         chatMessage.setMsgType(cursor.getInt(cursor.getColumnIndex("msgType")));
         chatMessage.setSentStatus(cursor.getInt(cursor.getColumnIndex("sentStatus")));
         chatMessage.setUuid(cursor.getString(cursor.getColumnIndex("uuid")));
@@ -191,6 +197,19 @@ public class ChatMessage {
         chatMessage.setGroup(cursor.getInt(cursor.getColumnIndex("isGroup")) == 1);
 
         return chatMessage;
+    }
+
+    public static ChatListMessage createChatListMessage(ChatMessage message) {
+        ChatListMessage chatListMessage = new ChatListMessage();
+        chatListMessage.setTarget_id(message.getTargetId());
+        chatListMessage.setSender_id(message.getSenderId());
+        chatListMessage.setMsgType(message.getMsgType());
+        chatListMessage.setSentTime(message.getSentTime());
+        chatListMessage.setMsg(message.getMsg());
+        chatListMessage.setExtra(message.getExtra());
+        chatListMessage.setIs_group(message.isGroup() ? 1 : 0);
+        chatListMessage.setUnread(1);
+        return chatListMessage;
     }
 
     public static ContentValues setContentValues(ContentValues contentValues, ChatMessage message) {

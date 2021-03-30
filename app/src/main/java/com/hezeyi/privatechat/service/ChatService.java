@@ -6,7 +6,7 @@ import android.os.IBinder;
 
 import com.google.gson.Gson;
 import com.hezeyi.privatechat.Const;
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
 import com.hezeyi.privatechat.bean.SocketData;
@@ -51,14 +51,14 @@ public class ChatService extends Service {
 
     private void initSocket() {
         JuphoonUtils.get().setCallBackAdd(item -> {
-            DataInMemory.getInstance().setJCCallItem(item);
+            MyApplication.getInstance().setJCCallItem(item);
             Intent intent = new Intent(ChatService.this, ChatVoiceActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         });
 
 
-        Disposable subscribe4 = Observable.interval(15, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        Disposable subscribe4 = Observable.interval(20, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
                 okioSocket.send(s);
@@ -124,7 +124,7 @@ public class ChatService extends Service {
     }
 
     public void loginSocket(String userId) {
-        JuphoonUtils.get().login(userId, "123456");
+//        JuphoonUtils.get().login(userId, "123456");
         ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "", false);
         data.setSenderId(userId);
         String s = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
@@ -155,7 +155,9 @@ public class ChatService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mUserId = intent.getStringExtra("userId");
+        if (intent != null) {
+            mUserId = intent.getStringExtra("userId");
+        }
 
         if (mUserId != null) {
             loginSocket(mUserId);

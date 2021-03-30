@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
+import com.xhab.chatui.bean.chat.ChatMessage;
+
 /**
  * Created by dab on 2021/3/22 16:56
  */
@@ -29,26 +31,22 @@ public class ChatDatabase extends SQLiteOpenHelper {
     }
 
     /**
-     * @param special 如果是我发送的消息或者收到的群消息,填targetId,如果是不是群消息填且是别人发我的senderId
-     * @return
+     * 如果是我发送的消息或者收到的群消息,填targetId,如果是不是群消息填且是别人发我的senderId
      */
-    public String getChatTableName(String special) {
+    public String getChatTableName(ChatMessage message) {
+        String special = message.getAnotherId(getUser_id());
         String s;
         s = "chat_" + user_id + "_to_" + special;  //群表名+我发送时候
         initChatDatabase(s);
         return s;
     }
-//    public String getChatTableName(String senderId, String targetId) {
-//        String s;
-//        if (user_id.equals(senderId)) {
-//            s = "chat_" + senderId + "_to_" + targetId;
-//        } else {
-//            s = "chat_" + targetId + "_to_" + senderId;
-//        }
-//
-//        initChatDatabase(s);
-//        return s;
-//    }
+
+    public String getChatTableName(String targetId) {
+        String s;
+        s = "chat_" + user_id + "_to_" + targetId;  //群表名+我发送时候
+        initChatDatabase(s);
+        return s;
+    }
 
     public String getChatListTableName() {
         String s = "chat_" + user_id;
@@ -60,8 +58,8 @@ public class ChatDatabase extends SQLiteOpenHelper {
         if (!TextUtils.isEmpty(tableName)) {
             StringBuilder stringBuilder = new StringBuilder("create table if not exists ");
             stringBuilder.append(tableName);
-            stringBuilder.append("(id integer primary key autoincrement");
-            stringBuilder.append(",uuid varchar(20)");
+//            stringBuilder.append("(id integer primary key autoincrement");
+            stringBuilder.append("(uuid varchar(20)");
             stringBuilder.append(",msgType integer");
             stringBuilder.append(",sentStatus integer");
             stringBuilder.append(",senderId varchar(20)");
@@ -75,6 +73,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
             stringBuilder.append(",remoteUrl varchar(255)");
             stringBuilder.append(",extra text");
             stringBuilder.append(",msg text");
+            stringBuilder.append(",PRIMARY KEY(uuid) ");
             stringBuilder.append(")");
             //创建数据库sql语句 并 执行
             getWritableDatabase().execSQL(stringBuilder.toString());
@@ -85,8 +84,10 @@ public class ChatDatabase extends SQLiteOpenHelper {
         if (!TextUtils.isEmpty(tableName)) {
             StringBuilder stringBuilder = new StringBuilder("create table if not exists ");
             stringBuilder.append(tableName);
-            stringBuilder.append("(id integer primary key autoincrement");
-            stringBuilder.append(",target_id varchar(20)");
+//            stringBuilder.append("(id integer primary key autoincrement");
+            stringBuilder.append(" (target_id varchar(20)");
+            stringBuilder.append(",sender_id varchar(20)");
+            stringBuilder.append(",another_id varchar(20) ");
             stringBuilder.append(",msgType integer");
             stringBuilder.append(",target_name varchar(255)");
             stringBuilder.append(",target_portrait varchar(255)");
@@ -95,7 +96,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
             stringBuilder.append(",is_group integer");
             stringBuilder.append(",extra text");
             stringBuilder.append(",msg text");
-            stringBuilder.append(")");
+            stringBuilder.append(",PRIMARY KEY( another_id)); ");
             //创建数据库sql语句 并 执行
             getWritableDatabase().execSQL(stringBuilder.toString());
         }

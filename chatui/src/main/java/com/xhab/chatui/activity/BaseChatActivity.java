@@ -342,6 +342,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                 || (message.getTargetId().equals(mSenderId) && message.getSenderId().equals(mTargetId))//单聊的情况下,当前发给我的消息
         ) {
             mAdapter.addData(message);
+            mRvChat.scrollToPosition(mAdapter.getItemCount() - 1);
         }
         if (isAddDb) {
             ChatDatabaseHelper.get(this, getUserId()).chatDbInsert(message);
@@ -382,7 +383,8 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     @Override
     public void onRefresh() {
         new Thread(() -> {
-            List<ChatMessage> chatMessages = ChatDatabaseHelper.get(this, getUserId()).chatMsgSelect(mAdapter.getData(), getTargetId());
+            String targetId = getTargetId();
+            List<ChatMessage> chatMessages = ChatDatabaseHelper.get(this, getUserId()).chatMsgSelect(mAdapter.getData(), targetId);
             mSwipeRefresh.post(() -> {
                 mAdapter.addData(0, chatMessages);
                 mSwipeRefresh.setRefreshing(false);

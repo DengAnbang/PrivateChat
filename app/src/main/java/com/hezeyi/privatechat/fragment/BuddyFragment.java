@@ -3,7 +3,7 @@ package com.hezeyi.privatechat.fragment;
 import android.content.Intent;
 import android.view.View;
 
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.activity.chat.ChatGroupActivity;
@@ -75,17 +75,17 @@ public class BuddyFragment extends BaseFragment {
             }
         });
         mBuddyAdapter.setOnItemClickListener((view1, position, userMsgBean) -> {
-            String user_id = DataInMemory.getInstance().getUserMsgBean().getUser_id();
+            String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
             Intent intent = new Intent(getActivity(), ChatActivity.class);
             intent.putExtra("target_name", userMsgBean.getUser_name());
-            intent.putExtra("sender_name", DataInMemory.getInstance().getUserMsgBean().getUser_name());
-            intent.putExtra("userId", userMsgBean.getUser_id());
+            intent.putExtra("sender_name", MyApplication.getInstance().getUserMsgBean().getUser_name());
+            intent.putExtra("userId", user_id);
             intent.putExtra("senderId", user_id);
             intent.putExtra("targetId", userMsgBean.getUser_id());
             startActivity(intent);
         });
         click(R.id.tv_group, v -> {
-            String user_id = DataInMemory.getInstance().getUserMsgBean().getUser_id();
+            String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
             Intent intent = new Intent(getActivity(), ChatGroupActivity.class);
             intent.putExtra("userId", user_id);
             startActivity(intent);
@@ -94,7 +94,7 @@ public class BuddyFragment extends BaseFragment {
     }
 
     private void getUserList() {
-        String user_id = DataInMemory.getInstance().getUserMsgBean().getUser_id();
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
             mBuddyAdapter.setDataList(userMsgBeans);
         });

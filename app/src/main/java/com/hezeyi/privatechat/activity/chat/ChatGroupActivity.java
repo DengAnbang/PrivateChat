@@ -2,7 +2,7 @@ package com.hezeyi.privatechat.activity.chat;
 
 import android.content.Intent;
 
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.adapter.BuddyAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
@@ -68,10 +68,10 @@ public class ChatGroupActivity extends BaseActivity {
             }
         });
         mBuddyAdapter.setOnItemClickListener((view1, position, userMsgBean) -> {
-            String user_id = DataInMemory.getInstance().getUserMsgBean().getUser_id();
+            String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
             Intent intent = new Intent(this, ChatActivity.class);
             intent.putExtra("target_name", userMsgBean.getGroup_name());
-            intent.putExtra("sender_name", DataInMemory.getInstance().getUserMsgBean().getUser_name());
+            intent.putExtra("sender_name", MyApplication.getInstance().getUserMsgBean().getUser_name());
             intent.putExtra("userId", userMsgBean.getUser_id());
             intent.putExtra("senderId", user_id);
             intent.putExtra("targetId", userMsgBean.getGroup_id());

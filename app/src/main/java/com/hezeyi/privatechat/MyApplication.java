@@ -11,6 +11,8 @@ import android.os.StrictMode;
 import android.text.TextUtils;
 
 import com.hezeyi.privatechat.activity.LockActivity;
+import com.hezeyi.privatechat.bean.UserMsgBean;
+import com.juphoon.cloud.JCCallItem;
 import com.tencent.bugly.Bugly;
 import com.xhab.chatui.emoji.EmojiDao;
 import com.xhab.chatui.voiceCalls.JuphoonUtils;
@@ -113,5 +115,23 @@ public class MyApplication extends Application {
             }
         });
     }
+    private UserMsgBean mUserMsgBean;
 
+    public UserMsgBean getUserMsgBean() {
+        return mUserMsgBean;
+    }
+
+    public void setUserMsgBean(UserMsgBean userMsgBean) {
+        mUserMsgBean = userMsgBean;
+    }
+
+    private JCCallItem mJCCallItem;
+
+    public JCCallItem getJCCallItem() {
+        return mJCCallItem;
+    }
+
+    public void setJCCallItem(JCCallItem JCCallItem) {
+        mJCCallItem = JCCallItem;
+    }
 }

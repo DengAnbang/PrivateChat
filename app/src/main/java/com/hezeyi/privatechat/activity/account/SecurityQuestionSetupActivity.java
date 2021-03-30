@@ -2,7 +2,7 @@ package com.hezeyi.privatechat.activity.account;
 
 import android.content.Intent;
 
-import com.hezeyi.privatechat.DataInMemory;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
@@ -41,7 +41,7 @@ public class SecurityQuestionSetupActivity extends BaseActivity {
             FunUtils.checkIsNullable(a1, "答案1,不能为空!");
             FunUtils.checkIsNullable(q2, "问题2,不能为空!");
             FunUtils.checkIsNullable(a2, "答案2,不能为空!");
-            String account = DataInMemory.getInstance().getUserMsgBean().getAccount();
+            String account = MyApplication.getInstance().getUserMsgBean().getAccount();
             HttpManager.securityUpdate(account, q1, a1, q2, a2, this, o -> {
                 ToastUtil.showToast("设置成功!");
                 finish();
