@@ -13,6 +13,7 @@ import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.chatui.utils.GlideUtils;
+import com.xhab.chatui.voiceCalls.BaseVoiceActivity;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.QRCodeUtils;
 
@@ -79,6 +80,9 @@ public class MeFragment extends BaseFragment {
             });
 
         });
-
+        click(R.id.ttv_contact_us, v -> {
+            Intent intent = new Intent(getActivity(), BaseVoiceActivity.class);
+            startActivity(intent);
+        });
     }
 }

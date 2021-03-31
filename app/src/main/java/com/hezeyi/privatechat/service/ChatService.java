@@ -36,7 +36,6 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 
 public class ChatService extends Service implements RequestHelperImp {
 
@@ -202,10 +201,10 @@ public class ChatService extends Service implements RequestHelperImp {
             return;
         }
         String completePath = Const.FilePath.chatFileLocalPath + message.getRemoteUrl();
-        Disposable disposable = HttpManager.downloadFileNew(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean -> {
+        addDisposable(HttpManager.downloadFileNew(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean -> {
             message.setLocalPath(completePath);
             RxUtils.runOnUiThread(() -> RxBus.get().post(Const.RxType.TYPE_MSG_ADD, message));
-        });
+        }));
     }
 
     private void showNotification(ChatMessage message) {

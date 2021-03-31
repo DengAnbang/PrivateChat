@@ -54,23 +54,26 @@ public class NotificationManagerUtils {
 //        showNotification(context, conversationType, targetId, avatar, name, content);
 //    }
 
+
     @WorkerThread
     public static void showNotification(Context context, Intent intent, boolean shouldRemind, int targetId, String avatar, String name, String content) {
-        String channel_id = "channel_id_1";
-
+        String channel_id = "id_108";
+        String channel_name = "新消息到达";
+        avatar = avatar.replace("\\", "/");
 //        NotificationManagerCompat notificationManager = (NotificationManagerCompat) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             //只在Android O之上需要渠道
             NotificationChannel notificationChannel = new NotificationChannel(channel_id,
-                    channel_id, NotificationManager.IMPORTANCE_HIGH);
+                    channel_name, NotificationManager.IMPORTANCE_HIGH);
             //如果这里用IMPORTANCE_NOENE就需要在系统的设置里面开启渠道，
             //通知才能正常弹出
+            notificationChannel.enableVibration(true);//震动不可用
             mNotificationManager.createNotificationChannel(notificationChannel);
         }
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channel_id);
         mBuilder.setPriority(Notification.PRIORITY_MAX);//可以让通知显示在最上面
-//        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setSmallIcon(R.mipmap.logo);
         mBuilder.setWhen(System.currentTimeMillis());
         mBuilder.setAutoCancel(true);
         if (shouldRemind) {
@@ -86,8 +89,9 @@ public class NotificationManagerUtils {
         }
         mBuilder.setLargeIcon(largeIcon);
         mBuilder.setContentTitle(name);
+        mBuilder.setChannelId(channel_id);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
+        mBuilder.setFullScreenIntent(pendingIntent, true);
         //通知首次出现在通知栏，带上升动画效果的
         mBuilder.setTicker(content);
         //内容

@@ -17,7 +17,6 @@ import com.juphoon.cloud.JCCallItem;
 import com.tencent.bugly.Bugly;
 import com.xhab.chatui.ChatUi;
 import com.xhab.chatui.emoji.EmojiDao;
-import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.StackManager;
 import com.xhab.utils.utils.ForegroundCallbacks;
 import com.xhab.utils.utils.LogUtils;
@@ -70,7 +69,7 @@ public class MyApplication extends Application {
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
         SPUtils.init(this, "privatechat");
-        JuphoonUtils.get().initialize(this, "2f28a4e830fb84d0da705096");
+
         String curProcess = getProcessName(this, android.os.Process.myPid());
         if (!TextUtils.equals(curProcess, "com.hezeyi.privatechat." + BuildConfig.FLAVOR)) {
             return;

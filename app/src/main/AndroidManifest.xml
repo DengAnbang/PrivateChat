@@ -40,7 +40,11 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- 视频通话权限所需 -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!--前台服务开启权限-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <!--弹出横幅通知的权限-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -57,6 +61,7 @@
             android:enabled="true"
             android:exported="true">
         </service>
+        <service android:name=".service.VoiceFloatingService"/>
 
         <meta-data
             android:name="CHANNEL"

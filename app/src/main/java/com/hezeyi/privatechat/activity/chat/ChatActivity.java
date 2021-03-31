@@ -124,7 +124,6 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             Intent intent = new Intent(this, ChatVoiceActivity.class);
             intent.putExtra("isCall", true);
             intent.putExtra("targetId", getIntent().getStringExtra("targetId"));
-            intent.putExtra("target_name", target_name);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         });

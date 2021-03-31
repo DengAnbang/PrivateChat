@@ -18,7 +18,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
-    <application android:usesCleartextTraffic="true">
 
+    <application android:usesCleartextTraffic="true">
+        <service android:name=".service.BaseVoiceFloatingService"/>
+        <activity android:name=".voiceCalls.BaseVoiceActivity"/>
     </application>
 </manifest>

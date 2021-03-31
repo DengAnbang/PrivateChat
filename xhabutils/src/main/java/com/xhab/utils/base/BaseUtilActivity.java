@@ -110,7 +110,9 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mRequestHelperAgency.destroy();
+        if (mRequestHelperAgency != null) {
+            mRequestHelperAgency.destroy();
+        }
     }
 
     @Override

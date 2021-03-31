@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.xhab.chatui.bean.EmojiBean;
+import com.xhab.chatui.voiceCalls.JuphoonUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,6 +54,7 @@ public class EmojiDao {
     public static void init(Application application) {
         isInit = true;
         initEmojiDao(application);
+        JuphoonUtils.get().initialize(application, "2f28a4e830fb84d0da705096");
     }
 
     private static void initEmojiDao(Application application) {

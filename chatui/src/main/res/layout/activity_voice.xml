@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#7b7b76">
+
+    <ImageView
+        android:id="@+id/iv_dismiss"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/c0s"
+        />
+
+
+    <!--    长按悬浮窗回到当前页面\n（APP外触发则需要 后台弹出界面 权限）-->
+    <TextView
+        android:paddingLeft="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_dismiss"
+        android:gravity="center"
+        android:text="长按悬浮窗回到当前页面"
+        android:textColor="@android:color/white"
+        />
+
+    <ImageView
+        android:id="@+id/iv_head_portrait"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/ic_launcher_round"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_head_portrait"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="5dp"
+        android:text="少收神"
+        android:textColor="@color/picture_color_white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:gravity="center_horizontal">
+
+        <!--<ImageView-->
+        <!--android:layout_width="70dp"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:background="@drawable/shape_green_dot"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--android:src="@mipmap/c0o"/>-->
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_red_dot"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/c0o"/>
+
+        <ImageView
+            android:id="@+id/iv_answer"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="80dp"
+            android:background="@drawable/shape_green_dot"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/c0o"/>
+
+        <!--<ImageView-->
+        <!--android:layout_width="70dp"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:background="@drawable/shape_green_dot"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--android:src="@mipmap/c0o"/>-->
+    </LinearLayout>
+
+</RelativeLayout>

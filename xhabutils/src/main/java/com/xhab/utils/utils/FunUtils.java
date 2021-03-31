@@ -52,7 +52,7 @@ public class FunUtils {
     /**
      * 判断服务是否运行
      */
-    private boolean isServiceRunning(Context context, final String className) {
+    public static boolean isServiceRunning(Context context, final String className) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningServiceInfo> info = activityManager.getRunningServices(Integer.MAX_VALUE);
         if (info == null || info.size() == 0) return false;
