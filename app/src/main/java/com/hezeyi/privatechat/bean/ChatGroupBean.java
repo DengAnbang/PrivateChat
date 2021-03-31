@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat.bean;
 
+import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.inteface.BuddyShowAble;
 import com.xhab.utils.bean.Sortable;
 
@@ -77,6 +78,11 @@ public class ChatGroupBean extends Sortable implements BuddyShowAble {
     @Override
     public String getShowPortrait() {
         return group_portrait == null ? "" : group_portrait;
+    }
+
+    @Override
+    public int getPlaceholder() {
+        return  R.mipmap.group_icon;
     }
 
     @NonNull

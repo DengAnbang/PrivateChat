@@ -9,10 +9,11 @@
 
     <ImageView
         android:id="@+id/iv_head_portrait"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
         android:padding="5dp"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:scaleType="centerCrop"
+        android:src="@mipmap/group_icon"/>
 
     <TextView
         android:id="@+id/tv_name"

@@ -22,10 +22,13 @@ import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.chatui.utils.NotificationManagerUtils;
 import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.StackManager;
+import com.xhab.utils.net.RequestHelperAgency;
+import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.net.socket.OkioSocket;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.RxUtils;
+import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.ToastUtil;
 
 import java.util.Objects;
@@ -35,20 +38,26 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class ChatService extends Service {
+public class ChatService extends Service implements RequestHelperImp {
 
     private String mUserId;
     private boolean isConnection;
 
     public ChatService() {
-        init();
-        okioSocket = new OkioSocket();
-        initSocket();
-        connectSocket();
+
     }
 
     private void init() {
 
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        init();
+        okioSocket = new OkioSocket();
+        initSocket();
+        connectSocket();
     }
 
     private OkioSocket okioSocket;
@@ -61,34 +70,32 @@ public class ChatService extends Service {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         });
+        okioSocket.setOnMessageChange(SocketDispense::parseJson);
 
-
-        Disposable subscribe4 = Observable.interval(20, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        addDisposable(Observable.interval(20, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
                 okioSocket.send(s);
             }
-        });
-
-        Disposable subscribe5 = RxBus.get().register(Const.RxType.CONNECTION, Object.class).subscribe(s -> {
+        }));
+        addDisposable(RxBus.get().register(Const.RxType.CONNECTION, Object.class).subscribe(s -> {
             isConnection = true;
             if (mUserId != null) {
                 loginSocket(mUserId);
             }
-        });
+        }));
 
-        okioSocket.setOnMessageChange(SocketDispense::parseJson);
         //接收消息
-        Disposable subscribe = RxBus.get().register(Const.RxType.TYPE_MSG_RECEIVE, String.class).subscribe(s -> {
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_RECEIVE, String.class).subscribe(s -> {
             ChatMessage message = new Gson().fromJson(s, ChatMessage.class);
             downloadMsgFile(message);
             if (!message.isGroup()) {
                 msgReceive(message);
             }
 
-        });
+        }));
         //发送消息
-        Disposable subscribe2 = RxBus.get().register(Const.RxType.TYPE_MSG_SEND, ChatMessage.class).subscribe(message -> {
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_SEND, ChatMessage.class).subscribe(message -> {
             if (message.getMsgType() == MsgType.TEXT || message.getMsgType() == MsgType.SYSTEM) {
                 sendSendMsgBean(message);
                 message.setSentStatus(MsgSendStatus.SENT);
@@ -104,22 +111,27 @@ public class ChatService extends Service {
                     RxBus.get().post(Const.RxType.TYPE_MSG_UPDATE, message);
                 });
             }
-        });
-        Disposable subscribe3 = RxBus.get().register(Const.RxType.TYPE_OTHER_LOGIN, Object.class).subscribe(o -> {
+        }));
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_OTHER_LOGIN, Object.class).subscribe(o -> {
             ToastUtil.showToast("其他人登录了此账号,请重新登陆!");
+            SPUtils.save(Const.Sp.password, "");
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             StackManager.finishExcludeActivity(LoginActivity.class);
-        });
+        }));
         //更新数据库的消息状态
-        Disposable subscribe1 = RxBus.get().register(Const.RxType.TYPE_MSG_UPDATE, ChatMessage.class).subscribe(chatMessage -> {
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_UPDATE, ChatMessage.class).subscribe(chatMessage -> {
             ChatDatabaseHelper.get(this, mUserId).updateMsg(chatMessage);
-        });
+        }));
         //添加到数据库的消息
-        Disposable subscribe6 = RxBus.get().register(Const.RxType.TYPE_MSG_ADD, ChatMessage.class).subscribe(chatMessage -> {
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_ADD, ChatMessage.class).subscribe(chatMessage -> {
             ChatDatabaseHelper.get(this, mUserId).chatDbInsert(chatMessage);
-        });
+        }));
+        //退出登录
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_LOGIN_OUT, Object.class).subscribe(chatMessage -> {
+            loginOut();
+        }));
     }
 
     public void connectSocket() {
@@ -132,8 +144,17 @@ public class ChatService extends Service {
 //        JuphoonUtils.get().login(userId, "123456");
         ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "", false);
         data.setSenderId(userId);
-        String s = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
-        okioSocket.send(s);
+//        String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
+//        okioSocket.send(login_out);
+        String login = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
+        okioSocket.send(login);
+    }
+
+    private void loginOut() {
+        ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, mUserId, "", false);
+        data.setSenderId(mUserId);
+        String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
+        okioSocket.send(login_out);
     }
 
     public void msgReceive(ChatMessage data) {
@@ -228,4 +249,19 @@ public class ChatService extends Service {
     }
 
 
+    private RequestHelperAgency mRequestHelperAgency;
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        mRequestHelperAgency.destroy();
+        return super.onUnbind(intent);
+    }
+
+    @Override
+    public RequestHelperAgency initRequestHelper() {
+        if (mRequestHelperAgency == null) {
+            mRequestHelperAgency = new RequestHelperAgency(this);
+        }
+        return mRequestHelperAgency;
+    }
 }

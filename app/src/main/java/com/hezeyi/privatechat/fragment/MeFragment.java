@@ -45,7 +45,7 @@ public class MeFragment extends BaseFragment {
         if (userMsgBean == null) {
             return;
         }
-        GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), view.findViewById(R.id.iv_head_portrait), R.mipmap.c38_touxiang);
+        GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), view.findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
 
         setTextViewString(R.id.tv_name, userMsgBean.getUser_name());
         setTextViewString(R.id.tv_account, "账号:" + userMsgBean.getAccount());

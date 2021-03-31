@@ -51,6 +51,7 @@ public class Const {
         public static final String TYPE_HEARTBEAT = "2";//心跳
         public static final String TYPE_OTHER_LOGIN = "10001";//其他人登陆
         public static final String TYPE_LOGIN = "10002"; //登录
+        public static final String TYPE_LOGIN_OUT = "10003"; //退出登录
         //消息
         public static final String TYPE_MSG_UPDATE = "20000";//更新消息状态
         public static final String TYPE_MSG_SEND = "20001";//发送消息

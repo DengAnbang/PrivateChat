@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat;
 
+import android.Manifest;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import com.hezeyi.privatechat.fragment.AdminFragment;
 import com.hezeyi.privatechat.fragment.BuddyFragment;
 import com.hezeyi.privatechat.fragment.ChatFragment;
 import com.hezeyi.privatechat.fragment.MeFragment;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xhab.utils.base.BaseBottomTabUtilActivity;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.List;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import io.reactivex.disposables.Disposable;
 
 
 public class MainActivity extends BaseBottomTabUtilActivity {
@@ -92,6 +95,32 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         fragments.add(new MeFragment());
         fragments.add(new AdminFragment());
         return fragments;
+    }
+
+    @Override
+    public void initEvent() {
+        super.initEvent();
+        requestPermissions();
+    }
+    private void requestPermissions() {
+        RxPermissions rxPermission = new RxPermissions(this);
+        Disposable subscribe = rxPermission.request(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,//存储权限
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.ACCESS_NOTIFICATION_POLICY,
+                Manifest.permission.RECORD_AUDIO
+        )
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+
+                    } else {
+                        showSnackBar("请到设置见面打开所需权限!");
+//                        gotoHuaweiPermission();
+                    }
+                });
+        addDisposable(subscribe);
     }
 
 }

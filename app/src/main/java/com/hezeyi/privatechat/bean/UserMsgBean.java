@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat.bean;
 
+import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.inteface.BuddyShowAble;
 import com.xhab.utils.bean.Sortable;
 import com.xhab.utils.inteface.ChooseAble;
@@ -84,6 +85,11 @@ public class UserMsgBean extends Sortable implements BuddyShowAble, ChooseAble {
     @Override
     public String getShowPortrait() {
         return head_portrait == null ? "" : head_portrait;
+    }
+
+    @Override
+    public int getPlaceholder() {
+        return R.mipmap.c38_touxiang;
     }
 
 

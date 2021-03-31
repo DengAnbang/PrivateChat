@@ -17,6 +17,7 @@ public class RequestHelperAgency implements RequestHelper {
     private ProgressDialog mProgressDialog;
     private int mDialogNum;
 
+    ///////////////必须调用destroy
     public RequestHelperAgency(Context context) {
         mContext = context;
         if (mProgressDialog == null) {

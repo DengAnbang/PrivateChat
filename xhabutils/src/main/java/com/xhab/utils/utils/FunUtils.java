@@ -1,10 +1,13 @@
 package com.xhab.utils.utils;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.xhab.utils.Const;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -46,5 +49,17 @@ public class FunUtils {
         return name;
     }
 
+    /**
+     * 判断服务是否运行
+     */
+    private boolean isServiceRunning(Context context, final String className) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> info = activityManager.getRunningServices(Integer.MAX_VALUE);
+        if (info == null || info.size() == 0) return false;
+        for (ActivityManager.RunningServiceInfo aInfo : info) {
+            if (className.equals(aInfo.service.getClassName())) return true;
+        }
+        return false;
+    }
 
 }

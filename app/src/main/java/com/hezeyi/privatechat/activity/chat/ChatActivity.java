@@ -56,10 +56,10 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             if (userMsgBeanById == null) {
                 HttpManager.userSelectById(item.getSenderId(), false, this, userMsgBean -> {
                     MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
-                    GlideUtils.loadHeadPortrait(userMsgBean.getShowPortrait(), imageView, R.mipmap.c38_touxiang);
+                    GlideUtils.loadHeadPortrait(userMsgBean.getShowPortrait(), imageView, userMsgBean.getPlaceholder());
                 });
             } else {
-                GlideUtils.loadHeadPortrait(userMsgBeanById.getShowPortrait(), imageView, R.mipmap.c38_touxiang);
+                GlideUtils.loadHeadPortrait(userMsgBeanById.getShowPortrait(), imageView, userMsgBeanById.getPlaceholder());
             }
         };
     }

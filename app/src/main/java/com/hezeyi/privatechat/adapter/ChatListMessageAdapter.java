@@ -51,13 +51,14 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
             ChatGroupBean chatGroupBeanById = MyApplication.getInstance().getChatGroupBeanById(chatListMessage.getTarget_id());
             if (chatGroupBeanById != null) {
                 group_name = chatGroupBeanById.getGroup_name();
-                GlideUtils.loadHeadPortrait(chatGroupBeanById.getGroup_portrait(), holder.portrait, R.mipmap.c38_touxiang);
+
+                GlideUtils.loadHeadPortrait(chatGroupBeanById.getGroup_portrait(), holder.portrait, chatGroupBeanById.getPlaceholder());
             }
         } else {
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
             if (userMsgBeanById != null) {
                 group_name = userMsgBeanById.getUser_name();
-                GlideUtils.loadHeadPortrait( userMsgBeanById.getHead_portrait(), holder.portrait, R.mipmap.c38_touxiang);
+                GlideUtils.loadHeadPortrait( userMsgBeanById.getHead_portrait(), holder.portrait, userMsgBeanById.getPlaceholder());
             }
 
         }

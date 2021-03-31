@@ -80,6 +80,7 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
             LogUtils.e("visibility*****: textView instanceof TextView !!!!!!!");
         }
     }
+
     public void setTitleString(String titleString) {
         setTextViewString(R.id.tv_title, titleString);
     }
@@ -106,6 +107,11 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
 
     private RequestHelperAgency mRequestHelperAgency;
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRequestHelperAgency.destroy();
+    }
 
     @Override
     public RequestHelperAgency initRequestHelper() {

@@ -1,9 +1,15 @@
 package com.hezeyi.privatechat.activity;
 
 import android.content.Intent;
+import android.text.TextUtils;
 
+import com.hezeyi.privatechat.Const;
+import com.hezeyi.privatechat.MainActivity;
+import com.hezeyi.privatechat.MyApplication;
+import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
 import com.xhab.utils.base.BaseUtilActivity;
+import com.xhab.utils.utils.SPUtils;
 
 /**
  * 启动页
@@ -20,11 +26,45 @@ public class SplashActivity extends BaseUtilActivity {
         super.initView();
         Intent startIntent = new Intent(this, ChatService.class);
         startService(startIntent);
-        //停留1.5S进入主页
-        getWindow().getDecorView().postDelayed(() -> {
-            startActivity(new Intent(SplashActivity.this, GuiderActivity.class));
-            finish();
-        }, 1500);
+        String account = SPUtils.getString(Const.Sp.account, "");
+        String password = SPUtils.getString(Const.Sp.password, "");
+        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
+            //停留1.5S进入主页
+            getWindow().getDecorView().postDelayed(() -> {
+                startActivity(new Intent(SplashActivity.this, GuiderActivity.class));
+                finish();
+            }, 1500);
+            return;
+        }
+        login(account, password);
+    }
+
+    private void login(String account, String password) {
+        HttpManager.login(account, password, this, userMsgBean -> {
+            Intent startIntent = new Intent(this, ChatService.class);
+            startIntent.putExtra("userId", userMsgBean.getUser_id());
+            startIntent.putExtra("account", account);
+            startIntent.putExtra("password", password);
+            startService(startIntent);
+            MyApplication.getInstance().setUserMsgBean(userMsgBean);
+            getUserList();
+
+
+        });
+    }
+
+    private void getUserList() {
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
+            MyApplication.getInstance().setUserMsgBeans(userMsgBeans);
+            HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
+                MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
+                MyApplication.getInstance().setLock(true);
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        });
     }
 
     @Override

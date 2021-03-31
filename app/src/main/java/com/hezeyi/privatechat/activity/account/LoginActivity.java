@@ -1,6 +1,5 @@
 package com.hezeyi.privatechat.activity.account;
 
-import android.Manifest;
 import android.content.Intent;
 
 import com.hezeyi.privatechat.BuildConfig;
@@ -11,11 +10,8 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.SPUtils;
-
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by dab on 2021/3/8 20:36
@@ -48,7 +44,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initEvent() {
         super.initEvent();
-        requestPermissions();
+
     }
 
     private void checkLogin() {
@@ -89,26 +85,6 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void requestPermissions() {
-        RxPermissions rxPermission = new RxPermissions(this);
-        Disposable subscribe = rxPermission.request(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,//存储权限
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA,
-                Manifest.permission.BLUETOOTH,
-                Manifest.permission.ACCESS_NOTIFICATION_POLICY,
-                Manifest.permission.RECORD_AUDIO
-        )
-                .subscribe(aBoolean -> {
-                    if (aBoolean) {
-
-                    } else {
-                        showSnackBar("请到设置见面打开所需权限!");
-//                        gotoHuaweiPermission();
-                    }
-                });
-        addDisposable(subscribe);
-    }
 
 
 }

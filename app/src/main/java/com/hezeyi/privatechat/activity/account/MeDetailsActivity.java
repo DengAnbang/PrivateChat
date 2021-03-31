@@ -31,7 +31,7 @@ public class MeDetailsActivity extends BaseActivity {
         if (userMsgBean != null) {
             setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
             setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
-            GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), findViewById(R.id.iv_head_portrait), R.mipmap.c38_touxiang);
+            GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
         }
         click(R.id.ttv_qr, view -> {
             Intent intent = new Intent(this, MeQrCodeActivity.class);

@@ -46,7 +46,7 @@ public class BuddyAdapter<T extends BuddyShowAble> extends RecyclerView.Adapter<
     public void onBindViewHolder(@NonNull BuddyAdapter.ViewHolder holder, int position) {
         T t = mDataList.get(position);
         holder.mTvName.setText(t.getShowName());
-        GlideUtils.loadHeadPortrait(t.getShowPortrait(), holder.mIvHeadPortrait, R.mipmap.c38_touxiang);
+        GlideUtils.loadHeadPortrait(t.getShowPortrait(), holder.mIvHeadPortrait, t.getPlaceholder());
 
         if (mOnItemClickListener != null) {
             holder.mView.setOnClickListener(view -> {
