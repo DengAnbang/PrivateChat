@@ -4,6 +4,7 @@ package com.hezeyi.privatechat.fragment;
 import android.content.Intent;
 import android.view.View;
 
+import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.chat.ChatActivity;
@@ -12,6 +13,7 @@ import com.hezeyi.privatechat.base.BaseFragment;
 import com.xhab.chatui.bean.chat.ChatListMessage;
 import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.RxBus;
 
 import java.util.List;
 
@@ -34,7 +36,11 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
+        updateMsgList();
 
+    }
+
+    private void updateMsgList() {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         List<ChatListMessage> chatListMessages = ChatDatabaseHelper.get(getActivity(), user_id).chatListDbSelect();
         mChatListMessageAdapter.setListMessages(chatListMessages);
@@ -58,9 +64,9 @@ public class ChatFragment extends BaseFragment {
             intent.putExtra("targetId", chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
             startActivity(intent);
         });
-
-        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
-        List<ChatListMessage> chatListMessages = ChatDatabaseHelper.get(getActivity(), user_id).chatListDbSelect();
-        mChatListMessageAdapter.setListMessages(chatListMessages);
+        updateMsgList();
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_SHOW_LIST, Object.class).subscribe(o -> {
+            updateMsgList();
+        }));
     }
 }

@@ -126,6 +126,7 @@ public class ChatService extends Service implements RequestHelperImp {
         //添加到数据库的消息
         addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_ADD, ChatMessage.class).subscribe(chatMessage -> {
             ChatDatabaseHelper.get(this, mUserId).chatDbInsert(chatMessage);
+            RxBus.get().post(Const.RxType.TYPE_SHOW_LIST, "");
         }));
         //退出登录
         addDisposable(RxBus.get().register(Const.RxType.TYPE_LOGIN_OUT, Object.class).subscribe(chatMessage -> {
@@ -216,6 +217,7 @@ public class ChatService extends Service implements RequestHelperImp {
             String name;
             String portrait;
             String targetId;
+            int avatarDef;
             String msg = message.getMsg();
             if (message.isGroup()) {
                 intent.putExtra("isGroup", true);
@@ -241,8 +243,8 @@ public class ChatService extends Service implements RequestHelperImp {
             }
             intent.putExtra("targetId", targetId);
             NotificationManagerUtils.showNotification(this, intent,
-                    true, 1,
-                    Const.Api.API_HOST + portrait, name, msg);
+                    true,
+                    Const.Api.API_HOST + portrait, name, msg, message.getPlaceholder());
 
         });
     }

@@ -31,6 +31,7 @@ import retrofit2.Response;
 
 public class HttpManager {
     public static void fileUpload(String fileType, String filePath, final RequestHelper requestHelper, final OnDataCallBack<String> dataClick) {
+
         File file = new File(filePath);
         if (file.exists()) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);

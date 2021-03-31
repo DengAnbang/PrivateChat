@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.google.gson.annotations.Expose;
+import com.xhab.chatui.R;
 
 import java.util.UUID;
 
@@ -44,6 +45,10 @@ public class ChatMessage {
     private boolean isGroup;//是群消息
     //////////////////////////////////视频
 
+
+    public int getPlaceholder() {
+        return isGroup ? R.mipmap.group_icon : R.mipmap.c38_touxiang;
+    }
 
     private ChatMessage() {
     }

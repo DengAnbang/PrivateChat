@@ -3,6 +3,7 @@ package com.xhab.chatui.utils;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -61,6 +62,7 @@ public class GlideUtils {
 
     public static void loadHeadPortrait(String imgUrl, final ImageView imageView, @DrawableRes final int placeholder) {
         if (imageView == null) return;
+        if (TextUtils.isEmpty(imgUrl)) return;
         imgUrl = KEY_API_HOST + imgUrl;
         final RequestOptions options = new RequestOptions()
                 .centerCrop()

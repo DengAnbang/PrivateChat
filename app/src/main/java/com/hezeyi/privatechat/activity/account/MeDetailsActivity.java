@@ -11,6 +11,7 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.activity.SelectPhotoDialog;
+import com.xhab.utils.utils.BitmapUtil;
 import com.xhab.utils.utils.LogUtils;
 
 /**
@@ -57,7 +58,8 @@ public class MeDetailsActivity extends BaseActivity {
         if (resultCode == RESULT_OK && requestCode == 55 && data != null) {
             String stringExtra = data.getStringExtra(SelectPhotoDialog.DATA);
             UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
-            HttpManager.fileUpload(Const.FilePath.userFileType, stringExtra, this, s -> {
+            String s1 = BitmapUtil.compressImage(stringExtra);
+            HttpManager.fileUpload(Const.FilePath.userFileType, s1, this, s -> {
                 HttpManager.userUpdate(userMsgBean.getAccount(), "", "", s, this, userMsgBean1 -> {
                     userMsgBean.setHead_portrait(s);
                     initView();

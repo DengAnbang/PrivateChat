@@ -40,7 +40,6 @@ public class ChatDatabaseHelper {
     public void chatDbInsert(ChatMessage message) {
         if (message.getMsgType() == MsgType.SYSTEM) return;
         chatListDbInsert(message);
-
         String tableName = mChatDatabase.getChatTableName(message);
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -81,6 +80,7 @@ public class ChatDatabaseHelper {
         ChatListMessage chatListMessage = ChatMessage.createChatListMessage(message);
         ContentValues contentValues = chatListMessage.getContentValues(mChatDatabase.getUser_id());
         long insert = writableDatabase.replace(chatListTableName, null, contentValues);
+
         Log.e("55555555555566666", "chatListDbInsert: " + insert);
     }
 
