@@ -11,7 +11,7 @@ import com.xhab.chatui.R;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
-import com.xhab.chatui.inteface.ShowImageCallback;
+import com.xhab.chatui.inteface.ShowUserImageCallback;
 import com.xhab.chatui.utils.GlideUtils;
 
 import java.io.File;
@@ -50,9 +50,9 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
 
 
     private String mSenderId;
-    private ShowImageCallback mShowImageCallback;
+    private ShowUserImageCallback mShowImageCallback;
 
-    public void setShowImageCallback(ShowImageCallback showImageCallback) {
+    public void setShowImageCallback(ShowUserImageCallback showImageCallback) {
         mShowImageCallback = showImageCallback;
     }
 
@@ -176,6 +176,10 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
         if (item.getSentStatus() == (MsgSendStatus.FAILED)) {
             helper.addOnClickListener(R.id.chat_item_fail);
             helper.getView(R.id.chat_item_fail).setTag(item);
+        }
+        if (item.getMsgType() == (MsgType.IMAGE)) {
+            helper.addOnClickListener(R.id.bivPic);
+            helper.getView(R.id.bivPic).setTag(R.id.bivPic, item);
         }
 
     }

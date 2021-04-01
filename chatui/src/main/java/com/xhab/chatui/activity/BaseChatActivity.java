@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.ToastUtils;
@@ -28,7 +27,7 @@ import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
 import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
-import com.xhab.chatui.inteface.ShowImageCallback;
+import com.xhab.chatui.inteface.ShowUserImageCallback;
 import com.xhab.chatui.utils.ChatUiHelper;
 import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.LogUtil;
@@ -68,7 +67,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     public abstract boolean isGroup();
 
     public abstract String getUserId();
-    public abstract ShowImageCallback getShowImageCallback();
+    public abstract ShowUserImageCallback getShowImageCallback();
 
     //发送消息
     public abstract void sendMsg(ChatMessage message);
@@ -115,49 +114,53 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         mRvChat.setAdapter(mAdapter);
         mSwipeRefresh.setOnRefreshListener(this);
         initChatUi();
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.rlAudio) {
-                    final boolean isSend = mAdapter.getItem(position).getSenderId().equals(mSenderId);
-                    if (ivAudio != null) {
-                        if (isSend) {
-                            ivAudio.setBackgroundResource(R.mipmap.audio_animation_list_right_3);
-                        } else {
-                            ivAudio.setBackgroundResource(R.mipmap.audio_animation_list_left_3);
-                        }
-                        ivAudio = null;
-                        MediaManager.reset();
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.rlAudio) {
+                final boolean isSend = mAdapter.getItem(position).getSenderId().equals(mSenderId);
+                if (ivAudio != null) {
+                    if (isSend) {
+                        ivAudio.setBackgroundResource(R.mipmap.audio_animation_list_right_3);
                     } else {
-                        ivAudio = view.findViewById(R.id.ivAudio);
-                        MediaManager.reset();
-                        if (isSend) {
-                            ivAudio.setBackgroundResource(R.drawable.audio_animation_right_list);
-                        } else {
-                            ivAudio.setBackgroundResource(R.drawable.audio_animation_left_list);
-                        }
-                        AnimationDrawable drawable = (AnimationDrawable) ivAudio.getBackground();
-                        drawable.start();
-                        MediaManager.playSound(BaseChatActivity.this, (mAdapter.getData().get(position)).getLocalPath(), new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                if (isSend) {
-                                    ivAudio.setBackgroundResource(R.mipmap.audio_animation_list_right_3);
-                                } else {
-                                    ivAudio.setBackgroundResource(R.mipmap.audio_animation_list_left_3);
-                                }
-
-                                MediaManager.release();
-                            }
-                        });
+                        ivAudio.setBackgroundResource(R.mipmap.audio_animation_list_left_3);
                     }
-                } else if (view.getId() == R.id.chat_item_fail) {
-                    ChatMessage message = (ChatMessage) view.getTag();
-                    updateMsg(message.getUuid(), MsgSendStatus.SENDING);
-                    sendMsg(message);
+                    ivAudio = null;
+                    MediaManager.reset();
+                } else {
+                    ivAudio = view.findViewById(R.id.ivAudio);
+                    MediaManager.reset();
+                    if (isSend) {
+                        ivAudio.setBackgroundResource(R.drawable.audio_animation_right_list);
+                    } else {
+                        ivAudio.setBackgroundResource(R.drawable.audio_animation_left_list);
+                    }
+                    AnimationDrawable drawable = (AnimationDrawable) ivAudio.getBackground();
+                    drawable.start();
+                    MediaManager.playSound(BaseChatActivity.this, (mAdapter.getData().get(position)).getLocalPath(), new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            if (isSend) {
+                                ivAudio.setBackgroundResource(R.mipmap.audio_animation_list_right_3);
+                            } else {
+                                ivAudio.setBackgroundResource(R.mipmap.audio_animation_list_left_3);
+                            }
+
+                            MediaManager.release();
+                        }
+                    });
                 }
+            } else if (view.getId() == R.id.chat_item_fail) {
+                ChatMessage message = (ChatMessage) view.getTag();
+                updateMsg(message.getUuid(), MsgSendStatus.SENDING);
+                sendMsg(message);
+            }else if (view.getId() == R.id.bivPic) {
+                ChatMessage message = (ChatMessage) view.getTag(R.id.bivPic);
+                Intent intent = new Intent(this, ZoomImageActivity.class);
+                intent.putExtra("url", message.getLocalPath());
+                startActivity(intent);
+//                FunUtils.showPicture(this, message.getLocalPath());
 
             }
+
         });
 
     }

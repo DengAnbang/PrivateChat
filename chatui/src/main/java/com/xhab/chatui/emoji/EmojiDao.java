@@ -1,21 +1,15 @@
 package com.xhab.chatui.emoji;
 
-import android.app.ActivityManager;
 import android.app.Application;
-import android.content.ComponentName;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
+import com.xhab.chatui.R;
 import com.xhab.chatui.bean.EmojiBean;
+import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.voiceCalls.JuphoonUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +25,7 @@ public class EmojiDao {
     private static String path;
     private static EmojiDao dao;
     private static boolean isInit;
+    private static Application application;
 
     public static EmojiDao getInstance() {
         if (dao == null) {
@@ -49,24 +44,36 @@ public class EmojiDao {
         }
     }
 
-    private Application mApplication;
 
-    public static void init(Application application) {
+    public static void init(Application application1) {
         isInit = true;
+        application = application1;
         initEmojiDao(application);
         JuphoonUtils.get().initialize(application, "2f28a4e830fb84d0da705096");
     }
 
-    private static void initEmojiDao(Application application) {
-        try {
-            path = CopySqliteFileFromRawToDatabases("emoji.db", application);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private static String initEmojiDao(Application application) {
+        path = FileUtils.copyFilesFromRaw(application, R.raw.emoji, "emoji.db", FILE_ROOT_PATH + "/databases/");
+        return path;
+//        try {
+//
+////            path = CopySqliteFileFromRawToDatabases("emoji.db", application);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private String copyEmojiDao(Application application) {
+        path = FileUtils.copyFilesFromRaw(application, R.raw.emoji, "emoji.db", FILE_ROOT_PATH + "/databases/");
+        return path;
     }
 
     public List<EmojiBean> getEmojiBean() {
         List<EmojiBean> emojiBeanList = new ArrayList<EmojiBean>();
+        File file = new File(path);
+        if (!file.exists()) {
+            path = copyEmojiDao(application);
+        }
         SQLiteDatabase db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         Cursor cursor = db.query("emoji", new String[]{"unicodeInt", "_id"}, null, null, null, null, null);
         while (cursor.moveToNext()) {
@@ -80,57 +87,4 @@ public class EmojiDao {
         return emojiBeanList;
     }
 
-
-    public static String getAppPackageName(Context context) {
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> taskInfo = activityManager.getRunningTasks(1);
-        ComponentName componentInfo = taskInfo.get(0).topActivity;
-        Log.d("lixx", "当前应用:" + componentInfo.getPackageName());
-        return componentInfo.getPackageName();
-    }
-
-    /**
-     * 将assets目录下的文件拷贝到database中
-     *
-     * @return 存储数据库的地址
-     */
-    public static String CopySqliteFileFromRawToDatabases(String SqliteFileName, Application application) throws IOException {
-        // 第一次运行应用程序时，加载数据库到data/data/当前包的名称/database/<db_name>
-        //复制的话这里需要换成自己项目的包名
-//        File dir = new File("data/data/" + getAppPackageName(application) + "/databases");
-        File dir = new File(FILE_ROOT_PATH + "/databases");
-
-        if (!dir.exists() || !dir.isDirectory()) {
-            dir.mkdir();
-        }
-
-        File file = new File(dir, SqliteFileName);
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-
-        //通过IO流的方式，将assets目录下的数据库文件，写入到SD卡中。
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-                inputStream = application.getClass().getClassLoader().getResourceAsStream("assets/" + SqliteFileName);
-                outputStream = new FileOutputStream(file);
-                byte[] buffer = new byte[1024];
-                int len;
-                while ((len = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, len);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (outputStream != null) {
-                    outputStream.flush();
-                    outputStream.close();
-                }
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            }
-        }
-        return file.getPath();
-    }
 }

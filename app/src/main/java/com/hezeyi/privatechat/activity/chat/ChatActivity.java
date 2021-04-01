@@ -12,7 +12,7 @@ import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.chatui.activity.BaseChatActivity;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgType;
-import com.xhab.chatui.inteface.ShowImageCallback;
+import com.xhab.chatui.inteface.ShowUserImageCallback;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
@@ -50,7 +50,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     }
 
     @Override
-    public ShowImageCallback getShowImageCallback() {
+    public ShowUserImageCallback getShowImageCallback() {
         return (item, imageView) -> {
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(item.getSenderId());
             if (userMsgBeanById == null) {

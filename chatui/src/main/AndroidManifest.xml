@@ -20,7 +20,6 @@
 
 
     <application android:usesCleartextTraffic="true">
-        <service android:name=".service.BaseVoiceFloatingService"/>
-        <activity android:name=".voiceCalls.BaseVoiceActivity"/>
+        <activity android:name=".activity.ZoomImageActivity"/>
     </application>
 </manifest>

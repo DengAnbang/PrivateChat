@@ -155,7 +155,7 @@ public class NotificationManagerUtils {
         Notification notification = mBuilder.build();
 
         //弹出通知栏
-        mNotificationManager.notify(0, notification);
+        mNotificationManager.notify(1, notification);
 
     }
 

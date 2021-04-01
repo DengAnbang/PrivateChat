@@ -32,6 +32,11 @@ public class MeFragment extends BaseFragment {
     public void onVisibleToUser() {
         super.onVisibleToUser();
         LogUtils.e("onVisibleToUser*****: MeFragment");
+        UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
+        if (userMsgBean == null) {
+            return;
+        }
+        upUserMsg(getView(), userMsgBean);
     }
 
     @Override
@@ -46,10 +51,7 @@ public class MeFragment extends BaseFragment {
         if (userMsgBean == null) {
             return;
         }
-        GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), view.findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
-
-        setTextViewString(R.id.tv_name, userMsgBean.getUser_name());
-        setTextViewString(R.id.tv_account, "账号:" + userMsgBean.getAccount());
+        upUserMsg(view, userMsgBean);
         click(R.id.rl_details, view1 -> {
             Intent intent = new Intent(getActivity(), MeDetailsActivity.class);
             startActivity(intent);
@@ -84,5 +86,12 @@ public class MeFragment extends BaseFragment {
             Intent intent = new Intent(getActivity(), BaseVoiceActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void upUserMsg(View view, UserMsgBean userMsgBean) {
+        if (view == null) return;
+        GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), view.findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
+        setTextViewString(R.id.tv_name, userMsgBean.getUser_name());
+        setTextViewString(R.id.tv_account, "账号:" + userMsgBean.getAccount());
     }
 }

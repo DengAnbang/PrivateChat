@@ -8,6 +8,7 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.utils.inteface.OnDataCallBack;
 import com.xhab.utils.net.RequestHelper;
 import com.xhab.utils.net.RequestHelperAgency;
+import com.xhab.utils.utils.BitmapUtil;
 import com.xhab.utils.utils.LogUtils;
 
 import java.io.File;
@@ -31,7 +32,7 @@ import retrofit2.Response;
 
 public class HttpManager {
     public static void fileUpload(String fileType, String filePath, final RequestHelper requestHelper, final OnDataCallBack<String> dataClick) {
-
+        filePath = BitmapUtil.compressImage(filePath);
         File file = new File(filePath);
         if (file.exists()) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -43,6 +44,7 @@ public class HttpManager {
     }
 
     public static void fileUpload(String fileType, String filePath, final OnDataCallBack<String> dataClick) {
+        filePath = BitmapUtil.compressImage(filePath);
         File file = new File(filePath);
         if (file.exists()) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);

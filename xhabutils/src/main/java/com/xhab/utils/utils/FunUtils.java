@@ -4,9 +4,12 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.SuperKotlin.pictureviewer.ImagePagerActivity;
+import com.SuperKotlin.pictureviewer.PictureConfig;
 import com.xhab.utils.Const;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -61,5 +64,17 @@ public class FunUtils {
         }
         return false;
     }
-
+    public static void showPicture(Context context, String s) {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add(s);
+        PictureConfig config = new PictureConfig.Builder()
+                .setListData(strings)    //图片数据List<String> list
+//                .setPosition(position)    //图片下标（从第position张图片开始浏览）
+//                            .setDownloadPath("pictureviewer")	//图片下载文件夹地址
+                .setIsShowNumber(false)//是否显示数字下标
+                .needDownload(true)    //是否支持图片下载
+//                        .setPlacrHolder(R.mipmap.addpoint)    //占位符图片（图片加载完成前显示的资源图片，来源drawable或者mipmap）
+                .build();
+        ImagePagerActivity.startActivity(context, config);
+    }
 }
