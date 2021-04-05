@@ -68,5 +68,7 @@ public class ChatFragment extends BaseFragment {
         addDisposable(RxBus.get().register(Const.RxType.TYPE_SHOW_LIST, Object.class).subscribe(o -> {
             updateMsgList();
         }));
+
     }
+
 }

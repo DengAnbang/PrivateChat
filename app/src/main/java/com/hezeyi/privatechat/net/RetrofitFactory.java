@@ -8,9 +8,11 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.hezeyi.privatechat.Const;
+import com.xhab.utils.utils.LogUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +22,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -74,9 +77,6 @@ public class RetrofitFactory {
         return gson;
     }
 
-    public static boolean isUrl(String url) {
-        return (url.startsWith("http") && url.endsWith("eb/"));
-    }
 
     public static Retrofit setRetrofit(String baseUrl) {
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -99,16 +99,16 @@ public class RetrofitFactory {
 
             Response proceed = chain.proceed(request);
 
-//            if (!url.toString().contains("/public/file/upload")) {
-////            if (BuildConfig.DEBUG) {
-//                LogUtils.e("request: " + url.toString());
-////                if (Objects.equals(BuildConfig.FLAVOR, "nb")) {
-//                BufferedSource source = proceed.body().source();
-//                source.request(Long.MAX_VALUE);
-//                String s1 = source.buffer().clone().readString(Charset.forName("UTF-8"));
-//                LogUtils.e(s1);
-//                LogUtils.e("Response: " + proceed.peekBody(1204 * 1204).string());
-//            }
+            if (!url.toString().contains("/public/file")) {
+//            if (BuildConfig.DEBUG) {
+                LogUtils.e("request: " + url.toString());
+//                if (Objects.equals(BuildConfig.FLAVOR, "nb")) {
+                BufferedSource source = proceed.body().source();
+                source.request(Long.MAX_VALUE);
+                String s1 = source.buffer().clone().readString(Charset.forName("UTF-8"));
+                LogUtils.e(s1);
+                LogUtils.e("Response: " + proceed.peekBody(1204 * 1204).string());
+            }
 
 
             return proceed;

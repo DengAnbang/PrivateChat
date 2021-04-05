@@ -1,6 +1,7 @@
 package com.hezeyi.privatechat.fragment;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.hezeyi.privatechat.MyApplication;
@@ -11,13 +12,19 @@ import com.hezeyi.privatechat.adapter.BuddyAdapter;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.xhab.utils.view.SuspendDecoration;
 import com.xhab.utils.view.WaveSideBar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -25,12 +32,18 @@ import androidx.recyclerview.widget.RecyclerView;
  * 通讯录
  */
 public class BuddyFragment extends BaseFragment {
+
+    private List<UserMsgBean> mUserMsgBeans=new ArrayList<>();
+
+
     @Override
     public int viewLayoutID() {
         return R.layout.fragment_buddy;
     }
 
     private BuddyAdapter<UserMsgBean> mBuddyAdapter = new BuddyAdapter<>();
+
+
     private boolean isChange;
 
     @Override
@@ -86,11 +99,37 @@ public class BuddyFragment extends BaseFragment {
             startActivity(intent);
         });
         mBuddyAdapter.setDataList(MyApplication.getInstance().getUserMsgBeans());
+        mUserMsgBeans = new ArrayList<>(MyApplication.getInstance().getUserMsgBeans());
+        Disposable subscribe = RxTextView.textChanges(view.findViewById(R.id.et_search))
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(charSequence -> {
+                    if (TextUtils.isEmpty(charSequence)) {
+                        mBuddyAdapter.setDataList(mUserMsgBeans);
+                    } else {
+                        mBuddyAdapter.setDataList(search(charSequence.toString(), mUserMsgBeans));
+
+                    }
+                }, Throwable::printStackTrace);
+        addDisposable(subscribe);
+    }
+
+    private List<UserMsgBean> search(String key, List<UserMsgBean> projectInfos) {
+        List<UserMsgBean> showList = new ArrayList<>();
+        for (UserMsgBean userMsgBean : projectInfos) {
+            //名称
+            if (userMsgBean.getUser_name().contains(key)) {
+                showList.add(userMsgBean);
+                continue;
+            }
+        }
+        return showList;
     }
 
     private void getUserList() {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
+            mUserMsgBeans = new ArrayList<>(userMsgBeans);
             mBuddyAdapter.setDataList(userMsgBeans);
         });
     }

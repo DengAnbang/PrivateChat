@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/layout_root"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                >
+
+    <TextView
+        android:id="@+id/tv_scan"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/just_color_f7f7f7"
+        android:drawableLeft="@mipmap/c1_1_icon1"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="扫一扫"/>
+
+
+    <TextView
+        android:id="@+id/tv_add_group"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/tv_scan"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:background="@color/just_color_ffffff"
+        android:drawableLeft="@mipmap/tab_jiaoliu"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="发起群聊"/>
+
+    <TextView
+        android:id="@+id/tv_add_user"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/tv_add_group"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:background="@color/just_color_ffffff"
+        android:drawableLeft="@mipmap/tab_jiaoliu"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="添加好友"/>
+
+</RelativeLayout>

@@ -32,7 +32,7 @@
              android:layout_marginRight="5dp"
             android:layout_alignParentLeft="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/c38_touxiang"
+            android:src="@mipmap/logo"
             />
 
 

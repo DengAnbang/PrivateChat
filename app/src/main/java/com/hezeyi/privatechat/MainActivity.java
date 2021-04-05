@@ -1,17 +1,26 @@
 package com.hezeyi.privatechat;
 
 import android.Manifest;
+import android.content.Intent;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hezeyi.privatechat.activity.account.MeDetailsActivity;
+import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
+import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.fragment.AdminFragment;
 import com.hezeyi.privatechat.fragment.BuddyFragment;
 import com.hezeyi.privatechat.fragment.ChatFragment;
 import com.hezeyi.privatechat.fragment.MeFragment;
+import com.hezeyi.privatechat.popupWindow.SelectWindow;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xhab.chatui.utils.NotificationManagerUtils;
 import com.xhab.utils.base.BaseBottomTabUtilActivity;
+import com.xhab.utils.utils.DisplayUtils;
+import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.QRCodeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +36,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     private List<String> mTabTitle = Arrays.asList("消息", "通讯录", "我的", "管理");
     private List<Integer> mTabRes = Arrays.asList(R.mipmap.tab_jiaoliu, R.mipmap.tab_tongxunlu, R.mipmap.tab_wode, R.mipmap.tab_shouye);
     private List<Integer> mTabResPressed = Arrays.asList(R.mipmap.tab_jiaoliu1, R.mipmap.tab_tongxunlu1, R.mipmap.tab_wode1, R.mipmap.tab_shouye1);
+    private ChatFragment mChatFragment;
 
 
     @Override
@@ -71,27 +81,11 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         tabText.setTextColor(ContextCompat.getColor(this, color));
     }
 
-
-    //    @NotNull
-//    @Override
-//    public Fragment[] fragments() {
-//        Fragment[] fragments1 = new Fragment[4];
-//        fragments1[0] = new ChatFragment();
-//        fragments1[1] = new BuddyFragment();
-//        fragments1[2] = new MeFragment();
-//        fragments1[3] = new AdminFragment();
-////        ArrayList<Fragment> fragments = new ArrayList<>();
-////        fragments.add(new ChatFragment());
-////        fragments.add(new BuddyFragment());
-////        fragments.add(new MeFragment());
-////        fragments.add(new AdminFragment());
-//
-//        return fragments1;
-//    }
     @Override
     public ArrayList<Fragment> fragments() {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new ChatFragment());
+        mChatFragment = new ChatFragment();
+        fragments.add(mChatFragment);
         fragments.add(new BuddyFragment());
         fragments.add(new MeFragment());
         fragments.add(new AdminFragment());
@@ -102,6 +96,40 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     public void initEvent() {
         super.initEvent();
         requestPermissions();
+
+        TextView rightTitle = findViewById(R.id.tv_right);
+        rightTitle.setTextSize(DisplayUtils.dp2px(this, 7));
+        rightTitle.setText("+");
+        rightTitle.setOnClickListener(v -> {
+            SelectWindow selectWindow = new SelectWindow(this);
+            selectWindow.setOnClickListener(v1 -> {
+                switch (v1.getId()) {
+                    case R.id.tv_scan:
+                        UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
+                        QRCodeUtils.scanQrCode(this, s -> {
+                            LogUtils.e("onFirstVisibleToUser*****: " + s);
+                            if (s.equals(userMsgBean.getUser_id())) {
+                                Intent intent = new Intent(this, MeDetailsActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(this, UserDetailsActivity.class);
+                                intent.putExtra("user_id", s);
+                                startActivity(intent);
+
+                            }
+
+                        });
+                        break;
+                    case R.id.tv_add_group:
+
+                        break;
+                    case R.id.tv_add_user:
+                        break;
+                }
+            });
+            selectWindow.showAsDropDown(rightTitle, 0, 0, Gravity.START);
+//            showPopupWindow(selectWindow);
+        });
     }
 
     private void requestPermissions() {
@@ -118,11 +146,10 @@ public class MainActivity extends BaseBottomTabUtilActivity {
                         NotificationManagerUtils.getHangUpPermission(this);
                     } else {
                         showSnackBar("请到设置见面打开所需权限!");
-//                        gotoHuaweiPermission();
                     }
                 });
         addDisposable(subscribe);
-
     }
+
 
 }

@@ -30,7 +30,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="5dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/c38_touxiang" />
+            android:src="@mipmap/logo" />
 
 
         <RelativeLayout

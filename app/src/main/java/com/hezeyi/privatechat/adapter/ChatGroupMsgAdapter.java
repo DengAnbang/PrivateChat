@@ -57,7 +57,7 @@ public class ChatGroupMsgAdapter<T extends BuddyShowAble> extends RecyclerView.A
         } else {
             T t = mDataList.get(position);
             holder.name.setText(t.getShowName());
-            GlideUtils.loadChatImage(R.mipmap.c38_touxiang, holder.headPortrait);
+            GlideUtils.loadChatImage(R.mipmap.logo, holder.headPortrait);
             if (mItemClickListener != null) {
                 holder.headPortrait.setOnClickListener(v -> {
                     mItemClickListener.onItemClick(v, position, t);

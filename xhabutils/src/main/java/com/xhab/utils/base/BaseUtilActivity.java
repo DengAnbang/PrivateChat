@@ -1,6 +1,7 @@
 package com.xhab.utils.base;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.xhab.utils.R;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
+import com.xhab.utils.popupWindow.BasePopupWindow;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.view.TwoTextLinearView;
 
@@ -72,13 +74,15 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
         }
     }
 
-    public void setTextViewString(@IdRes int res, CharSequence charSequence) {
+    public TextView setTextViewString(@IdRes int res, CharSequence charSequence) {
         View textView = findViewById(res);
         if (textView instanceof TextView) {
             ((TextView) textView).setText(charSequence);
+            return (TextView) textView;
         } else {
             LogUtils.e("visibility*****: textView instanceof TextView !!!!!!!");
         }
+        return null;
     }
 
     public void setTitleString(String titleString) {
@@ -104,6 +108,19 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
         }
         return "";
     }
+
+
+    public TextView setRightTitleString(String titleString, @Nullable View.OnClickListener l) {
+        TextView textView = setTextViewString(R.id.tv_right, titleString);
+        click(R.id.tv_right, l);
+        return textView;
+    }
+
+    public void showPopupWindow(BasePopupWindow basePopupWindow) {
+        View decorView = this.getWindow().getDecorView();
+        basePopupWindow.showAtLocation(decorView, Gravity.CENTER, 0, 0);
+    }
+
 
     private RequestHelperAgency mRequestHelperAgency;
 

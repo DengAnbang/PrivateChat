@@ -89,7 +89,7 @@ public class UserMsgBean extends Sortable implements BuddyShowAble, ChooseAble {
 
     @Override
     public int getPlaceholder() {
-        return R.mipmap.c38_touxiang;
+        return R.mipmap.logo;
     }
 
 

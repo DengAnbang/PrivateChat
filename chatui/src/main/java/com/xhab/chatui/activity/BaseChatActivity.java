@@ -67,6 +67,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     public abstract boolean isGroup();
 
     public abstract String getUserId();
+
     public abstract ShowUserImageCallback getShowImageCallback();
 
     //发送消息
@@ -152,16 +153,22 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                 ChatMessage message = (ChatMessage) view.getTag();
                 updateMsg(message.getUuid(), MsgSendStatus.SENDING);
                 sendMsg(message);
-            }else if (view.getId() == R.id.bivPic) {
+            } else if (view.getId() == R.id.bivPic) {
                 ChatMessage message = (ChatMessage) view.getTag(R.id.bivPic);
                 Intent intent = new Intent(this, ZoomImageActivity.class);
                 intent.putExtra("url", message.getLocalPath());
                 startActivity(intent);
 //                FunUtils.showPicture(this, message.getLocalPath());
-
+            } else if (view.getId() == R.id.rc_message) {
+                ChatMessage message = (ChatMessage) view.getTag(R.id.rc_message);
+                openFile(message);
             }
 
         });
+
+    }
+
+    public void openFile(ChatMessage message) {
 
     }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
@@ -205,7 +206,8 @@ public final class FileUtils {
         InputStream inputStream = context.getResources().openRawResource(id);
         File file = new File(storagePath);
         if (!file.exists()) {//如果文件夹不存在，则创建新的文件夹
-            file.mkdirs();
+            boolean mkdirs = file.mkdirs();
+            Log.e(TAG, "copyFilesFromRaw: "+mkdirs );
         }
         readInputStream(storagePath + SEPARATOR + fileName, inputStream);
         return storagePath + "/"+fileName;
@@ -329,5 +331,20 @@ public final class FileUtils {
         }
         return filePath;
     }
-
+    public static String getSDPath(Context context) {
+        File sdDir = null;
+        boolean sdCardExist = Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED);// 判断sd卡是否存在
+        if (sdCardExist) {
+            if (Build.VERSION.SDK_INT>=29){
+//Android10之后
+                sdDir = context.getExternalFilesDir(null);
+            }else {
+                sdDir = Environment.getExternalStorageDirectory();// 获取SD卡根目录
+            }
+        } else {
+            sdDir = Environment.getRootDirectory();// 获取跟目录
+        }
+        return sdDir.toString();
+    }
 }

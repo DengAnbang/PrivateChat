@@ -40,6 +40,7 @@
     <style name="Dialog" parent="BaseDialog">
         <item name="android:windowAnimationStyle">@style/Base.Animation.Dialog.Style</item>
     </style>
+
     <style name="BaseDialog" parent="Theme.AppCompat.Light.NoActionBar">
         <!--<item name="colorPrimary">@color/colorPrimary</item>-->
         <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
@@ -53,6 +54,7 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowFrame">@null</item>
     </style>
+
     <style name="Base.Animation.Dialog.Style" parent="@android:style/Animation.Translucent">
         <item name="android:windowEnterAnimation">@anim/popup_in</item>
         <item name="android:windowExitAnimation">@anim/popup_out</item>
@@ -62,5 +64,11 @@
     <style name="AnimBottomToTop" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
         <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
+    </style>
+
+    <!--从上往下弹PopupWindow-->
+    <style name="AnimTopToBottom" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_enter_anim_top</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_anim_top</item>
     </style>
 </resources>

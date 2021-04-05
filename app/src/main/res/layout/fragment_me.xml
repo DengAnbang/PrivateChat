@@ -21,7 +21,7 @@
             android:layout_height="80dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/c38_touxiang"/>
+            android:src="@mipmap/logo"/>
 
         <TextView
             android:id="@+id/tv_name"
@@ -64,15 +64,7 @@
             android:src="@mipmap/erweima"/>
     </RelativeLayout>
 
-    <com.xhab.utils.view.TwoTextLinearView
-        android:id="@+id/ttv_qr"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        app:leftDrawable="@mipmap/c1_1_icon1"
-        app:leftText="\u3000扫一扫\u3000"
-        app:rightDrawable="@mipmap/c14_2_icon1"
-        />
+
 
     <com.xhab.utils.view.TwoTextLinearView
         android:id="@+id/ttv_setup"

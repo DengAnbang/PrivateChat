@@ -1,6 +1,7 @@
 package com.hezeyi.privatechat.activity.account;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Gravity;
 
 import com.hezeyi.privatechat.Const;
@@ -9,6 +10,7 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
+import com.hezeyi.privatechat.popupWindow.ModifyNameWindow;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.activity.SelectPhotoDialog;
 import com.xhab.utils.utils.LogUtils;
@@ -32,18 +34,30 @@ public class MeDetailsActivity extends BaseActivity {
             setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
             setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
             GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
+            click(R.id.ttv_name, view -> {
+                ModifyNameWindow modifyNameWindow = new ModifyNameWindow(this, userMsgBean.getUser_name());
+
+                modifyNameWindow.setOnDataCallBack(s -> {
+                    if (TextUtils.isEmpty(s)) {
+                        showSnackBar("名字不能为空");
+                        return;
+                    }
+                    HttpManager.userUpdate(userMsgBean.getAccount(), "", s, "", this, userMsgBean1 -> {
+                        userMsgBean.setUser_name(s);
+                        showSnackBar("修改完成");
+                        initView();
+                        modifyNameWindow.dismiss();
+                    });
+                });
+                modifyNameWindow.showAsDropDown(findViewById(R.id.ttv_name),0,0,Gravity.END);
+            });
         }
         click(R.id.ttv_qr, view -> {
             Intent intent = new Intent(this, MeQrCodeActivity.class);
             startActivity(intent);
         });
 
-        click(R.id.ttv_name, view -> {
 
-//            HttpManager.userUpdate(userMsgBean.getAccount(), "", "修改名字测试1", "", this, userMsgBean1 -> {
-//                showSnackBar("修改完成");
-//            });
-        });
         click(R.id.iv_head_portrait, view -> {
             startActivityForResult(new Intent(this, SelectPhotoDialog.class), 55);
 //

@@ -141,7 +141,7 @@ public class ChatService extends Service implements RequestHelperImp {
     }
 
     public void loginSocket(String userId) {
-        JuphoonUtils.get().login(userId, "123456");
+//        JuphoonUtils.get().login(userId, "123456");
         ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "", false);
         data.setSenderId(userId);
 //        String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();

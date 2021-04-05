@@ -13,9 +13,11 @@ import com.xhab.chatui.activity.BaseChatActivity;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgType;
 import com.xhab.chatui.inteface.ShowUserImageCallback;
+import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
+import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 
@@ -128,6 +130,27 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             startActivity(intent);
         });
 
+    }
+
+    @Override
+    public void openFile(ChatMessage message) {
+        super.openFile(message);
+        String completePath = Const.FilePath.chatFileLocalPath + message.getRemoteUrl();
+        File file = new File(message.getLocalPath());
+        File file1 = new File(completePath);
+        if ((file.exists()) || file1.exists()) {
+            FileUtils.openFile(completePath, this);
+        } else {
+            FunUtils.affirm(this, "确定下载?", "确定", aBoolean -> {
+                if (aBoolean) {
+                    addDisposable(HttpManager.downloadFileNew(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean1 -> {
+                        message.setLocalPath(completePath);
+                        FileUtils.openFile(completePath, this);
+                    }));
+                }
+            });
+
+        }
     }
 
     @Override

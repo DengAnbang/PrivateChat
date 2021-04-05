@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_toLeftOf="@+id/view_01"
-            android:src="@mipmap/c38_touxiang"/>
+            android:src="@mipmap/logo"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -31,7 +31,7 @@
              android:scaleType="centerInside"
             android:layout_marginLeft="5dp"
 
-            android:src="@mipmap/c38_touxiang" />
+            android:src="@mipmap/logo" />
 
 
         <RelativeLayout

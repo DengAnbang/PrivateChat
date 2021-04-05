@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/just_color_ffffff"
+                android:background="@color/just_color_dedede"
                 android:orientation="vertical">
 
     <ImageView
@@ -10,7 +10,7 @@
         android:layout_height="62dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="105dp"
-        android:background="@mipmap/login_logo"/>
+        android:background="@mipmap/logo"/>
 
     <EditText
 

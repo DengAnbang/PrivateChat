@@ -47,7 +47,7 @@ public class ChatMessage {
 
 
     public int getPlaceholder() {
-        return isGroup ? R.mipmap.group_icon : R.mipmap.c38_touxiang;
+        return isGroup ? R.mipmap.group_icon : R.mipmap.logo;
     }
 
     private ChatMessage() {

@@ -181,6 +181,10 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
             helper.addOnClickListener(R.id.bivPic);
             helper.getView(R.id.bivPic).setTag(R.id.bivPic, item);
         }
+        if (item.getMsgType() == (MsgType.FILE)) {
+            helper.addOnClickListener(R.id.rc_message);
+            helper.getView(R.id.rc_message).setTag(R.id.rc_message, item);
+        }
 
     }
 
