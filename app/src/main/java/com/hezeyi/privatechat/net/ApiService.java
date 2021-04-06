@@ -97,12 +97,13 @@ public interface ApiService {
 
     @POST("/app/group/register")
     Observable<ResultData<ChatGroupBean>> groupRegister(
+            @Query("group_name") String group_name,
             @Query("user_id") String user_id
     );
 
-    @POST("/app/group/add/user")
+    @POST("/app/group/add/users")
     Observable<ResultData<Object>> groupAddUser(
-            @Query("user_id") String user_id,
+            @Query("user_ids") String user_ids,
             @Query("group_id") String group_id
     );
 

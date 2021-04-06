@@ -10,7 +10,6 @@ import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.xhab.utils.utils.ToastUtil;
 import com.xhab.utils.view.SuspendDecoration;
 import com.xhab.utils.view.WaveSideBar;
 
@@ -35,12 +34,14 @@ public class ChatGroupActivity extends BaseActivity {
     }
 
     private BuddyAdapter<ChatGroupBean> mBuddyAdapter = new BuddyAdapter<>();
-    private List<ChatGroupBean> mChatGroupBeans=new ArrayList<>();
+    private List<ChatGroupBean> mChatGroupBeans = new ArrayList<>();
+
     @Override
     public void initData() {
         super.initData();
         String userId = getIntent().getStringExtra("userId");
         HttpManager.groupSelectList(userId, this, chatGroupBeans -> {
+            MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
             mChatGroupBeans = chatGroupBeans;
             mBuddyAdapter.setDataList(chatGroupBeans);
         });
@@ -94,11 +95,8 @@ public class ChatGroupActivity extends BaseActivity {
     public void initEvent() {
         super.initEvent();
         setRightTitleString("创建群", v -> {
-            String userId = getIntent().getStringExtra("userId");
-            HttpManager.groupRegister(userId, this, o -> {
-                ToastUtil.showToast("创建成功!");
-                initData();
-            });
+            Intent intent = new Intent(this, ChatGroupAddActivity.class);
+            startActivity(intent);
         });
         Disposable subscribe = RxTextView.textChanges(findViewById(R.id.et_search))
                 .debounce(500, TimeUnit.MILLISECONDS)
@@ -113,6 +111,7 @@ public class ChatGroupActivity extends BaseActivity {
                 }, Throwable::printStackTrace);
         addDisposable(subscribe);
     }
+
     private List<ChatGroupBean> search(String key, List<ChatGroupBean> chatGroupBeans) {
         List<ChatGroupBean> showList = new ArrayList<>();
         for (ChatGroupBean chatGroupBean : chatGroupBeans) {

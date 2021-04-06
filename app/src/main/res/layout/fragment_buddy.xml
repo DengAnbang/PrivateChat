@@ -29,7 +29,7 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="match_parent"
-            android:src="@mipmap/d1_icon1"/>
+            android:src="@mipmap/group_icon"/>
 
         <TextView
             android:id="@+id/tv_group"

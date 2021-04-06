@@ -4,15 +4,20 @@ package com.hezeyi.privatechat.fragment;
 import android.content.Intent;
 import android.view.View;
 
+import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.hezeyi.privatechat.activity.account.MeDetailsActivity;
 import com.hezeyi.privatechat.activity.account.NewMsgSetUpActivity;
 import com.hezeyi.privatechat.activity.account.SetupActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.chatui.utils.GlideUtils;
+import com.xhab.utils.StackManager;
 import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.RxBus;
+import com.xhab.utils.utils.SPUtils;
 
 
 /**
@@ -63,7 +68,14 @@ public class MeFragment extends BaseFragment {
             Intent intent = new Intent(getActivity(), NewMsgSetUpActivity.class);
             startActivity(intent);
         });
-
+        click(R.id.ttv_login_out, view1 -> {
+            RxBus.get().post(Const.RxType.TYPE_LOGIN_OUT, Object.class);
+            SPUtils.save(Const.Sp.password, "");
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            StackManager.finishExcludeActivity(LoginActivity.class);
+        });
         click(R.id.ttv_contact_us, v -> {
         });
     }

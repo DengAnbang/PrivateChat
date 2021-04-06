@@ -52,7 +52,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        ChatUi.init(Const.Api.API_HOST,Const.FilePath.databaseFileLocalPath);
+        ChatUi.init(Const.Api.API_HOST, Const.FilePath.databaseFileLocalPath);
         StackManager.initStackManager(this);
         EmojiDao.init(this);
         //初始化Bugly
@@ -171,6 +171,10 @@ public class MyApplication extends Application {
         return mGroupBeanMap.get(group_id);
     }
 
+    public void setChatGroupBean(ChatGroupBean chatGroupBean) {
+        mGroupBeanMap.put(chatGroupBean.getGroup_id(), chatGroupBean);
+    }
+
     private List<UserMsgBean> mUserMsgBeans;
 
     public List<UserMsgBean> getUserMsgBeans() {
@@ -192,6 +196,7 @@ public class MyApplication extends Application {
         if (userId.equals(mUserMsgBean.getUser_id())) return mUserMsgBean;
         return mMsgBeanMap.get(userId);
     }
+
     public void addUserMsgBeanById(UserMsgBean userMsgBean) {
         mMsgBeanMap.put(userMsgBean.getUser_id(), userMsgBean);
     }

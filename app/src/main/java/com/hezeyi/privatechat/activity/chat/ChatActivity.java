@@ -78,10 +78,14 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         super.onCreate(savedInstanceState);
         String targetId = getIntent().getStringExtra("targetId");
         boolean isGroup = getIntent().getBooleanExtra("isGroup", false);
-        String target_name;
+        String target_name = "";
         if (isGroup) {
             ChatGroupBean chatGroupBeanById = MyApplication.getInstance().getChatGroupBeanById(targetId);
-            target_name = chatGroupBeanById.getGroup_name();
+            if (chatGroupBeanById != null) {
+                target_name = chatGroupBeanById.getGroup_name();
+            }else {
+                target_name = targetId;
+            }
         } else {
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(targetId);
             target_name = userMsgBeanById.getUser_name();

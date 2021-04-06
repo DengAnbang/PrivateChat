@@ -8,7 +8,6 @@ import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -21,6 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
  * isGroupAdmin
  */
 public class ChatGroupMsgActivity extends BaseActivity {
+
+    private String mGroup_id;
+
     @Override
     public int getContentViewRes() {
         return R.layout.activity_chat_group_msg;
@@ -39,9 +41,9 @@ public class ChatGroupMsgActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
-        String group_id = getIntent().getStringExtra("group_id");
+        mGroup_id = getIntent().getStringExtra("group_id");
 
-        HttpManager.groupSelectUserMsg(group_id, this, userMsgBeans -> {
+        HttpManager.groupSelectUserMsg(mGroup_id, this, userMsgBeans -> {
             mChatGroupMsgAdapter.setDataList(userMsgBeans);
         });
         RecyclerView recyclerView = findViewById(R.id.rv_content);
@@ -54,7 +56,8 @@ public class ChatGroupMsgActivity extends BaseActivity {
         super.initEvent();
         mChatGroupMsgAdapter.setItemClickListener((view, position, userMsgBean) -> {
             if (userMsgBean == null) {
-                Intent intent = new Intent(this, SelectFriendsActivity.class);
+                Intent intent = new Intent(this, ChatGroupAddActivity.class);
+                intent.putExtra("group_id", mGroup_id);
                 List<UserMsgBean> dataList = mChatGroupMsgAdapter.getDataList();
                 StringBuilder ids = new StringBuilder();
                 for (UserMsgBean msgBean : dataList) {
@@ -67,22 +70,13 @@ public class ChatGroupMsgActivity extends BaseActivity {
         });
     }
 
-    private int i = 0;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == KEY_SELECT && data != null) {
-            ArrayList<String> select_ids = data.getStringArrayListExtra("select_ids");
-            for (String s : select_ids) {
-                HttpManager.groupAddUser(s, getIntent().getStringExtra("group_id"), this, o -> {
-                    i = i + 1;
-                    if (i == select_ids.size()) {
-                        initData();
-                    }
-                });
-            }
-
+        if (resultCode == RESULT_OK && requestCode == KEY_SELECT) {
+//            finish();
+            initData();
         }
     }
 }

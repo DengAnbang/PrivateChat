@@ -105,4 +105,12 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_login_out"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:leftText="\u3000退出登录\u3000"
+        app:leftDrawable="@mipmap/c1_icon2"
+        />
 </LinearLayout>

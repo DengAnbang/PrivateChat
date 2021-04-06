@@ -119,7 +119,7 @@
         <activity
             android:name=".activity.chat.ChatVoiceActivity"
             android:launchMode="singleTask"/>
-        <activity android:name=".activity.chat.SelectFriendsActivity"/>
+        <activity android:name=".activity.chat.ChatGroupAddActivity"/>
     </application>
 
 </manifest>

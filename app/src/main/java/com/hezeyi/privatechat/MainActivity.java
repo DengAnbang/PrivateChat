@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.hezeyi.privatechat.activity.account.MeDetailsActivity;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
+import com.hezeyi.privatechat.activity.chat.ChatGroupAddActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.fragment.AdminFragment;
 import com.hezeyi.privatechat.fragment.BuddyFragment;
@@ -115,13 +116,13 @@ public class MainActivity extends BaseBottomTabUtilActivity {
                                 Intent intent = new Intent(this, UserDetailsActivity.class);
                                 intent.putExtra("user_id", s);
                                 startActivity(intent);
-
                             }
 
                         });
                         break;
                     case R.id.tv_add_group:
-
+                        Intent intent = new Intent(this, ChatGroupAddActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.tv_add_user:
                         break;

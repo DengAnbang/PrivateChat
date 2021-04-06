@@ -102,14 +102,14 @@ public class HttpManager {
                 .userSelectFriend(user_id), requestHelper, true, dataClick);
     }
 
-    public static void groupRegister(String user_id, final RequestHelper requestHelper, final OnDataCallBack<ChatGroupBean> dataClick) {
+    public static void groupRegister(String group_name,String user_id, final RequestHelper requestHelper, final OnDataCallBack<ChatGroupBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .groupRegister(user_id), requestHelper, true, dataClick);
+                .groupRegister(group_name,user_id), requestHelper, true, dataClick);
     }
 
-    public static void groupAddUser(String user_id, String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void groupAddUser(String user_ids, String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .groupAddUser(user_id, group_id), requestHelper, true, dataClick);
+                .groupAddUser(user_ids, group_id), requestHelper, true, dataClick);
     }
 
     public static void groupRemoveUser(String user_id, String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
