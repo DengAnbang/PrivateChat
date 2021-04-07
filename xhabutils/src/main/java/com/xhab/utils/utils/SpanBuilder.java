@@ -1,4 +1,4 @@
-package com.xhab.utils;
+package com.xhab.utils.utils;
 
 import android.content.Context;
 import android.text.SpannableStringBuilder;
@@ -8,7 +8,6 @@ import android.text.style.ForegroundColorSpan;
 
 /**
  *  字符串特定位置开始变换fontsize或者字符颜色工具。
- *  SpanBuilder.content(title + msg).colorSpan(this, 0, title.length(), R.color.color_orange).build();
  */
 
 public class SpanBuilder {

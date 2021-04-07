@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hezeyi.privatechat.activity.account.MeDetailsActivity;
+import com.hezeyi.privatechat.activity.account.SelectUserActivity;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.activity.chat.ChatGroupAddActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -38,6 +39,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     private List<Integer> mTabRes = Arrays.asList(R.mipmap.tab_jiaoliu, R.mipmap.tab_tongxunlu, R.mipmap.tab_wode, R.mipmap.tab_shouye);
     private List<Integer> mTabResPressed = Arrays.asList(R.mipmap.tab_jiaoliu1, R.mipmap.tab_tongxunlu1, R.mipmap.tab_wode1, R.mipmap.tab_shouye1);
     private ChatFragment mChatFragment;
+    private SelectWindow mSelectWindow;
 
 
     @Override
@@ -102,8 +104,8 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         rightTitle.setTextSize(DisplayUtils.dp2px(this, 7));
         rightTitle.setText("+");
         rightTitle.setOnClickListener(v -> {
-            SelectWindow selectWindow = new SelectWindow(this);
-            selectWindow.setOnClickListener(v1 -> {
+            mSelectWindow = new SelectWindow(this);
+            mSelectWindow.setOnClickListener(v1 -> {
                 switch (v1.getId()) {
                     case R.id.tv_scan:
                         UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
@@ -121,14 +123,18 @@ public class MainActivity extends BaseBottomTabUtilActivity {
                         });
                         break;
                     case R.id.tv_add_group:
+                        mSelectWindow.dismiss();
                         Intent intent = new Intent(this, ChatGroupAddActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.tv_add_user:
+                        mSelectWindow.dismiss();
+                        intent = new Intent(this, SelectUserActivity.class);
+                        startActivity(intent);
                         break;
                 }
             });
-            selectWindow.showAsDropDown(rightTitle, 0, 0, Gravity.START);
+            mSelectWindow.showAsDropDown(rightTitle, 0, 0, Gravity.START);
 //            showPopupWindow(selectWindow);
         });
     }

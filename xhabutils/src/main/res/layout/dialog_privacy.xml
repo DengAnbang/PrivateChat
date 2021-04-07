@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/dialog_privacy_bg"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/users_note"
+        android:textColor="@color/just_color_000000"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tv_privacy_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/privacy_tips"
+        android:textColor="@color/just_color_000000"
+        />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/just_color_878787"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_to_do"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/line">
+
+        <Button
+            android:id="@+id/btn_exit"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:background="@color/just_color_ffffff"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="@string/privacy_exit"
+            android:textColor="@color/just_color_878787"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <View
+            android:layout_width="0.25dp"
+            android:layout_height="40dp"
+            android:background="@color/just_color_878787"/>
+
+        <Button
+            android:id="@+id/btn_enter"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:background="@color/just_color_ffffff"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="@string/privacy_agree"
+            android:textColor="@color/just_color_FFE26C25"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</LinearLayout>

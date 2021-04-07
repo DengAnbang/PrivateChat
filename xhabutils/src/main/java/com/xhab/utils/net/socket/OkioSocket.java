@@ -35,7 +35,7 @@ public class OkioSocket implements Closeable {
     private Thread writeThread;
     private TaskQueue<Request> msgQueue;//消息队列
     private OnConnectCallBack mOnConnectCallBack;
-    private OnMessageCome mOnMessageChange;
+    private SocketAbstract.OnMessageCome mOnMessageChange;
     private OnEncryption mOnEncryption;
     private OnDecode mOnDecode;
     private boolean canConnected = true;//是否允许连接
@@ -103,7 +103,7 @@ public class OkioSocket implements Closeable {
      * @param onMessageChange
      * @return
      */
-    public OkioSocket setOnMessageChange(OnMessageCome onMessageChange) {
+    public OkioSocket setOnMessageChange(SocketAbstract.OnMessageCome onMessageChange) {
         mOnMessageChange = onMessageChange;
         return this;
     }
@@ -197,20 +197,21 @@ public class OkioSocket implements Closeable {
 
     /**
      * 链接,如果已经在连接成功了或者正在连接中,就不再会连接接了
-     *
-     * @param host
-     * @param port
      */
-    public void connect(@NonNull String host, int port) {
+    public void connect() {
         if (!isConnect && !isConnecting) {
             isClose = false;
-            connectSocket(host, port);
+            connectSocket();
         }
     }
 
-    private void connectSocket(@NonNull String host, int port) {
+    public void init(@NonNull String host, int port) {
         Configs.HOST = host;
         Configs.PORT = port;
+    }
+
+    private void connectSocket() {
+
         synchronized (OkioSocket.class) {
             if (isConnecting) return;
             isConnecting = true;
@@ -236,7 +237,7 @@ public class OkioSocket implements Closeable {
         if (isConnecting) return;
         if (isClose) return;
         if (!canConnected) return;
-        connectSocket(Configs.HOST, Configs.PORT);
+        connectSocket();
     }
 
     /**
@@ -486,6 +487,7 @@ public class OkioSocket implements Closeable {
         msg.what = Configs.MessageWhat.RE_CONNECTED;
         mHandler.sendMessageDelayed(msg, Configs.reConnectedTime);
     }
+
     /**
      * 发送一个连接的消息
      */
@@ -522,8 +524,4 @@ public class OkioSocket implements Closeable {
         byte[] onDecode(byte[] original);
     }
 
-
-    public interface OnMessageCome {
-        void onMessageCome(String msg);
-    }
 }

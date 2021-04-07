@@ -15,7 +15,11 @@
     <color name="just_color_19b595">#19b595</color>
     <color name="just_color_00000000">#00000000</color>
     <color name="just_color_000000">#000000</color>
+    <color name="just_color_ff22f033">#ff22f033</color>
     <color name="just_color_btn_start">#ffa445</color>
     <color name="just_color_btn_end">#ff8200</color>
+    <color name="just_color_878787">#878787</color>
+    <color name="just_color_FFE26C25">#FFE26C25</color>
+    <color name="just_color_FF036EB8">#FF036EB8</color>
 
 </resources>

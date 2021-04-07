@@ -55,7 +55,7 @@ public class SplashActivity extends BaseUtilActivity {
 
     private void getUserList() {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
-        HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
+        HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
             MyApplication.getInstance().setUserMsgBeans(userMsgBeans);
             HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);

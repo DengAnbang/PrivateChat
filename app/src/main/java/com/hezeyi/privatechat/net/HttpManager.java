@@ -97,14 +97,23 @@ public class HttpManager {
                 .userSelectById(user_id), requestHelper, showLoadDialog, dataClick);
     }
 
-    public static void userSelectFriend(String user_id, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
+    public static void userSelectByFuzzySearch(String word, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .userSelectFriend(user_id), requestHelper, true, dataClick);
+                .userSelectByFuzzySearch(word), requestHelper, true, dataClick);
     }
 
-    public static void groupRegister(String group_name,String user_id, final RequestHelper requestHelper, final OnDataCallBack<ChatGroupBean> dataClick) {
+    public static void userSelectFriend(String user_id, String friend_type, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
+        userSelectFriend(user_id, friend_type, true, requestHelper, dataClick);
+    }
+
+    public static void userSelectFriend(String user_id, String friend_type, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .groupRegister(group_name,user_id), requestHelper, true, dataClick);
+                .userSelectFriend(user_id, friend_type), requestHelper, showLoadDialog, dataClick);
+    }
+
+    public static void groupRegister(String group_name, String user_id, final RequestHelper requestHelper, final OnDataCallBack<ChatGroupBean> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .groupRegister(group_name, user_id), requestHelper, true, dataClick);
     }
 
     public static void groupAddUser(String user_ids, String group_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {

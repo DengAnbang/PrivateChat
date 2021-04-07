@@ -1,6 +1,8 @@
 package com.hezeyi.privatechat.activity.account;
 
 import android.content.Intent;
+import android.text.SpannableStringBuilder;
+import android.widget.ImageView;
 
 import com.hezeyi.privatechat.BuildConfig;
 import com.hezeyi.privatechat.Const;
@@ -11,8 +13,13 @@ import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
 import com.xhab.chatui.utils.NotificationManagerUtils;
+import com.xhab.utils.activity.PrivacyPolicyActivity;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.SPUtils;
+import com.xhab.utils.utils.SpanBuilder;
+import com.xhab.utils.utils.ToastUtil;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by dab on 2021/3/8 20:36
@@ -22,6 +29,8 @@ public class LoginActivity extends BaseActivity {
     public int getContentViewRes() {
         return R.layout.activity_login;
     }
+
+    private boolean isSelect;
 
     @Override
     public void initView() {
@@ -45,7 +54,38 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initEvent() {
         super.initEvent();
-        NotificationManagerUtils.initHangUpPermission (this);
+        SpannableStringBuilder build = SpanBuilder.content("勾选表示同意《用户协议》和《隐私政策》,点击查看详情")
+                .colorSpan(this, 6, 12, R.color.just_color_FF036EB8)
+                .colorSpan(this, 14, 19, R.color.just_color_FF036EB8).build();
+        ImageView imageView = findViewById(R.id.iv_select);
+        imageView.setOnClickListener(v -> {
+            isSelect = !isSelect;
+            imageView.setImageDrawable(ContextCompat.getDrawable(this, isSelect ? R.mipmap.b3_icon1 : R.mipmap.b3_icon2));
+        });
+        setTextViewString(R.id.tv_protocol, build);
+        click(R.id.tv_protocol, v -> {
+            FunUtils.showPrivacy(this, integer -> {
+                switch (integer) {
+                    case 1:
+                        Intent intent = new Intent(this, PrivacyPolicyActivity.class);
+                        intent.putExtra("type", 0);
+                        startActivity(intent);
+                        break;
+                    case 2:// showSnackBar("隐私政策");
+                        intent = new Intent(this, PrivacyPolicyActivity.class);
+                        intent.putExtra("type", 1);
+                        startActivity(intent);
+
+                        break;
+                    case 4:
+                        isSelect = true;
+                        imageView.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.b3_icon1));
+                        break;
+                }
+            });
+        });
+        NotificationManagerUtils.initHangUpPermission(this);
+//        Test.init();
     }
 
     private void checkLogin() {
@@ -53,6 +93,10 @@ public class LoginActivity extends BaseActivity {
         String password = getTextViewString(R.id.et_password);
         if (FunUtils.checkIsNullable(account, "请输入账号!")) return;
         if (FunUtils.checkIsNullable(password, "请输入密码!")) return;
+        if (!isSelect) {
+            ToastUtil.showToast("请先勾选《用户协议》和《隐私政策》");
+            return;
+        }
         login(account, password);
     }
 
@@ -74,7 +118,7 @@ public class LoginActivity extends BaseActivity {
 
     private void getUserList() {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
-        HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
+        HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
             MyApplication.getInstance().setUserMsgBeans(userMsgBeans);
             HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
@@ -85,7 +129,6 @@ public class LoginActivity extends BaseActivity {
             });
         });
     }
-
 
 
 }

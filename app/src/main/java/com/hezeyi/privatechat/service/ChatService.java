@@ -24,7 +24,8 @@ import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.StackManager;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
-import com.xhab.utils.net.socket.OkioSocket;
+import com.xhab.utils.net.socket.SocketAbstract;
+import com.xhab.utils.net.socket.WebSocketIpm;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.RxUtils;
@@ -41,25 +42,26 @@ public class ChatService extends Service implements RequestHelperImp {
 
     private String mUserId;
     private boolean isConnection;
-
+    private SocketAbstract mSocketAbstract;
     public ChatService() {
 
     }
 
     private void init() {
-
+        mSocketAbstract = new WebSocketIpm("ws://" + Const.Api.SOCKET_SERVER + ":9090/" + "websocket");
+//        mSocketAbstract = new TcpSocketIpm(Const.Api.SOCKET_SERVER, Const.Api.SOCKET_PORT);
+        initSocket();
+        connectSocket();
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         init();
-        okioSocket = new OkioSocket();
-        initSocket();
-        connectSocket();
+
     }
 
-    private OkioSocket okioSocket;
+
 
 
     private void initSocket() {
@@ -69,12 +71,12 @@ public class ChatService extends Service implements RequestHelperImp {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         });
-        okioSocket.setOnMessageChange(SocketDispense::parseJson);
+        mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
 
         addDisposable(Observable.interval(20, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
-                okioSocket.send(s);
+                mSocketAbstract.send(s);
             }
         }));
         addDisposable(RxBus.get().register(Const.RxType.CONNECTION, Object.class).subscribe(s -> {
@@ -135,8 +137,8 @@ public class ChatService extends Service implements RequestHelperImp {
     }
 
     public void connectSocket() {
-        if (!okioSocket.isConnect()) {
-            okioSocket.connect(Const.Api.SOCKET_SERVER, Const.Api.SOCKET_PORT);
+        if (!mSocketAbstract.isConnect()) {
+            mSocketAbstract.connect();
         }
     }
 
@@ -147,20 +149,20 @@ public class ChatService extends Service implements RequestHelperImp {
 //        String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
 //        okioSocket.send(login_out);
         String login = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
-        okioSocket.send(login);
+        mSocketAbstract.send(login);
     }
 
     private void loginOut() {
         ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, mUserId, "", false);
         data.setSenderId(mUserId);
         String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
-        okioSocket.send(login_out);
+        mSocketAbstract.send(login_out);
     }
 
     public void msgReceive(ChatMessage data) {
         data.setSentStatus(MsgSendStatus.RECEIVE);
         String s = SocketData.create("0", Const.RxType.TYPE_MSG_UPDATE, data).toJson();
-        okioSocket.send(s);
+        mSocketAbstract.send(s);
     }
 
     public void sendSendMsgBean(ChatMessage sendMsg) {
@@ -169,7 +171,7 @@ public class ChatService extends Service implements RequestHelperImp {
             type = Const.RxType.TYPE_MSG_GROUP_SEND;
         }
         String s = SocketData.create("0", type, sendMsg).toJson();
-        okioSocket.send(s);
+        mSocketAbstract.send(s);
     }
 
     @Override

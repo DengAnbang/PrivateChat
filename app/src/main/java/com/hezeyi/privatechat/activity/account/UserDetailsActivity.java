@@ -26,6 +26,10 @@ public class UserDetailsActivity extends BaseActivity {
         super.initView();
         setTitleString("个人信息");
         String user_id = getIntent().getStringExtra("user_id");
+        UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(user_id);
+        if (userMsgBeanById != null) {
+            visibility(R.id.tv_submit, false);
+        }
         HttpManager.userSelectById(user_id, true, this, userMsgBean -> {
             if (userMsgBean != null) {
                 to_user_id = userMsgBean.getUser_id();
@@ -38,8 +42,8 @@ public class UserDetailsActivity extends BaseActivity {
         });
         UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
         click(R.id.tv_submit, view -> {
-            HttpManager.addFriend(userMsgBean.getUser_id(), to_user_id, "1", this, o -> {
-                ToastUtil.showToast("添加成功!");
+            HttpManager.addFriend(userMsgBean.getUser_id(), to_user_id, "0", this, o -> {
+                ToastUtil.showToast("提交成功!");
                 finish();
             });
         });

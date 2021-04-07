@@ -160,7 +160,7 @@ public class ChatGroupAddActivity extends BaseActivity {
             mIds = "";
         }
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
-        HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
+        HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
 
             Disposable subscribe = Observable.fromIterable(userMsgBeans).filter(userMsgBean -> !mIds.contains(userMsgBean.getUser_id()))
                     .toList().subscribe((userMsgBeans1, throwable) -> {

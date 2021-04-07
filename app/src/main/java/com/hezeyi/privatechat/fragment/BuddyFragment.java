@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.account.FriendReplyActivity;
 import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.activity.chat.ChatGroupActivity;
 import com.hezeyi.privatechat.adapter.BuddyAdapter;
@@ -33,7 +34,7 @@ import io.reactivex.disposables.Disposable;
  */
 public class BuddyFragment extends BaseFragment {
 
-    private List<UserMsgBean> mUserMsgBeans=new ArrayList<>();
+    private List<UserMsgBean> mUserMsgBeans = new ArrayList<>();
 
 
     @Override
@@ -52,7 +53,7 @@ public class BuddyFragment extends BaseFragment {
         if (isChange) {
             getUserList();
         }
-//        getUserList();
+        getUserList();
     }
 
     @Override
@@ -98,6 +99,10 @@ public class BuddyFragment extends BaseFragment {
             intent.putExtra("userId", user_id);
             startActivity(intent);
         });
+        click(R.id.ll_request_friend, v -> {
+            Intent intent = new Intent(getActivity(), FriendReplyActivity.class);
+            startActivity(intent);
+        });
         mBuddyAdapter.setDataList(MyApplication.getInstance().getUserMsgBeans());
         mUserMsgBeans = new ArrayList<>(MyApplication.getInstance().getUserMsgBeans());
         Disposable subscribe = RxTextView.textChanges(view.findViewById(R.id.et_search))
@@ -128,7 +133,8 @@ public class BuddyFragment extends BaseFragment {
 
     private void getUserList() {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
-        HttpManager.userSelectFriend(user_id, this, userMsgBeans -> {
+        HttpManager.userSelectFriend(user_id, "1", false, this, userMsgBeans -> {
+            MyApplication.getInstance().setUserMsgBeans(userMsgBeans);
             mUserMsgBeans = new ArrayList<>(userMsgBeans);
             mBuddyAdapter.setDataList(userMsgBeans);
         });

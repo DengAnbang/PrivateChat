@@ -90,9 +90,15 @@ public interface ApiService {
             @Query("user_id") String user_id
     );
 
+    @POST("/app/user/select/by/fuzzy/search")
+    Observable<ResultData<List<UserMsgBean>>> userSelectByFuzzySearch(
+            @Query("word") String word
+    );
+
     @POST("/app/user/select/friend")
     Observable<ResultData<List<UserMsgBean>>> userSelectFriend(
-            @Query("user_id") String account
+            @Query("user_id") String account,
+            @Query("friend_type") String friend_type
     );
 
     @POST("/app/group/register")
