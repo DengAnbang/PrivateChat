@@ -25,7 +25,8 @@
         android:layout_height="60dp"
         android:layout_marginTop="1dp"
         android:background="@color/just_color_ffffff"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_head_portrait"
@@ -37,6 +38,7 @@
             />
 
         <TextView
+
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

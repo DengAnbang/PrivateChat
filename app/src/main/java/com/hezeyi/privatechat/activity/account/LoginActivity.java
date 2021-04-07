@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initEvent() {
         super.initEvent();
-        SpannableStringBuilder build = SpanBuilder.content("勾选表示同意《用户协议》和《隐私政策》,点击查看详情")
+        SpannableStringBuilder build = SpanBuilder.content("勾选表示同意《用户协议》和《隐私政策》")
                 .colorSpan(this, 6, 12, R.color.just_color_FF036EB8)
                 .colorSpan(this, 14, 19, R.color.just_color_FF036EB8).build();
         ImageView imageView = findViewById(R.id.iv_select);

@@ -71,7 +71,7 @@ public class BuddyFragment extends BaseFragment {
         recyclerView.addItemDecoration(new SuspendDecoration(getActivity()) {
             @Override
             public boolean isSameGroup(int priorGroupId, int nowGroupId) throws Exception {
-                return Objects.equals(mBuddyAdapter.getDataList().get(priorGroupId).getSortableString(), mBuddyAdapter.getDataList().get(nowGroupId).getSortableString());
+                return Objects.equals(mBuddyAdapter.getDataList().get(priorGroupId).getInitial(), mBuddyAdapter.getDataList().get(nowGroupId).getInitial());
             }
 
             @Override
@@ -93,12 +93,14 @@ public class BuddyFragment extends BaseFragment {
             intent.putExtra("targetId", userMsgBean.getUser_id());
             startActivity(intent);
         });
+        //群
         click(R.id.tv_group, v -> {
             String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
             Intent intent = new Intent(getActivity(), ChatGroupActivity.class);
             intent.putExtra("userId", user_id);
             startActivity(intent);
         });
+        //好友申请
         click(R.id.ll_request_friend, v -> {
             Intent intent = new Intent(getActivity(), FriendReplyActivity.class);
             startActivity(intent);

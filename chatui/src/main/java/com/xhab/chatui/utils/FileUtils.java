@@ -112,6 +112,7 @@ public final class FileUtils {
         }
         return true;
     }
+
     private static final String SEPARATOR = File.separator;//路径分隔符
 
     //建立一个MIME类型与文件后缀名的匹配表
@@ -193,7 +194,6 @@ public final class FileUtils {
     };
 
 
-
     /**
      * 复制res/raw中的文件到指定目录
      *
@@ -207,11 +207,12 @@ public final class FileUtils {
         File file = new File(storagePath);
         if (!file.exists()) {//如果文件夹不存在，则创建新的文件夹
             boolean mkdirs = file.mkdirs();
-            Log.e(TAG, "copyFilesFromRaw: "+mkdirs );
+            Log.e(TAG, "copyFilesFromRaw: " + mkdirs);
         }
         readInputStream(storagePath + SEPARATOR + fileName, inputStream);
-        return storagePath + "/"+fileName;
+        return storagePath + "/" + fileName;
     }
+
     /**
      * 读取输入流中的数据写入输出流
      *
@@ -243,6 +244,7 @@ public final class FileUtils {
 
 
     }
+
     /**
      * 打开文件
      *
@@ -311,6 +313,7 @@ public final class FileUtils {
         }
         return type;
     }
+
     public static String GetVideoFileName(String fileName, String fileRootPath) {
         String filePath = null;
 //        Vector<String> vecFile = new Vector<String>();
@@ -331,15 +334,16 @@ public final class FileUtils {
         }
         return filePath;
     }
+
     public static String getSDPath(Context context) {
         File sdDir = null;
         boolean sdCardExist = Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED);// 判断sd卡是否存在
         if (sdCardExist) {
-            if (Build.VERSION.SDK_INT>=29){
-//Android10之后
+            if (Build.VERSION.SDK_INT >= 29) {
+                //Android10之后
                 sdDir = context.getExternalFilesDir(null);
-            }else {
+            } else {
                 sdDir = Environment.getExternalStorageDirectory();// 获取SD卡根目录
             }
         } else {

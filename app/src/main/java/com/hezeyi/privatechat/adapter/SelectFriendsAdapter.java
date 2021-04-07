@@ -11,6 +11,7 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.inteface.OnItemClickListener;
 
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ public class SelectFriendsAdapter extends RecyclerView.Adapter<SelectFriendsAdap
 
     public void setDataList(List<UserMsgBean> dataList) {
         mDataList = dataList;
+        Collections.sort(mDataList);
         notifyDataSetChanged();
     }
 

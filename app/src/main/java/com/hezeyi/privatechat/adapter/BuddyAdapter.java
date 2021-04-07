@@ -7,10 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hezeyi.privatechat.R;
-import com.hezeyi.privatechat.inteface.BuddyShowAble;
+import com.hezeyi.privatechat.bean.SortableAndBuddyShowAble;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.inteface.OnItemClickListener;
 
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Created by dab on 2021/3/17 10:10
  */
-public class BuddyAdapter<T extends BuddyShowAble> extends RecyclerView.Adapter<BuddyAdapter.ViewHolder> {
+public class BuddyAdapter<T extends SortableAndBuddyShowAble> extends RecyclerView.Adapter<BuddyAdapter.ViewHolder> {
     private List<T> mDataList;
     private OnItemClickListener<T> mOnItemClickListener;
 
@@ -33,6 +34,7 @@ public class BuddyAdapter<T extends BuddyShowAble> extends RecyclerView.Adapter<
 
     public void setDataList(List<T> dataList) {
         mDataList = dataList;
+        Collections.sort(mDataList);
         notifyDataSetChanged();
     }
 

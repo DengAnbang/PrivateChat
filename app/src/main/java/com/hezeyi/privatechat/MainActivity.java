@@ -7,11 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hezeyi.privatechat.activity.account.MeDetailsActivity;
 import com.hezeyi.privatechat.activity.account.SelectUserActivity;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.activity.chat.ChatGroupAddActivity;
-import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.fragment.AdminFragment;
 import com.hezeyi.privatechat.fragment.BuddyFragment;
 import com.hezeyi.privatechat.fragment.ChatFragment;
@@ -21,7 +19,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xhab.chatui.utils.NotificationManagerUtils;
 import com.xhab.utils.base.BaseBottomTabUtilActivity;
 import com.xhab.utils.utils.DisplayUtils;
-import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.QRCodeUtils;
 
 import java.util.ArrayList;
@@ -108,18 +105,10 @@ public class MainActivity extends BaseBottomTabUtilActivity {
             mSelectWindow.setOnClickListener(v1 -> {
                 switch (v1.getId()) {
                     case R.id.tv_scan:
-                        UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
                         QRCodeUtils.scanQrCode(this, s -> {
-                            LogUtils.e("onFirstVisibleToUser*****: " + s);
-                            if (s.equals(userMsgBean.getUser_id())) {
-                                Intent intent = new Intent(this, MeDetailsActivity.class);
-                                startActivity(intent);
-                            } else {
-                                Intent intent = new Intent(this, UserDetailsActivity.class);
-                                intent.putExtra("user_id", s);
-                                startActivity(intent);
-                            }
-
+                            Intent intent = new Intent(this, UserDetailsActivity.class);
+                            intent.putExtra("user_id", s);
+                            startActivity(intent);
                         });
                         break;
                     case R.id.tv_add_group:

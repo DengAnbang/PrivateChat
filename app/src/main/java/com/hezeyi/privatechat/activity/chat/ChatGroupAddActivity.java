@@ -59,7 +59,7 @@ public class ChatGroupAddActivity extends BaseActivity {
         recyclerView.addItemDecoration(new SuspendDecoration(this) {
             @Override
             public boolean isSameGroup(int priorGroupId, int nowGroupId) throws Exception {
-                return Objects.equals(mSelectFriendsAdapter.getDataList().get(priorGroupId).getSortableString(), mSelectFriendsAdapter.getDataList().get(nowGroupId).getSortableString());
+                return Objects.equals(mSelectFriendsAdapter.getDataList().get(priorGroupId).getInitial(), mSelectFriendsAdapter.getDataList().get(nowGroupId).getInitial());
             }
 
             @Override
@@ -124,7 +124,7 @@ public class ChatGroupAddActivity extends BaseActivity {
     @Override
     public void initEvent() {
         super.initEvent();
-        mSelectFriendsAdapter.setDataList(MyApplication.getInstance().getUserMsgBeans());
+//        mSelectFriendsAdapter.setDataList(MyApplication.getInstance().getUserMsgBeans());
         mUserMsgBeans = new ArrayList<>(MyApplication.getInstance().getUserMsgBeans());
         Disposable subscribe = RxTextView.textChanges(findViewById(R.id.et_search))
                 .debounce(500, TimeUnit.MILLISECONDS)

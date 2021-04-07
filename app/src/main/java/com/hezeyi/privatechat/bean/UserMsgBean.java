@@ -1,8 +1,6 @@
 package com.hezeyi.privatechat.bean;
 
 import com.hezeyi.privatechat.R;
-import com.hezeyi.privatechat.inteface.BuddyShowAble;
-import com.xhab.utils.bean.Sortable;
 import com.xhab.utils.inteface.ChooseAble;
 
 import androidx.annotation.NonNull;
@@ -10,7 +8,7 @@ import androidx.annotation.NonNull;
 /**
  * Created by dab on 2021/3/8 21:36
  */
-public class UserMsgBean extends Sortable implements BuddyShowAble, ChooseAble {
+public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble {
 
     /**
      * user_name :

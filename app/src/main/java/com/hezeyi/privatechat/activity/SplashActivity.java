@@ -37,6 +37,13 @@ public class SplashActivity extends BaseUtilActivity {
             return;
         }
         login(account, password);
+        //停留1.5S进入主页
+        getWindow().getDecorView().postDelayed(() -> {
+            if (isFinishing())return;
+            startActivity(new Intent(SplashActivity.this, GuiderActivity.class));
+            finish();
+        }, 5000);
+        return;
     }
 
     private void login(String account, String password) {

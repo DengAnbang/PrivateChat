@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat.activity.account;
 
+import android.content.Intent;
 import android.view.Gravity;
 
 import com.hezeyi.privatechat.MyApplication;
@@ -26,6 +27,11 @@ public class UserDetailsActivity extends BaseActivity {
         super.initView();
         setTitleString("个人信息");
         String user_id = getIntent().getStringExtra("user_id");
+        if (user_id.equals(MyApplication.getInstance().getUserMsgBean().getUser_id())) {
+            Intent intent = new Intent(this, MeDetailsActivity.class);
+            startActivity(intent);
+            finish();
+        }
         UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(user_id);
         if (userMsgBeanById != null) {
             visibility(R.id.tv_submit, false);
@@ -42,7 +48,7 @@ public class UserDetailsActivity extends BaseActivity {
         });
         UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
         click(R.id.tv_submit, view -> {
-            HttpManager.addFriend(userMsgBean.getUser_id(), to_user_id, "0", this, o -> {
+            HttpManager.addFriend(userMsgBean.getUser_id(), to_user_id, "2", this, o -> {
                 ToastUtil.showToast("提交成功!");
                 finish();
             });

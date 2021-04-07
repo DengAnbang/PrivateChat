@@ -3,6 +3,7 @@ package com.hezeyi.privatechat.activity.chat;
 import android.content.Intent;
 
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.adapter.ChatGroupMsgAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -66,6 +67,10 @@ public class ChatGroupMsgActivity extends BaseActivity {
                 }
                 intent.putExtra("ids", ids.toString());
                 startActivityForResult(intent, KEY_SELECT);
+            }else {
+                Intent intent = new Intent(this, UserDetailsActivity.class);
+                intent.putExtra("user_id", userMsgBean.getUser_id());
+                startActivity(intent);
             }
         });
     }

@@ -59,7 +59,7 @@ public class ChatGroupActivity extends BaseActivity {
         recyclerView.addItemDecoration(new SuspendDecoration(this) {
             @Override
             public boolean isSameGroup(int priorGroupId, int nowGroupId) throws Exception {
-                return Objects.equals(mBuddyAdapter.getDataList().get(priorGroupId).getSortableString(), mBuddyAdapter.getDataList().get(nowGroupId).getSortableString());
+                return Objects.equals(mBuddyAdapter.getDataList().get(priorGroupId).getInitial(), mBuddyAdapter.getDataList().get(nowGroupId).getInitial());
             }
 
             @Override

@@ -66,14 +66,9 @@ public class SelectUserActivity extends BaseActivity {
         });
         mBuddyAdapter.setOnItemClickListener((view, position, userMsgBean) -> {
             String user_id = userMsgBean.getUser_id();
-            if (user_id.equals(userMsgBean.getUser_id())) {
-                Intent intent = new Intent(this, MeDetailsActivity.class);
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(this, UserDetailsActivity.class);
-                intent.putExtra("user_id", user_id);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(this, UserDetailsActivity.class);
+            intent.putExtra("user_id", user_id);
+            startActivity(intent);
         });
     }
 

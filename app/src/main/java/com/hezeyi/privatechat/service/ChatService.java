@@ -26,6 +26,7 @@ import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.net.socket.SocketAbstract;
 import com.xhab.utils.net.socket.WebSocketIpm;
+import com.xhab.utils.utils.BitmapUtil;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.RxUtils;
@@ -43,6 +44,7 @@ public class ChatService extends Service implements RequestHelperImp {
     private String mUserId;
     private boolean isConnection;
     private SocketAbstract mSocketAbstract;
+
     public ChatService() {
 
     }
@@ -61,7 +63,15 @@ public class ChatService extends Service implements RequestHelperImp {
 
     }
 
-
+    public void loginSocket(String userId) {
+        JuphoonUtils.get().login(userId, "123456");
+        ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "", false);
+        data.setSenderId(userId);
+//        String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
+//        okioSocket.send(login_out);
+        String login = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
+        mSocketAbstract.send(login);
+    }
 
 
     private void initSocket() {
@@ -104,6 +114,9 @@ public class ChatService extends Service implements RequestHelperImp {
                 RxBus.get().post(Const.RxType.TYPE_MSG_UPDATE, message);
             } else {
                 String localPath = (message).getLocalPath();
+                if (message.getMsgType() == MsgType.IMAGE) {
+                    localPath = BitmapUtil.compressImage(localPath);
+                }
                 HttpManager.fileUpload(Const.FilePath.chatFileType, localPath, url -> {
                     message.setRemoteUrl(url);
                     sendSendMsgBean(message);
@@ -142,15 +155,6 @@ public class ChatService extends Service implements RequestHelperImp {
         }
     }
 
-    public void loginSocket(String userId) {
-//        JuphoonUtils.get().login(userId, "123456");
-        ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "", false);
-        data.setSenderId(userId);
-//        String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
-//        okioSocket.send(login_out);
-        String login = SocketData.create("0", Const.RxType.TYPE_LOGIN, data).toJson();
-        mSocketAbstract.send(login);
-    }
 
     private void loginOut() {
         ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, mUserId, "", false);
@@ -212,6 +216,7 @@ public class ChatService extends Service implements RequestHelperImp {
 
     private void showNotification(ChatMessage message) {
         if (message.getMsgType() == MsgType.SYSTEM) return;
+
         String anotherId = message.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id());
         if (Objects.equals(MyApplication.getInstance().getAnotherId(), anotherId)) return;
         RxUtils.runOnIoThread(() -> {
@@ -219,7 +224,6 @@ public class ChatService extends Service implements RequestHelperImp {
             String name;
             String portrait;
             String targetId;
-            int avatarDef;
             String msg = message.getMsg();
             if (message.isGroup()) {
                 intent.putExtra("isGroup", true);

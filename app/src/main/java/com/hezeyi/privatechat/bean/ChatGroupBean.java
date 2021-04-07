@@ -1,15 +1,13 @@
 package com.hezeyi.privatechat.bean;
 
 import com.hezeyi.privatechat.R;
-import com.hezeyi.privatechat.inteface.BuddyShowAble;
-import com.xhab.utils.bean.Sortable;
 
 import androidx.annotation.NonNull;
 
 /**
  * Created by dab on 2021/3/26 09:35
  */
-public class ChatGroupBean extends Sortable implements BuddyShowAble {
+public class ChatGroupBean extends SortableAndBuddyShowAble {
     private String user_id;
     private String user_type;
     private String chat_pwd;

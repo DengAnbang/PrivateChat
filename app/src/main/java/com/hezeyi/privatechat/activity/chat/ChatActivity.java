@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
@@ -83,7 +84,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             ChatGroupBean chatGroupBeanById = MyApplication.getInstance().getChatGroupBeanById(targetId);
             if (chatGroupBeanById != null) {
                 target_name = chatGroupBeanById.getGroup_name();
-            }else {
+            } else {
                 target_name = targetId;
             }
         } else {
@@ -134,6 +135,14 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             startActivity(intent);
         });
 
+    }
+
+    @Override
+    public void clickUser(ChatMessage message) {
+        super.clickUser(message);
+        Intent intent = new Intent(this, UserDetailsActivity.class);
+        intent.putExtra("user_id", message.getSenderId());
+        startActivity(intent);
     }
 
     @Override

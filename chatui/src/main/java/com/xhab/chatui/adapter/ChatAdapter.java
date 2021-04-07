@@ -2,6 +2,7 @@ package com.xhab.chatui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -184,6 +185,11 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
         if (item.getMsgType() == (MsgType.FILE)) {
             helper.addOnClickListener(R.id.rc_message);
             helper.getView(R.id.rc_message).setTag(R.id.rc_message, item);
+        }
+        View view = helper.getView(R.id.chat_item_header);
+        if (view != null) {
+            helper.addOnClickListener(R.id.chat_item_header);
+            view.setTag(R.id.chat_item_header, item);
         }
 
     }

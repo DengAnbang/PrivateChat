@@ -44,7 +44,7 @@ public class HttpManager {
     }
 
     public static void fileUpload(String fileType, String filePath, final OnDataCallBack<String> dataClick) {
-        filePath = BitmapUtil.compressImage(filePath);
+
         File file = new File(filePath);
         if (file.exists()) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);

@@ -107,6 +107,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         });
         findViewById(R.id.iv_msg).setVisibility(isGroup ? View.VISIBLE : View.GONE);
         findViewById(R.id.rlLocation).setVisibility(isGroup ? View.GONE : View.VISIBLE);
+        findViewById(R.id.rlVideo).setVisibility(View.GONE);
         mAdapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
         mAdapter.setSenderId(mSenderId);
         mAdapter.setShowImageCallback(getShowImageCallback());
@@ -162,9 +163,16 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
             } else if (view.getId() == R.id.rc_message) {
                 ChatMessage message = (ChatMessage) view.getTag(R.id.rc_message);
                 openFile(message);
+            } else if (view.getId() == R.id.chat_item_header) {
+                ChatMessage message = (ChatMessage) view.getTag(R.id.chat_item_header);
+                clickUser(message);
             }
 
         });
+
+    }
+
+    public void clickUser(ChatMessage message) {
 
     }
 
