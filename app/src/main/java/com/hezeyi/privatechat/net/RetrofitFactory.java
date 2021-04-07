@@ -107,7 +107,7 @@ public class RetrofitFactory {
                 source.request(Long.MAX_VALUE);
                 String s1 = source.buffer().clone().readString(Charset.forName("UTF-8"));
                 LogUtils.e(s1);
-                LogUtils.e("Response: " + proceed.peekBody(1204 * 1204).string());
+//                LogUtils.e("Response: " + proceed.peekBody(1204 * 1204).string());
             }
 
 

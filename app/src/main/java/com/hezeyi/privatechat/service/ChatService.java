@@ -217,6 +217,8 @@ public class ChatService extends Service implements RequestHelperImp {
     private void showNotification(ChatMessage message) {
         if (message.getMsgType() == MsgType.SYSTEM) return;
 
+        boolean aBoolean = SPUtils.getBoolean(Const.Sp.isNewMsgCode, true);
+        if (!aBoolean) return;
         String anotherId = message.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id());
         if (Objects.equals(MyApplication.getInstance().getAnotherId(), anotherId)) return;
         RxUtils.runOnIoThread(() -> {
@@ -246,6 +248,12 @@ public class ChatService extends Service implements RequestHelperImp {
                     portrait = "";
                 }
                 targetId = message.getSenderId();
+            }
+            boolean aBoolean1 = SPUtils.getBoolean(Const.Sp.isNewMsgDesCode, false);
+            if (!aBoolean1) {
+                name = "S.O.M";
+                msg = "收到一条新消息";
+                portrait = "";
             }
             intent.putExtra("targetId", targetId);
             NotificationManagerUtils.showNotification(this, intent,

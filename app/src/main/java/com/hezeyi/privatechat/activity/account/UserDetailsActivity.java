@@ -8,6 +8,7 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
+import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.utils.ToastUtil;
 
 /**
@@ -41,6 +42,7 @@ public class UserDetailsActivity extends BaseActivity {
                 to_user_id = userMsgBean.getUser_id();
                 setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
                 setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
+                GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(),findViewById(R.id.iv_head_portrait),userMsgBean.getPlaceholder());
             } else {
                 ToastUtil.showToast("用户不存在!");
                 finish();

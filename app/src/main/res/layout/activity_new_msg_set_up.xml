@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/background_color_f2f3f4"
@@ -17,10 +18,20 @@
         android:textSize="14sp"/>
 
     <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_new_msg"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="1dp"
         app:leftText="\u3000新消息通知\u3000"
+        app:rightDrawable="@mipmap/c25_icon1"
+        />
+
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_new_msg_des"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000新消息显示详情\u3000"
         app:rightDrawable="@mipmap/c25_icon1"
         />
 
@@ -30,21 +41,27 @@
         android:gravity="center_vertical"
         android:paddingLeft="35dp"
         android:text="可设置是否需要声音和震动"
-        android:textSize="14sp"/>
+        android:textSize="14sp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <com.xhab.utils.view.TwoTextLinearView
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="1dp"
+        android:visibility="gone"
         app:leftText="\u3000声音\u3000"
         app:rightDrawable="@mipmap/c25_icon1"
+        tools:visibility="visible"
         />
 
     <com.xhab.utils.view.TwoTextLinearView
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="1dp"
+        android:visibility="gone"
         app:leftText="\u3000震动\u3000"
         app:rightDrawable="@mipmap/c25_icon2"
+        tools:visibility="visible"
         />
 </LinearLayout>

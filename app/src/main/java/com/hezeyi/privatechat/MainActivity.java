@@ -24,6 +24,7 @@ import com.xhab.utils.utils.QRCodeUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -88,7 +89,11 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         fragments.add(mChatFragment);
         fragments.add(new BuddyFragment());
         fragments.add(new MeFragment());
-        fragments.add(new AdminFragment());
+        if (Objects.equals(MyApplication.getInstance().getUserMsgBean().getPermissions(), "1")) {
+            AdminFragment e = new AdminFragment();
+            fragments.add(e);
+        }
+
         return fragments;
     }
 

@@ -23,6 +23,15 @@ public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble 
     private String account = "";
     private String head_portrait;
     private String vip_time;
+    private String permissions;
+
+    public String getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(String permissions) {
+        this.permissions = permissions;
+    }
 
     public String getUser_name() {
         return user_name;
