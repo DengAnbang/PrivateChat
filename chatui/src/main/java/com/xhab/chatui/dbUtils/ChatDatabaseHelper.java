@@ -38,7 +38,7 @@ public class ChatDatabaseHelper {
 
 
     public void chatDbInsert(ChatMessage message) {
-        if ((message.isMessage())) return;
+        if ((!message.isMessage())) return;
         chatListDbInsert(message);
         String tableName = mChatDatabase.getChatTableName(message);
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
@@ -89,7 +89,6 @@ public class ChatDatabaseHelper {
     }
 
     public void chatDbDelete(ChatMessage message, @Nullable ChatMessage lastMessage) {
-        if (!message.isMessage()) return;
         if (lastMessage != null) {
             chatListDbInsert(lastMessage);
         }

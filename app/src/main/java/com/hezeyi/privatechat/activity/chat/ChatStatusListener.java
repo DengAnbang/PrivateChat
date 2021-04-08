@@ -1,13 +1,19 @@
 package com.hezeyi.privatechat.activity.chat;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.xhab.chatui.utils.ScreenShotListenManager;
 import com.xhab.utils.inteface.OnDataCallBack;
+
+import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * Created by dab on 2021/3/24 14:43
@@ -28,7 +34,12 @@ public class ChatStatusListener {
         if (blueadapter != null) {
             boolean enabled = blueadapter.isEnabled();
             if (enabled && onBluetoothListener != null) {
-                onBluetoothListener.onCallBack("的蓝牙处于打开状态!");
+                String connectedBtDevice = getConnectedBtDevice();
+                String t = "的蓝牙处于打开状态!";
+                if (!TextUtils.isEmpty(connectedBtDevice)) {
+                    t = t + "连接的设备名称:"+connectedBtDevice;
+                }
+                onBluetoothListener.onCallBack(t);
             }
         }
         startScreenShotListen();
@@ -111,4 +122,34 @@ public class ChatStatusListener {
         }
     };
 
+    //获取已连接的蓝牙设备
+    private String getConnectedBtDevice() {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        Class<BluetoothAdapter> bluetoothAdapterClass = BluetoothAdapter.class;//得到BluetoothAdapter的Class对象
+        try {
+            //得到连接状态的方法
+            Method method = bluetoothAdapterClass.getDeclaredMethod("getConnectionState", (Class[]) null);
+            //打开权限
+            method.setAccessible(true);
+            int state = (int) method.invoke(adapter, (Object[]) null);
+            if (state == BluetoothAdapter.STATE_CONNECTED) {
+                Log.i("BLUETOOTH", "BluetoothAdapter.STATE_CONNECTED");
+                Set<BluetoothDevice> devices = adapter.getBondedDevices(); //集合里面包括已绑定的设备和已连接的设备
+                Log.i("BLUETOOTH", "devices:" + devices.size());
+                for (BluetoothDevice device : devices) {
+                    Method isConnectedMethod = BluetoothDevice.class.getDeclaredMethod("isConnected", (Class[]) null);
+                    method.setAccessible(true);
+                    boolean isConnected = (boolean) isConnectedMethod.invoke(device, (Object[]) null);
+                    if (isConnected) { //根据状态来区分是已连接的还是已绑定的，isConnected为true表示是已连接状态。
+                        Log.i("BLUETOOTH-dh", "connected:" + device.getName());
+                        return device.getName();
+                        //deviceList.add(device);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -14,13 +14,14 @@ import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
 import com.xhab.chatui.inteface.ShowUserImageCallback;
 import com.xhab.chatui.utils.GlideUtils;
+import com.xhab.chatui.utils.TimeShowUtils;
 
 import java.io.File;
 import java.util.List;
 
 
 public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
-
+    private static final long INTERVALS = 1000 * 60 * 5;//显示聊天信息的间隔时间
     private static final int TYPE_SYSTEM = 0;
     private static final int TYPE_SEND_TEXT = 1;
     private static final int TYPE_RECEIVE_TEXT = 2;
@@ -142,6 +143,18 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
     }
 
     private void setContent(BaseViewHolder helper, ChatMessage item) {
+        int adapterPosition = helper.getAdapterPosition();
+        boolean isShowTime;
+        if (adapterPosition == 0) {
+            isShowTime = true;
+        } else {
+            ChatMessage chatMessage = getData().get(adapterPosition - 1);
+            isShowTime = item.getSentTime() - chatMessage.getSentTime() > INTERVALS;
+        }
+        helper.setVisible(R.id.item_tv_time, isShowTime);
+        if (isShowTime) {
+            helper.setText(R.id.item_tv_time, TimeShowUtils.getNewChatTime(item.getSentTime()));
+        }
         if (item.getMsgType() == (MsgType.TEXT)) {
             helper.setText(R.id.chat_item_content_text, item.getMsg());
         } else if (item.getMsgType() == (MsgType.IMAGE)) {

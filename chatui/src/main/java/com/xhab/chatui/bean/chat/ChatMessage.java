@@ -73,7 +73,7 @@ public class ChatMessage {
      * @return
      */
     public boolean isMessage() {
-        return (getMsgType() & MsgType.MESSAGE) == 0;
+        return (getMsgType() & MsgType.MESSAGE) != 0;
     }
 
     public void setMsgType(@MsgType int msgType) {
