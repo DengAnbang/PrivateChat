@@ -13,10 +13,13 @@ import android.text.TextUtils;
 import com.hezeyi.privatechat.activity.LockActivity;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
+import com.hezeyi.privatechat.service.ChatService;
 import com.juphoon.cloud.JCCallItem;
 import com.tencent.bugly.Bugly;
+import com.xdandroid.hellodaemon.DaemonEnv;
 import com.xhab.chatui.ChatUi;
 import com.xhab.chatui.emoji.EmojiDao;
+import com.xhab.chatui.utils.NotificationManagerUtils;
 import com.xhab.utils.StackManager;
 import com.xhab.utils.utils.ForegroundCallbacks;
 import com.xhab.utils.utils.LogUtils;
@@ -52,6 +55,11 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        //需要在 Application 的 onCreate() 中调用一次 DaemonEnv.initialize()
+        DaemonEnv.initialize(this, ChatService.class,   1000);
+        DaemonEnv.startServiceMayBind(ChatService.class);
+
+        NotificationManagerUtils.initHangUpPermission(this);
         ChatUi.init(Const.Api.API_HOST, Const.FilePath.databaseFileLocalPath);
         StackManager.initStackManager(this);
         EmojiDao.init(this);

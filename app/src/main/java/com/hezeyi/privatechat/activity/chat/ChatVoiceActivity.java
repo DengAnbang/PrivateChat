@@ -1,6 +1,9 @@
 package com.hezeyi.privatechat.activity.chat;
 
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,6 +54,9 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (mRingtone != null) {
+            mRingtone.stop();
+        }
         mJcCallItem = MyApplication.getInstance().getJCCallItem();
         mIsCall = getIntent().getBooleanExtra("isCall", false);
         boolean isCalled = getIntent().getBooleanExtra("isCalled", false);
@@ -60,22 +66,37 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
             String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
             JuphoonUtils.get().call(mTargetId, user_id);
             findViewById(R.id.iv_answer).setVisibility(View.GONE);
+            getWindow().getDecorView().postDelayed(() -> {
+                if (!isFinishing()) {
+                    ToastUtil.showToast("对方未接听");
+                    JuphoonUtils.get().hangup();
+                    finish();
+                }
+            }, 15000);
+        } else {
+            ringtone();
         }
         if (isCalled) {
             findViewById(R.id.iv_answer).setVisibility(View.GONE);
         }
         findViewById(R.id.iv_answer).setOnClickListener(v -> {
+            if (mRingtone != null) {
+                mRingtone.stop();
+            }
             JuphoonUtils.get().answer(mJcCallItem);
             findViewById(R.id.iv_answer).setVisibility(View.GONE);
         });
         findViewById(R.id.iv_close).setOnClickListener(v -> {
             dismissFloatingView();
-
             JuphoonUtils.get().hangup();
             finish();
         });
         JuphoonUtils.get().setCallBackRemove((item, reason, description) -> {
+            dismissFloatingView();
             BaseVoiceFloatingService.StopSelf();
+            if (mRingtone != null) {
+                mRingtone.stop();
+            }
             ToastUtil.showToast("通话结束");
             finish();
         });
@@ -94,6 +115,20 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
             startService(service);
         }
 
+    }
+
+    private Ringtone mRingtone;
+
+    public void ringtone() {
+        if (mRingtone != null) {
+            mRingtone.stop();
+        }
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        mRingtone = RingtoneManager.getRingtone(this, sound);
+        mRingtone.setLooping(false);
+        if (!mRingtone.isPlaying()) {
+            mRingtone.play();
+        }
     }
 
     @Override

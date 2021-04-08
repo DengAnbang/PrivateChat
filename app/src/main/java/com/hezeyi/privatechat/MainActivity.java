@@ -1,11 +1,18 @@
 package com.hezeyi.privatechat;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hezeyi.privatechat.activity.account.SelectUserActivity;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
@@ -19,6 +26,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xhab.chatui.utils.NotificationManagerUtils;
 import com.xhab.utils.base.BaseBottomTabUtilActivity;
 import com.xhab.utils.utils.DisplayUtils;
+import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.QRCodeUtils;
 
 import java.util.ArrayList;
@@ -26,6 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import io.reactivex.disposables.Disposable;
@@ -101,7 +110,6 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     public void initEvent() {
         super.initEvent();
         requestPermissions();
-
         TextView rightTitle = findViewById(R.id.tv_right);
         rightTitle.setTextSize(DisplayUtils.dp2px(this, 7));
         rightTitle.setText("+");
@@ -144,7 +152,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         )
                 .subscribe(aBoolean -> {
                     if (aBoolean) {
-                        NotificationManagerUtils.getHangUpPermission(this);
+                        ensurePermissions();
                     } else {
                         showSnackBar("请到设置见面打开所需权限!");
                     }
@@ -152,5 +160,61 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         addDisposable(subscribe);
     }
 
+    private void ensurePermissions() {
+        //检查是否已经授予权限 桌面启动activity的权限
+        if (!Settings.canDrawOverlays(this)) {
+            //若未授权则请求权限
+            FunUtils.affirm(this, "此应用需要显示在其他应用的上层的权限,以便于及时提醒", "去设置", aBoolean -> {
+                if (aBoolean) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    startActivityForResult(intent, 1);
+                }
+            });
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1) {
+            getHangUpPermission(this);
+        }
+    }
+
+    /**
+     * 跳转横幅通知权限,详细channelId授予权限
+     */
+    public static void getHangUpPermission(Context context) {
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//Android 8.0及以上
+            NotificationChannel channel = mNotificationManager.getNotificationChannel(NotificationManagerUtils.CHANNEL_ID);//CHANNEL_ID是自己定义的渠道ID
+            if (channel.getImportance() == NotificationManager.IMPORTANCE_DEFAULT) {
+                FunUtils.affirm(context, "此应用需要横幅通知权限的权限,以便于新消息的及时提醒", "去设置", aBoolean -> {
+                    if (aBoolean) {
+                        //未开启
+                        Toast.makeText(context, "请打开横幅通知权限!", Toast.LENGTH_LONG).show();
+                        // 跳转到设置页面
+                        Intent intent = new Intent();
+                        if (Build.VERSION.SDK_INT >= 26) {
+                            // android8.0单个channelid设置
+                            intent.setAction(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+                            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+                            intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationManagerUtils.CHANNEL_ID);
+                        } else {
+                            // android 5.0以上一起设置
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            intent.putExtra("app_package", context.getPackageName());
+                            intent.putExtra("app_uid", context.getApplicationInfo().uid);
+                        }
+                        context.startActivity(intent);
+                    }
+                });
+
+
+            }
+        }
+
+
+    }
 }

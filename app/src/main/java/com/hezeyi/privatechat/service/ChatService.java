@@ -1,8 +1,8 @@
 package com.hezeyi.privatechat.service;
 
-import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.hezeyi.privatechat.Const;
@@ -15,6 +15,7 @@ import com.hezeyi.privatechat.bean.SocketData;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.net.socket.SocketDispense;
+import com.xdandroid.hellodaemon.AbsWorkService;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
@@ -36,10 +37,16 @@ import com.xhab.utils.utils.ToastUtil;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.Nullable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class ChatService extends Service implements RequestHelperImp {
+/**
+ * 监听系统通知，需要用户手动开启权限，那么该进程可以不死
+ */
+
+
+public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     private String mUserId;
     private boolean isConnection;
@@ -48,6 +55,58 @@ public class ChatService extends Service implements RequestHelperImp {
     public ChatService() {
 
     }
+
+
+    @Override
+    public Boolean shouldStopService(Intent intent, int flags, int startId) {
+        return false;
+    }
+
+    @Override
+    public void startWork(Intent intent, int flags, int startId) {
+        if (intent != null) {
+            mUserId = intent.getStringExtra("userId");
+            if (!TextUtils.isEmpty(mUserId)) {
+                SPUtils.save("user_id", mUserId);
+            }
+
+        }
+        if (mUserId != null) {
+            loginSocket(mUserId);
+        }
+    }
+
+    @Override
+    public void stopWork(Intent intent, int flags, int startId) {
+        loginOut();
+        mRequestHelperAgency.destroy();
+    }
+
+    @Override
+    public Boolean isWorkRunning(Intent intent, int flags, int startId) {
+        LogUtils.e("isWorkRunning*****: ");
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent, Void alwaysNull) {
+
+        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtils.e("onDestroy*****: " + mUserId);
+    }
+
+    @Override
+    public void onServiceKilled(Intent rootIntent) {
+
+        LogUtils.e("onServiceKilled*****: " + mUserId);
+    }
+
 
     private void init() {
         mSocketAbstract = new WebSocketIpm("ws://" + Const.Api.SOCKET_SERVER + ":9090/" + "websocket");
@@ -60,7 +119,6 @@ public class ChatService extends Service implements RequestHelperImp {
     public void onCreate() {
         super.onCreate();
         init();
-
     }
 
     public void loginSocket(String userId) {
@@ -84,12 +142,19 @@ public class ChatService extends Service implements RequestHelperImp {
         mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
 
         addDisposable(Observable.interval(20, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
                 mSocketAbstract.send(s);
             }
         }));
         addDisposable(RxBus.get().register(Const.RxType.CONNECTION, Object.class).subscribe(s -> {
+            mUserId = SPUtils.getString("user_id", "");
+            if (!TextUtils.isEmpty(mUserId)) {
+                login();
+            }
+
+
             isConnection = true;
             if (mUserId != null) {
                 loginSocket(mUserId);
@@ -178,25 +243,6 @@ public class ChatService extends Service implements RequestHelperImp {
         mSocketAbstract.send(s);
     }
 
-    @Override
-    public IBinder onBind(Intent tent) {
-        LogUtils.e("onBind*****: ");
-        // TODO: Return the communication channel to the service.
-        throw null;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null) {
-            mUserId = intent.getStringExtra("userId");
-        }
-
-        if (mUserId != null) {
-            loginSocket(mUserId);
-        }
-
-        return super.onStartCommand(intent, flags, startId);
-    }
 
     private void downloadMsgFile(ChatMessage message) {
         showNotification(message);
@@ -262,7 +308,25 @@ public class ChatService extends Service implements RequestHelperImp {
 
         });
     }
+    private void login() {
+        String account = SPUtils.getString(Const.Sp.account, "");
+        String password = SPUtils.getString(Const.Sp.password, "");
+        HttpManager.login(account, password, this, userMsgBean -> {
+            MyApplication.getInstance().setUserMsgBean(userMsgBean);
+            getUserList();
+        });
+    }
 
+    private void getUserList() {
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
+            MyApplication.getInstance().setUserMsgBeans(userMsgBeans);
+            HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
+                MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
+                MyApplication.getInstance().setLock(true);
+            });
+        });
+    }
 
     private RequestHelperAgency mRequestHelperAgency;
 
@@ -273,12 +337,6 @@ public class ChatService extends Service implements RequestHelperImp {
         return super.onUnbind(intent);
     }
 
-    @Override
-    public void onDestroy() {
-        loginOut();
-        mRequestHelperAgency.destroy();
-        super.onDestroy();
-    }
 
     @Override
     public RequestHelperAgency initRequestHelper() {

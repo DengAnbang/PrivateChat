@@ -12,7 +12,6 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
-import com.xhab.chatui.utils.NotificationManagerUtils;
 import com.xhab.utils.activity.PrivacyPolicyActivity;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.SPUtils;
@@ -84,8 +83,7 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         });
-        NotificationManagerUtils.initHangUpPermission(this);
-//        Test.init();
+
     }
 
     private void checkLogin() {

@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.provider.Settings;
-import android.widget.Toast;
 
 import com.xhab.chatui.R;
 
@@ -26,8 +24,9 @@ import androidx.core.app.NotificationCompat;
  * Created by dab on 2021/3/30 11:56
  */
 public class NotificationManagerUtils {
-    private static final String CHANNEL_ID = "id_108";
-    private static final String CHANNEL_NAME = "新消息提醒";
+    public static final String CHANNEL_ID = "id_108";
+    public static final String CHANNEL_NAME = "新消息提醒";
+
 
     public static void initHangUpPermission(Context context) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -39,45 +38,12 @@ public class NotificationManagerUtils {
             //通知才能正常弹出
             notificationChannel.enableVibration(true);//震动不可用
             mNotificationManager.createNotificationChannel(notificationChannel);
+//            NotificationChannel notificationChannel2 = new NotificationChannel(CHANNEL_ID_109,
+//                    CHANNEL_NAME_RUN, NotificationManager.IMPORTANCE_HIGH);
+//            mNotificationManager.createNotificationChannel(notificationChannel2);
         }
     }
 
-    /**
-     * 跳转横幅通知权限,详细channelId授予权限
-     */
-    public static void getHangUpPermission(Context context) {
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//Android 8.0及以上
-            //只在Android O之上需要渠道
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,
-                    CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-            //如果这里用IMPORTANCE_NOENE就需要在系统的设置里面开启渠道，
-            //通知才能正常弹出
-            notificationChannel.enableVibration(true);//震动不可用
-            mNotificationManager.createNotificationChannel(notificationChannel);
-
-            NotificationChannel channel = mNotificationManager.getNotificationChannel(CHANNEL_ID);//CHANNEL_ID是自己定义的渠道ID
-            if (channel.getImportance() == NotificationManager.IMPORTANCE_DEFAULT) {//未开启
-                Toast.makeText(context, "请打开横幅通知权限!", Toast.LENGTH_LONG).show();
-                // 跳转到设置页面
-                Intent intent = new Intent();
-                if (Build.VERSION.SDK_INT >= 26) {
-                    // android8.0单个channelid设置
-                    intent.setAction(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
-                    intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
-                    intent.putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID);
-                } else {
-                    // android 5.0以上一起设置
-                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    intent.putExtra("app_package", context.getPackageName());
-                    intent.putExtra("app_uid", context.getApplicationInfo().uid);
-                }
-                context.startActivity(intent);
-            }
-        }
-
-
-    }
 
 
     /**
@@ -104,13 +70,6 @@ public class NotificationManagerUtils {
         }
         return bitmap;
     }
-
-//    @WorkerThread
-//    public static void showNotification(Context context, String conversationType, int targetId, String avatar, String name, String content) {
-//        showNotification(context, conversationType, targetId, avatar, name, content);
-//    }
-
-
     @WorkerThread
     public static void showNotification(Context context, Intent intent, boolean shouldRemind, String avatar, String name, String content, @DrawableRes int avatarDef) {
 

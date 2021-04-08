@@ -6,10 +6,10 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.hezeyi.privatechat"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
-        versionCode 5
-        versionName "1.1.15"
+        versionCode 7
+        versionName "1.1.17"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
 //            // 设置支持的SO库架构
@@ -116,6 +116,8 @@ dependencies {
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     //EasySocket    https://github.com/jiusetian/EasySocket
     implementation 'com.github.jiusetian:EasySocket:v2.1.1'
+    //进程保活
+    implementation 'com.xdandroid:hellodaemon:+'
 }
 repositories {
     mavenCentral()

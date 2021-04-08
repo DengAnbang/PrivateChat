@@ -5,6 +5,9 @@ import android.content.Context;
 
 import com.xhab.utils.R;
 
+/**
+ * 用户协议的弹窗
+ */
 public class PrivacyDialog extends Dialog {
 
     public PrivacyDialog(Context context) {
