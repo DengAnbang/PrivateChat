@@ -12,6 +12,7 @@ import com.hezeyi.privatechat.adapter.ChatListMessageAdapter;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.xhab.chatui.bean.chat.ChatListMessage;
 import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
+import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 
@@ -63,6 +64,15 @@ public class ChatFragment extends BaseFragment {
             intent.putExtra("isGroup", chatListMessage.getIs_group() == 1);
             intent.putExtra("targetId", chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
             startActivity(intent);
+        });
+        mChatListMessageAdapter.setItemLongClickListener((view1, position, chatListMessage) -> {
+            FunUtils.affirm(getActivity(), "是否删除?", "删除", aBoolean -> {
+                if (aBoolean) {
+                    ChatDatabaseHelper.get(getActivity(), MyApplication.getInstance().getUserMsgBean().getUser_id()).chatListDelete(chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()) + "");
+                    updateMsgList();
+                }
+            });
+            return true;
         });
         updateMsgList();
         addDisposable(RxBus.get().register(Const.RxType.TYPE_SHOW_LIST, Object.class).subscribe(o -> {

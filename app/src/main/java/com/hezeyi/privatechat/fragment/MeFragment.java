@@ -14,7 +14,6 @@ import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.hezeyi.privatechat.activity.account.MeDetailsActivity;
-import com.hezeyi.privatechat.activity.account.NewMsgSetUpActivity;
 import com.hezeyi.privatechat.activity.account.SetupActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -73,10 +72,7 @@ public class MeFragment extends BaseFragment {
             startActivity(intent);
 
         });
-        click(R.id.ttv_new_msg_setup, view1 -> {
-            Intent intent = new Intent(getActivity(), NewMsgSetUpActivity.class);
-            startActivity(intent);
-        });
+
         click(R.id.ttv_login_out, view1 -> {
             RxBus.get().post(Const.RxType.TYPE_LOGIN_OUT, Object.class);
             SPUtils.save(Const.Sp.password, "");

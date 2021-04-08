@@ -67,6 +67,15 @@ public class ChatMessage {
         return msgType;
     }
 
+    /**
+     * 是否是有效消息(系统消息等等除外)
+     *
+     * @return
+     */
+    public boolean isMessage() {
+        return (getMsgType() & MsgType.MESSAGE) == 0;
+    }
+
     public void setMsgType(@MsgType int msgType) {
         this.msgType = msgType;
     }

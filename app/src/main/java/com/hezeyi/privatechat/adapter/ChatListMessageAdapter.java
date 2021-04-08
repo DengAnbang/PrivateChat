@@ -14,6 +14,7 @@ import com.xhab.chatui.bean.chat.ChatListMessage;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.chatui.utils.TimeShowUtils;
 import com.xhab.utils.inteface.OnItemClickListener;
+import com.xhab.utils.inteface.OnItemLongClickListener;
 
 import java.util.List;
 
@@ -26,10 +27,16 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessageAdapter.ViewHolder> {
     private List<ChatListMessage> mListMessages;
     private OnItemClickListener<ChatListMessage> mItemClickListener;
+    private OnItemLongClickListener<ChatListMessage> mItemLongClickListener;
+
+    public void setItemLongClickListener(OnItemLongClickListener<ChatListMessage> itemLongClickListener) {
+        mItemLongClickListener = itemLongClickListener;
+    }
 
     public void setItemClickListener(OnItemClickListener<ChatListMessage> itemClickListener) {
         mItemClickListener = itemClickListener;
     }
+
 
     public void setListMessages(List<ChatListMessage> listMessages) {
         mListMessages = listMessages;
@@ -58,7 +65,7 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
             if (userMsgBeanById != null) {
                 group_name = userMsgBeanById.getUser_name();
-                GlideUtils.loadHeadPortrait( userMsgBeanById.getHead_portrait(), holder.portrait, userMsgBeanById.getPlaceholder());
+                GlideUtils.loadHeadPortrait(userMsgBeanById.getHead_portrait(), holder.portrait, userMsgBeanById.getPlaceholder());
             }
 
         }
@@ -68,8 +75,11 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
             holder.mView.setOnClickListener(v -> {
                 mItemClickListener.onItemClick(v, position, chatListMessage);
             });
-
         }
+        if (mItemLongClickListener != null) {
+            holder.mView.setOnLongClickListener(v -> mItemLongClickListener.onLongClick(v, position, chatListMessage));
+        }
+
     }
 
     @Override

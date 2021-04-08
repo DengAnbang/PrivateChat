@@ -31,5 +31,9 @@ public class SetupActivity extends BaseActivity {
             Intent intent = new Intent(this, SecurityQuestionSetupActivity.class);
             startActivity(intent);
         });
+        click(R.id.ttv_new_msg_setup, view1 -> {
+            Intent intent = new Intent(this, NewMsgSetUpActivity.class);
+            startActivity(intent);
+        });
     }
 }

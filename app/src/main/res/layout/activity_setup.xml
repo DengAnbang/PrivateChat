@@ -44,7 +44,15 @@
         app:leftText="\u3000聊天字体大小\u3000"
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
-
+    <!--app:leftDrawable="@mipmap/d1_icon2"-->
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_new_msg_setup"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000新消息通知\u3000"
+        app:rightDrawable="@mipmap/c14_2_icon1"
+        />
 
     <View
         android:layout_width="match_parent"

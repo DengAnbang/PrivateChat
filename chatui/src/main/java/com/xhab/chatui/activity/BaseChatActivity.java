@@ -35,6 +35,8 @@ import com.xhab.chatui.utils.PictureFileUtil;
 import com.xhab.chatui.widget.MediaManager;
 import com.xhab.chatui.widget.RecordButton;
 import com.xhab.chatui.widget.StateButton;
+import com.xhab.utils.utils.FunUtils;
+import com.xhab.utils.utils.LogUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -169,7 +171,43 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
             }
 
         });
+        mAdapter.setItemLongClickListener((view, position, message) -> {
+            FunUtils.affirm(this, "是否删除?", "删除", aBoolean -> {
+                if (aBoolean) {
+                    LogUtils.e("是否删除*****: " + position);
+                    removedMessage(message, position);
+                }
+            });
+            return true;
+        });
 
+    }
+
+    private void removedMessage(ChatMessage message, int position) {
+        ChatMessage lastMessage = getLastMessage(position);
+        ChatDatabaseHelper.get(this, getUserId()).chatDbDelete(message, lastMessage);
+        mAdapter.getData().remove(message);
+        mAdapter.notifyItemRemoved(position);
+    }
+
+    private ChatMessage getLastMessage(int position) {
+        List<ChatMessage> data = mAdapter.getData();
+
+        //删除的下一条如果有有效消息,则不修改
+        for (int i = position + 1; i < data.size(); i++) {
+            ChatMessage chatMessage = data.get(i);
+            if (chatMessage.isMessage()) {
+                return null;
+            }
+        }
+        //删除的上一条有效消息,加入外面的列表
+        for (int i = position - 1; i >= 0; i--) {
+            ChatMessage chatMessage = data.get(i);
+            if (chatMessage.isMessage()) {
+                return chatMessage;
+            }
+        }
+        return null;
     }
 
     public void clickUser(ChatMessage message) {

@@ -57,6 +57,12 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
         mShowImageCallback = showImageCallback;
     }
 
+    private com.xhab.utils.inteface.OnItemLongClickListener<ChatMessage> mOnItemLongClickListener;
+
+    public void setItemLongClickListener(com.xhab.utils.inteface.OnItemLongClickListener<ChatMessage> onItemLongClickListener) {
+        mOnItemLongClickListener = onItemLongClickListener;
+    }
+
     //设置发送的人
     public void setSenderId(String senderId) {
         mSenderId = senderId;
@@ -102,6 +108,9 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
         setContent(helper, item);
         setStatus(helper, item);
         setOnClick(helper, item);
+        if (mOnItemLongClickListener != null) {
+            helper.itemView.setOnLongClickListener(v -> mOnItemLongClickListener.onLongClick(v, helper.getAdapterPosition(), item));
+        }
 
     }
 

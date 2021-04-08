@@ -4,14 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.xhab.chatui.bean.chat.ChatListMessage;
 import com.xhab.chatui.bean.chat.ChatMessage;
-import com.xhab.chatui.bean.chat.MsgType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by dab on 2021/3/22 18:01
@@ -38,15 +38,15 @@ public class ChatDatabaseHelper {
 
 
     public void chatDbInsert(ChatMessage message) {
-        if (message.getMsgType() == MsgType.SYSTEM) return;
+        if ((message.isMessage())) return;
         chatListDbInsert(message);
         String tableName = mChatDatabase.getChatTableName(message);
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         ContentValues cv = new ContentValues();
         ChatMessage.setContentValues(cv, message);
         long insert = writableDatabase.replace(tableName, null, cv);
-        Log.e("555555555555", "chatDbInsert: " + insert);
     }
+
 
     public void updateMsg(ChatMessage message) {
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
@@ -80,8 +80,22 @@ public class ChatDatabaseHelper {
         ChatListMessage chatListMessage = ChatMessage.createChatListMessage(message);
         ContentValues contentValues = chatListMessage.getContentValues(mChatDatabase.getUser_id());
         long insert = writableDatabase.replace(chatListTableName, null, contentValues);
+    }
 
-        Log.e("55555555555566666", "chatListDbInsert: " + insert);
+    public void chatListDelete(String another_id) {
+        String chatListTableName = mChatDatabase.getChatListTableName();
+        SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
+        long insert = writableDatabase.delete(chatListTableName, "another_id=?", new String[]{another_id});
+    }
+
+    public void chatDbDelete(ChatMessage message, @Nullable ChatMessage lastMessage) {
+        if (!message.isMessage()) return;
+        if (lastMessage != null) {
+            chatListDbInsert(lastMessage);
+        }
+        String tableName = mChatDatabase.getChatTableName(message);
+        SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
+        long insert = writableDatabase.delete(tableName, "uuid=?", new String[]{message.getUuid()});
     }
 
     public List<ChatListMessage> chatListDbSelect() {

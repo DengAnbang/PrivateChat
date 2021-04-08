@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.nbsp:library:1.8'
     //语音 2f28a4e830fb84d0da705096
     compile 'com.JuphoonCloud:JC-SDK:2.5'
+    compile project(path: ':xhabutils')
 
 
 }
