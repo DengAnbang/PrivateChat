@@ -1,18 +1,21 @@
 package com.xhab.chatui.dbUtils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
 import com.xhab.chatui.bean.chat.ChatMessage;
+import com.xhab.utils.utils.LogUtils;
 
 /**
  * Created by dab on 2021/3/22 16:56
  */
 public class ChatDatabase extends SQLiteOpenHelper {
     static String name = "ChatDatabase.db";
-    static int dbVersion = 1;
+    static int dbVersion = 2;
+    private int oldVersion = 1;
     private String user_id;
 
     public ChatDatabase(Context context, String user_id) {
@@ -72,12 +75,47 @@ public class ChatDatabase extends SQLiteOpenHelper {
             stringBuilder.append(",localPath varchar(255)");
             stringBuilder.append(",remoteUrl varchar(255)");
             stringBuilder.append(",extra text");
+            stringBuilder.append(",unread integer");
             stringBuilder.append(",msg text");
             stringBuilder.append(",PRIMARY KEY(uuid) ");
             stringBuilder.append(")");
             //创建数据库sql语句 并 执行
             getWritableDatabase().execSQL(stringBuilder.toString());
+            if (oldVersion < 2) {
+                addColumnName(getWritableDatabase(),tableName,"unread","integer");
+            }
         }
+    }
+
+    private void addColumnName(SQLiteDatabase db, String tableName, String columnName, String type) {
+        if (checkColumnExists(db, tableName, columnName)) return;
+        String sql = "alter table " + tableName + " add column " + columnName + " " + type;
+        db.execSQL(sql);
+    }
+
+    /**
+     * 方法：检查表中某列是否存在
+     *
+     * @param db
+     * @param tableName  表名
+     * @param columnName 列名
+     * @return
+     */
+    private boolean checkColumnExists(SQLiteDatabase db, String tableName, String columnName) {
+        boolean result = false;
+        Cursor cursor = null;
+
+        try {
+            cursor = db.rawQuery("select * from sqlite_master where name = ? and sql like ?"
+                    , new String[]{tableName, "%" + columnName + "%"});
+            result = null != cursor && cursor.moveToFirst();
+        } catch (Exception e) {
+        } finally {
+            if (null != cursor && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return result;
     }
 
     private void initChatListDatabase(String tableName) {
@@ -104,6 +142,15 @@ public class ChatDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        this.oldVersion = oldVersion;
+        LogUtils.e("oldVersion*****: " + oldVersion);
+        LogUtils.e("newVersion*****: " + newVersion);
+//        if (oldVersion<2){
+//            db.execSQL("alter table Book add column category_id integer");
+//            db.execSQL("alter table Book drop column category_id");
+//
+//        }
+
 
     }
 }

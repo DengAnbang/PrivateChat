@@ -122,6 +122,10 @@ public abstract class BaseBottomTabUtilActivity extends BaseUtilActivity {
         }
     }
 
+    public TabLayout.Tab getTabAt(int index) {
+        return mTabLayout.getTabAt(index);
+    }
+
     private void addFragment() {
         for (int i = 0; i < mFragments.size(); i++) {
             getSupportFragmentManager().beginTransaction().add(R.id.home_container, mFragments.get(i)).commit();

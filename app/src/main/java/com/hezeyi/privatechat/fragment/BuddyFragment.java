@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.FriendReplyActivity;
@@ -14,6 +15,7 @@ import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.view.SuspendDecoration;
 import com.xhab.utils.view.WaveSideBar;
 
@@ -50,10 +52,19 @@ public class BuddyFragment extends BaseFragment {
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
-        if (isChange) {
-            getUserList();
-        }
+//        if (isChange) {
+//            getUserList();
+//        }
+        showRedPrompt();
         getUserList();
+    }
+
+    private void showRedPrompt() {
+        boolean hasNewFriend = MyApplication.getInstance().isHasNewFriend();
+        View view = getView();
+        if (view != null) {
+            view.findViewById(R.id.iv_prompt).setVisibility(hasNewFriend ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override
@@ -64,6 +75,7 @@ public class BuddyFragment extends BaseFragment {
 
     @Override
     public void onFirstVisibleToUser(View view) {
+        showRedPrompt();
         RecyclerView recyclerView = view.findViewById(R.id.rv_content);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -119,6 +131,10 @@ public class BuddyFragment extends BaseFragment {
                     }
                 }, Throwable::printStackTrace);
         addDisposable(subscribe);
+
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_SHOW_FRIEND_RED_PROMPT, Integer.class).subscribe(integer -> {
+            showRedPrompt();
+        }));
     }
 
     private List<UserMsgBean> search(String key, List<UserMsgBean> projectInfos) {

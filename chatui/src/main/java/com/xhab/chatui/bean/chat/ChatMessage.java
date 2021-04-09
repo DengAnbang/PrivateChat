@@ -43,8 +43,17 @@ public class ChatMessage {
     ///////////////////////////////////////////文件
     private String msg;
     private boolean isGroup;//是群消息
+    private int unread;//未读消息0表示已读,1表示未读
     //////////////////////////////////视频
 
+
+    public int getUnread() {
+        return unread;
+    }
+
+    public void setUnread(int unread) {
+        this.unread = unread;
+    }
 
     public int getPlaceholder() {
         return isGroup ? R.mipmap.group_icon : R.mipmap.logo;
@@ -74,6 +83,15 @@ public class ChatMessage {
      */
     public boolean isMessage() {
         return (getMsgType() & MsgType.MESSAGE) != 0;
+    }
+
+    /**
+     * 需要立即下载的消息
+     *
+     * @return
+     */
+    public boolean isNeedDownload() {
+        return (getMsgType() & MsgType.DOWNLOAD) != 0;
     }
 
     public void setMsgType(@MsgType int msgType) {
@@ -208,6 +226,7 @@ public class ChatMessage {
         chatMessage.setLocalPath(cursor.getString(cursor.getColumnIndex("localPath")));
         chatMessage.setRemoteUrl(cursor.getString(cursor.getColumnIndex("remoteUrl")));
         chatMessage.setMsg(cursor.getString(cursor.getColumnIndex("msg")));
+        chatMessage.setUnread(cursor.getInt(cursor.getColumnIndex("unread")));
         chatMessage.setGroup(cursor.getInt(cursor.getColumnIndex("isGroup")) == 1);
 
         return chatMessage;
@@ -222,7 +241,7 @@ public class ChatMessage {
         chatListMessage.setMsg(message.getMsg());
         chatListMessage.setExtra(message.getExtra());
         chatListMessage.setIs_group(message.isGroup() ? 1 : 0);
-        chatListMessage.setUnread(1);
+        chatListMessage.setUnread(message.getUnread());
         return chatListMessage;
     }
 
@@ -239,6 +258,7 @@ public class ChatMessage {
         contentValues.put("localPath", message.getLocalPath());
         contentValues.put("remoteUrl", message.getRemoteUrl());
         contentValues.put("msg", message.getMsg());
+        contentValues.put("unread", message.getUnread());
         contentValues.put("isGroup", message.isGroup() ? 1 : 0);
         return contentValues;
     }

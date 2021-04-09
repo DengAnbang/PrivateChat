@@ -145,13 +145,15 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
     private void setContent(BaseViewHolder helper, ChatMessage item) {
         int adapterPosition = helper.getAdapterPosition();
         boolean isShowTime;
-        if (adapterPosition == 0) {
+        if (!item.isMessage()) {
+            isShowTime = false;
+        } else if (adapterPosition == 0) {
             isShowTime = true;
         } else {
             ChatMessage chatMessage = getData().get(adapterPosition - 1);
             isShowTime = item.getSentTime() - chatMessage.getSentTime() > INTERVALS;
         }
-        helper.setVisible(R.id.item_tv_time, isShowTime);
+        helper.getView(R.id.item_tv_time).setVisibility(isShowTime ? View.VISIBLE : View.GONE);
         if (isShowTime) {
             helper.setText(R.id.item_tv_time, TimeShowUtils.getNewChatTime(item.getSentTime()));
         }

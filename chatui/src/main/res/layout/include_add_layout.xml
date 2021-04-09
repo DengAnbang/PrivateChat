@@ -99,7 +99,7 @@
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:background="@drawable/selector_ctype_location"
+                android:background="@mipmap/aa92e108384cf"
                 />
 
             <TextView

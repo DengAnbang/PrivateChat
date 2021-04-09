@@ -140,9 +140,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             startActivity(intent);
         });
         mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
-
         addDisposable(Observable.interval(20, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
                 mSocketAbstract.send(s);
@@ -153,8 +151,6 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             if (!TextUtils.isEmpty(mUserId)) {
                 login();
             }
-
-
             isConnection = true;
             if (mUserId != null) {
                 loginSocket(mUserId);
@@ -164,6 +160,9 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         //接收消息
         addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_RECEIVE, String.class).subscribe(s -> {
             ChatMessage message = new Gson().fromJson(s, ChatMessage.class);
+            if (message.isMessage()) {
+                message.setUnread(1);
+            }
             downloadMsgFile(message);
             if (!message.isGroup()) {
                 msgReceive(message);
@@ -228,6 +227,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         mSocketAbstract.send(login_out);
     }
 
+
     public void msgReceive(ChatMessage data) {
         data.setSentStatus(MsgSendStatus.RECEIVE);
         String s = SocketData.create("0", Const.RxType.TYPE_MSG_UPDATE, data).toJson();
@@ -246,10 +246,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     private void downloadMsgFile(ChatMessage message) {
         showNotification(message);
-        if (message.getMsgType() == MsgType.TEXT
-                || message.getMsgType() == MsgType.SYSTEM
-                || message.getMsgType() == MsgType.FILE
-        ) {
+        if (!message.isNeedDownload()) {
             RxBus.get().post(Const.RxType.TYPE_MSG_ADD, message);
             return;
         }
@@ -261,8 +258,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     }
 
     private void showNotification(ChatMessage message) {
-        if (message.getMsgType() == MsgType.SYSTEM) return;
-
+        if (!message.isMessage()) return;
         boolean aBoolean = SPUtils.getBoolean(Const.Sp.isNewMsgCode, true);
         if (!aBoolean) return;
         String anotherId = message.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id());
@@ -308,6 +304,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
         });
     }
+
     private void login() {
         String account = SPUtils.getString(Const.Sp.account, "");
         String password = SPUtils.getString(Const.Sp.password, "");

@@ -8,7 +8,7 @@ import androidx.annotation.IntDef;
 /**
  * 消息类型
  */
-@IntDef({MsgType.POINTLESS, MsgType.TEXT, MsgType.AUDIO, MsgType.VIDEO, MsgType.IMAGE, MsgType.FILE, MsgType.SYSTEM, MsgType.MESSAGE})
+@IntDef({MsgType.POINTLESS, MsgType.TEXT, MsgType.AUDIO, MsgType.VIDEO, MsgType.IMAGE, MsgType.FILE, MsgType.SYSTEM, MsgType.MESSAGE, MsgType.DOWNLOAD})
 @Retention(RetentionPolicy.SOURCE)
 public @interface MsgType {
     int POINTLESS = 0;//无意义的消息
@@ -18,5 +18,6 @@ public @interface MsgType {
     int IMAGE = 8;//图片消息
     int FILE = 16;//文件消息
     int SYSTEM = 32; //系统消息
+    int DOWNLOAD = IMAGE | AUDIO; //需要立即下载的
     int MESSAGE = TEXT | AUDIO | VIDEO | IMAGE | FILE;//聊天的消息
 }

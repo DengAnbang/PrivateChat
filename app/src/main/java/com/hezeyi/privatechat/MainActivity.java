@@ -1,12 +1,14 @@
 package com.hezeyi.privatechat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.view.Gravity;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.hezeyi.privatechat.fragment.AdminFragment;
 import com.hezeyi.privatechat.fragment.BuddyFragment;
 import com.hezeyi.privatechat.fragment.ChatFragment;
 import com.hezeyi.privatechat.fragment.MeFragment;
+import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.popupWindow.SelectWindow;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xhab.chatui.utils.NotificationManagerUtils;
@@ -28,6 +31,7 @@ import com.xhab.utils.base.BaseBottomTabUtilActivity;
 import com.xhab.utils.utils.DisplayUtils;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.QRCodeUtils;
+import com.xhab.utils.utils.RxBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +39,7 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import io.reactivex.disposables.Disposable;
@@ -105,6 +110,28 @@ public class MainActivity extends BaseBottomTabUtilActivity {
 
         return fragments;
     }
+
+    public void showRedPrompt(int index, boolean show) {
+        if (index == 1) {
+            MyApplication.getInstance().setHasNewFriend(show);
+        }
+        getTabAt(index).getCustomView().findViewById(R.id.iv_prompt).setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        HttpManager.userSelectFriend(user_id, "2", false, this, userMsgBeans -> {
+            boolean show = userMsgBeans.size() > 0;
+            showRedPrompt(1, show);
+        });
+        Disposable subscribe = RxBus.get().register(Const.RxType.TYPE_SHOW_FRIEND_RED_PROMPT, Integer.class).subscribe(integer -> {
+            showRedPrompt(1, integer != 0);
+        });
+        addDisposable(subscribe);
+    }
+
 
     @Override
     public void initEvent() {
@@ -181,13 +208,17 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             getHangUpPermission(this);
+        } else if (requestCode == 2) {
+            if (!isIgnoringBatteryOptimizations(this)) {
+                requestIgnoreBatteryOptimizations(this);
+            }
         }
     }
 
     /**
      * 跳转横幅通知权限,详细channelId授予权限
      */
-    public static void getHangUpPermission(Context context) {
+    public static void getHangUpPermission(Activity context) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//Android 8.0及以上
             NotificationChannel channel = mNotificationManager.getNotificationChannel(NotificationManagerUtils.CHANNEL_ID);//CHANNEL_ID是自己定义的渠道ID
@@ -209,14 +240,35 @@ public class MainActivity extends BaseBottomTabUtilActivity {
                             intent.putExtra("app_package", context.getPackageName());
                             intent.putExtra("app_uid", context.getApplicationInfo().uid);
                         }
-                        context.startActivity(intent);
+                        context.startActivityForResult(intent, 2);
                     }
                 });
-
-
+            } else {
+                if (!isIgnoringBatteryOptimizations(context)) {
+                    requestIgnoreBatteryOptimizations(context);
+                }
             }
         }
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private static boolean isIgnoringBatteryOptimizations(Context context) {
+        boolean isIgnoring = false;
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if (powerManager != null) {
+            isIgnoring = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
+        }
+        return isIgnoring;
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void requestIgnoreBatteryOptimizations(Context context) {
+        try {
+            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + context.getPackageName()));
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

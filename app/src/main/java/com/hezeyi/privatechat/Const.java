@@ -6,11 +6,11 @@ import com.xhab.chatui.utils.FileUtils;
 /**
  * Created by dab on 2018/4/11 17:40
  * 证书指纹:
- *          MD5: 1F:95:15:C7:E2:7E:1B:D4:D2:82:27:D1:00:23:57:BB
- *          SHA1: AF:FC:B4:57:3A:00:07:26:DF:38:59:FE:94:2B:E8:46:39:15:98:DD
- *          SHA256: 0B:AE:86:C8:BE:17:C8:E0:F3:32:21:E3:9E:A0:0C:74:B7:0F:BA:09:EA:93:72:C8:3F:85:45:32:7D:50:AB:12
- *          签名算法名称: SHA256withRSA
- *          版本: 3
+ * MD5: 1F:95:15:C7:E2:7E:1B:D4:D2:82:27:D1:00:23:57:BB
+ * SHA1: AF:FC:B4:57:3A:00:07:26:DF:38:59:FE:94:2B:E8:46:39:15:98:DD
+ * SHA256: 0B:AE:86:C8:BE:17:C8:E0:F3:32:21:E3:9E:A0:0C:74:B7:0F:BA:09:EA:93:72:C8:3F:85:45:32:7D:50:AB:12
+ * 签名算法名称: SHA256withRSA
+ * 版本: 3
  */
 
 public class Const {
@@ -24,7 +24,7 @@ public class Const {
     }
 
     public static class FilePath {
-//        public final static String TEMP_DOCUMENTS_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + MyApplication.getInstance().getPackageName() + "/";
+        //        public final static String TEMP_DOCUMENTS_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + MyApplication.getInstance().getPackageName() + "/";
         public final static String TEMP_DOCUMENTS_PATH = FileUtils.getSDPath(MyApplication.getInstance());
         //本地目录
         public static final String chatFileLocalPath = TEMP_DOCUMENTS_PATH;
@@ -68,6 +68,7 @@ public class Const {
         public static final String TYPE_MSG_GROUP_SEND = "20003";//发送群消息
         //消息以外
         public static final String TYPE_SHOW_LIST = "30001";//更新消息列表
+        public static final String TYPE_SHOW_FRIEND_RED_PROMPT = "type_show_friend_red_prompt";//更新好友申请的点点消息列表
 
     }
 

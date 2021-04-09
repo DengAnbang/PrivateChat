@@ -82,30 +82,10 @@ public class MeFragment extends BaseFragment {
             StackManager.finishExcludeActivity(LoginActivity.class);
         });
         click(R.id.ttv_contact_us, v -> {
-            if (!isIgnoringBatteryOptimizations()) {
-                requestIgnoreBatteryOptimizations();
-            }
+
         });
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean isIgnoringBatteryOptimizations() {
-        boolean isIgnoring = false;
-        PowerManager powerManager = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
-        if (powerManager != null) {
-            isIgnoring = powerManager.isIgnoringBatteryOptimizations(getActivity().getPackageName());
-        }
-        return isIgnoring;
-    }
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public void requestIgnoreBatteryOptimizations() {
-        try {
-            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-            intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
     private void upUserMsg(View view, UserMsgBean userMsgBean) {
         if (view == null) return;
         GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), view.findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());

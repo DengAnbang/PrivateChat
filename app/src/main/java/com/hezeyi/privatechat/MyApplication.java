@@ -56,7 +56,7 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         //需要在 Application 的 onCreate() 中调用一次 DaemonEnv.initialize()
-        DaemonEnv.initialize(this, ChatService.class,   1000);
+        DaemonEnv.initialize(this, ChatService.class, 1000);
         DaemonEnv.startServiceMayBind(ChatService.class);
 
         NotificationManagerUtils.initHangUpPermission(this);
@@ -127,6 +127,16 @@ public class MyApplication extends Application {
 
             }
         });
+    }
+
+    private boolean hasNewFriend = false;
+
+    public boolean isHasNewFriend() {
+        return hasNewFriend;
+    }
+
+    public void setHasNewFriend(boolean hasNewFriend) {
+        this.hasNewFriend = hasNewFriend;
     }
 
     private String anotherId;

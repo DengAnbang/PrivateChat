@@ -1,10 +1,12 @@
 package com.hezeyi.privatechat.activity.account;
 
+import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.adapter.FriendReplyAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
+import com.xhab.utils.utils.RxBus;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +37,9 @@ public class FriendReplyActivity extends BaseActivity {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, "2", this, userMsgBeans -> {
             mFriendReplyAdapter.setUserMsgBeans(userMsgBeans);
+            MyApplication.getInstance().setHasNewFriend(userMsgBeans.size() != 0);
+            RxBus.get().post(Const.RxType.TYPE_SHOW_FRIEND_RED_PROMPT, userMsgBeans.size());
+
         });
     }
 
