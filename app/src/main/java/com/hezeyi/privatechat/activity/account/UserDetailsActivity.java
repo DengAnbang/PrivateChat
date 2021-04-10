@@ -9,6 +9,7 @@ import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.chatui.utils.GlideUtils;
+import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.ToastUtil;
 
 /**
@@ -28,26 +29,41 @@ public class UserDetailsActivity extends BaseActivity {
         super.initView();
         setTitleString("个人信息");
         String user_id = getIntent().getStringExtra("user_id");
-        if (user_id.equals(MyApplication.getInstance().getUserMsgBean().getUser_id())) {
+        String myUser_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        if (user_id.equals(myUser_id)) {
             Intent intent = new Intent(this, MeDetailsActivity.class);
             startActivity(intent);
             finish();
         }
         UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(user_id);
+        visibility(R.id.tv_send, userMsgBeanById != null);
+        visibility(R.id.tv_submit, userMsgBeanById == null);
         if (userMsgBeanById != null) {
-            visibility(R.id.tv_submit, false);
+            setRightTitleString("删除好友", v -> {
+                FunUtils.affirm(this, "确认删除好友?", "删除", aBoolean -> {
+                    if (aBoolean) {
+                        HttpManager.deleteFriend(myUser_id, userMsgBeanById.getUser_id(), this, o -> {
+                            showSnackBar("删除成功!");
+                        });
+                    }
+                });
+            });
         }
+
         HttpManager.userSelectById(user_id, true, this, userMsgBean -> {
             if (userMsgBean != null) {
                 to_user_id = userMsgBean.getUser_id();
                 setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
                 setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
-                GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(),findViewById(R.id.iv_head_portrait),userMsgBean.getPlaceholder());
+                setTwoTextLinearRightText(R.id.ttv_vip_time, userMsgBean.getVip_time()).getRightTextView().setGravity(Gravity.RIGHT);
+                visibility(R.id.ttv_vip_time, MyApplication.getInstance().getUserMsgBean().isAdmin());
+                GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
             } else {
                 ToastUtil.showToast("用户不存在!");
                 finish();
             }
         });
+
         UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
         click(R.id.tv_submit, view -> {
             HttpManager.addFriend(userMsgBean.getUser_id(), to_user_id, "2", this, o -> {

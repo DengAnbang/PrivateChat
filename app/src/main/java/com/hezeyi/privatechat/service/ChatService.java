@@ -140,7 +140,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             startActivity(intent);
         });
         mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
-        addDisposable(Observable.interval(20, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        addDisposable(Observable.interval(40, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
                 mSocketAbstract.send(s);

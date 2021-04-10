@@ -36,7 +36,6 @@ import com.xhab.utils.utils.RxBus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -103,7 +102,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         fragments.add(mChatFragment);
         fragments.add(new BuddyFragment());
         fragments.add(new MeFragment());
-        if (Objects.equals(MyApplication.getInstance().getUserMsgBean().getPermissions(), "1")) {
+        if (MyApplication.getInstance().getUserMsgBean().isAdmin()) {
             AdminFragment e = new AdminFragment();
             fragments.add(e);
         }

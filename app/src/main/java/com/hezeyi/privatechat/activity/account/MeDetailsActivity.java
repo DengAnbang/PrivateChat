@@ -33,6 +33,7 @@ public class MeDetailsActivity extends BaseActivity {
         if (userMsgBean != null) {
             setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
             setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
+            setTwoTextLinearRightText(R.id.ttv_vip_time, userMsgBean.getVip_time()).getRightTextView().setGravity(Gravity.RIGHT);
             GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
             click(R.id.ttv_name, view -> {
                 ModifyNameWindow modifyNameWindow = new ModifyNameWindow(this, userMsgBean.getUser_name());
@@ -49,7 +50,7 @@ public class MeDetailsActivity extends BaseActivity {
                         modifyNameWindow.dismiss();
                     });
                 });
-                modifyNameWindow.showAsDropDown(findViewById(R.id.ttv_name),0,0,Gravity.END);
+                modifyNameWindow.showAsDropDown(findViewById(R.id.ttv_name), 0, 0, Gravity.END);
             });
         }
         click(R.id.ttv_qr, view -> {

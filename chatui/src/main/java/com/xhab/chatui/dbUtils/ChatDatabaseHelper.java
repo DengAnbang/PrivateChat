@@ -33,6 +33,7 @@ public class ChatDatabaseHelper {
                 }
             }
         }
+        instance.mChatDatabase.setUser_id(user_id);
         return instance;
     }
 

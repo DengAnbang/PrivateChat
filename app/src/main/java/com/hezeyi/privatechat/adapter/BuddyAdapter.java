@@ -55,6 +55,11 @@ public class BuddyAdapter<T extends SortableAndBuddyShowAble> extends RecyclerVi
                 mOnItemClickListener.onItemClick(view, position, t);
             });
         }
+        if (mOnItemClickListener != null) {
+            holder.mIvHeadPortrait.setOnClickListener(view -> {
+                mOnItemClickListener.onItemClick(view, position, t);
+            });
+        }
     }
 
     @Override

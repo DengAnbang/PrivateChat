@@ -24,6 +24,10 @@ public class ChatDatabase extends SQLiteOpenHelper {
         initChatListDatabase("chat_" + user_id);
     }
 
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
     public String getUser_id() {
         return user_id;
     }
@@ -82,7 +86,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
             //创建数据库sql语句 并 执行
             getWritableDatabase().execSQL(stringBuilder.toString());
             if (oldVersion < 2) {
-                addColumnName(getWritableDatabase(),tableName,"unread","integer");
+                addColumnName(getWritableDatabase(), tableName, "unread", "integer");
             }
         }
     }

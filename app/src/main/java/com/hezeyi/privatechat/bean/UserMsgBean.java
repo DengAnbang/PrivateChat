@@ -3,6 +3,8 @@ package com.hezeyi.privatechat.bean;
 import com.hezeyi.privatechat.R;
 import com.xhab.utils.inteface.ChooseAble;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 
 /**
@@ -24,6 +26,15 @@ public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble 
     private String head_portrait;
     private String vip_time;
     private String permissions;
+
+    /**
+     * 是否是管理员
+     *
+     * @return
+     */
+    public boolean isAdmin() {
+        return Objects.equals(getPermissions(), "1");
+    }
 
     public String getPermissions() {
         return permissions;

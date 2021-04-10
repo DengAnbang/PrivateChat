@@ -3,6 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
               android:background="@color/just_color_dedede"
               android:orientation="vertical">
 
@@ -71,6 +72,16 @@
         android:layout_marginTop="1dp"
         app:leftText="\u3000二维码\u3000"
         app:rightDrawable="@mipmap/c14_2_icon1"
+        />
+
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_vip_time"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:visibility="visible"
+        app:leftText="\u3000VIP到期时间\u3000"
+        tools:visibility="visible"
         />
 
 

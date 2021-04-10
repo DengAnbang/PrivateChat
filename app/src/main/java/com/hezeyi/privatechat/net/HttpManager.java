@@ -92,6 +92,11 @@ public class HttpManager {
                 .addFriend(user_id, to_user_id, friend_type), requestHelper, true, dataClick);
     }
 
+    public static void deleteFriend(String user_id, String to_user_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .deleteFriend(user_id, to_user_id), requestHelper, true, dataClick);
+    }
+
     public static void userSelectById(String user_id, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .userSelectById(user_id), requestHelper, showLoadDialog, dataClick);

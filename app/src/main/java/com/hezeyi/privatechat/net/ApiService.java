@@ -84,6 +84,11 @@ public interface ApiService {
             @Query("to_user_id") String to_user_id,
             @Query("friend_type") String friend_type
     );
+    @POST("/app/user/delete/friend")
+    Observable<ResultData<Object>> deleteFriend(
+            @Query("user_id") String account,
+            @Query("to_user_id") String to_user_id
+    );
 
     @POST("/app/user/select/by/id")
     Observable<ResultData<UserMsgBean>> userSelectById(

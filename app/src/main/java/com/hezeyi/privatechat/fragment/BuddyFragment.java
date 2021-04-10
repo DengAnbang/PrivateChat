@@ -8,6 +8,7 @@ import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.FriendReplyActivity;
+import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.activity.chat.ChatGroupActivity;
 import com.hezeyi.privatechat.adapter.BuddyAdapter;
@@ -101,9 +102,16 @@ public class BuddyFragment extends BaseFragment {
             }
         });
         mBuddyAdapter.setOnItemClickListener((view1, position, userMsgBean) -> {
-            Intent intent = new Intent(getActivity(), ChatActivity.class);
-            intent.putExtra("targetId", userMsgBean.getUser_id());
-            startActivity(intent);
+            if (view1.getId() == R.id.iv_head_portrait) {
+                Intent intent = new Intent(getActivity(), UserDetailsActivity.class);
+                intent.putExtra("user_id", userMsgBean.getUser_id());
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("targetId", userMsgBean.getUser_id());
+                startActivity(intent);
+            }
+
         });
         //群
         click(R.id.tv_group, v -> {
