@@ -77,16 +77,7 @@ public class ChatGroupActivity extends BaseActivity {
             }
         });
         mBuddyAdapter.setOnItemClickListener((view1, position, userMsgBean) -> {
-            String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
-            Intent intent = new Intent(this, ChatActivity.class);
-            intent.putExtra("target_name", userMsgBean.getGroup_name());
-            intent.putExtra("sender_name", MyApplication.getInstance().getUserMsgBean().getUser_name());
-            intent.putExtra("userId", userMsgBean.getUser_id());
-            intent.putExtra("senderId", user_id);
-            intent.putExtra("targetId", userMsgBean.getGroup_id());
-            intent.putExtra("isGroup", true);
-            intent.putExtra("isGroupAdmin", userMsgBean.getUser_type().equals("1"));
-            startActivity(intent);
+            ChatActivity.startChatActivity(this, userMsgBean.getGroup_id(), true);
         });
 
     }

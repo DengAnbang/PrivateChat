@@ -66,7 +66,9 @@ public class Const {
         public static final String TYPE_MSG_RECEIVE = "20002";//接收消息
         public static final String TYPE_MSG_ADD = "20004";//添加消息
         public static final String TYPE_MSG_GROUP_SEND = "20003";//发送群消息
-        //消息以外
+        //其他的推送
+        public static final String TYPE_FRIEND_ADD = "21001";//有好友申请的推送
+        //推送消息以外
         public static final String TYPE_SHOW_LIST = "30001";//更新消息列表
         public static final String TYPE_SHOW_FRIEND_RED_PROMPT = "type_show_friend_red_prompt";//更新好友申请的点点消息列表
 

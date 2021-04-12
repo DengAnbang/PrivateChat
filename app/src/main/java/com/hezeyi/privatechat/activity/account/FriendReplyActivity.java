@@ -1,8 +1,11 @@
 package com.hezeyi.privatechat.activity.account;
 
+import android.content.Intent;
+
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.adapter.FriendReplyAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
@@ -49,12 +52,17 @@ public class FriendReplyActivity extends BaseActivity {
         mFriendReplyAdapter.setOnItemClickListener((view, position, userMsgBean) -> {
             switch (view.getId()) {
                 case R.id.tv_agree:
-                    HttpManager.addFriend(userMsgBean.getUser_id(), MyApplication.getInstance().getUserMsgBean().getUser_id(), "1", this, o -> {
+                    HttpManager.friendAdd(userMsgBean.getUser_id(), MyApplication.getInstance().getUserMsgBean().getUser_id(), "1", this, o -> {
                         initData();
+                        MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
+                        Intent intent = ChatActivity.getStartChatActivity(this, userMsgBean.getUser_id(), false);
+                        intent.putExtra("msg", "我已经通过你的好友申请啦!");
+                        startActivity(intent);
                     });
+
                     break;
                 case R.id.tv_refuse:
-                    HttpManager.addFriend(userMsgBean.getUser_id(), MyApplication.getInstance().getUserMsgBean().getUser_id(), "3", this, o -> {
+                    HttpManager.friendAdd(userMsgBean.getUser_id(), MyApplication.getInstance().getUserMsgBean().getUser_id(), "3", this, o -> {
                         initData();
                     });
                     break;

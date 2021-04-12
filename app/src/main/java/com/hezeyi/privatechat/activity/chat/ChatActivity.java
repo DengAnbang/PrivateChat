@@ -1,7 +1,9 @@
 package com.hezeyi.privatechat.activity.chat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
@@ -30,11 +32,24 @@ import androidx.annotation.Nullable;
  * Created by dab on 2021/3/17 15:24
  * targetId
  * isGroup boolean 是否是群
+ * msg 是否默认发送消息
  */
 public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     @Override
     public String getSenderId() {
         return MyApplication.getInstance().getUserMsgBean().getUser_id();
+    }
+
+    public static void startChatActivity(Context packageContext, String targetId, boolean isGroup) {
+        Intent intent = getStartChatActivity(packageContext, targetId, isGroup);
+        packageContext.startActivity(intent);
+    }
+
+    public static Intent getStartChatActivity(Context packageContext, String targetId, boolean isGroup) {
+        Intent intent = new Intent(packageContext, ChatActivity.class);
+        intent.putExtra("isGroup", isGroup);
+        intent.putExtra("targetId", targetId);
+        return intent;
     }
 
     @Override
@@ -78,6 +93,10 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String targetId = getIntent().getStringExtra("targetId");
+        String msg = getIntent().getStringExtra("msg");
+        if (!TextUtils.isEmpty(msg)) {
+            sendTextMsg(msg);
+        }
         boolean isGroup = getIntent().getBooleanExtra("isGroup", false);
         String target_name = "";
         if (isGroup) {
@@ -89,7 +108,11 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             }
         } else {
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(targetId);
-            target_name = userMsgBeanById.getUser_name();
+            if (userMsgBeanById == null) {
+                target_name = targetId;
+            } else {
+                target_name = userMsgBeanById.getUser_name();
+            }
         }
         setTitleUser(target_name);
         mChatStatusListener = new ChatStatusListener(this);

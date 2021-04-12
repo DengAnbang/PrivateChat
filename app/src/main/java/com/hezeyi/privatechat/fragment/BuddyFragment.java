@@ -107,9 +107,7 @@ public class BuddyFragment extends BaseFragment {
                 intent.putExtra("user_id", userMsgBean.getUser_id());
                 startActivity(intent);
             } else {
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("targetId", userMsgBean.getUser_id());
-                startActivity(intent);
+                ChatActivity.startChatActivity(getActivity(),userMsgBean.getUser_id(),false);
             }
 
         });
@@ -160,7 +158,7 @@ public class BuddyFragment extends BaseFragment {
     private void getUserList() {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, "1", false, this, userMsgBeans -> {
-            MyApplication.getInstance().setUserMsgBeans(userMsgBeans);
+            MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
             mUserMsgBeans = new ArrayList<>(userMsgBeans);
             mBuddyAdapter.setDataList(userMsgBeans);
         });

@@ -78,14 +78,15 @@ public interface ApiService {
             @Query("account") String account
     );
 
-    @POST("/app/user/add/friend")
-    Observable<ResultData<Object>> addFriend(
+    @POST("/app/user/friend/add")
+    Observable<ResultData<Object>> friendAdd(
             @Query("user_id") String account,
             @Query("to_user_id") String to_user_id,
             @Query("friend_type") String friend_type
     );
-    @POST("/app/user/delete/friend")
-    Observable<ResultData<Object>> deleteFriend(
+
+    @POST("/app/user/friend/delete")
+    Observable<ResultData<Object>> friendDelete(
             @Query("user_id") String account,
             @Query("to_user_id") String to_user_id
     );

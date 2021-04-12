@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
+import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.account.FriendReplyActivity;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
@@ -85,7 +87,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     @Override
     public Boolean isWorkRunning(Intent intent, int flags, int startId) {
         LogUtils.e("isWorkRunning*****: ");
-        return null;
+        return !TextUtils.isEmpty(mUserId);
     }
 
     @Nullable
@@ -122,7 +124,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     }
 
     public void loginSocket(String userId) {
-        JuphoonUtils.get().login(userId, "123456");
+//        JuphoonUtils.get().login(userId, "123456");
         ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "", false);
         data.setSenderId(userId);
 //        String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
@@ -140,7 +142,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             startActivity(intent);
         });
         mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
-        addDisposable(Observable.interval(40, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        addDisposable(Observable.interval(5 * 60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
                 mSocketAbstract.send(s);
@@ -197,6 +199,11 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             StackManager.finishExcludeActivity(LoginActivity.class);
+        }));
+        //新好友添加
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_FRIEND_ADD, Object.class).subscribe(o -> {
+            RxBus.get().post(Const.RxType.TYPE_SHOW_FRIEND_RED_PROMPT, 1);
+            showNotification();
         }));
         //更新数据库的消息状态
         addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_UPDATE, ChatMessage.class).subscribe(chatMessage -> {
@@ -257,6 +264,27 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         }));
     }
 
+
+    private void login() {
+        String account = SPUtils.getString(Const.Sp.account, "");
+        String password = SPUtils.getString(Const.Sp.password, "");
+        HttpManager.login(account, password, this, userMsgBean -> {
+            MyApplication.getInstance().setUserMsgBean(userMsgBean);
+            getUserList();
+        });
+    }
+
+    private void getUserList() {
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
+            MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
+            HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
+                MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
+                MyApplication.getInstance().setLock(true);
+            });
+        });
+    }
+
     private void showNotification(ChatMessage message) {
         if (!message.isMessage()) return;
         boolean aBoolean = SPUtils.getBoolean(Const.Sp.isNewMsgCode, true);
@@ -264,13 +292,14 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         String anotherId = message.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id());
         if (Objects.equals(MyApplication.getInstance().getAnotherId(), anotherId)) return;
         RxUtils.runOnIoThread(() -> {
-            Intent intent = new Intent(this, ChatActivity.class);
             String name;
             String portrait;
             String targetId;
+            boolean isGroup = false;
             String msg = message.getMsg();
             if (message.isGroup()) {
-                intent.putExtra("isGroup", true);
+                isGroup = true;
+
                 ChatGroupBean chatGroupBean = MyApplication.getInstance().getChatGroupBeanById(message.getTargetId());
                 if (chatGroupBean != null) {
                     name = chatGroupBean.getGroup_name();
@@ -297,7 +326,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
                 msg = "收到一条新消息";
                 portrait = "";
             }
-            intent.putExtra("targetId", targetId);
+            Intent intent = ChatActivity.getStartChatActivity(this, targetId, isGroup);
             NotificationManagerUtils.showNotification(this, intent,
                     true,
                     Const.Api.API_HOST + portrait, name, msg, message.getPlaceholder());
@@ -305,23 +334,12 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         });
     }
 
-    private void login() {
-        String account = SPUtils.getString(Const.Sp.account, "");
-        String password = SPUtils.getString(Const.Sp.password, "");
-        HttpManager.login(account, password, this, userMsgBean -> {
-            MyApplication.getInstance().setUserMsgBean(userMsgBean);
-            getUserList();
-        });
-    }
-
-    private void getUserList() {
-        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
-        HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
-            MyApplication.getInstance().setUserMsgBeans(userMsgBeans);
-            HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
-                MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
-                MyApplication.getInstance().setLock(true);
-            });
+    private void showNotification() {
+        RxUtils.runOnIoThread(() -> {
+            Intent intent = new Intent(this, FriendReplyActivity.class);
+            NotificationManagerUtils.showNotification(this, intent,
+                    true,
+                    "", "S.O.M", "有人请求添加你为好友", R.mipmap.logo);
         });
     }
 

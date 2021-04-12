@@ -87,14 +87,14 @@ public class HttpManager {
                 .securitySelect(account), requestHelper, true, dataClick);
     }
 
-    public static void addFriend(String user_id, String to_user_id, String friend_type, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void friendAdd(String user_id, String to_user_id, String friend_type, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .addFriend(user_id, to_user_id, friend_type), requestHelper, true, dataClick);
+                .friendAdd(user_id, to_user_id, friend_type), requestHelper, true, dataClick);
     }
 
-    public static void deleteFriend(String user_id, String to_user_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void friendDelete(String user_id, String to_user_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .deleteFriend(user_id, to_user_id), requestHelper, true, dataClick);
+                .friendDelete(user_id, to_user_id), requestHelper, true, dataClick);
     }
 
     public static void userSelectById(String user_id, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {

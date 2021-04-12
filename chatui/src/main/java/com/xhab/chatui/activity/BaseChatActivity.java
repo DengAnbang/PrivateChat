@@ -323,7 +323,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
 
 
     //文本消息
-    private void sendTextMsg(String hello) {
+    public void sendTextMsg(String hello) {
         ChatMessage mTextMsgBody = ChatMessage.getBaseSendMessage(MsgType.TEXT, mSenderId, mTargetId, isGroup);
         mTextMsgBody.setMsg(hello);
         //开始发送

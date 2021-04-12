@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity {
     private void getUserList() {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
-            MyApplication.getInstance().setUserMsgBeans(userMsgBeans);
+            MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
             HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
                 MyApplication.getInstance().setLock(true);

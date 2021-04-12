@@ -1,6 +1,5 @@
 package com.hezeyi.privatechat.activity.chat;
 
-import android.content.Intent;
 import android.text.TextUtils;
 
 import com.hezeyi.privatechat.MyApplication;
@@ -99,11 +98,8 @@ public class ChatGroupAddActivity extends BaseActivity {
                             MyApplication.getInstance().setChatGroupBean(chatGroupBean);
                             String user_ids = strings.toString().replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
                             HttpManager.groupAddUser(user_ids, chatGroupBean.getGroup_id(), this, o -> {
-                                Intent intent = new Intent(this, ChatActivity.class);
                                 ToastUtil.showToast("创建成功!");
-                                intent.putExtra("targetId", chatGroupBean.getGroup_id());
-                                intent.putExtra("isGroup", true);
-                                startActivity(intent);
+                                ChatActivity.startChatActivity(this, chatGroupBean.getGroup_id(), true);
                                 setResult(RESULT_OK);
                                 finish();
                             });

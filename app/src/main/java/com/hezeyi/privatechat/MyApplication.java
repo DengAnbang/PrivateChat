@@ -200,19 +200,30 @@ public class MyApplication extends Application {
     }
 
     private Map<String, UserMsgBean> mMsgBeanMap = new HashMap<>();
+    private Map<String, UserMsgBean> mFriendBeanMap = new HashMap<>();
 
-    public void setUserMsgBeans(List<UserMsgBean> userMsgBeans) {
+    public void setFriendUserMsgBeans(List<UserMsgBean> userMsgBeans) {
         mUserMsgBeans = userMsgBeans;
         mMsgBeanMap.clear();
+        mFriendBeanMap.clear();
         for (int i = 0; i < userMsgBeans.size(); i++) {
             UserMsgBean userMsgBean = userMsgBeans.get(i);
             mMsgBeanMap.put(userMsgBean.getUser_id(), userMsgBean);
+            mFriendBeanMap.put(userMsgBean.getUser_id(), userMsgBean);
         }
     }
 
     public UserMsgBean getUserMsgBeanById(String userId) {
         if (userId.equals(mUserMsgBean.getUser_id())) return mUserMsgBean;
         return mMsgBeanMap.get(userId);
+    }
+    public UserMsgBean getFriendUserMsgBeanById(String userId) {
+        if (userId.equals(mUserMsgBean.getUser_id())) return mUserMsgBean;
+        return mFriendBeanMap.get(userId);
+    }
+    public UserMsgBean removeFriendUserMsgBeanById(String userId) {
+        if (userId.equals(mUserMsgBean.getUser_id())) return mUserMsgBean;
+        return mFriendBeanMap.remove(userId);
     }
 
     public void addUserMsgBeanById(UserMsgBean userMsgBean) {

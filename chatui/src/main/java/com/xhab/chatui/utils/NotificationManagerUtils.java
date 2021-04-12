@@ -112,10 +112,8 @@ public class NotificationManagerUtils {
         mBuilder.setContentText(content);
         mBuilder.setContentIntent(pendingIntent);
         Notification notification = mBuilder.build();
-
         //弹出通知栏
         mNotificationManager.notify(1, notification);
-
     }
 
 

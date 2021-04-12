@@ -35,15 +35,17 @@ public class UserDetailsActivity extends BaseActivity {
             startActivity(intent);
             finish();
         }
-        UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(user_id);
+        UserMsgBean userMsgBeanById = MyApplication.getInstance().getFriendUserMsgBeanById(user_id);
         visibility(R.id.tv_send, userMsgBeanById != null);
         visibility(R.id.tv_submit, userMsgBeanById == null);
         if (userMsgBeanById != null) {
             setRightTitleString("删除好友", v -> {
                 FunUtils.affirm(this, "确认删除好友?", "删除", aBoolean -> {
                     if (aBoolean) {
-                        HttpManager.deleteFriend(myUser_id, userMsgBeanById.getUser_id(), this, o -> {
-                            showSnackBar("删除成功!");
+                        HttpManager.friendDelete(myUser_id, userMsgBeanById.getUser_id(), this, o -> {
+                            MyApplication.getInstance().removeFriendUserMsgBeanById(userMsgBeanById.getUser_id());
+                            ToastUtil.showToast("删除成功!");
+                            finish();
                         });
                     }
                 });
@@ -66,7 +68,7 @@ public class UserDetailsActivity extends BaseActivity {
 
         UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
         click(R.id.tv_submit, view -> {
-            HttpManager.addFriend(userMsgBean.getUser_id(), to_user_id, "2", this, o -> {
+            HttpManager.friendAdd(userMsgBean.getUser_id(), to_user_id, "2", this, o -> {
                 ToastUtil.showToast("提交成功!");
                 finish();
             });
