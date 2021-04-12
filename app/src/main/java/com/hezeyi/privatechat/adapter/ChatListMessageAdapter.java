@@ -69,8 +69,14 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
             }
 
         }
+        holder.prompt.setVisibility(chatListMessage.getUnread() == 0 ? View.GONE : View.VISIBLE);
+        int prompt = chatListMessage.getUnread();
+        if (prompt > 99) {
+            prompt = 99;
+        }
+        holder.prompt.setText(prompt + "");
         holder.name.setText(group_name);
-        holder.time.setText(TimeShowUtils.getNewChatTime(chatListMessage.getSentTime()));
+        holder.time.setText(TimeShowUtils.getNewChatTimeList(chatListMessage.getSentTime()));
         if (mItemClickListener != null) {
             holder.mView.setOnClickListener(v -> {
                 mItemClickListener.onItemClick(v, position, chatListMessage);
@@ -88,6 +94,7 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView prompt;
         ImageView portrait;
         View mView;
         TextView name;
@@ -98,6 +105,7 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
             super(itemView);
             mView = itemView;
             portrait = itemView.findViewById(R.id.iv_head_portrait);
+            prompt = itemView.findViewById(R.id.tv_prompt);
             name = itemView.findViewById(R.id.tv_name);
             msg = itemView.findViewById(R.id.tv_msg);
             time = itemView.findViewById(R.id.tv_time);

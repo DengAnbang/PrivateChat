@@ -44,7 +44,7 @@ public class RecordButton extends AppCompatButton {
         init();
     }
 
-    private String mFile = getContext().getFilesDir() + "/" + "voice_" + System.currentTimeMillis() + ".mp3";
+    private String mFile;
 
 
     private OnFinishedRecordListener finishedListener;
@@ -189,7 +189,7 @@ public class RecordButton extends AppCompatButton {
             mediaPlayer.getDuration();
             LogUtil.d("获取到的时长:" + mediaPlayer.getDuration() / 1000);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         if (finishedListener != null)
@@ -220,6 +220,7 @@ public class RecordButton extends AppCompatButton {
         } else {
             mRecorder = new MediaRecorder();
         }
+        mFile = getContext().getFilesDir() + "/" + "voice_" + System.currentTimeMillis() + ".mp3";
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);

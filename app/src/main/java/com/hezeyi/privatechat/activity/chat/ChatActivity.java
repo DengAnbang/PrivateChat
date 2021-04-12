@@ -15,6 +15,7 @@ import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.chatui.activity.BaseChatActivity;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgType;
+import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.chatui.inteface.ShowUserImageCallback;
 import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.GlideUtils;
@@ -98,6 +99,8 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             sendTextMsg(msg);
         }
         boolean isGroup = getIntent().getBooleanExtra("isGroup", false);
+        //清空未读的标记
+        ChatDatabaseHelper.get(this, getUserId()).clearChatListUnread(targetId);
         String target_name = "";
         if (isGroup) {
             ChatGroupBean chatGroupBeanById = MyApplication.getInstance().getChatGroupBeanById(targetId);
@@ -201,8 +204,8 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     protected void onPause() {
         super.onPause();
         mChatStatusListener.onPause();
+        ChatDatabaseHelper.get(this, getUserId()).clearChatListUnread(getTargetId());
         MyApplication.getInstance().setAnotherId("");
-
     }
 
 

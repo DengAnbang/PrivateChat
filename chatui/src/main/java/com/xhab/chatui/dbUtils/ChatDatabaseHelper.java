@@ -57,6 +57,15 @@ public class ChatDatabaseHelper {
         long insert = writableDatabase.update(tableName, cv, "uuid = ?", new String[]{message.getUuid()});
     }
 
+    public void chatDbDelete(ChatMessage message, @Nullable ChatMessage lastMessage) {
+        if (lastMessage != null) {
+            chatListDbInsert(lastMessage);
+        }
+        String tableName = mChatDatabase.getChatTableName(message);
+        SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
+        long insert = writableDatabase.delete(tableName, "uuid=?", new String[]{message.getUuid()});
+    }
+
     public List<ChatMessage> chatMsgSelect(List<ChatMessage> oldChatMessages, String targetId) {
         long lastSendTime = System.currentTimeMillis();
         if (oldChatMessages.size() > 0) {
@@ -80,6 +89,8 @@ public class ChatDatabaseHelper {
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         ChatListMessage chatListMessage = ChatMessage.createChatListMessage(message);
         ContentValues contentValues = chatListMessage.getContentValues(mChatDatabase.getUser_id());
+        int unread = getChatListUnread(contentValues.get("another_id").toString());
+        contentValues.put("unread", unread + 1);
         long insert = writableDatabase.replace(chatListTableName, null, contentValues);
     }
 
@@ -89,14 +100,6 @@ public class ChatDatabaseHelper {
         long insert = writableDatabase.delete(chatListTableName, "another_id=?", new String[]{another_id});
     }
 
-    public void chatDbDelete(ChatMessage message, @Nullable ChatMessage lastMessage) {
-        if (lastMessage != null) {
-            chatListDbInsert(lastMessage);
-        }
-        String tableName = mChatDatabase.getChatTableName(message);
-        SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
-        long insert = writableDatabase.delete(tableName, "uuid=?", new String[]{message.getUuid()});
-    }
 
     public List<ChatListMessage> chatListDbSelect() {
         String chatListTableName = mChatDatabase.getChatListTableName();
@@ -111,6 +114,26 @@ public class ChatDatabaseHelper {
         }
         cursor.close();
         return chatListMessages;
+    }
+
+    private int getChatListUnread(String another_id) {
+        String chatListTableName = mChatDatabase.getChatListTableName();
+        SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
+        int unread = 0;
+        Cursor cursor = writableDatabase.rawQuery("select unread from " + chatListTableName + " WHERE another_id = ?", new String[]{another_id});
+        if (cursor.moveToNext()) {
+            unread = cursor.getInt(cursor.getColumnIndex("unread"));
+        }
+        cursor.close();
+        return unread;
+    }
+
+    public void clearChatListUnread(String another_id) {
+        String chatListTableName = mChatDatabase.getChatListTableName();
+        SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("unread", 0);
+        writableDatabase.update(chatListTableName, cv, "another_id = ?", new String[]{another_id});
     }
 
 }

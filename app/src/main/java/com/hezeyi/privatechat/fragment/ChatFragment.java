@@ -59,7 +59,8 @@ public class ChatFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mChatListMessageAdapter);
         mChatListMessageAdapter.setItemClickListener((view1, position, chatListMessage) -> {
-            ChatActivity.startChatActivity(getActivity(),chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()),chatListMessage.getIs_group() == 1);
+            String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+            ChatActivity.startChatActivity(getActivity(), chatListMessage.getAnotherId(user_id), chatListMessage.getIs_group() == 1);
         });
         mChatListMessageAdapter.setItemLongClickListener((view1, position, chatListMessage) -> {
             FunUtils.affirm(getActivity(), "是否删除?", "删除", aBoolean -> {

@@ -128,8 +128,8 @@ public class ChatDatabase extends SQLiteOpenHelper {
             stringBuilder.append(tableName);
 //            stringBuilder.append("(id integer primary key autoincrement");
             stringBuilder.append(" (target_id varchar(20)");
-            stringBuilder.append(",sender_id varchar(20)");
             stringBuilder.append(",another_id varchar(20) ");
+            stringBuilder.append(",sender_id varchar(20)");
             stringBuilder.append(",msgType integer");
             stringBuilder.append(",target_name varchar(255)");
             stringBuilder.append(",target_portrait varchar(255)");

@@ -1,10 +1,10 @@
 package com.xhab.chatui.utils;
 
-import android.util.Log;
+import com.xhab.utils.utils.LogUtils;
 
 public   class LogUtil {
 
     public static void d(String msg) {
-        Log.d("chatui", msg);
+        LogUtils.e("chatui*****: " +msg );
      }
 }
