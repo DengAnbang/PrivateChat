@@ -137,7 +137,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         super.initEvent();
         requestPermissions();
         TextView rightTitle = findViewById(R.id.tv_right);
-        rightTitle.setTextSize(DisplayUtils.dp2px(this, 7));
+        rightTitle.setTextSize(DisplayUtils.dp2px(this, 9));
         rightTitle.setText("+");
         rightTitle.setOnClickListener(v -> {
             mSelectWindow = new SelectWindow(this);

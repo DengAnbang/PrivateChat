@@ -30,6 +30,6 @@
         android:paddingRight="12dp"
         android:textColor="@color/just_color_ffffff"
         android:textSize="14sp"
-        tools:text="右边标题"/>
+        tools:text="+"/>
 
 </RelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background_color_f2f3f4"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_layout"/>
+
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_account"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000账号\u3000"
+        app:rightText=""
+        />
+
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_vip_time"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000VIP到期时间\u3000"
+        tools:visibility="visible"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:text="选择充值的金额"
+        android:textColor="@color/just_color_333333"
+        android:textSize="15sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:text="支付0元,可延期至"
+        android:textColor="@color/just_color_333333"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        style="@style/Btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/et_password"
+        android:layout_marginTop="70dp"
+        android:text="充值"/>
+</LinearLayout>

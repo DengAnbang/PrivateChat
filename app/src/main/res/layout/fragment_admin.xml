@@ -17,5 +17,14 @@
         app:leftText="\u3000账号列表\u3000"
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftDrawable="@mipmap/f1_icon5"
+        app:leftText="\u3000充值查看\u3000"
+        app:rightDrawable="@mipmap/c14_2_icon1"
+        />
 
 </LinearLayout>

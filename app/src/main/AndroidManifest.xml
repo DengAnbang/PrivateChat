@@ -122,7 +122,6 @@
             android:launchMode="singleTask"/>
         <activity android:name=".activity.account.RegisterActivity"/>
         <activity android:name=".activity.account.ForgetActivity"/>
-        <activity android:name=".activity.account.MeDetailsActivity"/>
         <activity android:name=".activity.account.MeQrCodeActivity"/>
         <activity android:name=".activity.account.SetupActivity"/>
         <activity android:name=".activity.account.NewMsgSetUpActivity"/>
@@ -140,6 +139,8 @@
         <activity android:name=".activity.account.FriendReplyActivity"/>
         <activity android:name=".activity.account.SelectUserActivity"/>
         <activity android:name=".activity.account.AccountListActivity"/>
+        <activity android:name=".activity.account.RechargeActivity"/>
+        <activity android:name=".activity.account.RechargeRecordActivity"/>
     </application>
 
 </manifest>

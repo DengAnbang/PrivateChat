@@ -1,6 +1,7 @@
 package com.hezeyi.privatechat.net;
 
 import com.hezeyi.privatechat.bean.ChatGroupBean;
+import com.hezeyi.privatechat.bean.RechargeRecordBean;
 import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -101,6 +102,7 @@ public interface ApiService {
     Observable<ResultData<List<UserMsgBean>>> userSelectByFuzzySearch(
             @Query("word") String word
     );
+
     @POST("/app/user/select/by/fuzzy/search/all")
     Observable<ResultData<List<UserMsgBean>>> userSelectByFuzzySearchAll(
             @Query("word") String word
@@ -143,5 +145,34 @@ public interface ApiService {
     @POST("/app/group/select/user/msg")
     Observable<ResultData<List<UserMsgBean>>> groupSelectUserMsg(
             @Query("group_id") String group_id
+    );
+
+    @POST("/app/recharge/add")
+    Observable<ResultData<Object>> rechargeAdd(
+            @Query("user_id") String user_id,
+            @Query("execution_user_id") String execution_user_id,
+            @Query("money") String money,
+            @Query("day") String day,
+            @Query("recharge_type") String recharge_type
+    );
+
+    @POST("/app/select/by/type")
+    Observable<ResultData<List<RechargeRecordBean>>> rechargeSelectByType(
+            @Query("recharge_type") String recharge_type
+    );
+
+    @POST("/app/select/by/user/id")
+    Observable<ResultData<Object>> rechargeSelectByUserId(
+            @Query("user_id") String user_id
+    );
+
+    @POST("/app/select/by/execution/user/id")
+    Observable<ResultData<Object>> rechargeSelectByExecutionUserId(
+            @Query("user_id") String user_id
+    );
+
+    @POST("/app/select/by/time")
+    Observable<ResultData<Object>> rechargeSelectByTime(
+            @Query("user_id") String user_id
     );
 }

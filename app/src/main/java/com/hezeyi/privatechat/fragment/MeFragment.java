@@ -8,8 +8,8 @@ import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
-import com.hezeyi.privatechat.activity.account.MeDetailsActivity;
 import com.hezeyi.privatechat.activity.account.SetupActivity;
+import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.chatui.utils.GlideUtils;
@@ -55,7 +55,8 @@ public class MeFragment extends BaseFragment {
         }
         upUserMsg(view, userMsgBean);
         click(R.id.rl_details, view1 -> {
-            Intent intent = new Intent(getActivity(), MeDetailsActivity.class);
+            Intent intent = new Intent(getActivity(), UserDetailsActivity.class);
+            intent.putExtra("user_id", MyApplication.getInstance().getUserMsgBean().getUser_id());
             startActivity(intent);
 
         });

@@ -26,6 +26,7 @@ public class JuphoonUtils {
     private JCClient mClient;
     private JCCall mCall;
     private static JuphoonUtils instance;
+    private JCMediaDevice mMediaDevice;
 
 
     public static JuphoonUtils get() {
@@ -92,7 +93,7 @@ public class JuphoonUtils {
     // 初始化函数
     private void initializeCall() {
         //1. 媒体类
-        JCMediaDevice mediaDevice = JCMediaDevice.create(mClient, new JCMediaDeviceCallback() {
+        mMediaDevice = JCMediaDevice.create(mClient, new JCMediaDeviceCallback() {
             @Override
             public void onCameraUpdate() {
 
@@ -119,8 +120,9 @@ public class JuphoonUtils {
             }
         });
 
+
         //2. 通话类
-        mCall = JCCall.create(mClient, mediaDevice, new JCCallCallback() {
+        mCall = JCCall.create(mClient, mMediaDevice, new JCCallCallback() {
             @Override
             public void onCallItemAdd(JCCallItem jcCallItem) {
                 // 业务逻辑
@@ -176,6 +178,7 @@ public class JuphoonUtils {
 
             }
         });
+
     }
 
 
@@ -220,6 +223,7 @@ public class JuphoonUtils {
     public interface CallBackAdd {
         void onCallItemAdd(JCCallItem item);
     }
+
     public interface CallBackRemove {
         void onCallItemRemove(JCCallItem item, @JCCall.CallReason int reason, String description);
     }

@@ -3,6 +3,7 @@ package com.hezeyi.privatechat.net;
 
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
+import com.hezeyi.privatechat.bean.RechargeRecordBean;
 import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -76,9 +77,9 @@ public class HttpManager {
                 .register(account, password, name, headPortrait), requestHelper, true, dataClick);
     }
 
-    public static void userUpdate(String account, String password, String name,String vip_time, String headPortrait, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
+    public static void userUpdate(String account, String password, String name, String vip_time, String headPortrait, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .userUpdate(account, password, name, vip_time,headPortrait), requestHelper, true, dataClick);
+                .userUpdate(account, password, name, vip_time, headPortrait), requestHelper, true, dataClick);
     }
 
     public static void securityUpdate(String account, String q1, String a1, String q2, String a2, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
@@ -111,6 +112,7 @@ public class HttpManager {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .userSelectByFuzzySearch(word), requestHelper, true, dataClick);
     }
+
     public static void userSelectByFuzzySearchAll(String word, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .userSelectByFuzzySearchAll(word), requestHelper, true, dataClick);
@@ -154,6 +156,15 @@ public class HttpManager {
     public static void groupSelectUserMsg(String group_id, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .groupSelectUserMsg(group_id), requestHelper, true, dataClick);
+    }
+
+    public static void rechargeAdd(String user_id, String execution_user_id, String money, String day, String recharge_type, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .rechargeAdd(user_id, execution_user_id, money, day, recharge_type), requestHelper, true, dataClick);
+    }
+    public static void rechargeSelectByType(String recharge_type, final RequestHelper requestHelper, final OnDataCallBack<List<RechargeRecordBean>> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .rechargeSelectByType(recharge_type), requestHelper, true, dataClick);
     }
 
     /**

@@ -104,17 +104,24 @@ public class UserDetailsActivity extends BaseActivity {
             ChatActivity.startChatActivity(this, mUserId, false);
         });
         click(R.id.tv_recharge, view -> {
+            Intent intent = new Intent(this, RechargeActivity.class);
+            intent.putExtra("user_id", mUserId);
+            startActivity(intent);
+        });
+        click(R.id.tv_recharge_admin, view -> {
             ModifyVipWindow modifyVipWindow = new ModifyVipWindow(this);
             modifyVipWindow.setOnDataCallBack(vipTime -> {
                 if (TextUtils.isEmpty(vipTime) || vipTime.equals("-")) {
                     return;
                 }
-
                 HttpManager.userUpdate(mUserMsgBean.getAccount(), "", "", vipTime, "", this, userMsgBean1 -> {
-                    showSnackBar("修改完成");
-                    initView();
-                    modifyVipWindow.dismiss();
+                    HttpManager.rechargeAdd(mUserMsgBean.getUser_id(), myUserId, "0", vipTime, "0", this, o -> {
+                        showSnackBar("修改完成");
+                        initView();
+                        modifyVipWindow.dismiss();
+                    });
                 });
+
             });
             modifyVipWindow.showAsDropDown(findViewById(R.id.ttv_account), 0, 0, Gravity.END);
         });
@@ -131,7 +138,8 @@ public class UserDetailsActivity extends BaseActivity {
         visibility(R.id.tv_submit, (!isFriend) && !isMe);
         visibility(R.id.ttv_qr, isMe || isAdmin);
         visibility(R.id.ttv_vip_time, isMe || isAdmin);
-        visibility(R.id.tv_recharge, isAdmin);
+        visibility(R.id.tv_recharge_admin, isAdmin);
+        visibility(R.id.tv_recharge, isMe && !isAdmin);
 
 
         HttpManager.userSelectById(mUserId, true, this, userMsgBean -> {

@@ -58,6 +58,7 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
             mRingtone.stop();
         }
         mJcCallItem = MyApplication.getInstance().getJCCallItem();
+
         mIsCall = getIntent().getBooleanExtra("isCall", false);
         boolean isCalled = getIntent().getBooleanExtra("isCalled", false);
         if (mIsCall && !isCalled) {
