@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@color/background_color_f2f3f4"
+              android:orientation="vertical">
 
-    <TextView
+
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_account_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="管理页面"/>
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftDrawable="@mipmap/f1_icon5"
+        app:leftText="\u3000账号列表\u3000"
+        app:rightDrawable="@mipmap/c14_2_icon1"
+        />
+
 </LinearLayout>

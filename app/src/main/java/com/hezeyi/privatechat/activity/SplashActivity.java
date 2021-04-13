@@ -6,8 +6,10 @@ import android.text.TextUtils;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MainActivity;
 import com.hezeyi.privatechat.MyApplication;
+import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
+import com.xhab.utils.StackManager;
 import com.xhab.utils.base.BaseUtilActivity;
 import com.xhab.utils.utils.SPUtils;
 
@@ -39,7 +41,7 @@ public class SplashActivity extends BaseUtilActivity {
         login(account, password);
         //停留1.5S进入主页
         getWindow().getDecorView().postDelayed(() -> {
-            if (isFinishing())return;
+            if (isFinishing()) return;
             startActivity(new Intent(SplashActivity.this, GuiderActivity.class));
             finish();
         }, 5000);
@@ -47,16 +49,24 @@ public class SplashActivity extends BaseUtilActivity {
     }
 
     private void login(String account, String password) {
-        HttpManager.login(account, password, this, userMsgBean -> {
-            Intent startIntent = new Intent(this, ChatService.class);
-            startIntent.putExtra("userId", userMsgBean.getUser_id());
-            startIntent.putExtra("account", account);
-            startIntent.putExtra("password", password);
-            startService(startIntent);
-            MyApplication.getInstance().setUserMsgBean(userMsgBean);
-            getUserList();
+        HttpManager.login(account, password, false, this, data -> {
+            MyApplication.getInstance().userLogin(data, s -> {
+                if (TextUtils.isEmpty(s)) {
+                    Intent startIntent = new Intent(this, ChatService.class);
+                    startIntent.putExtra("userId", data.getData().getUser_id());
+                    startIntent.putExtra("account", account);
+                    startIntent.putExtra("password", password);
+                    startService(startIntent);
+                    MyApplication.getInstance().setUserMsgBean(data.getData());
+                    getUserList();
+                } else {
 
-
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    StackManager.finishExcludeActivity(LoginActivity.class);
+                }
+            });
         });
     }
 

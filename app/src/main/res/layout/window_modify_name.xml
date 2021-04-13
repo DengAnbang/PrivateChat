@@ -6,7 +6,7 @@
              android:paddingRight="15dp">
 
     <LinearLayout
-        android:background="@color/just_color_dedede"
+        android:background="@color/background_color_f2f3f4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

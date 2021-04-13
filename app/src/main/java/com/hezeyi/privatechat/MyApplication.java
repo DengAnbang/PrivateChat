@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.hezeyi.privatechat.activity.LockActivity;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
+import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.service.ChatService;
 import com.juphoon.cloud.JCCallItem;
@@ -21,6 +22,7 @@ import com.xhab.chatui.ChatUi;
 import com.xhab.chatui.emoji.EmojiDao;
 import com.xhab.chatui.utils.NotificationManagerUtils;
 import com.xhab.utils.StackManager;
+import com.xhab.utils.inteface.OnDataCallBack;
 import com.xhab.utils.utils.ForegroundCallbacks;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.SPUtils;
@@ -129,6 +131,20 @@ public class MyApplication extends Application {
         });
     }
 
+    public void userLogin(ResultData<UserMsgBean> data, OnDataCallBack<String> callBack) {
+        if (data == null) {
+            callBack.onCallBack("未知错误!");
+            return;
+        }
+        if (!data.getCode().equals("0")) {
+            callBack.onCallBack(data.getMsg());
+        } else {
+            callBack.onCallBack(null);
+        }
+
+    }
+
+
     private boolean hasNewFriend = false;
 
     public boolean isHasNewFriend() {
@@ -217,10 +233,12 @@ public class MyApplication extends Application {
         if (userId.equals(mUserMsgBean.getUser_id())) return mUserMsgBean;
         return mMsgBeanMap.get(userId);
     }
+
     public UserMsgBean getFriendUserMsgBeanById(String userId) {
         if (userId.equals(mUserMsgBean.getUser_id())) return mUserMsgBean;
         return mFriendBeanMap.get(userId);
     }
+
     public UserMsgBean removeFriendUserMsgBeanById(String userId) {
         if (userId.equals(mUserMsgBean.getUser_id())) return mUserMsgBean;
         return mFriendBeanMap.remove(userId);

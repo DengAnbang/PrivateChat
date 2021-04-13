@@ -86,8 +86,9 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     @Override
     public Boolean isWorkRunning(Intent intent, int flags, int startId) {
-        LogUtils.e("isWorkRunning*****: ");
-        return !TextUtils.isEmpty(mUserId);
+        boolean b = !TextUtils.isEmpty(mUserId);
+        LogUtils.e("isWorkRunning*****: " + b);
+        return b;
     }
 
     @Nullable
@@ -268,9 +269,19 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     private void login() {
         String account = SPUtils.getString(Const.Sp.account, "");
         String password = SPUtils.getString(Const.Sp.password, "");
-        HttpManager.login(account, password, this, userMsgBean -> {
-            MyApplication.getInstance().setUserMsgBean(userMsgBean);
-            getUserList();
+        HttpManager.login(account, password, false, this, userMsgBean -> {
+            MyApplication.getInstance().userLogin(userMsgBean, s -> {
+                if (TextUtils.isEmpty(s)) {
+                    MyApplication.getInstance().setUserMsgBean(userMsgBean.getData());
+                    getUserList();
+                } else {
+                    loginOut();
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    StackManager.finishExcludeActivity(LoginActivity.class);
+                }
+            });
         });
     }
 

@@ -1,9 +1,11 @@
 package com.hezeyi.privatechat.fragment;
 
 
+import android.content.Intent;
 import android.view.View;
 
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.account.AccountListActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.xhab.utils.utils.LogUtils;
 
@@ -32,6 +34,10 @@ public class AdminFragment extends BaseFragment {
 
     @Override
     public void onFirstVisibleToUser(View view) {
-        LogUtils.e("onFirstVisibleToUser*****: AdminFragment");
+        click(R.id.ttv_account_list, v -> {
+            Intent intent = new Intent(getActivity(), AccountListActivity.class);
+            startActivity(intent);
+        });
+
     }
 }

@@ -10,6 +10,7 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.utils.FunUtils;
+import com.xhab.utils.utils.TimeUtils;
 import com.xhab.utils.utils.ToastUtil;
 
 /**
@@ -57,7 +58,7 @@ public class UserDetailsActivity extends BaseActivity {
                 to_user_id = userMsgBean.getUser_id();
                 setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
                 setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
-                setTwoTextLinearRightText(R.id.ttv_vip_time, userMsgBean.getVip_time()).getRightTextView().setGravity(Gravity.RIGHT);
+                setTwoTextLinearRightText(R.id.ttv_vip_time, TimeUtils.toTimeByString(userMsgBean.getVip_time())).getRightTextView().setGravity(Gravity.RIGHT);
                 visibility(R.id.ttv_vip_time, MyApplication.getInstance().getUserMsgBean().isAdmin());
                 GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
             } else {

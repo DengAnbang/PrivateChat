@@ -1,12 +1,7 @@
 package com.hezeyi.privatechat.fragment;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
-import android.os.PowerManager;
-import android.provider.Settings;
 import android.view.View;
 
 import com.hezeyi.privatechat.Const;
@@ -23,14 +18,11 @@ import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.SPUtils;
 
-import androidx.annotation.RequiresApi;
-
 
 /**
  * Created by dab on 2021/3/6 14:42
  */
 public class MeFragment extends BaseFragment {
-
 
 
     @Override

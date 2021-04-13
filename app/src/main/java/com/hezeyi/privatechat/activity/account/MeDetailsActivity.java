@@ -14,6 +14,7 @@ import com.hezeyi.privatechat.popupWindow.ModifyNameWindow;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.activity.SelectPhotoDialog;
 import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.TimeUtils;
 
 /**
  * Created by dab on 2021/3/9 20:33
@@ -33,7 +34,7 @@ public class MeDetailsActivity extends BaseActivity {
         if (userMsgBean != null) {
             setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
             setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
-            setTwoTextLinearRightText(R.id.ttv_vip_time, userMsgBean.getVip_time()).getRightTextView().setGravity(Gravity.RIGHT);
+            setTwoTextLinearRightText(R.id.ttv_vip_time, TimeUtils.toTimeByString(userMsgBean.getVip_time())).getRightTextView().setGravity(Gravity.RIGHT);
             GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
             click(R.id.ttv_name, view -> {
                 ModifyNameWindow modifyNameWindow = new ModifyNameWindow(this, userMsgBean.getUser_name());

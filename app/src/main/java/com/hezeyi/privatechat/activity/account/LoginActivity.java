@@ -2,6 +2,7 @@ package com.hezeyi.privatechat.activity.account;
 
 import android.content.Intent;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.hezeyi.privatechat.BuildConfig;
@@ -99,16 +100,23 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login(String account, String password) {
-        HttpManager.login(account, password, this, userMsgBean -> {
-            Intent startIntent = new Intent(this, ChatService.class);
-            startIntent.putExtra("userId", userMsgBean.getUser_id());
-            startIntent.putExtra("account", account);
-            startIntent.putExtra("password", password);
-            startService(startIntent);
-            MyApplication.getInstance().setUserMsgBean(userMsgBean);
-            SPUtils.save(Const.Sp.account, account);
-            SPUtils.save(Const.Sp.password, password);
-            getUserList();
+        HttpManager.login(account, password, true, this, data -> {
+
+            MyApplication.getInstance().userLogin(data, s -> {
+                if (TextUtils.isEmpty(s)) {
+                    Intent startIntent = new Intent(this, ChatService.class);
+                    startIntent.putExtra("userId", data.getData().getUser_id());
+                    startIntent.putExtra("account", account);
+                    startIntent.putExtra("password", password);
+                    startService(startIntent);
+                    MyApplication.getInstance().setUserMsgBean(data.getData());
+                    SPUtils.save(Const.Sp.account, account);
+                    SPUtils.save(Const.Sp.password, password);
+                    getUserList();
+                } else {
+                    showSnackBar(s);
+                }
+            });
 
 
         });

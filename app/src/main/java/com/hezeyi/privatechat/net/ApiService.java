@@ -100,6 +100,10 @@ public interface ApiService {
     Observable<ResultData<List<UserMsgBean>>> userSelectByFuzzySearch(
             @Query("word") String word
     );
+    @POST("/app/user/select/by/fuzzy/search/all")
+    Observable<ResultData<List<UserMsgBean>>> userSelectByFuzzySearchAll(
+            @Query("word") String word
+    );
 
     @POST("/app/user/select/friend")
     Observable<ResultData<List<UserMsgBean>>> userSelectFriend(

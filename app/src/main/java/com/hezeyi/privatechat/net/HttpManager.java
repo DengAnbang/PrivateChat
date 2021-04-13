@@ -3,6 +3,7 @@ package com.hezeyi.privatechat.net;
 
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
+import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.utils.inteface.OnDataCallBack;
@@ -61,9 +62,13 @@ public class HttpManager {
                 .updatesCheck(version_code, version_channel), requestHelper, true, dataClick);
     }
 
-    public static void login(String account, String password, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
-        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .login(account, password), requestHelper, true, dataClick);
+    //    public static void login(String account, String password, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
+//        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+//                .login(account, password), requestHelper, true, dataClick);
+//    }
+    public static void login(String account, String password, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<ResultData<UserMsgBean>> dataClick) {
+        ResponseHelper.request(RetrofitFactory.getService(ApiService.class)
+                .login(account, password), requestHelper, showLoadDialog, dataClick);
     }
 
     public static void register(String account, String password, String name, String headPortrait, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
@@ -105,6 +110,10 @@ public class HttpManager {
     public static void userSelectByFuzzySearch(String word, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .userSelectByFuzzySearch(word), requestHelper, true, dataClick);
+    }
+    public static void userSelectByFuzzySearchAll(String word, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .userSelectByFuzzySearchAll(word), requestHelper, true, dataClick);
     }
 
     public static void userSelectFriend(String user_id, String friend_type, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {

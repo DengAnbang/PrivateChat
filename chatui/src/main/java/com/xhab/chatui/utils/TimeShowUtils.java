@@ -88,23 +88,9 @@ public class TimeShowUtils {
         Calendar otherCalendar = Calendar.getInstance();
         otherCalendar.setTimeInMillis(timesamp);
 
-        String timeFormat = "M月d日 HH:mm";
-        String yearTimeFormat = "yyyy年M月d日 HH:mm";
-        String am_pm = "";
-        int hour = otherCalendar.get(Calendar.HOUR_OF_DAY);
-        if (hour >= 0 && hour < 6) {
-            am_pm = "凌晨";
-        } else if (hour >= 6 && hour < 12) {
-            am_pm = "早上";
-        } else if (hour == 12) {
-            am_pm = "中午";
-        } else if (hour > 12 && hour < 18) {
-            am_pm = "下午";
-        } else if (hour >= 18) {
-            am_pm = "晚上";
-        }
-        timeFormat = "M月d日";
-        yearTimeFormat = "yyyy年M月d日";
+        String timeFormat = "M月d日";
+        String yearTimeFormat = "yyyy年M月d日";
+
 
         boolean yearTemp = todayCalendar.get(Calendar.YEAR) == otherCalendar.get(Calendar.YEAR);
         if (yearTemp) {
