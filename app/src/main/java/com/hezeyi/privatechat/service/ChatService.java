@@ -1,6 +1,7 @@
 package com.hezeyi.privatechat.service;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.text.TextUtils;
 
@@ -86,9 +87,9 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     @Override
     public Boolean isWorkRunning(Intent intent, int flags, int startId) {
-        boolean b = !TextUtils.isEmpty(mUserId);
-        LogUtils.e("isWorkRunning*****: " + b);
-        return b;
+//        boolean b = !TextUtils.isEmpty(mUserId);
+//        LogUtils.e("isWorkRunning*****: " + b);
+        return null;
     }
 
     @Nullable
@@ -101,6 +102,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        loginOut();
         LogUtils.e("onDestroy*****: " + mUserId);
     }
 
@@ -125,7 +127,9 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     }
 
     public void loginSocket(String userId) {
-        JuphoonUtils.get().login(userId, "123456");
+        if (!Objects.equals(Build.CPU_ABI, "x86")) {
+            JuphoonUtils.get().login(userId, "123456");
+        }
         ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, userId, "", false);
         data.setSenderId(userId);
 //        String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
@@ -233,6 +237,9 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         data.setSenderId(mUserId);
         String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
         mSocketAbstract.send(login_out);
+        mUserId = "";
+        JuphoonUtils.get().logout();
+
     }
 
 

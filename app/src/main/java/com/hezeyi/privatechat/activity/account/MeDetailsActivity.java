@@ -44,7 +44,7 @@ public class MeDetailsActivity extends BaseActivity {
                         showSnackBar("名字不能为空");
                         return;
                     }
-                    HttpManager.userUpdate(userMsgBean.getAccount(), "", s, "", this, userMsgBean1 -> {
+                    HttpManager.userUpdate(userMsgBean.getAccount(), "", s, "", "", this, userMsgBean1 -> {
                         userMsgBean.setUser_name(s);
                         showSnackBar("修改完成");
                         initView();
@@ -75,7 +75,7 @@ public class MeDetailsActivity extends BaseActivity {
             UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
 
             HttpManager.fileUpload(Const.FilePath.userFileType, stringExtra, this, s -> {
-                HttpManager.userUpdate(userMsgBean.getAccount(), "", "", s, this, userMsgBean1 -> {
+                HttpManager.userUpdate(userMsgBean.getAccount(), "", "", "", s, this, userMsgBean1 -> {
                     userMsgBean.setHead_portrait(s);
                     initView();
                     showSnackBar("修改完成");

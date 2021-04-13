@@ -61,6 +61,7 @@ public interface ApiService {
             @Query("account") String account,
             @Query("pwd") String pwd,
             @Query("user_name") String user_name,
+            @Query("vip_time") String vip_time,
             @Query("headPortrait") String headPortrait
     );
 

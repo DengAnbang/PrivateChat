@@ -66,6 +66,15 @@
         />
 
     <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_qr"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000二维码\u3000"
+        app:rightDrawable="@mipmap/c14_2_icon1"
+        />
+
+    <com.xhab.utils.view.TwoTextLinearView
         android:id="@+id/ttv_vip_time"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -87,13 +96,23 @@
         tools:visibility="visible"/>
 
     <TextView
+        android:id="@+id/tv_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/just_color_ffffff"
+        android:gravity="center"
+        android:text="充值相关"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <TextView
         android:id="@+id/tv_submit"
         style="@style/Btn_submit"
         android:layout_marginTop="30dp"
         android:text="添加好友"
         android:visibility="gone"
         tools:visibility="visible"/>
-
 
 
 </LinearLayout>

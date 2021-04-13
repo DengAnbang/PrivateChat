@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat.activity.account;
 
+import android.content.Intent;
 import android.widget.EditText;
 
 import com.hezeyi.privatechat.R;
@@ -43,7 +44,9 @@ public class AccountListActivity extends BaseUtilActivity {
     public void initEvent() {
         super.initEvent();
         mAccountListAdapter.setOnItemClickListener((view, position, userMsgBean) -> {
-
+            Intent intent = new Intent(this, UserDetailsActivity.class);
+            intent.putExtra("user_id", userMsgBean.getUser_id());
+            startActivity(intent);
         });
     }
 }

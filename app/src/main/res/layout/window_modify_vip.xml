@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingLeft="15dp"
+             android:paddingRight="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_color_f2f3f4"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="请输入要充值的天数,最多添加到2038年"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@color/just_color_ffffff"
+            android:gravity="center"
+            android:hint="输入要添加的时间"
+            android:inputType="number"
+            android:maxLength="3"
+            />
+
+        <TextView
+            android:id="@+id/tv_add"
+            style="@style/Btn_submit"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="增加天数"
+            />
+
+        <TextView
+            android:id="@+id/tv_less"
+            style="@style/Btn_submit"
+            android:layout_marginBottom="15dp"
+            android:text="扣除天数"
+            />
+    </LinearLayout>
+</FrameLayout>

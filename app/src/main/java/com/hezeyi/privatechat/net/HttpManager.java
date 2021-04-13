@@ -76,9 +76,9 @@ public class HttpManager {
                 .register(account, password, name, headPortrait), requestHelper, true, dataClick);
     }
 
-    public static void userUpdate(String account, String password, String name, String headPortrait, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
+    public static void userUpdate(String account, String password, String name,String vip_time, String headPortrait, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .userUpdate(account, password, name, headPortrait), requestHelper, true, dataClick);
+                .userUpdate(account, password, name, vip_time,headPortrait), requestHelper, true, dataClick);
     }
 
     public static void securityUpdate(String account, String q1, String a1, String q2, String a2, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
