@@ -1,5 +1,7 @@
 package com.hezeyi.privatechat.activity.account;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -31,13 +33,17 @@ public class LoginActivity extends BaseActivity {
     }
 
     private boolean isSelect;
+
     @Override
     public boolean isCanLock() {
         return false;
     }
+
     @Override
     public void initView() {
         super.initView();
+        NotificationManager mgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mgr.cancel(1);
         click(R.id.tv_submit, view -> checkLogin());
         click(R.id.tv_forget, view -> {
             Intent intent = new Intent(this, ForgetActivity.class);

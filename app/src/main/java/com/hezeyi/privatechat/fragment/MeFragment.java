@@ -1,7 +1,9 @@
 package com.hezeyi.privatechat.fragment;
 
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 
 import com.hezeyi.privatechat.Const;
@@ -75,7 +77,7 @@ public class MeFragment extends BaseFragment {
             StackManager.finishExcludeActivity(LoginActivity.class);
         });
         click(R.id.ttv_contact_us, v -> {
-
+//            ada();
         });
     }
 
@@ -84,5 +86,30 @@ public class MeFragment extends BaseFragment {
         GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), view.findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
         setTextViewString(R.id.tv_name, userMsgBean.getUser_name());
         setTextViewString(R.id.tv_account, "账号:" + userMsgBean.getAccount());
+    }
+
+    private void ada() {
+        ComponentName componentName = null;
+        int sdkVersion = Build.VERSION.SDK_INT;
+        try {
+            Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //跳自启动管理
+            if (sdkVersion >= 28){//9:已测试
+                componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/.startupmgr.ui.StartupNormalAppListActivity");//跳自启动管理
+            }else if (sdkVersion >= 26){//8：已测试
+                componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/.appcontrol.activity.StartupAppControlActivity");
+            }else if (sdkVersion >= 23){//7.6：已测试
+                componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/.startupmgr.ui.StartupNormalAppListActivity");
+            }else if (sdkVersion >= 21){//5
+                componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/com.huawei.permissionmanager.ui.MainActivity");
+            }
+            //componentName = new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity");//锁屏清理
+            intent.setComponent(componentName);
+            startActivity(intent);
+        }catch (Exception e){
+            e.printStackTrace();
+            //跳转失败
+        }
     }
 }

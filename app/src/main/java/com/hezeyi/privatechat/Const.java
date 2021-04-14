@@ -17,7 +17,7 @@ public class Const {
     public static class Sp {
         public static final String account = "account";
         public static final String password = "password";
-        public static final String SecurityCode = "SecurityCode";
+        public static final String SecurityCode = "Code";
         public static final String isOpenSecurityCode = "isOpenSecurityCode";
         public static final String isNewMsgCode = "isNewMsgCode";
         public static final String isNewMsgDesCode = "isNewMsgDesCode";

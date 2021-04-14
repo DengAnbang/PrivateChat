@@ -120,7 +120,6 @@ public class NotificationManagerUtils {
 
     @WorkerThread
     public static void showNotification109(Context context, Intent intent, boolean shouldRemind,  String content) {
-
         String avatar = "";
 //        NotificationManagerCompat notificationManager = (NotificationManagerCompat) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -152,7 +151,7 @@ public class NotificationManagerUtils {
         mBuilder.setContentIntent(pendingIntent);
         Notification notification = mBuilder.build();
         //弹出通知栏
-        mNotificationManager.notify(1, notification);
+        mNotificationManager.notify(0, notification);
     }
 
 

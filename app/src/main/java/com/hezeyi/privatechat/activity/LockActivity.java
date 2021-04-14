@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 
 import com.hezeyi.privatechat.Const;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.xhab.utils.utils.SPUtils;
@@ -68,14 +69,14 @@ public class LockActivity extends BaseActivity {
     }
 
     private void setUp(String code) {
-        SPUtils.save(Const.Sp.SecurityCode, code);
+        SPUtils.save(Const.Sp.SecurityCode+ MyApplication.getInstance().getUserMsgBean().getUser_id(), code);
         ToastUtil.showToast("安全码设置成功");
         setResult(RESULT_OK);
         finish();
     }
 
     private void verification(String code) {
-        String string = SPUtils.getString(Const.Sp.SecurityCode, "");
+        String string = SPUtils.getString(Const.Sp.SecurityCode+ MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
         if (string.equals(code)) {
             finish();
         } else {

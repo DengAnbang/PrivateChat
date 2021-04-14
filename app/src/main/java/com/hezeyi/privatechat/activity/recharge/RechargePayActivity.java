@@ -56,7 +56,7 @@ public class RechargePayActivity extends BaseActivity {
         click(R.id.rl_weixin, v -> {
             FunUtils.affirm(this, "模拟充值,点击充值就充值成功了", "充值", aBoolean -> {
                 if (aBoolean) {
-                    HttpManager.rechargeAdd(user_id, user_id, "0", mSelectPriceBean.getTotalDay() + "", "2", this, o -> {
+                    HttpManager.rechargeAdd(user_id, user_id, mSelectPriceBean.getMoney() + "", mSelectPriceBean.getTotalDay() + "", "2", this, o -> {
                         success();
                     });
 

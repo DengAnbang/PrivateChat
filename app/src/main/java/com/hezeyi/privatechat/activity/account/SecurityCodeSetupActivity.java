@@ -3,6 +3,7 @@ package com.hezeyi.privatechat.activity.account;
 import android.content.Intent;
 
 import com.hezeyi.privatechat.Const;
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.LockActivity;
 import com.hezeyi.privatechat.base.BaseActivity;
@@ -46,7 +47,7 @@ public class SecurityCodeSetupActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         TwoTextLinearView twoTextLinearView = findViewById(R.id.ttv_set_security_code);
-        String string = SPUtils.getString(Const.Sp.SecurityCode, "");
+        String string = SPUtils.getString(Const.Sp.SecurityCode+ MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
         if (string.equals("")) {
             twoTextLinearView.setLeftText("\u3000设置安全码\u3000");
         } else {

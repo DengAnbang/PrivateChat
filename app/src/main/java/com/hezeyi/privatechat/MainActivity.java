@@ -139,7 +139,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     @Override
     public void initEvent() {
         super.initEvent();
-        String string = SPUtils.getString(Const.Sp.SecurityCode, "");
+        String string = SPUtils.getString(Const.Sp.SecurityCode+ MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
         if (TextUtils.isEmpty(string)) {
             ToastUtil.showToast("未设置安全码,请先设置!");
             Intent intent = new Intent(this, LockActivity.class);

@@ -115,7 +115,7 @@ public class MyApplication extends Application {
             @Override
             public void onBecameForeground() {
                 LogUtils.e("onBecameForeground*****: 进入前台");
-                String string = SPUtils.getString(Const.Sp.SecurityCode, "");
+                String string = SPUtils.getString(Const.Sp.SecurityCode+ MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
                 if (isLock && SPUtils.getBoolean(Const.Sp.isOpenSecurityCode, true) && !string.equals("")) {
                     Activity packageContext = StackManager.currentActivity();
                     if ("com.hezeyi.privatechat.activity.SplashActivity".equals(packageContext.getClass().getName())) {
