@@ -13,6 +13,11 @@ public class ForgetActivity extends BaseActivity {
     }
 
     @Override
+    public boolean isCanLock() {
+        return false;
+    }
+
+    @Override
     public void initView() {
         super.initView();
         setTitleString("找回密码");

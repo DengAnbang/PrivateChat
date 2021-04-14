@@ -6,7 +6,8 @@ import android.view.View;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.AccountListActivity;
-import com.hezeyi.privatechat.activity.account.RechargeRecordActivity;
+import com.hezeyi.privatechat.activity.recharge.RechargeRecordActivity;
+import com.hezeyi.privatechat.activity.recharge.RechargeSetUpActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.xhab.utils.utils.LogUtils;
 
@@ -41,6 +42,11 @@ public class AdminFragment extends BaseFragment {
         });
         click(R.id.ttv_recharge, v -> {
             Intent intent = new Intent(getActivity(), RechargeRecordActivity.class);
+            intent.putExtra("type", "0");
+            startActivity(intent);
+        });
+        click(R.id.ttv_recharge_set, v -> {
+            Intent intent = new Intent(getActivity(), RechargeSetUpActivity.class);
             startActivity(intent);
         });
 

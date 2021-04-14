@@ -1,19 +1,35 @@
 package com.hezeyi.privatechat.bean;
 
+import android.text.TextUtils;
+
 import com.xhab.utils.inteface.ChooseAble;
 
 /**
  * Created by dab on 2021/4/13 17:24
  */
-public class SelectPriceBean implements ChooseAble {
-    private String money;
+public class SelectPriceBean implements ChooseAble, Comparable<SelectPriceBean> {
+    private int money;
+    private String id;
     private String day;
+    private String giving_day;
     private boolean choose;
     private int position;
 
-    public SelectPriceBean(String day, String money) {
-        this.money = money;
-        this.day = day;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getGiving_day() {
+        if (TextUtils.isEmpty(giving_day)) return "";
+        return giving_day;
+    }
+
+    public void setGiving_day(String giving_day) {
+        this.giving_day = giving_day;
     }
 
     public int getPosition() {
@@ -24,11 +40,11 @@ public class SelectPriceBean implements ChooseAble {
         this.position = position;
     }
 
-    public String getMoney() {
+    public int getMoney() {
         return money;
     }
 
-    public void setMoney(String money) {
+    public void setMoney(int money) {
         this.money = money;
     }
 
@@ -52,6 +68,27 @@ public class SelectPriceBean implements ChooseAble {
 
     @Override
     public String getShowString() {
-        return money;
+        return money + "";
+    }
+
+    public int getTotalDay() {
+        int iday = 0;
+        try {
+            iday = Integer.parseInt(getDay());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int giving_day = 0;
+        try {
+            giving_day = Integer.parseInt(getGiving_day());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return iday + giving_day;
+    }
+
+    @Override
+    public int compareTo(SelectPriceBean o) {
+        return getMoney() - (o.getMoney());
     }
 }

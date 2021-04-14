@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background_color_f2f3f4"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_layout"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="1dp"
+        android:paddingLeft="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingRight="5dp"
+            android:text="金额:"/>
+
+        <EditText
+            android:id="@+id/et_money"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/just_color_ffffff"
+            android:hint="请输入金额"
+            android:inputType="number"
+            android:maxLength="4"
+            android:paddingLeft="15dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="1dp"
+        android:paddingLeft="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingRight="5dp"
+            android:text="天数:"/>
+
+        <EditText
+            android:id="@+id/et_day"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/just_color_ffffff"
+            android:hint="请输入天数"
+            android:inputType="number"
+            android:maxLength="3"
+            android:paddingLeft="15dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="1dp"
+        android:paddingLeft="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingRight="5dp"
+            android:text="赠送:"/>
+
+        <EditText
+            android:id="@+id/et_giving_day"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/just_color_ffffff"
+            android:hint="请输入赠送天数"
+            android:inputType="number"
+            android:maxLength="3"
+            android:paddingLeft="15dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_update"
+        style="@style/Btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:text="修改"/>
+
+    <TextView
+        android:id="@+id/tv_add"
+        style="@style/Btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:text="新增"/>
+
+    <TextView
+        android:id="@+id/tv_delete"
+        style="@style/Btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:text="删除"/>
+
+</LinearLayout>

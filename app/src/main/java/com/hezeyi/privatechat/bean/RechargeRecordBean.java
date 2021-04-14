@@ -87,6 +87,8 @@ public class RechargeRecordBean {
         switch (recharge_type) {
             case "1":
                 return "支付宝";
+            case "2":
+                return "微信";
         }
         return "管理员";
     }

@@ -20,6 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RechargeRecordAdapter extends RecyclerView.Adapter<RechargeRecordAdapter.ViewHolder> {
     private List<RechargeRecordBean> mRechargeRecordBeans;
 
+    public List<RechargeRecordBean> getDataBeans() {
+        return mRechargeRecordBeans;
+    }
+
     public void setRechargeRecordBeans(List<RechargeRecordBean> rechargeRecordBeans) {
         mRechargeRecordBeans = rechargeRecordBeans;
         notifyDataSetChanged();

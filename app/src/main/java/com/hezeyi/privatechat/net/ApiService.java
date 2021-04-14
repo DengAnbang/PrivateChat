@@ -4,6 +4,7 @@ import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.RechargeRecordBean;
 import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.SecurityBean;
+import com.hezeyi.privatechat.bean.SelectPriceBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 
 import java.util.List;
@@ -64,6 +65,11 @@ public interface ApiService {
             @Query("user_name") String user_name,
             @Query("vip_time") String vip_time,
             @Query("headPortrait") String headPortrait
+    );
+    @POST("/app/user/recharge")
+    Observable<ResultData<Object>> userRecharge(
+            @Query("user_id") String user_id,
+            @Query("pay_id") String pay_id
     );
 
     @POST("/app/user/security/update")
@@ -162,17 +168,53 @@ public interface ApiService {
     );
 
     @POST("/app/select/by/user/id")
-    Observable<ResultData<Object>> rechargeSelectByUserId(
+    Observable<ResultData<List<RechargeRecordBean>>> rechargeSelectByUserId(
             @Query("user_id") String user_id
     );
 
     @POST("/app/select/by/execution/user/id")
-    Observable<ResultData<Object>> rechargeSelectByExecutionUserId(
+    Observable<ResultData<List<RechargeRecordBean>>> rechargeSelectByExecutionUserId(
             @Query("user_id") String user_id
     );
 
     @POST("/app/select/by/time")
-    Observable<ResultData<Object>> rechargeSelectByTime(
+    Observable<ResultData<List<RechargeRecordBean>>> rechargeSelectByTime(
             @Query("user_id") String user_id
     );
+
+    @POST("/app/select/all")
+    Observable<ResultData<List<RechargeRecordBean>>> rechargeSelectAll(
+    );
+
+    @POST("/app/price/add")
+    Observable<ResultData<Object>> priceAdd(
+            @Query("money") String money,
+            @Query("day") String day,
+            @Query("giving_day") String giving_day
+    );
+
+
+
+    @POST("/app/price/delete")
+    Observable<ResultData<Object>> priceDelete(
+            @Query("id") String id
+    );
+
+    @POST("/app/price/update")
+    Observable<ResultData<Object>> priceUpdate(
+            @Query("money") String money,
+            @Query("day") String day,
+            @Query("giving_day") String giving_day,
+            @Query("id") String id
+    );
+
+    @POST("/app/price/select/by/id")
+    Observable<ResultData<SelectPriceBean>> priceSelectById(
+            @Query("id") String id
+    );
+
+    @POST("/app/price/select/all")
+    Observable<ResultData<List<SelectPriceBean>>> priceSelectAll();
+
+
 }

@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="1dp"
-        app:leftText="\u3000VIP到期时间\u3000"
+        app:leftText="\u3000账号到期时间\u3000"
         tools:visibility="visible"
         />
 
@@ -54,7 +54,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
-        android:text="支付0元,可延期至"
+        tools:text="支付0元,可延期至"
         android:textColor="@color/just_color_333333"
         android:textSize="15sp"/>
 

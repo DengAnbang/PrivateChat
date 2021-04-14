@@ -44,7 +44,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
         UserMsgBean userMsgBean = mUserMsgBeans.get(position);
         GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), holder.portrait, userMsgBean.getPlaceholder());
         holder.name.setText(userMsgBean.getUser_name() + "(账号:" + userMsgBean.getAccount() + ")");
-        holder.msg.setText("VIP到期时间:" + TimeUtils.toTimeByString(userMsgBean.getVip_time()));
+        holder.msg.setText("账号到期时间:" + TimeUtils.toTimeByString(userMsgBean.getVip_time()));
         if (mOnItemClickListener != null) {
             holder.mView.setOnClickListener(v -> {
                 mOnItemClickListener.onItemClick(v, position, userMsgBean);

@@ -10,12 +10,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hezeyi.privatechat.activity.LockActivity;
 import com.hezeyi.privatechat.activity.account.SelectUserActivity;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.activity.chat.ChatGroupAddActivity;
@@ -32,6 +34,8 @@ import com.xhab.utils.utils.DisplayUtils;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.QRCodeUtils;
 import com.xhab.utils.utils.RxBus;
+import com.xhab.utils.utils.SPUtils;
+import com.xhab.utils.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -135,7 +139,16 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     @Override
     public void initEvent() {
         super.initEvent();
-        requestPermissions();
+        String string = SPUtils.getString(Const.Sp.SecurityCode, "");
+        if (TextUtils.isEmpty(string)) {
+            ToastUtil.showToast("未设置安全码,请先设置!");
+            Intent intent = new Intent(this, LockActivity.class);
+            intent.putExtra("isSetUp", true);
+            startActivityForResult(intent, 0x88);
+        } else {
+            requestPermissions();
+        }
+
         TextView rightTitle = findViewById(R.id.tv_right);
         rightTitle.setTextSize(DisplayUtils.dp2px(this, 9));
         rightTitle.setText("+");
@@ -168,6 +181,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     }
 
     private void requestPermissions() {
+        MyApplication.getInstance().setLock(false);
         RxPermissions rxPermission = new RxPermissions(this);
         Disposable subscribe = rxPermission.request(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,//存储权限
@@ -211,6 +225,11 @@ public class MainActivity extends BaseBottomTabUtilActivity {
             if (!isIgnoringBatteryOptimizations(this)) {
                 requestIgnoreBatteryOptimizations(this);
             }
+        } else if (requestCode == 0x88) {
+            requestPermissions();
+        }
+        if (requestCode == 0x89) {
+            MyApplication.getInstance().setLock(true);
         }
     }
 
@@ -257,17 +276,23 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         if (powerManager != null) {
             isIgnoring = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
         }
+        if (isIgnoring) {
+            MyApplication.getInstance().setLock(true);
+        }
         return isIgnoring;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void requestIgnoreBatteryOptimizations(Context context) {
+    public static void requestIgnoreBatteryOptimizations(Activity context) {
         try {
             Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
             intent.setData(Uri.parse("package:" + context.getPackageName()));
-            context.startActivity(intent);
+            context.startActivityForResult(intent, 0x89);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 }

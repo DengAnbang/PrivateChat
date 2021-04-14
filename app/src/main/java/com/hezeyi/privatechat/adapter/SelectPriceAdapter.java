@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.SelectPriceBean;
 import com.xhab.utils.inteface.OnItemClickListener;
 
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -22,8 +24,16 @@ public class SelectPriceAdapter extends RecyclerView.Adapter<SelectPriceAdapter.
     private List<SelectPriceBean> mSelectPriceBeans;
     private SelectPriceBean mSelectPriceBean;
 
+    public SelectPriceBean getSelectPriceBean() {
+        return mSelectPriceBean;
+    }
+
+    public void clear() {
+        mSelectPriceBean = null;
+    }
     public void setSelectPriceBeans(List<SelectPriceBean> selectPriceBeans) {
         mSelectPriceBeans = selectPriceBeans;
+        Collections.sort(selectPriceBeans);
         notifyDataSetChanged();
     }
 
@@ -47,6 +57,14 @@ public class SelectPriceAdapter extends RecyclerView.Adapter<SelectPriceAdapter.
 
         holder.day.setText(selectPriceBean.getDay() + "天");
         holder.money.setText(selectPriceBean.getMoney() + "元");
+        if (TextUtils.isEmpty(selectPriceBean.getGiving_day()) || selectPriceBean.getGiving_day().equals("0")) {
+            holder.giving_day.setVisibility(View.GONE);
+        } else {
+            holder.giving_day.setVisibility(View.VISIBLE);
+            holder.giving_day.setText("赠送" + selectPriceBean.getGiving_day() + "天");
+
+        }
+        holder.mView.setBackgroundColor(ContextCompat.getColor(holder.mView.getContext(), selectPriceBean.isChoose() ? R.color.just_color_ff8c00 : R.color.just_color_ffffff));
         holder.mView.setOnClickListener(v -> {
             if (mSelectPriceBean != null) {
                 mSelectPriceBean.choose();
@@ -56,10 +74,10 @@ public class SelectPriceAdapter extends RecyclerView.Adapter<SelectPriceAdapter.
             selectPriceBean.choose();
             holder.mView.setBackgroundColor(ContextCompat.getColor(holder.mView.getContext(), selectPriceBean.isChoose() ? R.color.just_color_ff8c00 : R.color.just_color_ffffff));
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(v,position,selectPriceBean);
+                mOnItemClickListener.onItemClick(v, position, selectPriceBean);
             }
         });
-         }
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
@@ -82,12 +100,14 @@ public class SelectPriceAdapter extends RecyclerView.Adapter<SelectPriceAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         View mView;
         TextView money;
+        TextView giving_day;
         TextView day;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
             money = itemView.findViewById(R.id.tv_money);
+            giving_day = itemView.findViewById(R.id.tv_giving_day);
             day = itemView.findViewById(R.id.tv_day);
         }
     }

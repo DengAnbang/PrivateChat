@@ -7,10 +7,10 @@ import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MainActivity;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
+import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
 import com.xhab.utils.StackManager;
-import com.xhab.utils.base.BaseUtilActivity;
 import com.xhab.utils.utils.SPUtils;
 
 /**
@@ -20,8 +20,11 @@ import com.xhab.utils.utils.SPUtils;
  * @time 2017/2/6 9:00
  */
 
-public class SplashActivity extends BaseUtilActivity {
-
+public class SplashActivity extends BaseActivity {
+    @Override
+    public boolean isCanLock() {
+        return false;
+    }
 
     @Override
     public void initView() {
@@ -76,7 +79,6 @@ public class SplashActivity extends BaseUtilActivity {
             MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
             HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
-                MyApplication.getInstance().setLock(true);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();

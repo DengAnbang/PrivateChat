@@ -15,7 +15,10 @@ public class RegisterActivity extends BaseActivity {
     public int getContentViewRes() {
         return R.layout.activity_register;
     }
-
+    @Override
+    public boolean isCanLock() {
+        return false;
+    }
     @Override
     public void initView() {
         super.initView();

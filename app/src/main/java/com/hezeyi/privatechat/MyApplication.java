@@ -11,7 +11,7 @@ import android.os.StrictMode;
 import android.text.TextUtils;
 
 import com.hezeyi.privatechat.activity.LockActivity;
-import com.hezeyi.privatechat.activity.account.RechargeActivity;
+import com.hezeyi.privatechat.activity.recharge.RechargeActivity;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -26,6 +26,7 @@ import com.xhab.utils.StackManager;
 import com.xhab.utils.inteface.OnDataCallBack;
 import com.xhab.utils.utils.ForegroundCallbacks;
 import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.RxUtils;
 import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.TimeUtils;
 
@@ -117,11 +118,13 @@ public class MyApplication extends Application {
                 String string = SPUtils.getString(Const.Sp.SecurityCode, "");
                 if (isLock && SPUtils.getBoolean(Const.Sp.isOpenSecurityCode, true) && !string.equals("")) {
                     Activity packageContext = StackManager.currentActivity();
+                    if ("com.hezeyi.privatechat.activity.SplashActivity".equals(packageContext.getClass().getName())) {
+                        return;
+                    }
                     Intent intent = new Intent(packageContext, LockActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
-//                Toast.makeText(mContext, "安质宝进入前台", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -138,17 +141,25 @@ public class MyApplication extends Application {
             callBack.onCallBack("未知错误!");
             return;
         }
-        if (!data.getCode().equals("0")) {
+        if (data.getCode().equals("2")) {
+            RxUtils.runOnIoThread(() -> {
+                Intent intent = new Intent(this, RechargeActivity.class);
+                intent.putExtra("user_id", data.getData().getUser_id());
+                NotificationManagerUtils.showNotification109(this, intent, true, "你的账号到期时间为:" + TimeUtils.toTimeByString(data.getData().getVip_time()) + ",点击充值");
+            });
+            //表示已经过期了
+            callBack.onCallBack(data.getMsg());
+        } else if (!data.getCode().equals("0")) {
             callBack.onCallBack(data.getMsg());
         } else {
             try {
                 long vip_time = TimeUtils.toMillisecond(Long.parseLong(data.getData().getVip_time()));
                 long l = vip_time - System.currentTimeMillis();
-                //如果三天内,就提醒充值
-                if (0L < l && l < (30 * 24 * 60 * 60 * 1000L)) {
+                //如果小于三十天内,就提醒充值
+                if (l < (30 * 24 * 60 * 60 * 1000L)) {
                     Intent intent = new Intent(this, RechargeActivity.class);
                     intent.putExtra("user_id", data.getData().getUser_id());
-                    NotificationManagerUtils.showNotification109(this, intent, true, "你的账号到期时间为:" + TimeUtils.toTimeByString(data.getData().getVip_time()) + ",请注意充值");
+                    NotificationManagerUtils.showNotification109(this, intent, true, "你的账号到期时间为:" + TimeUtils.toTimeByString(data.getData().getVip_time()) + ",点击充值");
                 }
             } catch (Exception e) {
                 e.printStackTrace();

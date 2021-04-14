@@ -5,8 +5,8 @@ import android.widget.EditText;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.adapter.AccountListAdapter;
+import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
-import com.xhab.utils.base.BaseUtilActivity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Created by dab on 2021/4/13 09:56
  */
-public class AccountListActivity extends BaseUtilActivity {
+public class AccountListActivity extends BaseActivity {
+
     @Override
     public int getContentViewRes() {
         return R.layout.activity_account_list;

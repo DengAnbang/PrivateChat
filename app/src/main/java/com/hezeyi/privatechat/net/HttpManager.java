@@ -6,6 +6,7 @@ import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.RechargeRecordBean;
 import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.SecurityBean;
+import com.hezeyi.privatechat.bean.SelectPriceBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.utils.inteface.OnDataCallBack;
 import com.xhab.utils.net.RequestHelper;
@@ -80,6 +81,11 @@ public class HttpManager {
     public static void userUpdate(String account, String password, String name, String vip_time, String headPortrait, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .userUpdate(account, password, name, vip_time, headPortrait), requestHelper, true, dataClick);
+    }
+
+    public static void userRecharge(String user_id, String pay_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .userRecharge(user_id, pay_id), requestHelper, true, dataClick);
     }
 
     public static void securityUpdate(String account, String q1, String a1, String q2, String a2, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
@@ -162,9 +168,45 @@ public class HttpManager {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .rechargeAdd(user_id, execution_user_id, money, day, recharge_type), requestHelper, true, dataClick);
     }
+
     public static void rechargeSelectByType(String recharge_type, final RequestHelper requestHelper, final OnDataCallBack<List<RechargeRecordBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .rechargeSelectByType(recharge_type), requestHelper, true, dataClick);
+    }
+
+    public static void rechargeSelectByUserId(String user_id, final RequestHelper requestHelper, final OnDataCallBack<List<RechargeRecordBean>> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .rechargeSelectByUserId(user_id), requestHelper, true, dataClick);
+    }
+
+    public static void rechargeSelectAll(final RequestHelper requestHelper, final OnDataCallBack<List<RechargeRecordBean>> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .rechargeSelectAll(), requestHelper, true, dataClick);
+    }
+
+    public static void priceDelete(String id, RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .priceDelete(id), requestHelper, true, dataClick);
+    }
+
+    public static void priceUpdate(String money, String day, String giving_day, String id, RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .priceUpdate(money, day, giving_day, id), requestHelper, true, dataClick);
+    }
+
+    public static void priceSelectById(String id, RequestHelper requestHelper, final OnDataCallBack<SelectPriceBean> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .priceSelectById(id), requestHelper, true, dataClick);
+    }
+
+    public static void priceAdd(String money, String day, String giving_day, RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .priceAdd(money, day, giving_day), requestHelper, true, dataClick);
+    }
+
+    public static void priceSelectAll(final RequestHelper requestHelper, final OnDataCallBack<List<SelectPriceBean>> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .priceSelectAll(), requestHelper, true, dataClick);
     }
 
     /**

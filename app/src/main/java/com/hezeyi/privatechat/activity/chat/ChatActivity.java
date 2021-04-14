@@ -36,6 +36,13 @@ import androidx.annotation.Nullable;
  * msg 是否默认发送消息
  */
 public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getInstance().setLock(false);
+    }
     @Override
     public String getSenderId() {
         return MyApplication.getInstance().getUserMsgBean().getUser_id();
@@ -93,6 +100,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyApplication.getInstance().setLock(true);
         String targetId = getIntent().getStringExtra("targetId");
         String msg = getIntent().getStringExtra("msg");
         if (!TextUtils.isEmpty(msg)) {

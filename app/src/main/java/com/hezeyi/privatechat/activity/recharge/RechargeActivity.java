@@ -1,19 +1,17 @@
-package com.hezeyi.privatechat.activity.account;
+package com.hezeyi.privatechat.activity.recharge;
 
+import android.content.Intent;
 import android.view.Gravity;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.adapter.SelectPriceAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.hezeyi.privatechat.bean.SelectPriceBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.utils.utils.TimeUtils;
 import com.xhab.utils.utils.ToastUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +29,7 @@ public class RechargeActivity extends BaseActivity {
     private SelectPriceAdapter mSelectPriceAdapter = new SelectPriceAdapter();
     private String mUserId;
 
+
     @Override
     public void initData() {
         super.initData();
@@ -45,16 +44,16 @@ public class RechargeActivity extends BaseActivity {
                 finish();
             }
         });
-        List<SelectPriceBean> mSelectPriceBeans = new ArrayList<>();
 
-        mSelectPriceBeans.add(new SelectPriceBean("1", "1"));
-        mSelectPriceBeans.add(new SelectPriceBean("7", "5"));
-        mSelectPriceBeans.add(new SelectPriceBean("14", "10"));
-        mSelectPriceBeans.add(new SelectPriceBean("30", "15"));
-        mSelectPriceBeans.add(new SelectPriceBean("60", "25"));
-        mSelectPriceBeans.add(new SelectPriceBean("180", "70"));
-        mSelectPriceBeans.add(new SelectPriceBean("360", "120"));
-        mSelectPriceAdapter.setSelectPriceBeans(mSelectPriceBeans);
+        setRightTitleString("充值记录", v -> {
+            Intent intent = new Intent(this, RechargeRecordActivity.class);
+            intent.putExtra("type", "1");
+            intent.putExtra("user_id", mUserId);
+            startActivity(intent);
+        });
+        HttpManager.priceSelectAll(this, selectPriceBeans -> {
+            mSelectPriceAdapter.setSelectPriceBeans(selectPriceBeans);
+        });
     }
 
     @Override
@@ -69,19 +68,51 @@ public class RechargeActivity extends BaseActivity {
                     if (old < now) {
                         old = now;
                     }
-                    old = old + 24 * 60 * 60 * 1000L * Long.parseLong(selectPriceBean.getDay());
+                    old = old + 24 * 60 * 60 * 1000L * selectPriceBean.getTotalDay();
                     setTextViewString(R.id.tv_hint, "支付" + selectPriceBean.getMoney() + "元,可延期至:" + TimeUtils.toTimeByString(old));
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
 
             }
         });
+        click(R.id.tv_submit, v -> {
+            if (mSelectPriceAdapter.getSelectPriceBean() == null) {
+                showSnackBar("请先选择充值金额");
+                return;
+            }
+            if (mUserMsgBean == null) {
+                initData();
+                return;
+            }
+            Intent intent = new Intent(this, RechargePayActivity.class);
+            intent.putExtra("pay_id", mSelectPriceAdapter.getSelectPriceBean().getId());
+            intent.putExtra("user_id", mUserMsgBean.getUser_id());
+            intent.putExtra("account", mUserMsgBean.getAccount());
+            startActivityForResult(intent, 0x86);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0x86) {
+            if (resultCode == RESULT_OK && data != null) {
+                String pay_id = data.getStringExtra("pay_id");
+                HttpManager.userRecharge(mUserId, pay_id, this, o -> {
+                    showSnackBar("充值成功!");
+                    initData();
+                });
+            } else {
+                showSnackBar("支付失败!");
+            }
+        }
     }
 
     @Override
     public void initView() {
         super.initView();
+        setTitleString("充值");
         RecyclerView recyclerView = findViewById(R.id.rv_content);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setAdapter(mSelectPriceAdapter);

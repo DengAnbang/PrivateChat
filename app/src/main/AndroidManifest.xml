@@ -139,8 +139,10 @@
         <activity android:name=".activity.account.FriendReplyActivity"/>
         <activity android:name=".activity.account.SelectUserActivity"/>
         <activity android:name=".activity.account.AccountListActivity"/>
-        <activity android:name=".activity.account.RechargeActivity"/>
-        <activity android:name=".activity.account.RechargeRecordActivity"/>
+        <activity android:name=".activity.recharge.RechargeActivity"/>
+        <activity android:name=".activity.recharge.RechargeRecordActivity"/>
+        <activity android:name=".activity.recharge.RechargePayActivity"/>
+        <activity android:name=".activity.recharge.RechargeSetUpActivity"/>
     </application>
 
 </manifest>

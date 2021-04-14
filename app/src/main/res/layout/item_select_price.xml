@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="60dp"
+              android:layout_height="wrap_content"
               android:layout_margin="10dp"
               android:background="@color/just_color_ffffff"
               android:gravity="center"
@@ -21,4 +21,13 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="20天"/>
+
+    <TextView
+        android:textColor="@color/just_color_FF3859"
+        android:id="@+id/tv_giving_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="赠送20天"/>
 </LinearLayout>

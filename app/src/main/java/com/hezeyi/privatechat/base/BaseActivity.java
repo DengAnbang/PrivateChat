@@ -1,8 +1,8 @@
 package com.hezeyi.privatechat.base;
 
-import android.view.View;
+import android.os.Bundle;
 
-import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.MyApplication;
 import com.xhab.utils.base.BaseUtilActivity;
 
 import androidx.annotation.Nullable;
@@ -12,5 +12,24 @@ import androidx.annotation.Nullable;
  */
 public abstract class BaseActivity extends BaseUtilActivity {
 
+    public boolean isCanLock() {
+        return true;
+    }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (isCanLock()) {
+            MyApplication.getInstance().setLock(true);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isCanLock()) {
+            MyApplication.getInstance().setLock(false);
+        }
+    }
 }
+

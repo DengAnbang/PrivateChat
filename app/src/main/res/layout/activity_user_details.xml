@@ -80,7 +80,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="1dp"
         android:visibility="gone"
-        app:leftText="\u3000VIP到期时间\u3000"
+        app:leftText="\u3000账号到期时间\u3000"
         tools:visibility="visible"
         />
 

@@ -147,7 +147,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             startActivity(intent);
         });
         mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
-        addDisposable(Observable.interval(5 * 60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        addDisposable(Observable.interval(15 * 60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
                 String s = SocketData.createHeartbeat().toJson();
                 mSocketAbstract.send(s);
@@ -298,7 +298,6 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
             HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
-                MyApplication.getInstance().setLock(true);
             });
         });
     }

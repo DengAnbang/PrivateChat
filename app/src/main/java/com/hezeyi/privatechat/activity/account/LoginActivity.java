@@ -31,7 +31,10 @@ public class LoginActivity extends BaseActivity {
     }
 
     private boolean isSelect;
-
+    @Override
+    public boolean isCanLock() {
+        return false;
+    }
     @Override
     public void initView() {
         super.initView();
@@ -87,6 +90,7 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+
     private void checkLogin() {
         String account = getTextViewString(R.id.et_account);
         String password = getTextViewString(R.id.et_password);
@@ -128,7 +132,6 @@ public class LoginActivity extends BaseActivity {
             MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
             HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
-                MyApplication.getInstance().setLock(true);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();

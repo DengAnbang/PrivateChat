@@ -34,14 +34,17 @@ public class TimeUtils {
     }
 
     public static String toTimeByString(String timestamp) {
+        return toTimeByString(timestamp, "yyyy-MM-dd HH:mm");
+    }
+
+    public static String toTimeByString(String timestamp, String pattern) {
         if (TextUtils.isEmpty(timestamp)) return "00:00";
         try {
-            return toTimeByString(Long.parseLong(timestamp), "yyyy-MM-dd HH:mm");
+            return toTimeByString(Long.parseLong(timestamp), pattern);
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return timestamp;
         }
-
     }
 
 
