@@ -1,6 +1,7 @@
 package com.hezeyi.privatechat.activity.chat;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -31,7 +32,14 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
 
     private JCCallItem mJcCallItem;
     private boolean mIsCall;
+    private boolean isCaller;
+    private boolean isCalled;
     private String mTargetId;
+
+    private void ad() {
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.qu_dian);
+        mediaPlayer.start();
+    }
 
     @Override
     public void showUser(TextView name, ImageView imageView) {

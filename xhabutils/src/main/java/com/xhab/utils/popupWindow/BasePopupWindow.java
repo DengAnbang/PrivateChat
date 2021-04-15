@@ -74,7 +74,9 @@ public abstract class BasePopupWindow extends PopupWindow {
         //设置SelectPicPopupWindow弹出窗体可点击
         setFocusable(true);
         //设置SelectPicPopupWindow弹出窗体动画效果
-        setAnimationStyle(setAnim());
+        if (setAnim() != 0) {
+            setAnimationStyle(setAnim());
+        }
         //实例化一个ColorDrawable颜色为全透明
         ColorDrawable colorDrawable = new ColorDrawable(setBackgroundColor());
 //        ColorDrawable dw = new ColorDrawable(Constant.COLOR_CONFIRM_DELETE_POPUP_WINDOW);

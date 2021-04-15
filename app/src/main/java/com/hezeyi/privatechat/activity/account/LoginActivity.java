@@ -17,6 +17,7 @@ import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
 import com.xhab.utils.activity.PrivacyPolicyActivity;
 import com.xhab.utils.utils.FunUtils;
+import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.SpanBuilder;
 import com.xhab.utils.utils.ToastUtil;
@@ -38,12 +39,18 @@ public class LoginActivity extends BaseActivity {
     public boolean isCanLock() {
         return false;
     }
-
+    @Override
+    public void canLiftClickFinish() {
+    }
     @Override
     public void initView() {
         super.initView();
         NotificationManager mgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mgr.cancel(1);
+        Intent chatService = new Intent(this, ChatService.class);
+        chatService.putExtra("stop", "stop");
+        LogUtils.e("initView*****: stop" );
+        startService(chatService);
         click(R.id.tv_submit, view -> checkLogin());
         click(R.id.tv_forget, view -> {
             Intent intent = new Intent(this, ForgetActivity.class);

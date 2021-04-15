@@ -31,7 +31,7 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
         initView();
         initEvent();
         initData();
-
+        canLiftClickFinish();
     }
 
     public abstract int getContentViewRes();
@@ -87,6 +87,12 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
 
     public void setTitleString(String titleString) {
         setTextViewString(R.id.tv_title, titleString);
+    }
+
+    public void canLiftClickFinish() {
+        visibility(R.id.iv_back, true);
+        click(R.id.iv_back, v -> finish());
+
     }
 
     public TwoTextLinearView setTwoTextLinearRightText(@IdRes int res, CharSequence charSequence) {

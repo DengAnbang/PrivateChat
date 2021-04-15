@@ -68,21 +68,33 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     @Override
     public void startWork(Intent intent, int flags, int startId) {
         if (intent != null) {
-            mUserId = intent.getStringExtra("userId");
-            if (!TextUtils.isEmpty(mUserId)) {
+            String userId = intent.getStringExtra("userId");
+            if (!TextUtils.isEmpty(userId)) {
+                mUserId = userId;
                 SPUtils.save("user_id", mUserId);
+            }
+            if (!TextUtils.isEmpty(intent.getStringExtra("stop"))) {
+//                stopService()不是public
+                //取消对任务的订阅
+                stopWork(intent, flags, startId);
+                //取消 Job / Alarm / Subscription
+                cancelJobAlarmSub();
+                return;
             }
 
         }
-        if (mUserId != null) {
+        if (!TextUtils.isEmpty(mUserId)) {
+            LogUtils.e("startWork*****: loginSocket" +mUserId);
             loginSocket(mUserId);
         }
     }
 
     @Override
     public void stopWork(Intent intent, int flags, int startId) {
+        boolean stop = intent.getBooleanExtra("stop", false);
+        LogUtils.e("stopWork*****: " + stop);
         loginOut();
-        mRequestHelperAgency.destroy();
+        stopSelf();
     }
 
     @Override
@@ -115,6 +127,9 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     private void init() {
         mSocketAbstract = new WebSocketIpm("ws://" + Const.Api.SOCKET_SERVER + ":9090/" + "websocket");
+        mSocketAbstract.setOnConnectionChange(connection -> {
+            isConnection = connection;
+        });
 //        mSocketAbstract = new TcpSocketIpm(Const.Api.SOCKET_SERVER, Const.Api.SOCKET_PORT);
         initSocket();
         connectSocket();
@@ -127,6 +142,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     }
 
     public void loginSocket(String userId) {
+        if (!isConnection)return;//没有连接,就不登录
         if (!Objects.equals(Build.CPU_ABI, "x86")) {
             JuphoonUtils.get().login(userId, "123456");
         }
@@ -154,6 +170,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             }
         }));
         addDisposable(RxBus.get().register(Const.RxType.CONNECTION, Object.class).subscribe(s -> {
+            LogUtils.e("CONNECTION*****: loginSocket" );
             mUserId = SPUtils.getString("user_id", "");
             if (!TextUtils.isEmpty(mUserId)) {
                 login();
@@ -233,6 +250,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
 
     private void loginOut() {
+        LogUtils.e("loginOut*****: " );
         ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, mUserId, "", false);
         data.setSenderId(mUserId);
         String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();

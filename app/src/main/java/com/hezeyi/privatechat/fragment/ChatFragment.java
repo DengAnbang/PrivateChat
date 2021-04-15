@@ -12,7 +12,6 @@ import com.hezeyi.privatechat.base.BaseFragment;
 import com.xhab.chatui.bean.chat.ChatListMessage;
 import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.utils.utils.FunUtils;
-import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 
 import java.util.List;
@@ -49,7 +48,6 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onInvisibleToUser() {
         super.onInvisibleToUser();
-        LogUtils.e("onInvisibleToUser*****: ChatFragment");
     }
 
     @Override

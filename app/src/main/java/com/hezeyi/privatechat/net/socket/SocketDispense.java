@@ -36,7 +36,11 @@ public class SocketDispense {
 
 
     public static void dispense(String type, String content, Object senderId) {
+        LogUtils.e("initSocket*****: "+content );
         if (type.equals("2") || type.equals("10002")) {
+            if (type.equals("10002")){
+//                LogUtils.e("initSocket*****: "+content );
+            }
             return;
         }
         if (senderId != null) {

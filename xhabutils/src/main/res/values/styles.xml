@@ -71,6 +71,11 @@
         <item name="android:windowEnterAnimation">@anim/pop_enter_anim_top</item>
         <item name="android:windowExitAnimation">@anim/pop_exit_anim_top</item>
     </style>
+    <!--从右往左弹PopupWindow-->
+    <style name="AnimRightToLeft" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_enter_anim_right</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_anim_right</item>
+    </style>
 
 
     <style name="PrivacyThemeDialog" parent="@android:style/Theme.Dialog">
@@ -90,5 +95,10 @@
         <item name="android:backgroundDimAmount">0.5</item>
         <!--显示区域以外是否使用黑色半透明背景-->
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="Notification_Toast">
+        <item name="android:windowEnterAnimation">@anim/notification_toast_enter</item>
+        <item name="android:windowExitAnimation">@anim/notification_toast_exit</item>
     </style>
 </resources>

@@ -50,7 +50,7 @@ public class SelectWindow extends BasePopupWindow {
 
     @Override
     public int setAnim() {
-        return R.style.AnimTopToBottom;
+        return R.style.AnimRightToLeft;
     }
 
 }

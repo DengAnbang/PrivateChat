@@ -35,4 +35,9 @@ public interface SocketAbstract {
     public interface OnMessageCome {
         void onMessageCome(String msg);
     }
+    public interface OnConnectionChange {
+        void onChange(boolean connection);
+    }
+
+    public void setOnConnectionChange(OnConnectionChange onConnectionChange);
 }

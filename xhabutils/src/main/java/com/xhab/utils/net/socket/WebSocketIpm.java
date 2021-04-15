@@ -32,6 +32,9 @@ public class WebSocketIpm implements SocketAbstract {
             super.onOpen(webSocket, response);
             mWebSocket = webSocket;
             isConnect = response.code() == 101;
+            if (mOnConnectionChange != null) {
+                mOnConnectionChange.onChange(isConnect);
+            }
         }
 
         @Override
@@ -44,7 +47,7 @@ public class WebSocketIpm implements SocketAbstract {
 
             }
             if (!text.contains("PONG")) {
-                LogUtils.e("WebSocketCall" + text);
+//                LogUtils.e("WebSocketCall" + text);
             }
         }
 
@@ -66,6 +69,9 @@ public class WebSocketIpm implements SocketAbstract {
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
             isConnect = false;
+            if (mOnConnectionChange != null) {
+                mOnConnectionChange.onChange(false);
+            }
             if (response != null) {
                 LogUtils.e("WebSocket 连接失败：" + response.message());
             }
@@ -91,6 +97,7 @@ public class WebSocketIpm implements SocketAbstract {
 
     @Override
     public void send(@NonNull String sendMsg) {
+        LogUtils.e("send*****: " + sendMsg);
         mWebSocket.send(sendMsg);
     }
 
@@ -110,6 +117,12 @@ public class WebSocketIpm implements SocketAbstract {
 
         mWebSocket = client.newWebSocket(request, webSocketListener);
         mWebSocket.request();
+    }
+
+    private OnConnectionChange mOnConnectionChange;
+    @Override
+    public void setOnConnectionChange(OnConnectionChange onConnectionChange) {
+        mOnConnectionChange = onConnectionChange;
     }
 
 

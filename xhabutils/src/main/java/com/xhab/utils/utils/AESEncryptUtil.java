@@ -1,8 +1,5 @@
 package com.xhab.utils.utils;
 
-import android.text.TextUtils;
-import android.util.Base64;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -20,16 +17,39 @@ public class AESEncryptUtil {
      * @return
      */
     public static String encrypt(String key, String cleartext) {
-        if (TextUtils.isEmpty(cleartext)) {
-            return cleartext;
-        }
-        try {
-            byte[] result = encrypt(key, cleartext.getBytes());
-            return new String(Base64.encode(result, Base64.DEFAULT));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return cleartext;
+//        if (TextUtils.isEmpty(cleartext)) {
+//            return cleartext;
+//        }
+//        try {
+//            byte[] result = encrypt(key, cleartext.getBytes());
+//            return new String(Base64.encode(result, Base64.DEFAULT));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+    }
+
+    /**
+     * 解密
+     *
+     * @param key
+     * @param encrypted
+     * @return
+     */
+    public static String decrypt(String key, String encrypted) {
+        return encrypted;
+//        if (TextUtils.isEmpty(encrypted)) {
+//            return encrypted;
+//        }
+//        try {
+//            byte[] enc = Base64.decode(encrypted, Base64.DEFAULT);
+//            byte[] result = decrypt(key, enc);
+//            return new String(result);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
     }
 
     private static byte[] encrypt(String key, byte[] clear) throws Exception {
@@ -41,26 +61,7 @@ public class AESEncryptUtil {
         return encrypted;
     }
 
-    /**
-     * 解密
-     *
-     * @param key
-     * @param encrypted
-     * @return
-     */
-    public static String decrypt(String key, String encrypted) {
-        if (TextUtils.isEmpty(encrypted)) {
-            return encrypted;
-        }
-        try {
-            byte[] enc = Base64.decode(encrypted, Base64.DEFAULT);
-            byte[] result = decrypt(key, enc);
-            return new String(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
     private static byte[] decrypt(String key, byte[] encrypted) throws Exception {
         byte[] raw = getRawKey(key.getBytes());

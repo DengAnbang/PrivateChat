@@ -29,8 +29,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        Intent startIntent = new Intent(this, ChatService.class);
-        startService(startIntent);
+
         String account = SPUtils.getString(Const.Sp.account, "");
         String password = SPUtils.getString(Const.Sp.password, "");
         if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {

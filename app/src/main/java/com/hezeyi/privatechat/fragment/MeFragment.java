@@ -9,6 +9,7 @@ import android.view.View;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.account.ContactUsActivity;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.hezeyi.privatechat.activity.account.SetupActivity;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
@@ -43,11 +44,6 @@ public class MeFragment extends BaseFragment {
         upUserMsg(getView(), userMsgBean);
     }
 
-    @Override
-    public void onInvisibleToUser() {
-        super.onInvisibleToUser();
-        LogUtils.e("onInvisibleToUser*****: MeFragment");
-    }
 
     @Override
     public void onFirstVisibleToUser(View view) {
@@ -77,7 +73,8 @@ public class MeFragment extends BaseFragment {
             StackManager.finishExcludeActivity(LoginActivity.class);
         });
         click(R.id.ttv_contact_us, v -> {
-//            ada();
+            Intent intent = new Intent(getActivity(), ContactUsActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -95,19 +92,19 @@ public class MeFragment extends BaseFragment {
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //跳自启动管理
-            if (sdkVersion >= 28){//9:已测试
+            if (sdkVersion >= 28) {//9:已测试
                 componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/.startupmgr.ui.StartupNormalAppListActivity");//跳自启动管理
-            }else if (sdkVersion >= 26){//8：已测试
+            } else if (sdkVersion >= 26) {//8：已测试
                 componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/.appcontrol.activity.StartupAppControlActivity");
-            }else if (sdkVersion >= 23){//7.6：已测试
+            } else if (sdkVersion >= 23) {//7.6：已测试
                 componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/.startupmgr.ui.StartupNormalAppListActivity");
-            }else if (sdkVersion >= 21){//5
+            } else if (sdkVersion >= 21) {//5
                 componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/com.huawei.permissionmanager.ui.MainActivity");
             }
             //componentName = new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity");//锁屏清理
             intent.setComponent(componentName);
             startActivity(intent);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             //跳转失败
         }

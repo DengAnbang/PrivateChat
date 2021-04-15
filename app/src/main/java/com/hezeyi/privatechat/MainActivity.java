@@ -53,7 +53,6 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     private List<String> mTabTitle = Arrays.asList("消息", "通讯录", "我的", "管理");
     private List<Integer> mTabRes = Arrays.asList(R.mipmap.tab_jiaoliu, R.mipmap.tab_tongxunlu, R.mipmap.tab_wode, R.mipmap.tab_shouye);
     private List<Integer> mTabResPressed = Arrays.asList(R.mipmap.tab_jiaoliu1, R.mipmap.tab_tongxunlu1, R.mipmap.tab_wode1, R.mipmap.tab_shouye1);
-    private ChatFragment mChatFragment;
     private SelectWindow mSelectWindow;
 
 
@@ -65,6 +64,10 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     @Override
     public int getContentViewRes() {
         return R.layout.layout_bottom_tab;
+    }
+
+    @Override
+    public void canLiftClickFinish() {
     }
 
     @Override
@@ -102,8 +105,8 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     @Override
     public ArrayList<Fragment> fragments() {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        mChatFragment = new ChatFragment();
-        fragments.add(mChatFragment);
+        ChatFragment chatFragment = new ChatFragment();
+        fragments.add(chatFragment);
         fragments.add(new BuddyFragment());
         fragments.add(new MeFragment());
         if (MyApplication.getInstance().getUserMsgBean().isAdmin()) {
@@ -124,6 +127,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     @Override
     public void initData() {
         super.initData();
+
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, "2", false, this, userMsgBeans -> {
             boolean show = userMsgBeans.size() > 0;
@@ -139,7 +143,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     @Override
     public void initEvent() {
         super.initEvent();
-        String string = SPUtils.getString(Const.Sp.SecurityCode+ MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
+        String string = SPUtils.getString(Const.Sp.SecurityCode + MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
         if (TextUtils.isEmpty(string)) {
             ToastUtil.showToast("未设置安全码,请先设置!");
             Intent intent = new Intent(this, LockActivity.class);
@@ -181,7 +185,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     }
 
     private void requestPermissions() {
-        MyApplication.getInstance().setLock(false);
+
         RxPermissions rxPermission = new RxPermissions(this);
         Disposable subscribe = rxPermission.request(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,//存储权限
@@ -288,7 +292,6 @@ public class MainActivity extends BaseBottomTabUtilActivity {
             Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
             intent.setData(Uri.parse("package:" + context.getPackageName()));
             context.startActivityForResult(intent, 0x89);
-
         } catch (Exception e) {
             e.printStackTrace();
         }

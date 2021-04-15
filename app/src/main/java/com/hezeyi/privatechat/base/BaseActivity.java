@@ -19,17 +19,9 @@ public abstract class BaseActivity extends BaseUtilActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (isCanLock()) {
-            MyApplication.getInstance().setLock(true);
-        }
+        MyApplication.getInstance().setLock(isCanLock());
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (isCanLock()) {
-            MyApplication.getInstance().setLock(false);
-        }
-    }
+
 }
 

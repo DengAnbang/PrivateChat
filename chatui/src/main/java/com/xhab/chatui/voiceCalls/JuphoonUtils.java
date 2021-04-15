@@ -1,7 +1,6 @@
 package com.xhab.chatui.voiceCalls;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.juphoon.cloud.JCCall;
 import com.juphoon.cloud.JCCallCallback;
@@ -11,6 +10,7 @@ import com.juphoon.cloud.JCClientCallback;
 import com.juphoon.cloud.JCMediaDevice;
 import com.juphoon.cloud.JCMediaDeviceCallback;
 import com.juphoon.cloud.JCMediaDeviceVideoCanvas;
+import com.xhab.utils.utils.LogUtils;
 
 import androidx.annotation.NonNull;
 
@@ -44,10 +44,7 @@ public class JuphoonUtils {
 
     }
 
-    private void showToast(String msg) {
-        Log.e(KEY_JJJ, "showToast: " + msg);
-//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
+
 
     // 初始化函数
     public boolean initialize(Context context, String appKey) {
@@ -56,30 +53,31 @@ public class JuphoonUtils {
             @Override
             public void onLogin(boolean result, int reason) {
                 if (result) {// 登录成功
-                    showToast("onLogin*****: 登录成功");
+//                    LogUtils.e("onLogin*****: 账号登录成功");
+
                 }
                 if (reason == com.juphoon.cloud.JCClient.REASON_AUTH) {// 账号密码错误
-                    showToast("onLogin*****: 账号密码错误");
+                    LogUtils.e("onLogin*****: 账号密码错误");
                 }
             }
 
             @Override
             public void onLogout(int reason) {
                 if (reason == com.juphoon.cloud.JCClient.REASON_SERVER_LOGOUT) {// 强制登出
-                    showToast("onLogout*****: 强制登出");
+                    LogUtils.e("onLogout*****: 强制登出");
                 }
             }
 
             @Override
             public void onClientStateChange(int state, int oldState) {
                 if (state == JCClient.STATE_IDLE) { // 未登录
-                    showToast("onClientStateChange*****: 未登录");
+                    LogUtils.e("onClientStateChange*****: 语音状态:未登录");
                 } else if (state == JCClient.STATE_LOGINING) { // 正在登录
-                    showToast("onClientStateChange*****: 正在登录");
+                    LogUtils.e("onClientStateChange*****: 正在登录");
                 } else if (state == JCClient.STATE_LOGINED) { // 登录成功
-                    showToast("onClientStateChange*****: 登录成功");
+                    LogUtils.e("onClientStateChange*****: 语音状态:登录成功");
                 } else if (state == JCClient.STATE_LOGOUTING) { // 登出中
-                    showToast("onClientStateChange*****: 登出中");
+                    LogUtils.e("onClientStateChange*****: 语音状态:登出中");
                 }
             }
         }, null);
@@ -128,10 +126,10 @@ public class JuphoonUtils {
                 // 业务逻辑
                 if (jcCallItem.getDirection() == JCCall.DIRECTION_IN) {
                     // 如果是被叫
-                    showToast("被叫");
+                    LogUtils.e("被叫");
                 } else {
                     // 如果是主叫
-                    showToast("主叫");
+                    LogUtils.e("主叫");
                 }
                 // 1. 如果是语音呼入且在振铃中
                 if (jcCallItem.getDirection() == JCCall.DIRECTION_IN && !jcCallItem.getVideo()) {
@@ -139,7 +137,7 @@ public class JuphoonUtils {
                         mCallBackAdd.onCallItemAdd(jcCallItem);
                     }
                     // 2. 做出相应的处理，如在界面上显示“振铃中”
-                    showToast(jcCallItem.getUserId() + "电话来了");
+                    LogUtils.e(jcCallItem.getUserId() + "电话来了");
                 }
 
 
@@ -150,24 +148,23 @@ public class JuphoonUtils {
                 if (mCallBackRemove != null) {
                     mCallBackRemove.onCallItemRemove(jcCallItem, i, s);
                 }
-                showToast("通话结束" + REASON_BUSY);
-                showToast("onCallItemRemove*****: " + i + "***********" + s);
+                LogUtils.e("通话结束" + REASON_BUSY);
             }
 
             @Override
             public void onCallItemUpdate(JCCallItem jcCallItem, JCCallItem.ChangeParam changeParam) {
-                showToast("onCallItemUpdate*****: " + changeParam.toString());
+                LogUtils.e("onCallItemUpdate*****: " + changeParam.toString());
             }
 
             @Override
             public void onMessageReceive(String s, String s1, JCCallItem jcCallItem) {
-                showToast("onMessageReceive*****: " + s + "*********" + s1);
+                LogUtils.e("onMessageReceive*****: " + s + "*********" + s1);
             }
 
             @Override
             public void onMissedCallItem(JCCallItem jcCallItem) {
                 if (jcCallItem.getState() == STATE_OK) {
-                    showToast("onMissedCallItem");
+                    LogUtils.e("onMissedCallItem");
                 }
 
 
