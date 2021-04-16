@@ -11,22 +11,28 @@ import com.juphoon.cloud.JCMediaDevice;
 import com.juphoon.cloud.JCMediaDeviceCallback;
 import com.juphoon.cloud.JCMediaDeviceVideoCanvas;
 import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.TimeUtils;
 
 import androidx.annotation.NonNull;
 
-import static com.juphoon.cloud.JCCall.REASON_BUSY;
 import static com.juphoon.cloud.JCCall.STATE_OK;
 
 /**
  * Created by dab on 2021/3/26 17:27
  */
 public class JuphoonUtils {
-    private static final String KEY_JJJ = "JJJ";
+
     private boolean mInit;
     private JCClient mClient;
     private JCCall mCall;
     private static JuphoonUtils instance;
     private JCMediaDevice mMediaDevice;
+
+    private JCCallItem mJCCallItem;
+
+    public JCCallItem getJCCallItem() {
+        return mJCCallItem;
+    }
 
 
     public static JuphoonUtils get() {
@@ -123,13 +129,14 @@ public class JuphoonUtils {
         mCall = JCCall.create(mClient, mMediaDevice, new JCCallCallback() {
             @Override
             public void onCallItemAdd(JCCallItem jcCallItem) {
+                mJCCallItem = jcCallItem;
                 // 业务逻辑
                 if (jcCallItem.getDirection() == JCCall.DIRECTION_IN) {
                     // 如果是被叫
-                    LogUtils.e("被叫");
+                    LogUtils.e("被叫"+jcCallItem.getUserId());
                 } else {
                     // 如果是主叫
-                    LogUtils.e("主叫");
+                    LogUtils.e("主叫"+jcCallItem.getUserId());
                 }
                 // 1. 如果是语音呼入且在振铃中
                 if (jcCallItem.getDirection() == JCCall.DIRECTION_IN && !jcCallItem.getVideo()) {
@@ -148,12 +155,15 @@ public class JuphoonUtils {
                 if (mCallBackRemove != null) {
                     mCallBackRemove.onCallItemRemove(jcCallItem, i, s);
                 }
-                LogUtils.e("通话结束" + REASON_BUSY);
+                LogUtils.e("通话结束:s" +s);
+                LogUtils.e("通话结束:i" +i);
+                LogUtils.e("通话结束" +jcCallItem.getReason());
+                LogUtils.e("通话结束" + TimeUtils.toTimeByString(jcCallItem.getTalkingBeginTime()));
             }
 
             @Override
             public void onCallItemUpdate(JCCallItem jcCallItem, JCCallItem.ChangeParam changeParam) {
-                LogUtils.e("onCallItemUpdate*****: " + changeParam.toString());
+                LogUtils.e("onCallItemUpdate*****: active" + changeParam.audioRecord);
             }
 
             @Override
@@ -172,7 +182,7 @@ public class JuphoonUtils {
 
             @Override
             public void onDtmfReceived(JCCallItem item, int value) {
-
+                LogUtils.e("onDtmfReceived");
             }
         });
 
