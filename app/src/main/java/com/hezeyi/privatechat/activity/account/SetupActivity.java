@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
+import com.tencent.bugly.beta.Beta;
 
 /**
  * Created by dab on 2021/3/12 10:52
@@ -34,6 +35,9 @@ public class SetupActivity extends BaseActivity {
         click(R.id.ttv_new_msg_setup, view1 -> {
             Intent intent = new Intent(this, NewMsgSetUpActivity.class);
             startActivity(intent);
+        });
+        click(R.id.ttv_check_upgrade, view1 -> {
+            Beta.checkUpgrade();
         });
     }
 }

@@ -74,6 +74,7 @@ public class MyApplication extends Application {
         //初始化Bugly
 //        CrashReport.initCrashReport(getApplicationContext(), "ec8f9b812a", true);
         Bugly.init(getApplicationContext(), "ebd08610e4", true);
+
         try {
             ApplicationInfo appInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
             String channel = appInfo.metaData.getString("CHANNEL");

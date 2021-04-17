@@ -54,6 +54,15 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
+    <com.xhab.utils.view.TwoTextLinearView
+        android:id="@+id/ttv_check_upgrade"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        app:leftText="\u3000检查更新\u3000"
+        app:rightDrawable="@mipmap/c14_2_icon1"
+        />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
