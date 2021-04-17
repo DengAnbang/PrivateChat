@@ -3,6 +3,7 @@ package com.hezeyi.privatechat.activity.recharge;
 import android.content.Intent;
 import android.view.Gravity;
 
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.adapter.SelectPriceAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
@@ -34,7 +35,7 @@ public class RechargeActivity extends BaseActivity {
     public void initData() {
         super.initData();
         mUserId = getIntent().getStringExtra("user_id");
-        HttpManager.userSelectById(mUserId, true, this, userMsgBean -> {
+        HttpManager.userSelectById(mUserId, MyApplication.getInstance().getUserMsgBean().getUser_id(),true, this, userMsgBean -> {
             if (userMsgBean != null) {
                 mUserMsgBean = userMsgBean;
                 setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);

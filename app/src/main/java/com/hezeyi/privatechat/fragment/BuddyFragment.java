@@ -147,7 +147,7 @@ public class BuddyFragment extends BaseFragment {
         List<UserMsgBean> showList = new ArrayList<>();
         for (UserMsgBean userMsgBean : projectInfos) {
             //名称
-            if (userMsgBean.getUser_name().contains(key)) {
+            if (userMsgBean.getNickname().contains(key)) {
                 showList.add(userMsgBean);
                 continue;
             }

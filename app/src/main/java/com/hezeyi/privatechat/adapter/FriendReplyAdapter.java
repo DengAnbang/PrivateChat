@@ -44,12 +44,12 @@ public class FriendReplyAdapter extends RecyclerView.Adapter<FriendReplyAdapter.
         holder.mTvName.setText(userMsgBean.getShowName());
         GlideUtils.loadHeadPortrait(userMsgBean.getShowPortrait(), holder.mIvHeadPortrait, userMsgBean.getPlaceholder());
 
-        holder.mTvAgree.setOnClickListener(v -> {
+        holder.mIvAgree.setOnClickListener(v -> {
             if (mOnItemClickListener != null) {
                 mOnItemClickListener.onItemClick(v, position, userMsgBean);
             }
         });
-        holder.mTvRefuse.setOnClickListener(v -> {
+        holder.mIvRefuse.setOnClickListener(v -> {
             if (mOnItemClickListener != null) {
                 mOnItemClickListener.onItemClick(v, position, userMsgBean);
             }
@@ -64,16 +64,16 @@ public class FriendReplyAdapter extends RecyclerView.Adapter<FriendReplyAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTvName;
-        TextView mTvAgree;
-        TextView mTvRefuse;
+        ImageView mIvAgree;
+        ImageView mIvRefuse;
         ImageView mIvHeadPortrait;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvName = itemView.findViewById(R.id.tv_name);
             mIvHeadPortrait = itemView.findViewById(R.id.iv_head_portrait);
-            mTvAgree = itemView.findViewById(R.id.tv_agree);
-            mTvRefuse = itemView.findViewById(R.id.tv_refuse);
+            mIvAgree = itemView.findViewById(R.id.iv_agree);
+            mIvRefuse = itemView.findViewById(R.id.iv_refuse);
         }
     }
 }

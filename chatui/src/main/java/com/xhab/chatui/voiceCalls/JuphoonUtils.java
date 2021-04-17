@@ -138,15 +138,12 @@ public class JuphoonUtils {
                     // 如果是主叫
                     LogUtils.e("主叫"+jcCallItem.getUserId());
                 }
-                // 1. 如果是语音呼入且在振铃中
                 if (jcCallItem.getDirection() == JCCall.DIRECTION_IN && !jcCallItem.getVideo()) {
                     if (mCallBackAdd != null) {
                         mCallBackAdd.onCallItemAdd(jcCallItem);
                     }
-                    // 2. 做出相应的处理，如在界面上显示“振铃中”
-                    LogUtils.e(jcCallItem.getUserId() + "电话来了");
-                }
 
+                }
 
             }
 
@@ -155,15 +152,24 @@ public class JuphoonUtils {
                 if (mCallBackRemove != null) {
                     mCallBackRemove.onCallItemRemove(jcCallItem, i, s);
                 }
-                LogUtils.e("通话结束:s" +s);
-                LogUtils.e("通话结束:i" +i);
-                LogUtils.e("通话结束" +jcCallItem.getReason());
+
+                LogUtils.e("onCallItemRemove*****: " + jcCallItem.getState());
                 LogUtils.e("通话结束" + TimeUtils.toTimeByString(jcCallItem.getTalkingBeginTime()));
             }
 
             @Override
             public void onCallItemUpdate(JCCallItem jcCallItem, JCCallItem.ChangeParam changeParam) {
-                LogUtils.e("onCallItemUpdate*****: active" + changeParam.audioRecord);
+                LogUtils.e("onCallItemUpdate*****: " + jcCallItem.getState());
+//                LogUtils.e("onCallItemUpdate*****: " + mCall.getStatistics());
+//                LogUtils.e("onCallItemUpdate*****: "
+//                        +"  audioRecord"+ changeParam.audioRecord
+//                        +"  active"+ changeParam.active
+//                        +"  audioRouteType"+ changeParam.audioRouteType
+//                        +"  otherAudioInterrupt"+ changeParam.otherAudioInterrupt
+//                        +"  hold"+ changeParam.hold
+//                        +"  held"+ changeParam.held
+//                        +"  mute"+ changeParam.mute
+//                );
             }
 
             @Override

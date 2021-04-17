@@ -88,13 +88,13 @@ public class ChatGroupAddActivity extends BaseActivity {
                 .map(userMsgBean -> {
                     if (i <= 1) {
                         i = i + 1;
-                        group_name = group_name + "、" + userMsgBean.getUser_name();
+                        group_name = group_name + "、" + userMsgBean.getNickname();
                     }
                     return userMsgBean.getUser_id() + "#";
                 }).toList().subscribe((strings, throwable) -> {
                     if (TextUtils.isEmpty(group_id)) {
                         UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
-                        HttpManager.groupRegister(userMsgBean.getUser_name() + group_name + "的群聊", userMsgBean.getUser_id(), this, chatGroupBean -> {
+                        HttpManager.groupRegister(userMsgBean.getNickname() + group_name + "的群聊", userMsgBean.getUser_id(), this, chatGroupBean -> {
                             MyApplication.getInstance().setChatGroupBean(chatGroupBean);
                             String user_ids = strings.toString().replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
                             HttpManager.groupAddUser(user_ids, chatGroupBean.getGroup_id(), this, o -> {
@@ -140,7 +140,7 @@ public class ChatGroupAddActivity extends BaseActivity {
         List<UserMsgBean> showList = new ArrayList<>();
         for (UserMsgBean userMsgBean : projectInfos) {
             //名称
-            if (userMsgBean.getUser_name().contains(key)) {
+            if (userMsgBean.getNickname().contains(key)) {
                 showList.add(userMsgBean);
                 continue;
             }

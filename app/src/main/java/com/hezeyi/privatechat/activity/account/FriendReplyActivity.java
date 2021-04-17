@@ -51,7 +51,7 @@ public class FriendReplyActivity extends BaseActivity {
         super.initEvent();
         mFriendReplyAdapter.setOnItemClickListener((view, position, userMsgBean) -> {
             switch (view.getId()) {
-                case R.id.tv_agree:
+                case R.id.iv_agree:
                     HttpManager.friendAdd(userMsgBean.getUser_id(), MyApplication.getInstance().getUserMsgBean().getUser_id(), "1", this, o -> {
                         initData();
                         MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
@@ -61,7 +61,7 @@ public class FriendReplyActivity extends BaseActivity {
                     });
 
                     break;
-                case R.id.tv_refuse:
+                case R.id.iv_refuse:
                     HttpManager.friendAdd(userMsgBean.getUser_id(), MyApplication.getInstance().getUserMsgBean().getUser_id(), "3", this, o -> {
                         initData();
                     });

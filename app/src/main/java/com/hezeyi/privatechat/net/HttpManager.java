@@ -83,6 +83,11 @@ public class HttpManager {
                 .userUpdate(account, password, name, vip_time, headPortrait), requestHelper, true, dataClick);
     }
 
+    public static void friendCommentSet(String user_id, String to_user_id, String nickname, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .friendCommentSet(user_id, to_user_id, nickname), requestHelper, true, dataClick);
+    }
+
     public static void userRecharge(String user_id, String pay_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .userRecharge(user_id, pay_id), requestHelper, true, dataClick);
@@ -109,9 +114,9 @@ public class HttpManager {
                 .friendDelete(user_id, to_user_id), requestHelper, true, dataClick);
     }
 
-    public static void userSelectById(String user_id, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
+    public static void userSelectById(String user_id,String my_user_id, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .userSelectById(user_id), requestHelper, showLoadDialog, dataClick);
+                .userSelectById(user_id,my_user_id), requestHelper, showLoadDialog, dataClick);
     }
 
     public static void userSelectByFuzzySearch(String word, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {

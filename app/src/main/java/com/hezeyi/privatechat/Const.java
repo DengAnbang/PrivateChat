@@ -44,7 +44,7 @@ public class Const {
     private static String getUrl() {
         switch (BuildConfig.FLAVOR) {
             case "nb":
-//                return "192.168.0.102";
+//                return "192.168.0.104";
                 return "47.108.172.20";
 //                return "192.168.31.213";
 //                return "192.168.155.2";

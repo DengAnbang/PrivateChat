@@ -92,6 +92,12 @@ public interface ApiService {
             @Query("to_user_id") String to_user_id,
             @Query("friend_type") String friend_type
     );
+    @POST("/app/user/comment/set")
+    Observable<ResultData<Object>> friendCommentSet(
+            @Query("user_id") String account,
+            @Query("to_user_id") String to_user_id,
+            @Query("nickname") String nickname
+    );
 
     @POST("/app/user/friend/delete")
     Observable<ResultData<Object>> friendDelete(
@@ -101,7 +107,8 @@ public interface ApiService {
 
     @POST("/app/user/select/by/id")
     Observable<ResultData<UserMsgBean>> userSelectById(
-            @Query("user_id") String user_id
+            @Query("user_id") String user_id,
+            @Query("my_user_id") String my_user_id
     );
 
     @POST("/app/user/select/by/fuzzy/search")

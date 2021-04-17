@@ -50,21 +50,23 @@
             />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_agree"
-        android:layout_width="55dp"
-        android:layout_height="match_parent"
-        android:background="@color/just_color_ff22f033"
-        android:gravity="center"
-        android:text="同意"
-        android:textSize="18sp"/>
 
-    <TextView
-        android:id="@+id/tv_refuse"
+    <ImageView
+        android:id="@+id/iv_agree"
         android:layout_width="55dp"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_red_light"
         android:gravity="center"
-        android:text="拒绝"
-        android:textSize="18sp"/>
+        android:padding="8dp"
+        android:src="@mipmap/tongyi"
+        />
+
+
+    <ImageView
+        android:padding="8dp"
+        android:id="@+id/iv_refuse"
+        android:layout_width="55dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:src="@mipmap/jujue"
+        />
 </LinearLayout>

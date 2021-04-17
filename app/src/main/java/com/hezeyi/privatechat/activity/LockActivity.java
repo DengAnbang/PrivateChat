@@ -23,9 +23,11 @@ public class LockActivity extends BaseActivity {
 
     @Override
     public boolean isCanLock() {
-        return false;
+        return true;
     }
-
+    @Override
+    public void canLiftClickFinish() {
+    }
     @Override
     public int getContentViewRes() {
         return R.layout.layout_lock;

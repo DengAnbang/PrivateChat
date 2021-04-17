@@ -1,5 +1,7 @@
 package com.hezeyi.privatechat.bean;
 
+import android.text.TextUtils;
+
 import com.hezeyi.privatechat.R;
 import com.xhab.utils.inteface.ChooseAble;
 
@@ -21,6 +23,7 @@ public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble 
      */
 
     private String user_name;
+    private String nickname;
     private String user_id;
     private String account = "";
     private String head_portrait;
@@ -50,6 +53,17 @@ public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble 
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
+    }
+
+    public String getNickname() {
+        if (!TextUtils.isEmpty(nickname)){
+            return nickname;
+        }
+        return user_name;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getUser_id() {
@@ -87,12 +101,12 @@ public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble 
     @NonNull
     @Override
     public String getSortableString() {
-        return user_name;
+        return getNickname();
     }
 
     @Override
     public String getShowName() {
-        return user_name == null ? "" : user_name;
+        return getNickname() == null ? "" : getNickname();
     }
 
     @Override

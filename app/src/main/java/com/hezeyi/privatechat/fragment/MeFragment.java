@@ -81,7 +81,7 @@ public class MeFragment extends BaseFragment {
     private void upUserMsg(View view, UserMsgBean userMsgBean) {
         if (view == null) return;
         GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), view.findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
-        setTextViewString(R.id.tv_name, userMsgBean.getUser_name());
+        setTextViewString(R.id.tv_name, userMsgBean.getNickname());
         setTextViewString(R.id.tv_account, "账号:" + userMsgBean.getAccount());
     }
 

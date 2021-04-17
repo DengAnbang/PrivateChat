@@ -54,7 +54,7 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
         }
 
         UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(targetId);
-        name.setText(userMsgBeanById.getUser_name());
+        name.setText(userMsgBeanById.getNickname());
         GlideUtils.loadHeadPortrait(userMsgBeanById.getHead_portrait(), imageView, userMsgBeanById.getPlaceholder());
     }
 

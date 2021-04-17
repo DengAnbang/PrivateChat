@@ -347,7 +347,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             } else {
                 UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(message.getSenderId());
                 if (userMsgBeanById != null) {
-                    name = userMsgBeanById.getUser_name();
+                    name = userMsgBeanById.getNickname();
                     portrait = userMsgBeanById.getHead_portrait();
                 } else {
                     name = message.getSenderId();

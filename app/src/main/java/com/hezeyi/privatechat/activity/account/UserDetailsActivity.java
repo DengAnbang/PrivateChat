@@ -57,7 +57,8 @@ public class UserDetailsActivity extends BaseActivity {
     public void initEvent() {
         super.initEvent();
         if (isFriend) {
-            setRightTitleString("删除好友", v -> {
+            visibility(R.id.tv_friend_delete, true);
+            click(R.id.tv_friend_delete, view -> {
                 FunUtils.affirm(this, "确认删除好友?", "删除", aBoolean -> {
                     if (aBoolean) {
                         HttpManager.friendDelete(mUserId, myUserId, this, o -> {
@@ -69,6 +70,7 @@ public class UserDetailsActivity extends BaseActivity {
                 });
             });
         }
+
         click(R.id.tv_submit, view -> {
             HttpManager.friendAdd(myUserId, mUserId, "2", this, o -> {
                 ToastUtil.showToast("提交成功,等待对方通过!");
@@ -101,6 +103,22 @@ public class UserDetailsActivity extends BaseActivity {
             });
 
         }
+        visibility(R.id.ttv_nickname, isFriend);
+        click(R.id.ttv_nickname, view -> {
+            ModifyNameWindow modifyNameWindow = new ModifyNameWindow(this, mUserMsgBean.getNickname());
+            modifyNameWindow.setOnDataCallBack(s -> {
+                if (TextUtils.isEmpty(s)) {
+                    showSnackBar("名字不能为空");
+                    return;
+                }
+                HttpManager.friendCommentSet(myUserId, mUserMsgBean.getUser_id(), s, this, userMsgBean1 -> {
+                    showSnackBar("修改完成");
+                    initView();
+                    modifyNameWindow.dismiss();
+                });
+            });
+            modifyNameWindow.showAsDropDown(findViewById(R.id.ttv_account), 0, 0, Gravity.END);
+        });
         click(R.id.tv_send, view -> {
             ChatActivity.startChatActivity(this, mUserId, false);
         });
@@ -143,11 +161,12 @@ public class UserDetailsActivity extends BaseActivity {
         visibility(R.id.tv_recharge, isMe && !isAdmin);
 
 
-        HttpManager.userSelectById(mUserId, true, this, userMsgBean -> {
+        HttpManager.userSelectById(mUserId, MyApplication.getInstance().getUserMsgBean().getUser_id(), true, this, userMsgBean -> {
             if (userMsgBean != null) {
                 mUserMsgBean = userMsgBean;
                 setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
                 setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
+                setTwoTextLinearRightText(R.id.ttv_nickname, userMsgBean.getNickname()).getRightTextView().setGravity(Gravity.RIGHT);
                 setTwoTextLinearRightText(R.id.ttv_vip_time, TimeUtils.toTimeByString(userMsgBean.getVip_time())).getRightTextView().setGravity(Gravity.RIGHT);
                 GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
             } else {

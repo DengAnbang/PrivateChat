@@ -38,11 +38,7 @@ import androidx.annotation.Nullable;
 public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        MyApplication.getInstance().setLock(false);
-    }
+
     @Override
     public String getSenderId() {
         return MyApplication.getInstance().getUserMsgBean().getUser_id();
@@ -80,7 +76,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         return (item, imageView) -> {
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(item.getSenderId());
             if (userMsgBeanById == null) {
-                HttpManager.userSelectById(item.getSenderId(), false, this, userMsgBean -> {
+                HttpManager.userSelectById(item.getSenderId(),MyApplication.getInstance().getUserMsgBean().getUser_id(), false, this, userMsgBean -> {
                     MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
                     GlideUtils.loadHeadPortrait(userMsgBean.getShowPortrait(), imageView, userMsgBean.getPlaceholder());
                 });
@@ -122,7 +118,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             if (userMsgBeanById == null) {
                 target_name = targetId;
             } else {
-                target_name = userMsgBeanById.getUser_name();
+                target_name = userMsgBeanById.getNickname();
             }
         }
         setTitleUser(target_name);
@@ -138,14 +134,14 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             File file = new File(imagePath);
             boolean delete = file.delete();
             ChatMessage chatMessage = ChatMessage.getBaseSendMessage(MsgType.SYSTEM, MyApplication.getInstance().getUserMsgBean().getUser_id(), getIntent().getStringExtra("targetId"), getIntent().getBooleanExtra("isGroup", false));
-            chatMessage.setMsg(MyApplication.getInstance().getUserMsgBean().getUser_name() + "进行了一次截图!");
+            chatMessage.setMsg(MyApplication.getInstance().getUserMsgBean().getNickname() + "进行了一次截图!");
             RxBus.get().post(Const.RxType.TYPE_MSG_SEND, chatMessage);
             addMsg(chatMessage, true);
             LogUtils.e(delete + "startScreenShotListen*****: " + chatMessage.getMsg());
         });
         mChatStatusListener.setOnBluetoothListener(s -> {
             ChatMessage chatMessage = ChatMessage.getBaseSendMessage(MsgType.SYSTEM, MyApplication.getInstance().getUserMsgBean().getUser_id(), getIntent().getStringExtra("targetId"), getIntent().getBooleanExtra("isGroup", false));
-            chatMessage.setMsg(MyApplication.getInstance().getUserMsgBean().getUser_name() + s);
+            chatMessage.setMsg(MyApplication.getInstance().getUserMsgBean().getNickname() + s);
             LogUtils.e("onCreate*****: " + chatMessage.getMsg());
             RxBus.get().post(Const.RxType.TYPE_MSG_SEND, chatMessage);
             addMsg(chatMessage, true);
