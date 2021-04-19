@@ -226,6 +226,8 @@ public class ChatMessage {
         chatMessage.setLocalPath(cursor.getString(cursor.getColumnIndex("localPath")));
         chatMessage.setRemoteUrl(cursor.getString(cursor.getColumnIndex("remoteUrl")));
         chatMessage.setMsg(cursor.getString(cursor.getColumnIndex("msg")));
+        chatMessage.setExtra(cursor.getString(cursor.getColumnIndex("extra")));
+        chatMessage.setUnread(cursor.getInt(cursor.getColumnIndex("unread")));
         chatMessage.setUnread(cursor.getInt(cursor.getColumnIndex("unread")));
         chatMessage.setGroup(cursor.getInt(cursor.getColumnIndex("isGroup")) == 1);
 
@@ -258,6 +260,7 @@ public class ChatMessage {
         contentValues.put("localPath", message.getLocalPath());
         contentValues.put("remoteUrl", message.getRemoteUrl());
         contentValues.put("msg", message.getMsg());
+        contentValues.put("extra", message.getExtra());
         contentValues.put("unread", message.getUnread());
         contentValues.put("isGroup", message.isGroup() ? 1 : 0);
         return contentValues;
@@ -284,6 +287,9 @@ public class ChatMessage {
                 break;
             case MsgType.VIDEO:
                 chatMessage.setMsg("[视频]");
+                break;
+            case MsgType.VOICE_CALLS:
+                chatMessage.setMsg("[语音消息]");
                 break;
         }
         return chatMessage;

@@ -7,12 +7,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.service.VoiceFloatingService;
 import com.juphoon.cloud.JCCall;
 import com.juphoon.cloud.JCCallItem;
+import com.xhab.chatui.bean.chat.ChatMessage;
+import com.xhab.chatui.bean.chat.MsgType;
+import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.chatui.service.BaseVoiceFloatingService;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.chatui.voiceCalls.BaseVoiceActivity;
@@ -61,6 +65,9 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
                     break;
                 case JCCall.STATE_CONNECTING://连接中
                     stopMediaPlayer();
+                    if (mDisposable != null) {
+                        mDisposable.dispose();
+                    }
                     break;
                 case JCCall.STATE_TALKING://通话中
 
@@ -83,7 +90,7 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
                 //如果是通话中,显示通话时间
                 mCallTime = (System.currentTimeMillis() / 1000) - mJcCallItem.getTalkingBeginTime();
                 setTextViewString(R.id.tv_time, "通话时间:" + TimeUtils.getHMS(mCallTime));
-            }else {
+            } else {
                 LogUtils.e("initEvent*****: " + mJcCallItem.getState());
             }
         }));
@@ -167,13 +174,29 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
             BaseVoiceFloatingService.StopSelf();
             if (mCallTime <= 0 || mCallTime > 10_0000_0000) {
                 ToastUtil.showToast("通话结束" + description);
-            }else {
+                if (item.getDirection()== JCCall.DIRECTION_OUT){
+                    time(item.getUserId(), "通话结束");
+                }
+            } else {
                 ToastUtil.showToast("通话结束,通话时长:" + TimeUtils.getHMS(mCallTime));
+                if (item.getDirection()== JCCall.DIRECTION_OUT){
+                    time(item.getUserId(), "通话时长:" + TimeUtils.getHMS(mCallTime));
+                }
             }
             finish();
         });
     }
 
+    public void time(String targetId, String msg) {
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        ChatMessage chatMessage = ChatMessage.getBaseSendMessage(MsgType.VOICE_CALLS,
+                user_id, targetId, false);
+        chatMessage.setMsg("[语音消息]");
+        chatMessage.setExtra(msg);
+        RxBus.get().post(Const.RxType.TYPE_MSG_SEND, chatMessage);
+        RxBus.get().post(Const.RxType.TYPE_MSG_ADD, chatMessage);
+        ChatDatabaseHelper.get(this, user_id).chatDbInsert(chatMessage);
+    }
 
     private void dispose() {
         if (mDisposable != null) {

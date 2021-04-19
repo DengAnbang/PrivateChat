@@ -69,7 +69,11 @@ public class RxBus {
     public void post(@NonNull Object tag, @NonNull Object o) {
         if (maps.containsKey(tag)) {
             Subject subject = maps.get(tag);
-            subject.onNext(o);
+            if (subject != null) {
+                subject.onNext(o);
+            } else {
+                LogUtils.e("post*****: " + "subject==null");
+            }
         } else {
             LogUtils.e("post*****: " + "没有注册这个" + tag.toString() + "Subject");
         }

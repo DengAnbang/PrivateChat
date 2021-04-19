@@ -84,7 +84,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
         }
         if (!TextUtils.isEmpty(mUserId)) {
-            LogUtils.e("startWork*****: loginSocket" +mUserId);
+            LogUtils.e("startWork*****: loginSocket" + mUserId);
             loginSocket(mUserId);
         }
     }
@@ -142,7 +142,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     }
 
     public void loginSocket(String userId) {
-        if (!isConnection)return;//没有连接,就不登录
+        if (!isConnection) return;//没有连接,就不登录
         if (!Objects.equals(Build.CPU_ABI, "x86")) {
             JuphoonUtils.get().login(userId, "123456");
         }
@@ -170,7 +170,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             }
         }));
         addDisposable(RxBus.get().register(Const.RxType.CONNECTION, Object.class).subscribe(s -> {
-            LogUtils.e("CONNECTION*****: loginSocket" );
+            LogUtils.e("CONNECTION*****: loginSocket");
             mUserId = SPUtils.getString("user_id", "");
             if (!TextUtils.isEmpty(mUserId)) {
                 login();
@@ -195,7 +195,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         }));
         //发送消息
         addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_SEND, ChatMessage.class).subscribe(message -> {
-            if (message.getMsgType() == MsgType.TEXT || message.getMsgType() == MsgType.SYSTEM) {
+            if (message.getMsgType() == MsgType.TEXT || message.getMsgType() == MsgType.SYSTEM || message.getMsgType() == MsgType.VOICE_CALLS) {
                 sendSendMsgBean(message);
                 message.setSentStatus(MsgSendStatus.SENT);
                 //消息发送出去了,对方还未收到
@@ -213,7 +213,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
                     RxBus.get().post(Const.RxType.TYPE_MSG_UPDATE, message);
                 });
             }
-        }));
+        }, Throwable::printStackTrace));
         addDisposable(RxBus.get().register(Const.RxType.TYPE_OTHER_LOGIN, Object.class).subscribe(o -> {
             ToastUtil.showToast("其他人登录了此账号,请重新登陆!");
             SPUtils.save(Const.Sp.password, "");
@@ -250,7 +250,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
 
     private void loginOut() {
-        LogUtils.e("loginOut*****: " );
+        LogUtils.e("loginOut*****: ");
         ChatMessage data = ChatMessage.getBaseSendMessage(MsgType.POINTLESS, mUserId, "", false);
         data.setSenderId(mUserId);
         String login_out = SocketData.create("0", Const.RxType.TYPE_LOGIN_OUT, data).toJson();
@@ -322,6 +322,10 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     private void showNotification(ChatMessage message) {
         if (!message.isMessage()) return;
+        if (message.getMsgType() == MsgType.VOICE_CALLS) {
+            //语音通话消息也不推送
+            return;
+        }
         boolean aBoolean = SPUtils.getBoolean(Const.Sp.isNewMsgCode, true);
         if (!aBoolean) return;
         String anotherId = message.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id());
