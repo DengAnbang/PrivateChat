@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#7b7b76">
@@ -17,11 +18,11 @@
 
     <!--    长按悬浮窗回到当前页面\n（APP外触发则需要 后台弹出界面 权限）-->
     <TextView
-        android:paddingLeft="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_dismiss"
         android:gravity="center"
+        android:paddingLeft="15dp"
         android:text="长按悬浮窗回到当前页面"
         android:textColor="@android:color/white"
         />
@@ -31,16 +32,26 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerInParent="true"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:src="@mipmap/logo"/>
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/iv_head_portrait"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="15dp"
+        android:text=""
+        android:textColor="@color/picture_color_white"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/iv_head_portrait"
         android:layout_centerInParent="true"
-        android:layout_marginTop="5dp"
-        android:text="少收神"
+        android:layout_marginTop="15dp"
+        android:text="连接中..."
         android:textColor="@color/picture_color_white"/>
 
     <LinearLayout
@@ -75,7 +86,9 @@
             android:layout_marginLeft="80dp"
             android:background="@drawable/shape_green_dot"
             android:scaleType="fitCenter"
-            android:src="@mipmap/c0o"/>
+            android:src="@mipmap/c0o"
+            android:visibility="gone"
+            tools:visibility="gone"/>
 
         <!--<ImageView-->
         <!--android:layout_width="70dp"-->

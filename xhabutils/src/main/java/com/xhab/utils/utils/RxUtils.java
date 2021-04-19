@@ -1,8 +1,11 @@
 package com.xhab.utils.utils;
 
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -10,11 +13,15 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class RxUtils {
-    public static void runOnUiThread(final Runnable runnable) {
-        Observable.just(1).observeOn(AndroidSchedulers.mainThread()).subscribe(integer -> runnable.run(), Throwable::printStackTrace);
+    public static Disposable runOnUiThread(final Runnable runnable) {
+        return Observable.just(1).observeOn(AndroidSchedulers.mainThread()).subscribe(integer -> runnable.run(), Throwable::printStackTrace);
     }
 
-    public static void runOnIoThread(final Runnable runnable) {
-        Observable.just(1).observeOn(Schedulers.io()).subscribe(integer -> runnable.run(), Throwable::printStackTrace);
+    public static Disposable runOnIoThread(final Runnable runnable) {
+        return Observable.just(1).observeOn(Schedulers.io()).subscribe(integer -> runnable.run(), Throwable::printStackTrace);
+    }
+
+    public static Disposable interval(int period, final Runnable runnable) {
+        return Observable.interval(period, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(integer -> runnable.run(), Throwable::printStackTrace);
     }
 }

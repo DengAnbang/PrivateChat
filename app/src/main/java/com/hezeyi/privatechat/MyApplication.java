@@ -16,7 +16,6 @@ import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.service.ChatService;
-import com.juphoon.cloud.JCCallItem;
 import com.tencent.bugly.Bugly;
 import com.xdandroid.hellodaemon.DaemonEnv;
 import com.xhab.chatui.ChatUi;
@@ -205,15 +204,6 @@ public class MyApplication extends Application {
         mUserMsgBean = userMsgBean;
     }
 
-    private JCCallItem mJCCallItem;
-
-    public JCCallItem getJCCallItem() {
-        return mJCCallItem;
-    }
-
-    public void setJCCallItem(JCCallItem JCCallItem) {
-        mJCCallItem = JCCallItem;
-    }
 
     private Map<String, ChatGroupBean> mGroupBeanMap = new HashMap<>();
     private List<ChatGroupBean> mChatGroupBeans;

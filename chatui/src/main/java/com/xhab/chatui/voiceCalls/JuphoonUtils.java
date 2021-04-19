@@ -11,6 +11,7 @@ import com.juphoon.cloud.JCMediaDevice;
 import com.juphoon.cloud.JCMediaDeviceCallback;
 import com.juphoon.cloud.JCMediaDeviceVideoCanvas;
 import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.TimeUtils;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,10 @@ public class JuphoonUtils {
     private JCCall mCall;
     private static JuphoonUtils instance;
     private JCMediaDevice mMediaDevice;
+
+    public JCCall getCall() {
+        return mCall;
+    }
 
     private JCCallItem mJCCallItem;
 
@@ -49,7 +54,6 @@ public class JuphoonUtils {
     private JuphoonUtils() {
 
     }
-
 
 
     // 初始化函数
@@ -132,11 +136,12 @@ public class JuphoonUtils {
                 mJCCallItem = jcCallItem;
                 // 业务逻辑
                 if (jcCallItem.getDirection() == JCCall.DIRECTION_IN) {
+
                     // 如果是被叫
-                    LogUtils.e("被叫"+jcCallItem.getUserId());
+                    LogUtils.e("被叫" + jcCallItem.getUserId());
                 } else {
                     // 如果是主叫
-                    LogUtils.e("主叫"+jcCallItem.getUserId());
+                    LogUtils.e("主叫" + jcCallItem.getUserId());
                 }
                 if (jcCallItem.getDirection() == JCCall.DIRECTION_IN && !jcCallItem.getVideo()) {
                     if (mCallBackAdd != null) {
@@ -159,21 +164,14 @@ public class JuphoonUtils {
 
             @Override
             public void onCallItemUpdate(JCCallItem jcCallItem, JCCallItem.ChangeParam changeParam) {
-                LogUtils.e("onCallItemUpdate*****: " + jcCallItem.getState());
-//                LogUtils.e("onCallItemUpdate*****: " + mCall.getStatistics());
-//                LogUtils.e("onCallItemUpdate*****: "
-//                        +"  audioRecord"+ changeParam.audioRecord
-//                        +"  active"+ changeParam.active
-//                        +"  audioRouteType"+ changeParam.audioRouteType
-//                        +"  otherAudioInterrupt"+ changeParam.otherAudioInterrupt
-//                        +"  hold"+ changeParam.hold
-//                        +"  held"+ changeParam.held
-//                        +"  mute"+ changeParam.mute
-//                );
+                LogUtils.e("onCallItemUpdate*****: 通话状态" + jcCallItem.getState());
+                RxBus.get().post("onCallItemUpdate", jcCallItem.getState());
+
             }
 
             @Override
             public void onMessageReceive(String s, String s1, JCCallItem jcCallItem) {
+
                 LogUtils.e("onMessageReceive*****: " + s + "*********" + s1);
             }
 
@@ -240,4 +238,5 @@ public class JuphoonUtils {
     public interface CallBackRemove {
         void onCallItemRemove(JCCallItem item, @JCCall.CallReason int reason, String description);
     }
+
 }

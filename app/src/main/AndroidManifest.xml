@@ -95,6 +95,7 @@
         </provider>
 
         <activity
+            android:excludeFromRecents="true"
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen">

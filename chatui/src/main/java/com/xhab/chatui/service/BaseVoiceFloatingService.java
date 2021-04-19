@@ -42,7 +42,9 @@ public abstract class BaseVoiceFloatingService extends Service {
         mServiceVoice.stopSelf();
     }
 
-    public abstract View.OnLongClickListener setFloatingLongClickListener(VoiceFloatingView voiceFloatingView, String targetId, boolean isCall);
+    public abstract View.OnLongClickListener setFloatingLongClickListener(VoiceFloatingView voiceFloatingView);
+
+    public abstract View.OnClickListener setFloatingClickListener(VoiceFloatingView voiceFloatingView);
 
     @Override
     public void onCreate() {
@@ -55,11 +57,9 @@ public abstract class BaseVoiceFloatingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String targetId = intent.getStringExtra("targetId");
-        boolean isCall = intent.getBooleanExtra("isCall", false);
         //显示悬浮窗
         mVoiceFloatingView.show();
-        mVoiceFloatingView.setOnLongClickListener(setFloatingLongClickListener(mVoiceFloatingView,targetId,isCall));
+        mVoiceFloatingView.setOnClickListener(setFloatingClickListener(mVoiceFloatingView));
         return super.onStartCommand(intent, flags, startId);
     }
 

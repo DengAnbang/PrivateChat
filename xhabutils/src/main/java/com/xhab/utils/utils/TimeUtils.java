@@ -68,4 +68,27 @@ public class TimeUtils {
         }
         return def;
     }
+
+    /**
+     * 根据秒 转换为时分秒
+     *
+     * @param second
+     * @return
+     */
+    public static String getHMS(long second) {
+        if (second<0||second>1_0000_0000) return "0秒";
+        if (second < 60) {
+            return second + "秒";
+        } else if (second > 60 && second < 3600) {
+            int m = (int) (second / 60);
+            int s = (int) (second % 60);
+            return m + "分" + s + "秒";
+        } else {
+            long h = second / 3600;
+            int m = (int) ((second % 3600) / 60);
+            int s = (int) ((second % 3600) % 60);
+            return h + "小时" + m + "分" + s + "秒";
+        }
+
+    }
 }

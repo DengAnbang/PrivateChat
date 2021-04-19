@@ -120,7 +120,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     @Override
     public void onServiceKilled(Intent rootIntent) {
-
+        JuphoonUtils.get().hangup();
         LogUtils.e("onServiceKilled*****: " + mUserId);
     }
 
@@ -157,7 +157,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     private void initSocket() {
         JuphoonUtils.get().setCallBackAdd(item -> {
-            MyApplication.getInstance().setJCCallItem(item);
+//            MyApplication.getInstance().setJCCallItem(item);
             Intent intent = new Intent(ChatService.this, ChatVoiceActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

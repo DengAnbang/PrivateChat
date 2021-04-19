@@ -2,9 +2,6 @@ package com.hezeyi.privatechat.activity.chat;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,101 +11,183 @@ import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.service.VoiceFloatingService;
+import com.juphoon.cloud.JCCall;
 import com.juphoon.cloud.JCCallItem;
 import com.xhab.chatui.service.BaseVoiceFloatingService;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.chatui.voiceCalls.BaseVoiceActivity;
 import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.utils.FunUtils;
+import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.RxBus;
+import com.xhab.utils.utils.RxUtils;
+import com.xhab.utils.utils.TimeUtils;
 import com.xhab.utils.utils.ToastUtil;
 
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by dab on 2021/3/27 14:30
  */
 public class ChatVoiceActivity extends BaseVoiceActivity {
-
+    private MediaPlayer mMediaPlayer;
+    private Disposable mDisposable;
     private JCCallItem mJcCallItem;
-    private boolean mIsCall;
-    private boolean isCaller;
-    private boolean isCalled;
-    private String mTargetId;
+    private long mCallTime;
 
-    private void ad() {
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.qu_dian);
-        mediaPlayer.start();
+    @Override
+    public int getContentViewRes() {
+        return com.xhab.chatui.R.layout.activity_voice;
     }
 
     @Override
-    public void showUser(TextView name, ImageView imageView) {
-        mJcCallItem = MyApplication.getInstance().getJCCallItem();
-        mIsCall = getIntent().getBooleanExtra("isCall", false);
-        mTargetId = getIntent().getStringExtra("targetId");
-        String targetId;
-        if (mIsCall) {
-            targetId = mTargetId;
-        } else {
-            targetId = mJcCallItem.getExtraParam();
-        }
+    public void initView() {
+        super.initView();
+        mJcCallItem = JuphoonUtils.get().getJCCallItem();
+        showUser(findViewById(com.xhab.chatui.R.id.tv_name), findViewById(com.xhab.chatui.R.id.iv_head_portrait));
+    }
 
-        UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(targetId);
+    @Override
+    public void initEvent() {
+        super.initEvent();
+
+        addDisposable(RxBus.get().register("onCallItemUpdate", Integer.class).subscribe(integer -> {
+            switch (mJcCallItem.getState()) {
+                case JCCall.STATE_PENDING://响铃
+                    LogUtils.e("initEvent*****:响铃");
+                    ringBell();
+                    break;
+                case JCCall.STATE_CONNECTING://连接中
+                    stopMediaPlayer();
+                    break;
+                case JCCall.STATE_TALKING://通话中
+
+                    break;
+                case JCCall.STATE_CANCEL://未接通挂断
+
+                    break;
+                case JCCall.STATE_CANCELED://未接通被挂断
+
+                    break;
+                case JCCall.STATE_MISSED://未接
+
+                    break;
+
+            }
+
+        }));
+        addDisposable(RxUtils.interval(1, () -> {
+            if (mJcCallItem.getState() == JCCall.STATE_TALKING) {
+                //如果是通话中,显示通话时间
+                mCallTime = (System.currentTimeMillis() / 1000) - mJcCallItem.getTalkingBeginTime();
+                setTextViewString(R.id.tv_time, "通话时间:" + TimeUtils.getHMS(mCallTime));
+            }else {
+                LogUtils.e("initEvent*****: " + mJcCallItem.getState());
+            }
+        }));
+        addDisposable(RxBus.get().register("onCallItemUpdate", Integer.class).subscribe(second -> {
+
+
+        }));
+        //如果是来电,则获取一次通话状态
+        if (mJcCallItem.getDirection() == JCCall.DIRECTION_IN) {
+            RxBus.get().post("onCallItemUpdate", mJcCallItem.getState());
+        }
+    }
+
+    private void ringBell() {
+        //来电
+        if (mJcCallItem.getDirection() == JCCall.DIRECTION_IN) {
+            boolean b = mMediaPlayer != null && mMediaPlayer.isPlaying();
+            LogUtils.e("ringBell*****: " + b);
+            if (b) {
+                return;
+            }
+            mMediaPlayer = MediaPlayer.create(this, R.raw.laidian);
+            mMediaPlayer.setLooping(true);
+            mMediaPlayer.start();
+            findViewById(R.id.iv_answer).setVisibility(View.VISIBLE);
+            findViewById(R.id.iv_answer).setOnClickListener(v -> {
+                stopMediaPlayer();
+                JuphoonUtils.get().answer(mJcCallItem);
+                findViewById(R.id.iv_answer).setVisibility(View.GONE);
+            });
+        } else {
+            boolean b = mMediaPlayer != null && mMediaPlayer.isPlaying();
+            LogUtils.e("ringBell*****: " + b);
+            if (b) {
+                return;
+            }
+            //拨打出去
+            mMediaPlayer = MediaPlayer.create(this, R.raw.start);
+            mMediaPlayer.setLooping(true);
+            mMediaPlayer.start();
+            mDisposable = RxUtils.interval(15, () -> {
+                //如果15s没有接听,则挂断!
+                if (mJcCallItem.getState() == JCCall.STATE_PENDING) {
+                    ToastUtil.showToast("对方未接听");
+                    JuphoonUtils.get().hangup();
+                    stopMediaPlayer();
+                    mMediaPlayer = MediaPlayer.create(this, R.raw.end);
+                    mMediaPlayer.start();
+                    finish();
+                }
+            });
+            addDisposable(mDisposable);
+        }
+    }
+
+
+    private void showUser(TextView name, ImageView imageView) {
+        UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(mJcCallItem.getUserId());
         name.setText(userMsgBeanById.getNickname());
         GlideUtils.loadHeadPortrait(userMsgBeanById.getHead_portrait(), imageView, userMsgBeanById.getPlaceholder());
+
+    }
+
+    private void stopMediaPlayer() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.setLooping(false);
+            mMediaPlayer.stop();
+        }
     }
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (mRingtone != null) {
-            mRingtone.stop();
-        }
-        mJcCallItem = MyApplication.getInstance().getJCCallItem();
-
-        mIsCall = getIntent().getBooleanExtra("isCall", false);
-        boolean isCalled = getIntent().getBooleanExtra("isCalled", false);
-        if (mIsCall && !isCalled) {
-            //打给别人
-            mTargetId = getIntent().getStringExtra("targetId");
-            String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
-            JuphoonUtils.get().call(mTargetId, user_id);
-            findViewById(R.id.iv_answer).setVisibility(View.GONE);
-            getWindow().getDecorView().postDelayed(() -> {
-                if (!isFinishing()) {
-                    ToastUtil.showToast("对方未接听");
-                    JuphoonUtils.get().hangup();
-                    finish();
-                }
-            }, 15000);
-        } else {
-            ringtone();
-        }
-        if (isCalled) {
-            findViewById(R.id.iv_answer).setVisibility(View.GONE);
-        }
-        findViewById(R.id.iv_answer).setOnClickListener(v -> {
-            if (mRingtone != null) {
-                mRingtone.stop();
-            }
-            JuphoonUtils.get().answer(mJcCallItem);
-            findViewById(R.id.iv_answer).setVisibility(View.GONE);
-        });
         findViewById(R.id.iv_close).setOnClickListener(v -> {
-            dismissFloatingView();
-            JuphoonUtils.get().hangup();
-            finish();
+            quit();
         });
         JuphoonUtils.get().setCallBackRemove((item, reason, description) -> {
+            stopMediaPlayer();
             dismissFloatingView();
             BaseVoiceFloatingService.StopSelf();
-            if (mRingtone != null) {
-                mRingtone.stop();
+            if (mCallTime <= 0 || mCallTime > 10_0000_0000) {
+                ToastUtil.showToast("通话结束" + description);
+            }else {
+                ToastUtil.showToast("通话结束,通话时长:" + TimeUtils.getHMS(mCallTime));
             }
-            ToastUtil.showToast("通话结束");
             finish();
         });
+    }
+
+
+    private void dispose() {
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+
+    }
+
+    public void quit() {
+        dispose();
+        stopMediaPlayer();
+        dismissFloatingView();
+        JuphoonUtils.get().hangup();
+        finish();
     }
 
     @Override
@@ -119,25 +198,15 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
         } else {
             //启动悬浮窗管理服务
             Intent service = new Intent(this, VoiceFloatingService.class);
-            service.putExtra("isCall", mIsCall);
-            service.putExtra("targetId", mTargetId);
             startService(service);
         }
 
     }
 
-    private Ringtone mRingtone;
-
-    public void ringtone() {
-        if (mRingtone != null) {
-            mRingtone.stop();
-        }
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-        mRingtone = RingtoneManager.getRingtone(this, sound);
-        mRingtone.setLooping(false);
-        if (!mRingtone.isPlaying()) {
-            mRingtone.play();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dispose();
     }
 
     @Override

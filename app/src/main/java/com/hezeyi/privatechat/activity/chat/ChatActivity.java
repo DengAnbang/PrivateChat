@@ -19,6 +19,7 @@ import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.chatui.inteface.ShowUserImageCallback;
 import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.GlideUtils;
+import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.utils.FunUtils;
@@ -36,7 +37,6 @@ import androidx.annotation.Nullable;
  * msg 是否默认发送消息
  */
 public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
-
 
 
     @Override
@@ -76,7 +76,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         return (item, imageView) -> {
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(item.getSenderId());
             if (userMsgBeanById == null) {
-                HttpManager.userSelectById(item.getSenderId(),MyApplication.getInstance().getUserMsgBean().getUser_id(), false, this, userMsgBean -> {
+                HttpManager.userSelectById(item.getSenderId(), MyApplication.getInstance().getUserMsgBean().getUser_id(), false, this, userMsgBean -> {
                     MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
                     GlideUtils.loadHeadPortrait(userMsgBean.getShowPortrait(), imageView, userMsgBean.getPlaceholder());
                 });
@@ -158,10 +158,11 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             startActivity(intent);
         });
         findViewById(com.xhab.chatui.R.id.rlLocation).setOnClickListener(v -> {
+            JuphoonUtils.get().call(getIntent().getStringExtra("targetId"), null);
             Intent intent = new Intent(this, ChatVoiceActivity.class);
-            intent.putExtra("isCall", true);
-            intent.putExtra("targetId", getIntent().getStringExtra("targetId"));
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.putExtra("isCall", true);
+//            intent.putExtra("targetId", getIntent().getStringExtra("targetId"));
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         });
 
