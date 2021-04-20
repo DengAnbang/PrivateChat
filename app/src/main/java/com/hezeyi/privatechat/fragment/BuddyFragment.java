@@ -141,6 +141,9 @@ public class BuddyFragment extends BaseFragment {
         addDisposable(RxBus.get().register(Const.RxType.TYPE_SHOW_FRIEND_RED_PROMPT, Integer.class).subscribe(integer -> {
             showRedPrompt();
         }));
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_FRIEND_CHANGE_SHOW, Object.class).subscribe(o -> {
+            getUserList();
+        }));
     }
 
     private List<UserMsgBean> search(String key, List<UserMsgBean> projectInfos) {

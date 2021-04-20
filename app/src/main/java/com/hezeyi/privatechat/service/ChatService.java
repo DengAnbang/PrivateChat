@@ -227,6 +227,13 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             RxBus.get().post(Const.RxType.TYPE_SHOW_FRIEND_RED_PROMPT, 1);
             showNotification();
         }));
+        //好友的状态发生变化
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_FRIEND_CHANGE, Object.class).subscribe(o -> {
+            HttpManager.userSelectFriend(mUserId, "1", false,this, userMsgBeans -> {
+                MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
+                RxBus.get().post(Const.RxType.TYPE_FRIEND_CHANGE_SHOW, 1);
+            });
+        }));
         //更新数据库的消息状态
         addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_UPDATE, ChatMessage.class).subscribe(chatMessage -> {
             ChatDatabaseHelper.get(this, mUserId).updateMsg(chatMessage);

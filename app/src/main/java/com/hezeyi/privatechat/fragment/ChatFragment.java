@@ -73,7 +73,9 @@ public class ChatFragment extends BaseFragment {
         addDisposable(RxBus.get().register(Const.RxType.TYPE_SHOW_LIST, Object.class).subscribe(o -> {
             updateMsgList();
         }));
-
+        addDisposable(RxBus.get().register(Const.RxType.TYPE_FRIEND_CHANGE_SHOW, Object.class).subscribe(o -> {
+            updateMsgList();
+        }));
     }
 
 }

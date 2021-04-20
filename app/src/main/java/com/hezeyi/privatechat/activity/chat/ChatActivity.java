@@ -25,8 +25,10 @@ import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
+import com.xhab.utils.utils.SPUtils;
 
 import java.io.File;
+import java.util.Objects;
 
 import androidx.annotation.Nullable;
 
@@ -37,7 +39,7 @@ import androidx.annotation.Nullable;
  * msg 是否默认发送消息
  */
 public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
-
+    public static final int REQUEST_CODE_CHAT_PWD = 5697;
 
     @Override
     public String getSenderId() {
@@ -98,11 +100,15 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         super.onCreate(savedInstanceState);
         MyApplication.getInstance().setLock(true);
         String targetId = getIntent().getStringExtra("targetId");
+        boolean isGroup = getIntent().getBooleanExtra("isGroup", false);
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+
+
         String msg = getIntent().getStringExtra("msg");
         if (!TextUtils.isEmpty(msg)) {
             sendTextMsg(msg);
         }
-        boolean isGroup = getIntent().getBooleanExtra("isGroup", false);
+
         //清空未读的标记
         ChatDatabaseHelper.get(this, getUserId()).clearChatListUnread(targetId);
         String target_name = "";
@@ -114,13 +120,24 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
                 target_name = targetId;
             }
         } else {
+
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(targetId);
             if (userMsgBeanById == null) {
                 target_name = targetId;
+
+                HttpManager.userSelectById(targetId, MyApplication.getInstance().getUserMsgBean().getUser_id(), false, this, userMsgBean -> {
+                    MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
+                    setTitleUser(userMsgBean.getNickname());
+                    verification(user_id, userMsgBean);
+
+                });
             } else {
                 target_name = userMsgBeanById.getNickname();
+                verification(user_id, userMsgBeanById);
             }
         }
+        //如果不是群聊,检查聊天码
+
         setTitleUser(target_name);
         mChatStatusListener = new ChatStatusListener(this);
         //修改消息状态
@@ -168,6 +185,21 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
 
     }
 
+    private void verification(String user_id, UserMsgBean userMsgBean) {
+        String chat_pwd = userMsgBean.getChat_pwd();
+        String sp_key = user_id + "_" + userMsgBean.getUser_id();
+        String string = SPUtils.getString(sp_key, "123456");
+        if (!Objects.equals(chat_pwd, string)) {
+            LogUtils.e("onCreate*****: 聊天码验证失败:" + chat_pwd + "本地:" + string);
+            Intent intent = new Intent(this, ChatPwdVerificationActivity.class);
+            intent.putExtra("chat_pwd", chat_pwd);
+            intent.putExtra("sp_key", sp_key);
+            startActivityForResult(intent, REQUEST_CODE_CHAT_PWD);
+        } else {
+            LogUtils.e("onCreate*****: 聊天码验证成功"+chat_pwd);
+        }
+    }
+
     @Override
     public void clickUser(ChatMessage message) {
         super.clickUser(message);
@@ -201,6 +233,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     protected void onResume() {
         super.onResume();
         mChatStatusListener.onResume();
+        //如果在这个页面,是这个人发来消息,则不显示通知
         MyApplication.getInstance().setAnotherId(getTargetId());
     }
 
@@ -213,6 +246,16 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         MyApplication.getInstance().setAnotherId("");
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CHAT_PWD) {
+            if (resultCode != RESULT_OK) {
+                finish();
+            }
+        }
+    }
 
     @Override
     public RequestHelperAgency initRequestHelper() {

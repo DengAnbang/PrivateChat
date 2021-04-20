@@ -9,7 +9,9 @@ import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.adapter.FriendReplyAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
+import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
+import com.xhab.utils.utils.SPUtils;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,8 +54,11 @@ public class FriendReplyActivity extends BaseActivity {
         mFriendReplyAdapter.setOnItemClickListener((view, position, userMsgBean) -> {
             switch (view.getId()) {
                 case R.id.iv_agree:
-                    HttpManager.friendAdd(userMsgBean.getUser_id(), MyApplication.getInstance().getUserMsgBean().getUser_id(), "1", this, o -> {
+                    String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+                    HttpManager.friendAdd(userMsgBean.getUser_id(), user_id, "1", userMsgBean.getChat_pwd(), this, o -> {
                         initData();
+                        SPUtils.save(user_id + "_" + userMsgBean.getUser_id(), userMsgBean.getChat_pwd());
+                        LogUtils.e("initEvent*****: " + userMsgBean.getChat_pwd());
                         MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
                         Intent intent = ChatActivity.getStartChatActivity(this, userMsgBean.getUser_id(), false);
                         intent.putExtra("msg", "我已经通过你的好友申请啦!");
@@ -62,7 +67,7 @@ public class FriendReplyActivity extends BaseActivity {
 
                     break;
                 case R.id.iv_refuse:
-                    HttpManager.friendAdd(userMsgBean.getUser_id(), MyApplication.getInstance().getUserMsgBean().getUser_id(), "3", this, o -> {
+                    HttpManager.friendAdd(userMsgBean.getUser_id(), MyApplication.getInstance().getUserMsgBean().getUser_id(), "3", userMsgBean.getChat_pwd(),this, o -> {
                         initData();
                     });
                     break;

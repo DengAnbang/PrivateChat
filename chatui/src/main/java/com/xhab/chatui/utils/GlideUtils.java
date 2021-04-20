@@ -1,6 +1,8 @@
 package com.xhab.chatui.utils;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
@@ -81,17 +83,27 @@ public class GlideUtils {
     public static void loadHeadPortrait(String imgUrl, final ImageView imageView, @DrawableRes final int placeholder) {
         if (imageView == null) return;
         imgUrl = KEY_API_HOST + imgUrl;
+
+
         final RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+//                .apply(RequestOptions.bitmapTransform(new GreyPicTransform()))
                 .placeholder(placeholder)// 正在加载中的图片
                 ; // 加载失败的图片
         String replace = imgUrl.replace("\\", "/");
         Glide.with(imageView.getContext())
                 .load(replace)
                 .apply(options)
+
                 .into(imageView);
     }
 
+    public static void isOnline(ImageView imageView, boolean online) {
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(online ? 1 : 0);//饱和度 0灰色 1正常
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        imageView.setColorFilter(filter);
+    }
 }

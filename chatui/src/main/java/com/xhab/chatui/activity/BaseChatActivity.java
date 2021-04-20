@@ -53,9 +53,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
  * Created by dab on 2021/3/17 13:58
  */
 public abstract class BaseChatActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
-    public static final int REQUEST_CODE_IMAGE = 0020;
+    public static final int REQUEST_CODE_IMAGE = 20;
     public static final int REQUEST_CODE_VEDIO = 1111;
     public static final int REQUEST_CODE_FILE = 2222;
+
     private ChatAdapter mAdapter;
 
     private RecyclerView mRvChat;

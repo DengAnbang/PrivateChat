@@ -44,8 +44,8 @@ public class Const {
     private static String getUrl() {
         switch (BuildConfig.FLAVOR) {
             case "nb":
-//                return "192.168.0.104";
-                return "47.108.172.20";
+                return "192.168.0.107";
+//                return "47.108.172.20";
 //                return "192.168.31.213";
 //                return "192.168.155.2";
 //                return "192.168.31.213:9090/public/file/upload";
@@ -68,9 +68,12 @@ public class Const {
         public static final String TYPE_MSG_GROUP_SEND = "20003";//发送群消息
         //其他的推送
         public static final String TYPE_FRIEND_ADD = "21001";//有好友申请的推送
+        public static final String TYPE_FRIEND_CHANGE = "21002";//有好友变化的推送(包括在线离线)
+
         //推送消息以外
         public static final String TYPE_SHOW_LIST = "30001";//更新消息列表
         public static final String TYPE_SHOW_FRIEND_RED_PROMPT = "type_show_friend_red_prompt";//更新好友申请的点点消息列表
+        public static final String TYPE_FRIEND_CHANGE_SHOW = "type_friend_change_show";//页面好友改变的变化
 
     }
 

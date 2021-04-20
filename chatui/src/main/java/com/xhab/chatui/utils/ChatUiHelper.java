@@ -97,7 +97,7 @@ public class ChatUiHelper {
             } else {
                 mListEmoji.add(i * EVERY_PAGE_SIZE - 1, mEmojiBean);
             }
-            LogUtil.d("添加次数" + i);
+
 
         }
 

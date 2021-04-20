@@ -57,6 +57,7 @@ public class ChatDatabaseHelper {
         long insert = writableDatabase.update(tableName, cv, "uuid = ?", new String[]{message.getUuid()});
     }
 
+    //删除一条聊天消息
     public void chatDbDelete(ChatMessage message, @Nullable ChatMessage lastMessage) {
         if (lastMessage != null) {
             chatListDbInsert(lastMessage);
@@ -64,6 +65,13 @@ public class ChatDatabaseHelper {
         String tableName = mChatDatabase.getChatTableName(message);
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
         long insert = writableDatabase.delete(tableName, "uuid=?", new String[]{message.getUuid()});
+    }
+
+    //删除某人的所有聊天消息
+    public void chatDbDelete(String targetId) {
+        String tableName = mChatDatabase.getChatTableName(targetId);
+        SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();
+        writableDatabase.execSQL("drop table " + tableName);
     }
 
     public List<ChatMessage> chatMsgSelect(List<ChatMessage> oldChatMessages, String targetId) {
@@ -94,6 +102,7 @@ public class ChatDatabaseHelper {
         long insert = writableDatabase.replace(chatListTableName, null, contentValues);
     }
 
+    //删除聊天会话
     public void chatListDelete(String another_id) {
         String chatListTableName = mChatDatabase.getChatListTableName();
         SQLiteDatabase writableDatabase = mChatDatabase.getWritableDatabase();

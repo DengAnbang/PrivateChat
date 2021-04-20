@@ -87,10 +87,11 @@ public interface ApiService {
     );
 
     @POST("/app/user/friend/add")
-    Observable<ResultData<Object>> friendAdd(
+    Observable<ResultData<String>> friendAdd(
             @Query("user_id") String account,
             @Query("to_user_id") String to_user_id,
-            @Query("friend_type") String friend_type
+            @Query("friend_type") String friend_type,
+            @Query("chat_pwd") String chat_pwd
     );
     @POST("/app/user/comment/set")
     Observable<ResultData<Object>> friendCommentSet(

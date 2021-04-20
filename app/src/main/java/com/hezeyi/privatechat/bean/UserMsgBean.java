@@ -29,6 +29,8 @@ public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble 
     private String head_portrait;
     private String vip_time;
     private String permissions;
+    private String chat_pwd;
+    private boolean online;//是否在线
 
     /**
      * 是否是管理员
@@ -37,6 +39,14 @@ public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble 
      */
     public boolean isAdmin() {
         return Objects.equals(getPermissions(), "1");
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
     public String getPermissions() {
@@ -96,6 +106,14 @@ public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble 
 
     public void setVip_time(String vip_time) {
         this.vip_time = vip_time;
+    }
+
+    public String getChat_pwd() {
+        return chat_pwd;
+    }
+
+    public void setChat_pwd(String chat_pwd) {
+        this.chat_pwd = chat_pwd;
     }
 
     @NonNull

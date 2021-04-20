@@ -54,17 +54,21 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
         ChatListMessage chatListMessage = mListMessages.get(position);
         holder.msg.setText(chatListMessage.getMsg());
         String group_name = chatListMessage.getTarget_id();
+
+
         if (chatListMessage.getIs_group() == 1) {
             ChatGroupBean chatGroupBeanById = MyApplication.getInstance().getChatGroupBeanById(chatListMessage.getTarget_id());
             if (chatGroupBeanById != null) {
                 group_name = chatGroupBeanById.getGroup_name();
-
+                GlideUtils.isOnline(holder.portrait, true);
                 GlideUtils.loadHeadPortrait(chatGroupBeanById.getGroup_portrait(), holder.portrait, chatGroupBeanById.getPlaceholder());
             }
         } else {
+
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
             if (userMsgBeanById != null) {
                 group_name = userMsgBeanById.getNickname();
+                GlideUtils.isOnline(holder.portrait, userMsgBeanById.isOnline());
                 GlideUtils.loadHeadPortrait(userMsgBeanById.getHead_portrait(), holder.portrait, userMsgBeanById.getPlaceholder());
             }
 

@@ -12,6 +12,8 @@ public interface BuddyShowAble {
 
     String getShowPortrait();
 
+    boolean isOnline();//是否在线,显示灰色头像
+
     @DrawableRes
     int getPlaceholder();
 }

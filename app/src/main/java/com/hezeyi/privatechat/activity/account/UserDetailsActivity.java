@@ -3,6 +3,7 @@ package com.hezeyi.privatechat.activity.account;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.widget.ImageView;
 
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
@@ -14,10 +15,12 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.popupWindow.ModifyNameWindow;
 import com.hezeyi.privatechat.popupWindow.ModifyVipWindow;
+import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.activity.SelectPhotoDialog;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.TimeUtils;
 import com.xhab.utils.utils.ToastUtil;
 
@@ -58,21 +61,37 @@ public class UserDetailsActivity extends BaseActivity {
         super.initEvent();
         if (isFriend) {
             visibility(R.id.tv_friend_delete, true);
+            visibility(R.id.tv_look_chat_pwd, true);
             click(R.id.tv_friend_delete, view -> {
-                FunUtils.affirm(this, "确认删除好友?", "删除", aBoolean -> {
+                FunUtils.affirm(this, "确认删除好友?会删除所有的聊天记录", "删除", aBoolean -> {
                     if (aBoolean) {
                         HttpManager.friendDelete(mUserId, myUserId, this, o -> {
                             MyApplication.getInstance().removeFriendUserMsgBeanById(mUserId);
+                            ChatDatabaseHelper.get(this, myUserId).chatListDelete(mUserId);
+                            ChatDatabaseHelper.get(this, myUserId).chatDbDelete(mUserId);
                             ToastUtil.showToast("删除成功!");
                             finish();
                         });
                     }
                 });
             });
+            click(R.id.tv_look_chat_pwd, view -> {
+                String string = SPUtils.getString(myUserId + "_" + mUserId, "");
+                if (!TextUtils.isEmpty(string)) {
+                    ToastUtil.showToast(string);
+                }else {
+                    ToastUtil.showToast("你们的聊天码已经失效");
+                }
+
+            });
         }
 
         click(R.id.tv_submit, view -> {
-            HttpManager.friendAdd(myUserId, mUserId, "2", this, o -> {
+            HttpManager.friendAdd(myUserId, mUserId, "2", "", this, s -> {
+                String key = myUserId + "_" + mUserId;
+                LogUtils.e("initEvent*****: " + key);
+                SPUtils.save(key, s);
+                LogUtils.e("initEvent*****: " + s);
                 ToastUtil.showToast("提交成功,等待对方通过!");
                 finish();
             });
@@ -168,7 +187,9 @@ public class UserDetailsActivity extends BaseActivity {
                 setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
                 setTwoTextLinearRightText(R.id.ttv_nickname, userMsgBean.getNickname()).getRightTextView().setGravity(Gravity.RIGHT);
                 setTwoTextLinearRightText(R.id.ttv_vip_time, TimeUtils.toTimeByString(userMsgBean.getVip_time())).getRightTextView().setGravity(Gravity.RIGHT);
-                GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), findViewById(R.id.iv_head_portrait), userMsgBean.getPlaceholder());
+                ImageView imageView = findViewById(R.id.iv_head_portrait);
+                GlideUtils.isOnline(imageView, userMsgBean.isOnline());
+                GlideUtils.loadHeadPortrait(userMsgBean.getHead_portrait(), imageView, userMsgBean.getPlaceholder());
             } else {
                 ToastUtil.showToast("用户不存在!");
                 finish();

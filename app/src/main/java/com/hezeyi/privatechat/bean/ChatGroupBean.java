@@ -79,6 +79,11 @@ public class ChatGroupBean extends SortableAndBuddyShowAble {
     }
 
     @Override
+    public boolean isOnline() {
+        return true;
+    }
+
+    @Override
     public int getPlaceholder() {
         return  R.mipmap.group_icon;
     }

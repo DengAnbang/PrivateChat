@@ -104,9 +104,9 @@ public class HttpManager {
                 .securitySelect(account), requestHelper, true, dataClick);
     }
 
-    public static void friendAdd(String user_id, String to_user_id, String friend_type, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void friendAdd(String user_id, String to_user_id, String friend_type, String chat_pwd, final RequestHelper requestHelper, final OnDataCallBack<String> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .friendAdd(user_id, to_user_id, friend_type), requestHelper, true, dataClick);
+                .friendAdd(user_id, to_user_id, friend_type, chat_pwd), requestHelper, true, dataClick);
     }
 
     public static void friendDelete(String user_id, String to_user_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {

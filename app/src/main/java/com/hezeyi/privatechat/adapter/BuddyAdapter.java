@@ -48,8 +48,8 @@ public class BuddyAdapter<T extends SortableAndBuddyShowAble> extends RecyclerVi
     public void onBindViewHolder(@NonNull BuddyAdapter.ViewHolder holder, int position) {
         T t = mDataList.get(position);
         holder.mTvName.setText(t.getShowName());
+        GlideUtils.isOnline(holder.mIvHeadPortrait, t.isOnline());
         GlideUtils.loadHeadPortrait(t.getShowPortrait(), holder.mIvHeadPortrait, t.getPlaceholder());
-
         if (mOnItemClickListener != null) {
             holder.mView.setOnClickListener(view -> {
                 mOnItemClickListener.onItemClick(view, position, t);

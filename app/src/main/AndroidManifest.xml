@@ -147,6 +147,7 @@
         <activity android:name=".activity.recharge.RechargePayActivity"/>
         <activity android:name=".activity.recharge.RechargeSetUpActivity"/>
         <activity android:name=".activity.account.ContactUsActivity"/>
+        <activity android:name=".activity.chat.ChatPwdVerificationActivity"/>
     </application>
 
 </manifest>
