@@ -79,6 +79,7 @@
             >
 
         </service>
+        <service android:name=".service.VoiceService"/>
 
         <meta-data
             android:name="CHANNEL"

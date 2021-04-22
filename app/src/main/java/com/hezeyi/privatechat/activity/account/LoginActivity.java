@@ -1,19 +1,12 @@
 package com.hezeyi.privatechat.activity.account;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
-import android.os.PowerManager;
-import android.provider.Settings;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.hezeyi.privatechat.BuildConfig;
 import com.hezeyi.privatechat.Const;
@@ -24,7 +17,6 @@ import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.xhab.chatui.utils.NotificationManagerUtils;
 import com.xhab.utils.activity.PrivacyPolicyActivity;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
@@ -32,8 +24,6 @@ import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.SpanBuilder;
 import com.xhab.utils.utils.ToastUtil;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import io.reactivex.disposables.Disposable;
 
@@ -183,93 +173,31 @@ public class LoginActivity extends BaseActivity {
         )
                 .subscribe(aBoolean -> {
                     if (aBoolean) {
-                        ensurePermissions();
+//                        ensurePermissions();
                     } else {
                         showSnackBar("请到设置见面打开所需权限!");
                     }
                 });
         addDisposable(subscribe);
     }
-    private void ensurePermissions() {
-        //检查是否已经授予权限 桌面启动activity的权限
-        if (!Settings.canDrawOverlays(this)) {
-            //若未授权则请求权限
-            FunUtils.affirm(this, "此应用需要显示在其他应用的上层的权限,以便于及时提醒", "去设置", aBoolean -> {
-                if (aBoolean) {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                    intent.setData(Uri.parse("package:" + getPackageName()));
-                    startActivityForResult(intent, 1);
-                }
-            });
-        } else {
-            getHangUpPermission(this);
-        }
-    }
+//    private void ensurePermissions() {
+//        //检查是否已经授予权限 桌面启动activity的权限
+//        if (!Settings.canDrawOverlays(this)) {
+//            //若未授权则请求权限
+//            FunUtils.affirm(this, "此应用需要显示在其他应用的上层的权限,以便于及时提醒", "去设置", aBoolean -> {
+//                if (aBoolean) {
+//                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+//                    intent.setData(Uri.parse("package:" + getPackageName()));
+//                    startActivityForResult(intent, 1);
+//                }
+//            });
+//        } else {
+//            getHangUpPermission(this);
+//        }
+//    }
 
-    /**
-     * 跳转横幅通知权限,详细channelId授予权限
-     */
-    public static void getHangUpPermission(Activity context) {
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//Android 8.0及以上
-            NotificationChannel channel = mNotificationManager.getNotificationChannel(NotificationManagerUtils.CHANNEL_ID);//CHANNEL_ID是自己定义的渠道ID
-            if (channel.getImportance() == NotificationManager.IMPORTANCE_DEFAULT) {
-                FunUtils.affirm(context, "此应用需要横幅通知权限的权限,以便于新消息的及时提醒", "去设置", aBoolean -> {
-                    if (aBoolean) {
-                        //未开启
-                        Toast.makeText(context, "请打开横幅通知权限!", Toast.LENGTH_LONG).show();
-                        // 跳转到设置页面
-                        Intent intent = new Intent();
-                        if (Build.VERSION.SDK_INT >= 26) {
-                            // android8.0单个channelid设置
-                            intent.setAction(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
-                            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
-                            intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationManagerUtils.CHANNEL_ID);
-                        } else {
-                            // android 5.0以上一起设置
-                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            intent.putExtra("app_package", context.getPackageName());
-                            intent.putExtra("app_uid", context.getApplicationInfo().uid);
-                        }
-                        context.startActivityForResult(intent, 2);
-                    }
-                });
-            } else {
-                if (!isIgnoringBatteryOptimizations(context)) {
-                    requestIgnoreBatteryOptimizations(context);
-                }
-            }
-        }
-    }
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private static boolean isIgnoringBatteryOptimizations(Context context) {
-        boolean isIgnoring = false;
-        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        if (powerManager != null) {
-            isIgnoring = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
-        }
-        return isIgnoring;
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void requestIgnoreBatteryOptimizations(Activity context) {
-        try {
-            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-            intent.setData(Uri.parse("package:" + context.getPackageName()));
-            context.startActivityForResult(intent, 0x89);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            getHangUpPermission(this);
-        } else if (requestCode == 2) {
-            if (!isIgnoringBatteryOptimizations(this)) {
-                requestIgnoreBatteryOptimizations(this);
-            }
-        }
-    }
+
+
+
 }

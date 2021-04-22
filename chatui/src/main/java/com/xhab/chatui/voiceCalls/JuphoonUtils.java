@@ -12,7 +12,6 @@ import com.juphoon.cloud.JCMediaDeviceCallback;
 import com.juphoon.cloud.JCMediaDeviceVideoCanvas;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
-import com.xhab.utils.utils.TimeUtils;
 
 import androidx.annotation.NonNull;
 
@@ -154,12 +153,9 @@ public class JuphoonUtils {
 
             @Override
             public void onCallItemRemove(JCCallItem jcCallItem, int i, String s) {
-                if (mCallBackRemove != null) {
-                    mCallBackRemove.onCallItemRemove(jcCallItem, i, s);
-                }
-
+                RxBus.get().post("onCallItemRemove", jcCallItem);
                 LogUtils.e("onCallItemRemove*****: " + jcCallItem.getState());
-                LogUtils.e("通话结束" + TimeUtils.toTimeByString(jcCallItem.getTalkingBeginTime()));
+
             }
 
             @Override
@@ -224,19 +220,9 @@ public class JuphoonUtils {
         mCallBackAdd = callBackAdd;
     }
 
-    private CallBackRemove mCallBackRemove;
-
-    public void setCallBackRemove(CallBackRemove callBackRemove) {
-        mCallBackRemove = callBackRemove;
-    }
-
-
     public interface CallBackAdd {
         void onCallItemAdd(JCCallItem item);
     }
 
-    public interface CallBackRemove {
-        void onCallItemRemove(JCCallItem item, @JCCall.CallReason int reason, String description);
-    }
 
 }

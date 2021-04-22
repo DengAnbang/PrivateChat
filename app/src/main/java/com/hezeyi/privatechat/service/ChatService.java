@@ -12,7 +12,6 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.FriendReplyActivity;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.hezeyi.privatechat.activity.chat.ChatActivity;
-import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.SocketData;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -157,27 +156,14 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     private void initSocket() {
         JuphoonUtils.get().setCallBackAdd(item -> {
+
 //            MyApplication.getInstance().setJCCallItem(item);
-            Intent intent = new Intent(ChatService.this, ChatVoiceActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            Intent intent = new Intent(ChatService.this, VoiceService.class);
+            startService(intent);
+//            Intent intent = new Intent(ChatService.this, ChatVoiceActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
         });
-//        JuphoonUtils.get().setCallBackRemove((item, reason, description) -> {
-//          long  mCallTime = (System.currentTimeMillis() / 1000) - item.getTalkingBeginTime();
-//            BaseVoiceFloatingService.StopSelf();
-//            if (mCallTime <= 0 || mCallTime > 10_0000_0000) {
-//                ToastUtil.showToast("通话结束" + description);
-//                if (item.getDirection()== JCCall.DIRECTION_OUT){
-//                    time(item.getUserId(), "通话结束");
-//                }
-//            } else {
-//                ToastUtil.showToast("通话结束,通话时长:" + TimeUtils.getHMS(mCallTime));
-//                if (item.getDirection()== JCCall.DIRECTION_OUT){
-//                    time(item.getUserId(), "通话时长:" + TimeUtils.getHMS(mCallTime));
-//                }
-//            }
-//
-//        });
         mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
         addDisposable(Observable.interval(15 * 60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
@@ -245,7 +231,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         }));
         //好友的状态发生变化
         addDisposable(RxBus.get().register(Const.RxType.TYPE_FRIEND_CHANGE, Object.class).subscribe(o -> {
-            HttpManager.userSelectFriend(mUserId, "1", false,this, userMsgBeans -> {
+            HttpManager.userSelectFriend(mUserId, "1", false, this, userMsgBeans -> {
                 MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
                 RxBus.get().post(Const.RxType.TYPE_FRIEND_CHANGE_SHOW, 1);
             });
@@ -390,8 +376,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             }
             Intent intent = ChatActivity.getStartChatActivity(this, targetId, isGroup);
             NotificationManagerUtils.showNotification(this, intent,
-                    true,
-                    Const.Api.API_HOST + portrait, name, msg, message.getPlaceholder());
+                    Const.Api.API_HOST + portrait, name, msg, message.getPlaceholder(), Const.Notification.CHANNEL_MSG_ID);
 
         });
     }
@@ -399,11 +384,10 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     private void showNotification() {
         RxUtils.runOnIoThread(() -> {
             Intent intent = new Intent(this, FriendReplyActivity.class);
-            NotificationManagerUtils.showNotification(this, intent,
-                    true,
-                    "", "S.O.M", "有人请求添加你为好友", R.mipmap.logo);
+            NotificationManagerUtils.showNotification(this, intent, "", "S.O.M", "有人请求添加你为好友", R.mipmap.logo, Const.Notification.CHANNEL_MSG_ID);
         });
     }
+
     public void time(String targetId, String msg) {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         ChatMessage chatMessage = ChatMessage.getBaseSendMessage(MsgType.VOICE_CALLS,
@@ -414,6 +398,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         RxBus.get().post(Const.RxType.TYPE_MSG_ADD, chatMessage);
         ChatDatabaseHelper.get(this, user_id).chatDbInsert(chatMessage);
     }
+
     private RequestHelperAgency mRequestHelperAgency;
 
     @Override

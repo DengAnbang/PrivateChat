@@ -18,6 +18,7 @@ import com.hezeyi.privatechat.fragment.ChatFragment;
 import com.hezeyi.privatechat.fragment.MeFragment;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.popupWindow.SelectWindow;
+import com.xhab.utils.activity.WhitelistActivity;
 import com.xhab.utils.base.BaseBottomTabUtilActivity;
 import com.xhab.utils.utils.DisplayUtils;
 import com.xhab.utils.utils.LogUtils;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import io.reactivex.disposables.Disposable;
@@ -114,7 +116,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
     @Override
     public void initData() {
         super.initData();
-        LogUtils.e("initData*****: setLock"  );
+        LogUtils.e("initData*****: setLock");
         MyApplication.getInstance().setLock(true);
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, "2", false, this, userMsgBeans -> {
@@ -183,4 +185,18 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        MyApplication.getInstance().setLock(true);
+        if (requestCode == 0x88) {
+            boolean notFirst = SPUtils.getBoolean("notWhitelist");
+            if (!notFirst) {
+                SPUtils.save("notWhitelist", true);
+                MyApplication.getInstance().setLock(false);
+                startActivityForResult(new Intent(this, WhitelistActivity.class), 0x82);
+            }
+        }
+
+    }
 }

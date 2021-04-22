@@ -4,17 +4,21 @@ import android.content.Intent;
 import android.view.View;
 
 import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
+import com.juphoon.cloud.JCCallItem;
 import com.xhab.chatui.service.BaseVoiceFloatingService;
-import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.chatui.voiceCalls.VoiceFloatingView;
 import com.xhab.utils.utils.FunUtils;
+import com.xhab.utils.utils.RxBus;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by dab on 2021/3/31 16:13
  */
 public class VoiceFloatingService extends BaseVoiceFloatingService {
+
+    private Disposable mDisposable;
 
     @Override
     public View.OnLongClickListener setFloatingLongClickListener(VoiceFloatingView voiceFloatingView) {
@@ -38,14 +42,23 @@ public class VoiceFloatingService extends BaseVoiceFloatingService {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
-        JuphoonUtils.get().setCallBackRemove((item, reason, description) -> {
+        mDisposable = RxBus.get().register("onCallItemRemove", JCCallItem.class).subscribe(jcCallItem -> {
             if (FunUtils.isServiceRunning(this, VoiceFloatingService.class.getName())) {
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BaseVoiceFloatingService.ACTION_DISMISS_FLOATING));
                 stopSelf();
             }
         });
+
     }
 
 }

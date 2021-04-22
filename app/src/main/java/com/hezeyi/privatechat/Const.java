@@ -35,6 +35,15 @@ public class Const {
 
     }
 
+    public static class Notification {
+        public static final String CHANNEL_MSG_ID = "id_108";// com.xhab.utils.activity.WhitelistActivity 写死了的
+        public static final String CHANNEL_MSG_NAME = "新消息提醒";
+        public static final String CHANNEL_ID_109 = "id_109";
+        public static final String CHANNEL_NAME_109 = "普通提醒";
+//        public static final String CHANNEL_VOICE_ID = "id_110";
+//        public static final String CHANNEL_VOICE_NAME = "语音通话";
+    }
+
     public static class Api {
         public static final String API_HOST = "http://" + getUrl() + ":9090/";
         public static final String SOCKET_SERVER = getUrl();

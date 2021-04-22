@@ -1,6 +1,8 @@
 package com.xhab.utils.utils;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,20 +23,14 @@ import androidx.annotation.RequiresApi;
  * Created by dab on 2021/4/22 09:29
  */
 public class SettingUtils {
-    public static void enterWhiteListSetting(Context context) {
+    public static void enterWhiteListSetting(Activity context,int requestCode) {
         try {
-            context.startActivity(getSettingIntent());
+            context.startActivityForResult(getSettingIntent(),requestCode);
         } catch (Exception e) {
-            context.startActivity(new Intent(Settings.ACTION_SETTINGS));
+            context.startActivityForResult(new Intent(Settings.ACTION_SETTINGS),requestCode);
         }
     }
 
-    private static boolean sadas() {
-        String brand = android.os.Build.BRAND;
-
-        return false;
-
-    }
     private static Intent getSettingIntent() {
 
         ComponentName componentName = null;
@@ -90,7 +86,6 @@ public class SettingUtils {
     }
 
 
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static boolean isIgnoringBatteryOptimizations(Context context) {
         boolean isIgnoring = false;
@@ -102,11 +97,11 @@ public class SettingUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void requestIgnoreBatteryOptimizations(Activity context) {
+    public static void requestIgnoreBatteryOptimizations(Activity context, int requestCode) {
         try {
             Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
             intent.setData(Uri.parse("package:" + context.getPackageName()));
-            context.startActivityForResult(intent, 0x89);
+            context.startActivityForResult(intent, requestCode);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,5 +147,34 @@ public class SettingUtils {
                 break;
         }
         return whitelistGuideBeans;
+    }
+
+
+    public static boolean isBannersPermission(Activity context, String channelId) {
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//Android 8.0及以上
+            NotificationChannel channel = mNotificationManager.getNotificationChannel(channelId);//CHANNEL_ID是自己定义的渠道ID
+            return channel.getImportance() != NotificationManager.IMPORTANCE_DEFAULT;
+        }
+        return true;
+    }
+
+    /**
+     * 跳转横幅通知权限,详细channelId授予权限
+     */
+    public static void requestBannersPermission(Activity context, String channelId, int requestCode) {
+        Intent intent = new Intent();
+        if (Build.VERSION.SDK_INT >= 26) {
+            // android8.0单个channelid设置
+            intent.setAction(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+            intent.putExtra(Settings.EXTRA_CHANNEL_ID, channelId);
+        } else {
+            // android 5.0以上一起设置
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.putExtra("app_package", context.getPackageName());
+            intent.putExtra("app_uid", context.getApplicationInfo().uid);
+        }
+        context.startActivityForResult(intent, requestCode);
     }
 }

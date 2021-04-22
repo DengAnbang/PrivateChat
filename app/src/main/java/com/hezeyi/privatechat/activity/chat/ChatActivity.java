@@ -12,6 +12,7 @@ import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
+import com.hezeyi.privatechat.service.VoiceService;
 import com.xhab.chatui.activity.BaseChatActivity;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgType;
@@ -176,11 +177,8 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         });
         findViewById(com.xhab.chatui.R.id.rlLocation).setOnClickListener(v -> {
             JuphoonUtils.get().call(getIntent().getStringExtra("targetId"), null);
-            Intent intent = new Intent(this, ChatVoiceActivity.class);
-//            intent.putExtra("isCall", true);
-//            intent.putExtra("targetId", getIntent().getStringExtra("targetId"));
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            startService(new Intent(this, VoiceService.class));
+            startActivity(new Intent(this, ChatVoiceActivity.class));
         });
 
     }

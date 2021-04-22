@@ -66,7 +66,9 @@ public class MyApplication extends Application {
         DaemonEnv.initialize(this, ChatService.class, 1000);
         DaemonEnv.startServiceMayBind(ChatService.class);
 
-        NotificationManagerUtils.initHangUpPermission(this);
+        NotificationManagerUtils.initHangUpPermission(this, Const.Notification.CHANNEL_MSG_ID, Const.Notification.CHANNEL_MSG_NAME);
+        NotificationManagerUtils.initHangUpPermission(this, Const.Notification.CHANNEL_ID_109, Const.Notification.CHANNEL_NAME_109);
+//        NotificationManagerUtils.initHangUpPermission(this, Const.Notification.CHANNEL_VOICE_ID, Const.Notification.CHANNEL_VOICE_NAME);
         ChatUi.init(Const.Api.API_HOST, Const.FilePath.databaseFileLocalPath);
         StackManager.initStackManager(this);
         EmojiDao.init(this);
@@ -148,7 +150,7 @@ public class MyApplication extends Application {
             RxUtils.runOnIoThread(() -> {
                 Intent intent = new Intent(this, RechargeActivity.class);
                 intent.putExtra("user_id", data.getData().getUser_id());
-                NotificationManagerUtils.showNotification109(this, intent, true, "你的账号到期时间为:" + TimeUtils.toTimeByString(data.getData().getVip_time()) + ",点击充值");
+                NotificationManagerUtils.showNotification109(this, intent, "你的账号到期时间为:" + TimeUtils.toTimeByString(data.getData().getVip_time()) + ",点击充值", Const.Notification.CHANNEL_ID_109);
             });
             //表示已经过期了
             callBack.onCallBack(data.getMsg());
@@ -162,7 +164,7 @@ public class MyApplication extends Application {
                 if (l < (30 * 24 * 60 * 60 * 1000L)) {
                     Intent intent = new Intent(this, RechargeActivity.class);
                     intent.putExtra("user_id", data.getData().getUser_id());
-                    NotificationManagerUtils.showNotification109(this, intent, true, "你的账号到期时间为:" + TimeUtils.toTimeByString(data.getData().getVip_time()) + ",点击充值");
+                    NotificationManagerUtils.showNotification109(this, intent, "你的账号到期时间为:" + TimeUtils.toTimeByString(data.getData().getVip_time()) + ",点击充值", Const.Notification.CHANNEL_ID_109);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -270,6 +272,6 @@ public class MyApplication extends Application {
 
     public void addFriendUserMsgBeanById(UserMsgBean userMsgBean) {
         mFriendBeanMap.put(userMsgBean.getUser_id(), userMsgBean);
-        addUserMsgBeanById( userMsgBean);
+        addUserMsgBeanById(userMsgBean);
     }
 }

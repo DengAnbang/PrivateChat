@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "com.hezeyi.privatechat"
         minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 17
-        versionName "1.1.27"
+        targetSdkVersion 30
+        versionCode 18
+        versionName "1.1.28"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
 //            // 设置支持的SO库架构

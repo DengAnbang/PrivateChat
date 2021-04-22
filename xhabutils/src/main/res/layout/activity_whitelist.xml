@@ -84,6 +84,49 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_banners"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/just_color_ffffff"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/view_05"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="通知横幅权限"
+            android:textColor="@color/just_color_000000"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_setup_banners"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_gradient_btn_60"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingTop="3dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="3dp"
+            android:text="快速设置"
+            android:textColor="@color/just_color_ffffff"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_05"
+            android:layout_marginTop="1dp"
+            android:text="打开横幅权限,可以在软件后台的时候,收到消息,语音,以横幅的方式显示出来。"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -135,10 +178,10 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@color/just_color_ffffff"
         android:id="@+id/rv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_04"
-        android:layout_marginTop="1dp"/>
+        android:layout_marginTop="1dp"
+        android:background="@color/just_color_ffffff"/>
 </LinearLayout>
