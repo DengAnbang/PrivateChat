@@ -44,8 +44,8 @@ public class Const {
     private static String getUrl() {
         switch (BuildConfig.FLAVOR) {
             case "nb":
-                return "192.168.0.107";
-//                return "47.108.172.20";
+//                return "192.168.0.107";
+                return "47.108.172.20";
 //                return "192.168.31.213";
 //                return "192.168.155.2";
 //                return "192.168.31.213:9090/public/file/upload";

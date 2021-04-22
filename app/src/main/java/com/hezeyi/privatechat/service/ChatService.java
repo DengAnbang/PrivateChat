@@ -162,6 +162,22 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         });
+//        JuphoonUtils.get().setCallBackRemove((item, reason, description) -> {
+//          long  mCallTime = (System.currentTimeMillis() / 1000) - item.getTalkingBeginTime();
+//            BaseVoiceFloatingService.StopSelf();
+//            if (mCallTime <= 0 || mCallTime > 10_0000_0000) {
+//                ToastUtil.showToast("通话结束" + description);
+//                if (item.getDirection()== JCCall.DIRECTION_OUT){
+//                    time(item.getUserId(), "通话结束");
+//                }
+//            } else {
+//                ToastUtil.showToast("通话结束,通话时长:" + TimeUtils.getHMS(mCallTime));
+//                if (item.getDirection()== JCCall.DIRECTION_OUT){
+//                    time(item.getUserId(), "通话时长:" + TimeUtils.getHMS(mCallTime));
+//                }
+//            }
+//
+//        });
         mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
         addDisposable(Observable.interval(15 * 60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (isConnection) {
@@ -388,7 +404,16 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
                     "", "S.O.M", "有人请求添加你为好友", R.mipmap.logo);
         });
     }
-
+    public void time(String targetId, String msg) {
+        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
+        ChatMessage chatMessage = ChatMessage.getBaseSendMessage(MsgType.VOICE_CALLS,
+                user_id, targetId, false);
+        chatMessage.setMsg("[语音消息]");
+        chatMessage.setExtra(msg);
+        RxBus.get().post(Const.RxType.TYPE_MSG_SEND, chatMessage);
+        RxBus.get().post(Const.RxType.TYPE_MSG_ADD, chatMessage);
+        ChatDatabaseHelper.get(this, user_id).chatDbInsert(chatMessage);
+    }
     private RequestHelperAgency mRequestHelperAgency;
 
     @Override

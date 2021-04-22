@@ -49,6 +49,17 @@ public class ChatListMessageAdapter extends RecyclerView.Adapter<ChatListMessage
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_list_message, parent, false));
     }
 
+    public static String getShowName( ChatListMessage chatListMessage) {
+        if (chatListMessage.getIs_group() == 1) {
+            ChatGroupBean chatGroupBeanById = MyApplication.getInstance().getChatGroupBeanById(chatListMessage.getTarget_id());
+            if (chatGroupBeanById==null) return chatListMessage.getTarget_id();
+            return chatGroupBeanById.getGroup_name();
+        }else {
+            UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()));
+            if (userMsgBeanById==null) return chatListMessage.getTarget_id();
+            return userMsgBeanById.getNickname();
+        }
+    }
     @Override
     public void onBindViewHolder(@NonNull ChatListMessageAdapter.ViewHolder holder, int position) {
         ChatListMessage chatListMessage = mListMessages.get(position);

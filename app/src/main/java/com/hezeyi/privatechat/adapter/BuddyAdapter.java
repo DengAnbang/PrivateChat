@@ -48,6 +48,8 @@ public class BuddyAdapter<T extends SortableAndBuddyShowAble> extends RecyclerVi
     public void onBindViewHolder(@NonNull BuddyAdapter.ViewHolder holder, int position) {
         T t = mDataList.get(position);
         holder.mTvName.setText(t.getShowName());
+        holder.mTvOnline.setVisibility(t.isGroup() ? View.GONE : View.VISIBLE);
+        holder.mTvOnline.setText(t.isOnline()?"在线":"离线");
         GlideUtils.isOnline(holder.mIvHeadPortrait, t.isOnline());
         GlideUtils.loadHeadPortrait(t.getShowPortrait(), holder.mIvHeadPortrait, t.getPlaceholder());
         if (mOnItemClickListener != null) {
@@ -68,6 +70,7 @@ public class BuddyAdapter<T extends SortableAndBuddyShowAble> extends RecyclerVi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView mTvOnline;
         TextView mTvName;
         ImageView mIvHeadPortrait;
         View mView;
@@ -77,6 +80,7 @@ public class BuddyAdapter<T extends SortableAndBuddyShowAble> extends RecyclerVi
             mView = itemView;
             mTvName = itemView.findViewById(R.id.tv_name);
             mIvHeadPortrait = itemView.findViewById(R.id.iv_head_portrait);
+            mTvOnline = itemView.findViewById(R.id.tv_online);
         }
     }
 }

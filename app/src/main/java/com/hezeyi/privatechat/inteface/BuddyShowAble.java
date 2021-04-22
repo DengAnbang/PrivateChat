@@ -14,6 +14,8 @@ public interface BuddyShowAble {
 
     boolean isOnline();//是否在线,显示灰色头像
 
+    boolean isGroup();//是否是群
+
     @DrawableRes
     int getPlaceholder();
 }

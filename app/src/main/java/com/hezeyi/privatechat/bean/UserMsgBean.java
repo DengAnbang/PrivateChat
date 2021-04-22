@@ -45,6 +45,11 @@ public class UserMsgBean extends SortableAndBuddyShowAble implements ChooseAble 
         return online;
     }
 
+    @Override
+    public boolean isGroup() {
+        return false;
+    }
+
     public void setOnline(boolean online) {
         this.online = online;
     }

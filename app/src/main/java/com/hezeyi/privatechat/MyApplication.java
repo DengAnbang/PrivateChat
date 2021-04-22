@@ -47,7 +47,7 @@ public class MyApplication extends Application {
     public void setLock(boolean lock) {
         Activity packageContext = StackManager.currentActivity();
 
-        LogUtils.e("setLock*****: " + lock+"*****************"+packageContext.getClass().getName());
+        LogUtils.e("setLock*****: " + lock + "*****************" + packageContext.getClass().getName());
         isLock = lock;
     }
 
@@ -117,8 +117,8 @@ public class MyApplication extends Application {
         ForegroundCallbacks.init(this).addListener(new ForegroundCallbacks.Listener() {
             @Override
             public void onBecameForeground() {
-                String string = SPUtils.getString(Const.Sp.SecurityCode+ MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
-                LogUtils.e("onBecameForeground*****: 进入前台"+ isLock+string);
+                String string = SPUtils.getString(Const.Sp.SecurityCode + MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
+                LogUtils.e("onBecameForeground*****: 进入前台" + isLock + string);
                 if (isLock && SPUtils.getBoolean(Const.Sp.isOpenSecurityCode, true) && !string.equals("")) {
                     Activity packageContext = StackManager.currentActivity();
                     if ("com.hezeyi.privatechat.activity.SplashActivity".equals(packageContext.getClass().getName())) {
@@ -266,5 +266,10 @@ public class MyApplication extends Application {
 
     public void addUserMsgBeanById(UserMsgBean userMsgBean) {
         mMsgBeanMap.put(userMsgBean.getUser_id(), userMsgBean);
+    }
+
+    public void addFriendUserMsgBeanById(UserMsgBean userMsgBean) {
+        mFriendBeanMap.put(userMsgBean.getUser_id(), userMsgBean);
+        addUserMsgBeanById( userMsgBean);
     }
 }

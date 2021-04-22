@@ -59,7 +59,7 @@ public class FriendReplyActivity extends BaseActivity {
                         initData();
                         SPUtils.save(user_id + "_" + userMsgBean.getUser_id(), userMsgBean.getChat_pwd());
                         LogUtils.e("initEvent*****: " + userMsgBean.getChat_pwd());
-                        MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
+                        MyApplication.getInstance().addFriendUserMsgBeanById(userMsgBean);
                         Intent intent = ChatActivity.getStartChatActivity(this, userMsgBean.getUser_id(), false);
                         intent.putExtra("msg", "我已经通过你的好友申请啦!");
                         startActivity(intent);

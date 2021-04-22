@@ -248,9 +248,6 @@ public class LoginActivity extends BaseActivity {
         if (powerManager != null) {
             isIgnoring = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
         }
-        if (isIgnoring) {
-
-        }
         return isIgnoring;
     }
 

@@ -2,9 +2,13 @@ package com.hezeyi.privatechat.activity.account;
 
 import android.content.Intent;
 
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.tencent.bugly.beta.Beta;
+import com.xhab.utils.activity.WhitelistActivity;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by dab on 2021/3/12 10:52
@@ -39,5 +43,20 @@ public class SetupActivity extends BaseActivity {
         click(R.id.ttv_check_upgrade, view1 -> {
             Beta.checkUpgrade();
         });
+        click(R.id.ttv_privacy, view1 -> {
+
+        });
+        click(R.id.ttv_permission, view1 -> {
+            MyApplication.getInstance().setLock(false);
+            startActivityForResult(new Intent(this, WhitelistActivity.class),0x82);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0x82) {
+            MyApplication.getInstance().setLock(isCanLock());
+        }
     }
 }

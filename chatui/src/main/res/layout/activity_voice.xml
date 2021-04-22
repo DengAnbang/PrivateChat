@@ -23,7 +23,7 @@
         android:layout_below="@+id/iv_dismiss"
         android:gravity="center"
         android:paddingLeft="15dp"
-        android:text="长按悬浮窗回到当前页面"
+        android:text="点击悬浮窗回到当前页面"
         android:textColor="@android:color/white"
         />
 

@@ -9,6 +9,9 @@
         <activity
             android:name=".activity.PrivacyPolicyActivity"
             />
+        <activity
+            android:name=".activity.WhitelistActivity"
+            />
     </application>
 
 </manifest>
