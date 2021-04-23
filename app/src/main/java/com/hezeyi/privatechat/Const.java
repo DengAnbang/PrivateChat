@@ -29,6 +29,7 @@ public class Const {
         //本地目录
         public static final String chatFileLocalPath = TEMP_DOCUMENTS_PATH;
         public static final String databaseFileLocalPath = TEMP_DOCUMENTS_PATH;
+        public static final String FileLocalPath = TEMP_DOCUMENTS_PATH+"/pay/";
         //网络目录
         public static final String chatFileType = "chat/file";
         public static final String userFileType = "user/file";

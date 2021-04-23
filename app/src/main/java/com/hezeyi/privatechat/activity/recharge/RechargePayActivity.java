@@ -6,7 +6,6 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.SelectPriceBean;
 import com.hezeyi.privatechat.net.HttpManager;
-import com.xhab.utils.utils.FunUtils;
 
 /**
  * Created by dab on 2021/4/14 10:33
@@ -42,33 +41,26 @@ public class RechargePayActivity extends BaseActivity {
     @Override
     public void initEvent() {
         super.initEvent();
-//        visibility(R.id.rl_alipay,false);
-//        visibility(R.id.rl_weixin,false);
-        visibility(R.id.rl_customer_service, false);
-        click(R.id.rl_alipay, v -> {
-            FunUtils.affirm(this, "模拟充值,点击充值就充值成功了", "充值", aBoolean -> {
-                if (aBoolean) {
-                    success("zfb");
-                }
-            });
-        });
-        click(R.id.rl_weixin, v -> {
-            FunUtils.affirm(this, "模拟充值,点击充值就充值成功了", "充值", aBoolean -> {
-                if (aBoolean) {
-                    success("wx");
-                }
-            });
-        });
-//        click(R.id.rl_customer_service, v -> {
+        visibility(R.id.rl_alipay,false);
+        visibility(R.id.rl_weixin,false);
+//        visibility(R.id.rl_customer_service, false);
+//        click(R.id.rl_alipay, v -> {
 //            FunUtils.affirm(this, "模拟充值,点击充值就充值成功了", "充值", aBoolean -> {
 //                if (aBoolean) {
-//                    HttpManager.rechargeAdd(user_id, user_id, mSelectPriceBean.getMoney() + "", mSelectPriceBean.getTotalDay() + "", "2", this, o -> {
-//                        success();
-//                    });
-//
+//                    success("zfb");
 //                }
 //            });
 //        });
+//        click(R.id.rl_weixin, v -> {
+//            FunUtils.affirm(this, "模拟充值,点击充值就充值成功了", "充值", aBoolean -> {
+//                if (aBoolean) {
+//                    success("wx");
+//                }
+//            });
+//        });
+        click(R.id.rl_customer_service, v -> {
+            startActivity(new Intent(this, CustomerServicePayActivity.class));
+        });
     }
 
     private void success(String recharge_type) {

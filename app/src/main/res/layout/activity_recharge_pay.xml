@@ -159,7 +159,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="fitXY"
-            android:src="@mipmap/ico_alipay"/>
+            android:src="@mipmap/logo"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
