@@ -388,16 +388,6 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         });
     }
 
-    public void time(String targetId, String msg) {
-        String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
-        ChatMessage chatMessage = ChatMessage.getBaseSendMessage(MsgType.VOICE_CALLS,
-                user_id, targetId, false);
-        chatMessage.setMsg("[语音消息]");
-        chatMessage.setExtra(msg);
-        RxBus.get().post(Const.RxType.TYPE_MSG_SEND, chatMessage);
-        RxBus.get().post(Const.RxType.TYPE_MSG_ADD, chatMessage);
-        ChatDatabaseHelper.get(this, user_id).chatDbInsert(chatMessage);
-    }
 
     private RequestHelperAgency mRequestHelperAgency;
 

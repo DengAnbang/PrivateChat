@@ -27,6 +27,7 @@ public class JuphoonUtils {
     private JCCall mCall;
     private static JuphoonUtils instance;
     private JCMediaDevice mMediaDevice;
+    private int ping;
 
     public JCCall getCall() {
         return mCall;
@@ -38,6 +39,13 @@ public class JuphoonUtils {
         return mJCCallItem;
     }
 
+    public int getPing() {
+        return ping;
+    }
+
+    public void setPing(int ping) {
+        this.ping = ping;
+    }
 
     public static JuphoonUtils get() {
         if (instance == null) {
@@ -167,7 +175,7 @@ public class JuphoonUtils {
 
             @Override
             public void onMessageReceive(String s, String s1, JCCallItem jcCallItem) {
-
+                ping = 0;
                 LogUtils.e("onMessageReceive*****: " + s + "*********" + s1);
             }
 

@@ -47,7 +47,7 @@ public class SecurityQuestionVerifyActivity extends BaseActivity {
     public void initData() {
         super.initData();
         UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
-        HttpManager.securitySelect(userMsgBean.getAccount(), this, securityBean -> {
+        HttpManager.securitySelect(userMsgBean.getUser_id(), this, securityBean -> {
             if (securityBean.getQuestion1().equals("") || securityBean.getQuestion2().equals("")) {
                 setResult(RESULT_CODE_NO_SETUP);
                 finish();

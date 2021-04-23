@@ -93,15 +93,15 @@ public class HttpManager {
                 .userRecharge(user_id, pay_id), requestHelper, true, dataClick);
     }
 
-    public static void securityUpdate(String account, String q1, String a1, String q2, String a2, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void securityUpdate(String user_id, String q1, String a1, String q2, String a2, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .securityUpdate(account, q1, a1, q2, a2), requestHelper, true, dataClick);
+                .securityUpdate(user_id, q1, a1, q2, a2), requestHelper, true, dataClick);
     }
 
 
-    public static void securitySelect(String account, final RequestHelper requestHelper, final OnDataCallBack<SecurityBean> dataClick) {
+    public static void securitySelect(String user_id, final RequestHelper requestHelper, final OnDataCallBack<SecurityBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .securitySelect(account), requestHelper, true, dataClick);
+                .securitySelect(user_id), requestHelper, true, dataClick);
     }
 
     public static void friendAdd(String user_id, String to_user_id, String friend_type, String chat_pwd, final RequestHelper requestHelper, final OnDataCallBack<String> dataClick) {
@@ -114,9 +114,9 @@ public class HttpManager {
                 .friendDelete(user_id, to_user_id), requestHelper, true, dataClick);
     }
 
-    public static void userSelectById(String user_id,String my_user_id, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
+    public static void userSelectById(String user_id, String my_user_id, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .userSelectById(user_id,my_user_id), requestHelper, showLoadDialog, dataClick);
+                .userSelectById(user_id, my_user_id), requestHelper, showLoadDialog, dataClick);
     }
 
     public static void userSelectByFuzzySearch(String word, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
@@ -209,9 +209,9 @@ public class HttpManager {
                 .priceAdd(money, day, giving_day), requestHelper, true, dataClick);
     }
 
-    public static void priceSelectAll(final RequestHelper requestHelper, final OnDataCallBack<List<SelectPriceBean>> dataClick) {
+    public static void priceSelectAll(String user_id, final RequestHelper requestHelper, final OnDataCallBack<List<SelectPriceBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .priceSelectAll(), requestHelper, true, dataClick);
+                .priceSelectAll(user_id), requestHelper, true, dataClick);
     }
 
     /**

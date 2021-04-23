@@ -64,6 +64,10 @@ public class VoiceService extends Service implements RequestHelperImp {
     private void init() {
 
         mJcCallItem = JuphoonUtils.get().getJCCallItem();
+        if (mJcCallItem == null) {
+            stopSelf();
+            return;
+        }
         //呼入的时候,不会回调onCallItemUpdate 这个方法,所有单独触发一次
         addDisposable(RxBus.get().register("onCallItemUpdate", Integer.class).subscribe(integer -> {
             switch (mJcCallItem.getState()) {
@@ -88,6 +92,34 @@ public class VoiceService extends Service implements RequestHelperImp {
                     break;
 
             }
+        }));
+        addDisposable(RxUtils.interval(5, () -> {
+            if (mJcCallItem != null) {
+                LogUtils.e("55555555*****: mJcCallItem:" + mJcCallItem.getState());
+                if (mJcCallItem.getState() == JCCall.STATE_TALKING) {
+                    if (JuphoonUtils.get().getPing() >= 3) {//表示三次没有收到ping了,对方可能已经掉线了
+                        if (mJcCallItem.getDirection() == JCCall.DIRECTION_IN) {//如果是来电,则发送一次通话异常的消息
+                            long mCallTime = (System.currentTimeMillis() / 1000) - mJcCallItem.getTalkingBeginTime();
+                            time(mJcCallItem.getUserId(), "通话异常结束:" + TimeUtils.getHMS(mCallTime));
+                            JuphoonUtils.get().setPing(0);
+                        }
+                        JuphoonUtils.get().hangup();
+                        stopSelf();
+                        return;
+                    }
+                    JuphoonUtils.get().getCall().sendMessage(mJcCallItem, "1", "Ping");
+                    JuphoonUtils.get().setPing(JuphoonUtils.get().getPing() + 1);
+
+                } else {
+                    LogUtils.e("initEvent*****: " + mJcCallItem.getState());
+                }
+
+            } else {
+                LogUtils.e("55555555*****: mJcCallItem==null");
+
+            }
+
+
         }));
         addDisposable(RxBus.get().register("onCallItemRemove", JCCallItem.class).subscribe(jcCallItem -> {
             stopMediaPlayer();
@@ -170,11 +202,13 @@ public class VoiceService extends Service implements RequestHelperImp {
 
     @Override
     public void onDestroy() {
+
         // 移除通知
         stopForeground(true);
         if (mRequestHelperAgency != null) {
             mRequestHelperAgency.destroy();
         }
+        JuphoonUtils.get().hangup();
         super.onDestroy();
     }
 

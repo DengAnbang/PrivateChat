@@ -12,6 +12,7 @@ import com.xhab.utils.inteface.OnItemClickListener;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -31,6 +32,7 @@ public class SelectPriceAdapter extends RecyclerView.Adapter<SelectPriceAdapter.
     public void clear() {
         mSelectPriceBean = null;
     }
+
     public void setSelectPriceBeans(List<SelectPriceBean> selectPriceBeans) {
         mSelectPriceBeans = selectPriceBeans;
         Collections.sort(selectPriceBeans);
@@ -62,8 +64,14 @@ public class SelectPriceAdapter extends RecyclerView.Adapter<SelectPriceAdapter.
         } else {
             holder.giving_day.setVisibility(View.VISIBLE);
             holder.giving_day.setText("赠送" + selectPriceBean.getGiving_day() + "天");
-
         }
+        if (Objects.equals(selectPriceBean.getId(), "1")) {
+            selectPriceBean.setGiving_day("0");
+            holder.giving_day.setVisibility(View.VISIBLE);
+            holder.giving_day.setText("仅限首次充值");
+        }
+
+
         holder.mView.setBackgroundColor(ContextCompat.getColor(holder.mView.getContext(), selectPriceBean.isChoose() ? R.color.just_color_ff8c00 : R.color.just_color_ffffff));
         holder.mView.setOnClickListener(v -> {
             if (mSelectPriceBean != null) {

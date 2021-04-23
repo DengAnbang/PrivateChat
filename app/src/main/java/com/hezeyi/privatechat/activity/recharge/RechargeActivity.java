@@ -35,7 +35,7 @@ public class RechargeActivity extends BaseActivity {
     public void initData() {
         super.initData();
         mUserId = getIntent().getStringExtra("user_id");
-        HttpManager.userSelectById(mUserId, MyApplication.getInstance().getUserMsgBean().getUser_id(),true, this, userMsgBean -> {
+        HttpManager.userSelectById(mUserId, MyApplication.getInstance().getUserMsgBean().getUser_id(), true, this, userMsgBean -> {
             if (userMsgBean != null) {
                 mUserMsgBean = userMsgBean;
                 setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
@@ -52,7 +52,7 @@ public class RechargeActivity extends BaseActivity {
             intent.putExtra("user_id", mUserId);
             startActivity(intent);
         });
-        HttpManager.priceSelectAll(this, selectPriceBeans -> {
+        HttpManager.priceSelectAll(mUserId, this, selectPriceBeans -> {
             mSelectPriceAdapter.setSelectPriceBeans(selectPriceBeans);
         });
     }

@@ -10,6 +10,7 @@ import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.service.VoiceFloatingService;
+import com.hezeyi.privatechat.service.VoiceService;
 import com.juphoon.cloud.JCCall;
 import com.juphoon.cloud.JCCallItem;
 import com.xhab.chatui.service.BaseVoiceFloatingService;
@@ -43,18 +44,33 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
     public void initView() {
         super.initView();
         mJcCallItem = JuphoonUtils.get().getJCCallItem();
-        showUser(findViewById(com.xhab.chatui.R.id.tv_name), findViewById(com.xhab.chatui.R.id.iv_head_portrait));
+        if (checkJcCallItem()) {
+            showUser(findViewById(com.xhab.chatui.R.id.tv_name), findViewById(com.xhab.chatui.R.id.iv_head_portrait));
+        }
+    }
+
+    public boolean checkJcCallItem() {
+        if (mJcCallItem == null) {
+            stopService(new Intent(this, VoiceService.class));
+            finish();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
     public void initEvent() {
         super.initEvent();
-        if (mJcCallItem.getDirection() == JCCall.DIRECTION_IN) {
-            findViewById(R.id.iv_answer).setVisibility(View.VISIBLE);
-            findViewById(R.id.iv_answer).setOnClickListener(v -> {
-                JuphoonUtils.get().answer(mJcCallItem);
-                findViewById(R.id.iv_answer).setVisibility(View.GONE);
-            });
+
+        if (checkJcCallItem()) {
+            if (mJcCallItem.getDirection() == JCCall.DIRECTION_IN) {
+                findViewById(R.id.iv_answer).setVisibility(View.VISIBLE);
+                findViewById(R.id.iv_answer).setOnClickListener(v -> {
+                    JuphoonUtils.get().answer(mJcCallItem);
+                    findViewById(R.id.iv_answer).setVisibility(View.GONE);
+                });
+            }
         }
         addDisposable(RxBus.get().register("onCallItemUpdate", Integer.class).subscribe(integer -> {
             switch (mJcCallItem.getState()) {
@@ -105,6 +121,7 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
 
 
     private void showUser(TextView name, ImageView imageView) {
+        checkJcCallItem();
         UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(mJcCallItem.getUserId());
         name.setText(userMsgBeanById.getNickname());
         GlideUtils.loadHeadPortrait(userMsgBeanById.getHead_portrait(), imageView, userMsgBeanById.getPlaceholder());

@@ -66,6 +66,7 @@ public interface ApiService {
             @Query("vip_time") String vip_time,
             @Query("headPortrait") String headPortrait
     );
+
     @POST("/app/user/recharge")
     Observable<ResultData<Object>> userRecharge(
             @Query("user_id") String user_id,
@@ -74,7 +75,7 @@ public interface ApiService {
 
     @POST("/app/user/security/update")
     Observable<ResultData<Object>> securityUpdate(
-            @Query("account") String account,
+            @Query("user_id") String user_id,
             @Query("q1") String q1,
             @Query("a1") String a1,
             @Query("q2") String q2,
@@ -83,7 +84,7 @@ public interface ApiService {
 
     @POST("/app/user/select/security")
     Observable<ResultData<SecurityBean>> securitySelect(
-            @Query("account") String account
+            @Query("user_id") String user_id
     );
 
     @POST("/app/user/friend/add")
@@ -93,6 +94,7 @@ public interface ApiService {
             @Query("friend_type") String friend_type,
             @Query("chat_pwd") String chat_pwd
     );
+
     @POST("/app/user/comment/set")
     Observable<ResultData<Object>> friendCommentSet(
             @Query("user_id") String account,
@@ -202,7 +204,6 @@ public interface ApiService {
     );
 
 
-
     @POST("/app/price/delete")
     Observable<ResultData<Object>> priceDelete(
             @Query("id") String id
@@ -222,7 +223,9 @@ public interface ApiService {
     );
 
     @POST("/app/price/select/all")
-    Observable<ResultData<List<SelectPriceBean>>> priceSelectAll();
+    Observable<ResultData<List<SelectPriceBean>>> priceSelectAll(
+            @Query("user_id") String user_id
+    );
 
 
 }

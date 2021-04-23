@@ -2,6 +2,7 @@ package com.hezeyi.privatechat.activity.recharge;
 
 import android.text.TextUtils;
 
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.adapter.SelectPriceAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
@@ -94,7 +95,7 @@ public class RechargeSetUpActivity extends BaseActivity {
         setTextViewString(R.id.et_money, "");
         setTextViewString(R.id.et_day, "");
         setTextViewString(R.id.et_giving_day, "");
-        HttpManager.priceSelectAll(this, selectPriceBeans -> {
+        HttpManager.priceSelectAll(MyApplication.getInstance().getUserMsgBean().getUser_id(), this, selectPriceBeans -> {
             mSelectPriceAdapter.setSelectPriceBeans(selectPriceBeans);
         });
     }
