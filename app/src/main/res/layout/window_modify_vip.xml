@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:paddingLeft="15dp"
-             android:paddingRight="15dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,14 +14,6 @@
         android:paddingTop="15dp">
 
 
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="请输入要充值的天数,最多添加到2038年"
-            android:textSize="15sp"/>
-
         <EditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
@@ -30,22 +22,33 @@
             android:gravity="center"
             android:hint="输入要添加的时间"
             android:inputType="number"
-            android:maxLength="3"
-            />
+            android:maxLength="3" />
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="请输入要充值的天数,最多添加到2038年"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_add"
             style="@style/Btn_submit"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:text="增加天数"
-            />
+            android:text="增加天数" />
 
         <TextView
             android:id="@+id/tv_less"
             style="@style/Btn_submit"
             android:layout_marginBottom="15dp"
-            android:text="扣除天数"
-            />
+            android:text="扣除天数" />
+
+        <TextView
+            android:id="@+id/tv_fist_recharge"
+            style="@style/Btn_submit"
+            android:layout_marginBottom="15dp"
+            android:text="首次充值" />
     </LinearLayout>
 </FrameLayout>

@@ -85,10 +85,12 @@ public class RechargeRecordBean {
 
     public String getRechargeTypeShowString() {
         switch (recharge_type) {
-            case "1":
+            case "zfb":
                 return "支付宝";
-            case "2":
+            case "wx":
                 return "微信";
+            case "gly":
+                return "管理员";
         }
         return "管理员";
     }

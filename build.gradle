@@ -8,7 +8,8 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:4.0.1'
+//        classpath 'com.android.tools.build:gradle:3.4.2'
 
         classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
         // NOTE: Do not place your application dependencies here; they belong
@@ -19,9 +20,9 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "https://jitpack.io" }
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter/" }
-        maven { url "https://jitpack.io" }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         google()
         jcenter()

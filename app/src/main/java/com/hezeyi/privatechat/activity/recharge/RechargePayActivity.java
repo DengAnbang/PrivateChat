@@ -7,7 +7,6 @@ import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.SelectPriceBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.utils.utils.FunUtils;
-import com.xhab.utils.utils.ToastUtil;
 
 /**
  * Created by dab on 2021/4/14 10:33
@@ -45,24 +44,18 @@ public class RechargePayActivity extends BaseActivity {
         super.initEvent();
 //        visibility(R.id.rl_alipay,false);
 //        visibility(R.id.rl_weixin,false);
-        visibility(R.id.rl_customer_service,false);
+        visibility(R.id.rl_customer_service, false);
         click(R.id.rl_alipay, v -> {
             FunUtils.affirm(this, "模拟充值,点击充值就充值成功了", "充值", aBoolean -> {
                 if (aBoolean) {
-                    HttpManager.rechargeAdd(user_id, user_id, mSelectPriceBean.getMoney() + "", mSelectPriceBean.getTotalDay() + "", "1", this, o -> {
-                        success();
-                    });
-
+                    success("zfb");
                 }
             });
         });
         click(R.id.rl_weixin, v -> {
             FunUtils.affirm(this, "模拟充值,点击充值就充值成功了", "充值", aBoolean -> {
                 if (aBoolean) {
-                    HttpManager.rechargeAdd(user_id, user_id, mSelectPriceBean.getMoney() + "", mSelectPriceBean.getTotalDay() + "", "2", this, o -> {
-                        success();
-                    });
-
+                    success("wx");
                 }
             });
         });
@@ -78,10 +71,10 @@ public class RechargePayActivity extends BaseActivity {
 //        });
     }
 
-    private void success() {
-        ToastUtil.showToast("充值成功!");
+    private void success(String recharge_type) {
         Intent intent = new Intent();
         intent.putExtra("pay_id", getIntent().getStringExtra("pay_id"));
+        intent.putExtra("recharge_type", recharge_type);
         setResult(RESULT_OK, intent);
         finish();
     }

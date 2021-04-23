@@ -45,6 +45,11 @@ public class ModifyVipWindow extends BasePopupWindow {
                 mOnDataCallBack.onCallBack("-" + s);
             }
         });
+        view.findViewById(R.id.tv_fist_recharge).setOnClickListener(v -> {
+            if (mOnDataCallBack != null) {
+                mOnDataCallBack.onCallBack("fist_recharge");
+            }
+        });
 
 
     }

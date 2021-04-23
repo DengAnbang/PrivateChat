@@ -68,7 +68,7 @@ public class SelectPriceAdapter extends RecyclerView.Adapter<SelectPriceAdapter.
         if (Objects.equals(selectPriceBean.getId(), "1")) {
             selectPriceBean.setGiving_day("0");
             holder.giving_day.setVisibility(View.VISIBLE);
-            holder.giving_day.setText("仅限首次充值");
+            holder.giving_day.setText("仅首次充值");
         }
 
 

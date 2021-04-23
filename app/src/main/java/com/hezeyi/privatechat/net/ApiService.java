@@ -70,6 +70,8 @@ public interface ApiService {
     @POST("/app/user/recharge")
     Observable<ResultData<Object>> userRecharge(
             @Query("user_id") String user_id,
+            @Query("execution_user_id") String execution_user_id,
+            @Query("recharge_type") String recharge_type,
             @Query("pay_id") String pay_id
     );
 

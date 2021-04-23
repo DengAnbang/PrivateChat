@@ -39,6 +39,9 @@ public class PictureFileUtil {
      * @param mContext 上下文信息
      */
     public static void openGalleryPic(Activity mContext, int requstcode) {
+//        mContext.startActivityForResult(new Intent(mContext, SelectPhotoDialog.class), requstcode);
+
+
         // 进入相册 不需要的api可以不写
         PictureSelector.create(mContext)
                 .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()

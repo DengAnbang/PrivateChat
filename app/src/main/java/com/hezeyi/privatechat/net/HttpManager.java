@@ -88,9 +88,9 @@ public class HttpManager {
                 .friendCommentSet(user_id, to_user_id, nickname), requestHelper, true, dataClick);
     }
 
-    public static void userRecharge(String user_id, String pay_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void userRecharge(String user_id, String execution_user_id, String recharge_type, String pay_id, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .userRecharge(user_id, pay_id), requestHelper, true, dataClick);
+                .userRecharge(user_id, execution_user_id, recharge_type, pay_id), requestHelper, true, dataClick);
     }
 
     public static void securityUpdate(String user_id, String q1, String a1, String q2, String a2, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hezeyi.privatechat.MainActivity;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -30,8 +31,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
  * Created by dab on 2021/3/27 14:30
  */
 public class ChatVoiceActivity extends BaseVoiceActivity {
-
-
     private JCCallItem mJcCallItem;
     private long mCallTime;
 
@@ -52,6 +51,8 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
     public boolean checkJcCallItem() {
         if (mJcCallItem == null) {
             stopService(new Intent(this, VoiceService.class));
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
             finish();
             return false;
         } else {

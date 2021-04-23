@@ -80,6 +80,11 @@ android {
             dimension "channel"
             manifestPlaceholders = [app_name: "内部测试", CHANNEL: "nb", GD_KEY: "0fc6ecfaf02cb280ef11f881ca205e68"]
         }
+        zs {
+            applicationIdSuffix ".zs"
+            dimension "channel"
+            manifestPlaceholders = [app_name: "S.O.M.", CHANNEL: "zs", GD_KEY: "0fc6ecfaf02cb280ef11f881ca205e68"]
+        }
 
     }
 
@@ -118,6 +123,8 @@ dependencies {
     implementation 'com.github.jiusetian:EasySocket:v2.1.1'
     //进程保活
     implementation 'com.xdandroid:hellodaemon:+'
+    //语音 2f28a4e830fb84d0da705096
+    implementation 'com.JuphoonCloud:JC-SDK:2.5'
 }
 repositories {
     mavenCentral()

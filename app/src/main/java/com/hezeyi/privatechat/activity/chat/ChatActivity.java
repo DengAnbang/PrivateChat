@@ -13,6 +13,7 @@ import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.VoiceService;
+import com.juphoon.cloud.JCCallItem;
 import com.xhab.chatui.activity.BaseChatActivity;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgType;
@@ -27,6 +28,7 @@ import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.SPUtils;
+import com.xhab.utils.utils.ToastUtil;
 
 import java.io.File;
 import java.util.Objects;
@@ -176,6 +178,12 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             startActivity(intent);
         });
         findViewById(com.xhab.chatui.R.id.rlLocation).setOnClickListener(v -> {
+            // 1. 获取当前活跃通话
+            JCCallItem item = JuphoonUtils.get().getCall().getActiveCallItem();
+            if (item != null) {
+                ToastUtil.showToast("正在通话中,不能再次拨打电话!");
+                return;
+            }
             JuphoonUtils.get().call(getIntent().getStringExtra("targetId"), null);
             startService(new Intent(this, VoiceService.class));
             startActivity(new Intent(this, ChatVoiceActivity.class));
@@ -194,7 +202,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             intent.putExtra("sp_key", sp_key);
             startActivityForResult(intent, REQUEST_CODE_CHAT_PWD);
         } else {
-            LogUtils.e("onCreate*****: 聊天码验证成功"+chat_pwd);
+            LogUtils.e("onCreate*****: 聊天码验证成功" + chat_pwd);
         }
     }
 

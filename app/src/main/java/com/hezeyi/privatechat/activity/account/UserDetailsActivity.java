@@ -79,7 +79,7 @@ public class UserDetailsActivity extends BaseActivity {
                 String string = SPUtils.getString(myUserId + "_" + mUserId, "");
                 if (!TextUtils.isEmpty(string)) {
                     ToastUtil.showToast(string);
-                }else {
+                } else {
                     ToastUtil.showToast("你们的聊天码已经失效");
                 }
 
@@ -152,8 +152,16 @@ public class UserDetailsActivity extends BaseActivity {
                 if (TextUtils.isEmpty(vipTime) || vipTime.equals("-")) {
                     return;
                 }
+                if ("fist_recharge".equals(vipTime)) {
+                    HttpManager.userRecharge(mUserId, myUserId, "gly", "1", this, o -> {
+                        showSnackBar("充值成功!");
+                        initView();
+                        modifyVipWindow.dismiss();
+                    });
+                    return;
+                }
                 HttpManager.userUpdate(mUserMsgBean.getAccount(), "", "", vipTime, "", this, userMsgBean1 -> {
-                    HttpManager.rechargeAdd(mUserMsgBean.getUser_id(), myUserId, "0", vipTime, "0", this, o -> {
+                    HttpManager.rechargeAdd(mUserMsgBean.getUser_id(), myUserId, "0", vipTime, "gly", this, o -> {
                         showSnackBar("修改完成");
                         initView();
                         modifyVipWindow.dismiss();

@@ -57,10 +57,6 @@ public class ToastUtil {
         });
     }
 
-    public static void showLong(int resId) {
-        if (check()) {
-            Toast.makeText(sContext, resId, Toast.LENGTH_LONG).show();
-        }
-    }
+
 
 }

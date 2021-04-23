@@ -100,7 +100,8 @@ public class RechargeActivity extends BaseActivity {
         if (requestCode == 0x86) {
             if (resultCode == RESULT_OK && data != null) {
                 String pay_id = data.getStringExtra("pay_id");
-                HttpManager.userRecharge(mUserId, pay_id, this, o -> {
+                String recharge_type = data.getStringExtra("recharge_type");
+                HttpManager.userRecharge(mUserId, mUserId, recharge_type,pay_id, this, o -> {
                     showSnackBar("充值成功!");
                     initData();
                 });
