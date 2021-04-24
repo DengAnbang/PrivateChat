@@ -48,7 +48,12 @@ public class SetupActivity extends BaseActivity {
         });
         click(R.id.ttv_permission, view1 -> {
             MyApplication.getInstance().setLock(false);
-            startActivityForResult(new Intent(this, WhitelistActivity.class),0x82);
+            startActivityForResult(new Intent(this, WhitelistActivity.class), 0x82);
+        });
+        click(R.id.ttv_permission, view1 -> {
+            Intent intent = new Intent(this, ChangePasswordActivity.class);
+            intent.putExtra("account", MyApplication.getInstance().getUserMsgBean().getAccount());
+            startActivity(intent);
         });
     }
 

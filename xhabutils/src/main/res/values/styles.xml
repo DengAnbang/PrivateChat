@@ -16,6 +16,29 @@
         <item name="android:textColor">@color/just_color_333333</item>
     </style>
 
+    <style name="EditText_Input_New">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@color/just_color_ffffff</item>
+        <item name="android:hint">"请输入"</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/just_color_333333</item>
+    </style>
+
+    <style name="EditText_Input_Pwd" parent="EditText_Input_New">
+
+        <item name="android:digits">0123456789qazwsxedcrfvtgbyhnujmikolp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+
     <style name="Line_Margin_15">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>

@@ -144,13 +144,15 @@ public class ResponseHelper {
                                 message = "服务器连接异常，请稍后重试！";
                                 break;
                             }
+                            message = "连接异常，请稍后重试！";
                         } while (false);
                         dataClick.onCallBack(null);
+                        LogUtils.e(e.getMessage());
                         if (!TextUtils.isEmpty(message)) {
                             requestHelper.showSnackBar(message);
+                            return;
                         }
-                        LogUtils.e(e.getMessage());
-                        requestHelper.showSnackBar(e.getMessage());
+//                        requestHelper.showSnackBar(e.getMessage());
                         e.printStackTrace();
                     }
 

@@ -150,6 +150,9 @@
         <activity android:name=".activity.account.ContactUsActivity"/>
         <activity android:name=".activity.chat.ChatPwdVerificationActivity"/>
         <activity android:name=".activity.recharge.CustomerServicePayActivity" />
+        <activity android:name=".activity.recharge.DescriptionActivity" />
+        <activity android:name=".popupWindow.SecurityQuestionWindow" />
+        <activity android:name=".activity.account.ChangePasswordActivity" />
     </application>
 
 </manifest>

@@ -52,6 +52,9 @@ public class CustomerServicePayActivity extends BaseActivity {
 
 
         });
+        click(R.id.tv_description, v -> {
+            startActivity(new Intent(this, DescriptionActivity.class));
+        });
     }
 
     public static String saveImageToGallery(Context context, Bitmap bitmap) {

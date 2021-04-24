@@ -19,11 +19,12 @@
         android:text="点击图片,保存二维码,转账后,即可充值成功" />
 
     <TextView
+        android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_qr_code"
         android:gravity="center"
-        android:text="说明说明...." />
+        android:text="点击查看充值说明" />
 
     <include layout="@layout/title_layout" />
 

@@ -119,7 +119,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
         android:padding="3dp"
-        android:text="立即注册"
+        android:text="版本"
+        android:textColor="#FFFF8200"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_customer_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:padding="3dp"
+        android:text="联系客服"
         android:textColor="#FFFF8200"
         android:textSize="16sp"
         />

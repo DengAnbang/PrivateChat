@@ -42,6 +42,7 @@ public class LoginActivity extends BaseActivity {
     public boolean isCanLock() {
         return false;
     }
+
     @Override
     public void canLiftClickFinish() {
     }
@@ -59,7 +60,7 @@ public class LoginActivity extends BaseActivity {
         mgr.cancel(1);
         Intent chatService = new Intent(this, ChatService.class);
         chatService.putExtra("stop", "stop");
-        LogUtils.e("initView*****: stop" );
+        LogUtils.e("initView*****: stop");
         startService(chatService);
         click(R.id.tv_submit, view -> checkLogin());
         click(R.id.tv_forget, view -> {
@@ -68,6 +69,10 @@ public class LoginActivity extends BaseActivity {
         });
         click(R.id.tv_register, view -> {
             Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        });
+        click(R.id.tv_customer_service, view -> {
+            Intent intent = new Intent(this, ContactUsActivity.class);
             startActivity(intent);
         });
         String account = SPUtils.getString(Const.Sp.account, "");
@@ -161,6 +166,7 @@ public class LoginActivity extends BaseActivity {
             });
         });
     }
+
     private void requestPermissions() {
 
         RxPermissions rxPermission = new RxPermissions(this);
@@ -195,9 +201,6 @@ public class LoginActivity extends BaseActivity {
 //            getHangUpPermission(this);
 //        }
 //    }
-
-
-
 
 
 }

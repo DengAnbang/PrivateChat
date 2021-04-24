@@ -119,6 +119,11 @@ public class HttpManager {
                 .userSelectById(user_id, my_user_id), requestHelper, showLoadDialog, dataClick);
     }
 
+    public static void userSelectByAccount(String account, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
+        ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
+                .userSelectByAccount(account), requestHelper, showLoadDialog, dataClick);
+    }
+
     public static void userSelectByFuzzySearch(String word, final RequestHelper requestHelper, final OnDataCallBack<List<UserMsgBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .userSelectByFuzzySearch(word), requestHelper, true, dataClick);

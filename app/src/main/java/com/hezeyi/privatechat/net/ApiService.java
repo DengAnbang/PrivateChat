@@ -115,6 +115,10 @@ public interface ApiService {
             @Query("user_id") String user_id,
             @Query("my_user_id") String my_user_id
     );
+    @POST("/app/user/select/by/account")
+    Observable<ResultData<UserMsgBean>> userSelectByAccount(
+            @Query("account") String account
+    );
 
     @POST("/app/user/select/by/fuzzy/search")
     Observable<ResultData<List<UserMsgBean>>> userSelectByFuzzySearch(

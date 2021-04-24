@@ -1,15 +1,16 @@
 package com.hezeyi.privatechat.activity.account;
 
-import com.hezeyi.privatechat.MyApplication;
+
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.bean.SecurityBean;
-import com.hezeyi.privatechat.bean.UserMsgBean;
+
 import com.hezeyi.privatechat.net.HttpManager;
 
 /**
  * Created by dab on 2021/3/12 10:52
  * 安全问题验证
+ * account
  */
 public class SecurityQuestionVerifyActivity extends BaseActivity {
     public static final int RESULT_CODE_OK = RESULT_OK;//验证通过
@@ -46,17 +47,20 @@ public class SecurityQuestionVerifyActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
-        UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
-        HttpManager.securitySelect(userMsgBean.getUser_id(), this, securityBean -> {
-            if (securityBean.getQuestion1().equals("") || securityBean.getQuestion2().equals("")) {
-                setResult(RESULT_CODE_NO_SETUP);
-                finish();
-            } else {
-                mSecurityBean = securityBean;
-                setTwoTextLinearRightText(R.id.ttv_q1, securityBean.getQuestion1());
-                setTwoTextLinearRightText(R.id.ttv_q2, securityBean.getQuestion2());
-            }
+        String account = getIntent().getStringExtra("account");
+        HttpManager.userSelectByAccount(account,true,this,userMsgBean -> {
+            HttpManager.securitySelect(userMsgBean.getUser_id(), this, securityBean -> {
+                if (securityBean.getQuestion1().equals("") || securityBean.getQuestion2().equals("")) {
+                    setResult(RESULT_CODE_NO_SETUP);
+                    finish();
+                } else {
+                    mSecurityBean = securityBean;
+                    setTwoTextLinearRightText(R.id.ttv_q1, securityBean.getQuestion1());
+                    setTwoTextLinearRightText(R.id.ttv_q2, securityBean.getQuestion2());
+                }
+            });
         });
+
     }
 
 

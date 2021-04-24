@@ -22,10 +22,17 @@
         android:id="@+id/ttv_security_question"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="1dp"
         app:leftText="\u3000安全问题\u3000"
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
+<!--    <com.xhab.utils.view.TwoTextLinearView-->
+<!--        android:id="@+id/ttv_change_password"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginTop="1dp"-->
+<!--        app:leftText="\u3000修改密码\u3000"-->
+<!--        app:rightDrawable="@mipmap/c14_2_icon1" />-->
 
     <com.xhab.utils.view.TwoTextLinearView
         android:id="@+id/ttv_privacy"
