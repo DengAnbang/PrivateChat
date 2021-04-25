@@ -18,6 +18,7 @@ import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.SocketData;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
+import com.hezeyi.privatechat.net.RetrofitFactory;
 import com.hezeyi.privatechat.net.socket.SocketDispense;
 import com.xdandroid.hellodaemon.AbsWorkService;
 import com.xhab.chatui.bean.chat.ChatMessage;
@@ -126,7 +127,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
 
     private void init() {
-        mSocketAbstract = new WebSocketIpm(Const.Api.SOCKET_SERVER);
+        mSocketAbstract = new WebSocketIpm(Const.Api.SOCKET_SERVER, RetrofitFactory.getOkHttpClient());
         mSocketAbstract.setOnConnectionChange(connection -> {
             isConnection = connection;
         });
@@ -370,7 +371,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             }
             boolean aBoolean1 = SPUtils.getBoolean(Const.Sp.isNewMsgDesCode, false);
             if (!aBoolean1) {
-                name = "S.O.M";
+                name = getResources().getString(R.string.app_name);
                 msg = "收到一条新消息";
                 portrait = "";
             }
@@ -384,7 +385,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
     private void showNotification() {
         RxUtils.runOnIoThread(() -> {
             Intent intent = new Intent(this, FriendReplyActivity.class);
-            NotificationManagerUtils.showNotification(this, intent, "", "S.O.M", "有人请求添加你为好友", R.mipmap.logo, Const.Notification.CHANNEL_MSG_ID);
+            NotificationManagerUtils.showNotification(this, intent, "", getResources().getString(R.string.app_name), "有人请求添加你为好友", R.mipmap.logo, Const.Notification.CHANNEL_MSG_ID);
         });
     }
 

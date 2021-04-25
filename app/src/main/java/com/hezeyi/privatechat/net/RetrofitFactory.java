@@ -93,6 +93,9 @@ public class RetrofitFactory {
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
         builder.connectTimeout(30, TimeUnit.SECONDS);
         builder.readTimeout(30, TimeUnit.SECONDS);
+        builder.sslSocketFactory(HttpsUtils.getSSlSocketFactory());
+        builder.hostnameVerifier((hostname, session) -> true);
+        //        builder.sslSocketFactory(systemDefaultSslSocketFactory(systemDefaultTrustManager()),systemDefaultTrustManager());
         builder.addInterceptor(chain -> {
             Request request = chain.request();
             HttpUrl url = request.url();
@@ -115,4 +118,5 @@ public class RetrofitFactory {
         });
         return builder.build();
     }
+
 }

@@ -17,7 +17,6 @@ import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.StackManager;
-import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.SPUtils;
 
@@ -36,7 +35,6 @@ public class MeFragment extends BaseFragment {
     @Override
     public void onVisibleToUser() {
         super.onVisibleToUser();
-        LogUtils.e("onVisibleToUser*****: MeFragment");
         UserMsgBean userMsgBean = MyApplication.getInstance().getUserMsgBean();
         if (userMsgBean == null) {
             return;

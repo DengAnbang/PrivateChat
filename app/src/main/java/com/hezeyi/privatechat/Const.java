@@ -48,10 +48,11 @@ public class Const {
     }
 
     public static class Api {
-        public static final String API_HOST = "http://" + getUrl() + ":9090/";
-        public static final String SOCKET_SERVER = "ws://" + getUrl() + ":9090/" + "websocket";
-//        public static final String API_HOST = "http://" + getUrl() + "/";
-//        public static final String SOCKET_SERVER = "ws://" + getUrl() + "/" + "websocket";
+        //        public static final String API_HOST = "http://" + getUrl() + ":9090/";
+        public static final String SOCKET_SERVER = "wss://" + getUrl() + ":/" + "websocket";
+        //        public static final String SOCKET_SERVER = "ws://" + getUrl() + ":9090/" + "websocket";
+        public static final String API_HOST = "https://" + getUrl() + "/";
+        //        public static final String SOCKET_SERVER = "ws://" + getUrl() + "/" + "websocket";
         //        public static final String SOCKET_SERVER = getUrl();
         public static final int SOCKET_PORT = 9091;
         public static final String AppUpdatesDownload = API_HOST + "/public/app/updates/download";
@@ -65,8 +66,8 @@ public class Const {
 //                return "47.108.172.20";
                 return "hezeyisoftware.com";
 //                return "192.168.31.213";
-//                return "192.168.155.2";
-//                return "192.168.31.213:9090/public/file/upload";
+            case "zs":
+                return "hezeyisoftware.com";
             default:
                 return "192.168.31.213";
         }

@@ -8,8 +8,8 @@ android {
         applicationId "com.hezeyi.privatechat"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 22
-        versionName "V1.1.32"
+        versionCode 1
+        versionName "V1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
 //            // 设置支持的SO库架构
@@ -68,7 +68,7 @@ android {
             if (buildType == "release") {
                 variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.absolutePath + "/apk/${defaultConfig.versionName}")
                 def flavor = productFlavors[0]
-                fileName = "${flavor.manifestPlaceholders["app_name"].toString()}_V${defaultConfig.versionName + "_" + createTime}.apk"
+                fileName = "${flavor.manifestPlaceholders["app_name"].toString()}_${defaultConfig.versionName + "_" + createTime}.apk"
                 it.outputFileName = fileName
             }
         }
