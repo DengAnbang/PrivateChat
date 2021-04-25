@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.Nullable;
+
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
@@ -32,8 +34,6 @@ import com.xhab.utils.utils.ToastUtil;
 
 import java.io.File;
 import java.util.Objects;
-
-import androidx.annotation.Nullable;
 
 /**
  * Created by dab on 2021/3/17 15:24
@@ -225,7 +225,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         } else {
             FunUtils.affirm(this, "确定下载?", "确定", aBoolean -> {
                 if (aBoolean) {
-                    addDisposable(HttpManager.downloadFileNew(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean1 -> {
+                    addDisposable(HttpManager.downloadFile(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean1 -> {
                         message.setLocalPath(completePath);
                         FileUtils.openFile(completePath, this);
                     }));

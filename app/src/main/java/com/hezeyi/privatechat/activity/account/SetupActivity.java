@@ -2,18 +2,21 @@ package com.hezeyi.privatechat.activity.account;
 
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
+
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.tencent.bugly.beta.Beta;
+import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.utils.activity.WhitelistActivity;
-
-import androidx.annotation.Nullable;
 
 /**
  * Created by dab on 2021/3/12 10:52
  */
 public class SetupActivity extends BaseActivity {
+    private static final int KEY_WHITELIST_ACTIVITY = 82;
+    private static final int KEY_CHECK_IS_ANDROID_O = 83;
+
     @Override
     public int getContentViewRes() {
         return R.layout.activity_setup;
@@ -41,14 +44,14 @@ public class SetupActivity extends BaseActivity {
             startActivity(intent);
         });
         click(R.id.ttv_check_upgrade, view1 -> {
-            Beta.checkUpgrade();
+            HttpManager.updatesCheck(true, this);
         });
         click(R.id.ttv_privacy, view1 -> {
 
         });
         click(R.id.ttv_permission, view1 -> {
             MyApplication.getInstance().setLock(false);
-            startActivityForResult(new Intent(this, WhitelistActivity.class), 0x82);
+            startActivityForResult(new Intent(this, WhitelistActivity.class), KEY_WHITELIST_ACTIVITY);
         });
         click(R.id.ttv_permission, view1 -> {
             Intent intent = new Intent(this, ChangePasswordActivity.class);
@@ -57,11 +60,11 @@ public class SetupActivity extends BaseActivity {
         });
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0x82) {
-            MyApplication.getInstance().setLock(isCanLock());
-        }
+        MyApplication.getInstance().setLock(isCanLock());
+
     }
 }

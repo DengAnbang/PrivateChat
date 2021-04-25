@@ -11,6 +11,7 @@ import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
 import com.xhab.utils.StackManager;
+import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.SPUtils;
 
 /**
@@ -29,7 +30,15 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-
+//        SPUtils.save(Const.Sp.again_password, System.currentTimeMillis());
+        long aLong = SPUtils.getLong(Const.Sp.again_password, System.currentTimeMillis());
+        long l = System.currentTimeMillis() - aLong;
+        if (l > 1000 * 60 * 60 * 24 * 3) {
+//        if (l > 1000 * 60 ) {
+            //上次登录以后,超过了3天,清空密码,重新登录
+            SPUtils.save(Const.Sp.password, "");
+        }
+        LogUtils.e("initView*****: " + l);
         String account = SPUtils.getString(Const.Sp.account, "");
         String password = SPUtils.getString(Const.Sp.password, "");
         if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {

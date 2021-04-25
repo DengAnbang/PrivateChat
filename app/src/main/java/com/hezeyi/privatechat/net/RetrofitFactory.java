@@ -99,7 +99,7 @@ public class RetrofitFactory {
 
             Response proceed = chain.proceed(request);
 
-            if (!url.toString().contains("/public/file")) {
+            if (!url.toString().contains("/public/file") && !url.toString().contains("public/app/updates/download")) {
 //            if (BuildConfig.DEBUG) {
                 LogUtils.e("request: " + url.toString());
 //                if (Objects.equals(BuildConfig.FLAVOR, "nb")) {

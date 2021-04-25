@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.IBinder;
 import android.text.TextUtils;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.Gson;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
@@ -39,7 +41,6 @@ import com.xhab.utils.utils.ToastUtil;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.Nullable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -125,7 +126,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
 
     private void init() {
-        mSocketAbstract = new WebSocketIpm("ws://" + Const.Api.SOCKET_SERVER + ":9090/" + "websocket");
+        mSocketAbstract = new WebSocketIpm(Const.Api.SOCKET_SERVER);
         mSocketAbstract.setOnConnectionChange(connection -> {
             isConnection = connection;
         });
@@ -266,7 +267,6 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         mSocketAbstract.send(login_out);
         mUserId = "";
         JuphoonUtils.get().logout();
-
     }
 
 
@@ -293,7 +293,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
             return;
         }
         String completePath = Const.FilePath.chatFileLocalPath + message.getRemoteUrl();
-        addDisposable(HttpManager.downloadFileNew(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean -> {
+        addDisposable(HttpManager.downloadFile(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean -> {
             message.setLocalPath(completePath);
             RxUtils.runOnUiThread(() -> RxBus.get().post(Const.RxType.TYPE_MSG_ADD, message));
         }));

@@ -2,10 +2,10 @@ package com.hezeyi.privatechat.base;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+
 import com.hezeyi.privatechat.MyApplication;
 import com.xhab.utils.base.BaseUtilActivity;
-
-import androidx.annotation.Nullable;
 
 /**
  * Created by dab on 2021/3/9 15:40

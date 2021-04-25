@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import com.hezeyi.privatechat.activity.LockActivity;
 import com.hezeyi.privatechat.activity.account.SelectUserActivity;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
@@ -31,9 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import io.reactivex.disposables.Disposable;
 
 
@@ -127,6 +128,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
             showRedPrompt(1, integer != 0);
         });
         addDisposable(subscribe);
+        HttpManager.updatesCheck(false, this);
     }
 
 

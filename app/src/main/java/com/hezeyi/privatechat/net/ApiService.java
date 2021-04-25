@@ -5,6 +5,7 @@ import com.hezeyi.privatechat.bean.RechargeRecordBean;
 import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.SelectPriceBean;
+import com.hezeyi.privatechat.bean.UpdatesBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 
 import java.util.List;
@@ -32,10 +33,7 @@ public interface ApiService {
 
 
     @POST("/public/app/updates/check")
-    Observable<ResultData<Object>> updatesCheck(
-            @Query("versionCode") int versionCode,
-            @Query("version_channel") String version_channel
-    );
+    Observable<ResultData<UpdatesBean>> updatesCheck();
 
     //文件上传
     @Multipart
@@ -115,6 +113,7 @@ public interface ApiService {
             @Query("user_id") String user_id,
             @Query("my_user_id") String my_user_id
     );
+
     @POST("/app/user/select/by/account")
     Observable<ResultData<UserMsgBean>> userSelectByAccount(
             @Query("account") String account

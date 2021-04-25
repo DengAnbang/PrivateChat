@@ -4,6 +4,9 @@ package com.hezeyi.privatechat.fragment;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
@@ -20,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
@@ -72,6 +73,7 @@ public class ChatFragment extends BaseFragment {
             FunUtils.affirm(getActivity(), "是否删除?", "删除", aBoolean -> {
                 if (aBoolean) {
                     ChatDatabaseHelper.get(getActivity(), MyApplication.getInstance().getUserMsgBean().getUser_id()).chatListDelete(chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()) + "");
+                    ChatDatabaseHelper.get(getActivity(), MyApplication.getInstance().getUserMsgBean().getUser_id()).chatDbDelete(chatListMessage.getAnotherId(MyApplication.getInstance().getUserMsgBean().getUser_id()) + "");
                     updateMsgList();
                 }
             });

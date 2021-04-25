@@ -17,6 +17,7 @@ public class Const {
     public static class Sp {
         public static final String account = "account";
         public static final String password = "password";
+        public static final String again_password = "again_password";
         public static final String SecurityCode = "Code";
         public static final String isOpenSecurityCode = "isOpenSecurityCode";
         public static final String isNewMsgCode = "isNewMsgCode";
@@ -29,7 +30,8 @@ public class Const {
         //本地目录
         public static final String chatFileLocalPath = TEMP_DOCUMENTS_PATH;
         public static final String databaseFileLocalPath = TEMP_DOCUMENTS_PATH;
-        public static final String FileLocalPath = TEMP_DOCUMENTS_PATH+"/pay/";
+        public static final String FileLocalPath = TEMP_DOCUMENTS_PATH + "/pay/";
+        public static final String FileAppUpdatesName = TEMP_DOCUMENTS_PATH + "/apk/app.apk";
         //网络目录
         public static final String chatFileType = "chat/file";
         public static final String userFileType = "user/file";
@@ -47,15 +49,21 @@ public class Const {
 
     public static class Api {
         public static final String API_HOST = "http://" + getUrl() + ":9090/";
-        public static final String SOCKET_SERVER = getUrl();
+        public static final String SOCKET_SERVER = "ws://" + getUrl() + ":9090/" + "websocket";
+//        public static final String API_HOST = "http://" + getUrl() + "/";
+//        public static final String SOCKET_SERVER = "ws://" + getUrl() + "/" + "websocket";
+        //        public static final String SOCKET_SERVER = getUrl();
         public static final int SOCKET_PORT = 9091;
+        public static final String AppUpdatesDownload = API_HOST + "/public/app/updates/download";
+
     }
 
     private static String getUrl() {
         switch (BuildConfig.FLAVOR) {
             case "nb":
 //                return "192.168.0.107";
-                return "47.108.172.20";
+//                return "47.108.172.20";
+                return "hezeyisoftware.com";
 //                return "192.168.31.213";
 //                return "192.168.155.2";
 //                return "192.168.31.213:9090/public/file/upload";

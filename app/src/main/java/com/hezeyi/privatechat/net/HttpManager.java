@@ -1,18 +1,26 @@
 package com.hezeyi.privatechat.net;
 
 
+import com.hezeyi.privatechat.BuildConfig;
+import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.RechargeRecordBean;
 import com.hezeyi.privatechat.bean.ResultData;
 import com.hezeyi.privatechat.bean.SecurityBean;
 import com.hezeyi.privatechat.bean.SelectPriceBean;
+import com.hezeyi.privatechat.bean.UpdatesBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
+import com.xhab.utils.dialog.ProgressDialog;
 import com.xhab.utils.inteface.OnDataCallBack;
 import com.xhab.utils.net.RequestHelper;
 import com.xhab.utils.net.RequestHelperAgency;
+import com.xhab.utils.utils.AppUtils;
 import com.xhab.utils.utils.BitmapUtil;
+import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.RxUtils;
+import com.xhab.utils.utils.ToastUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,9 +67,9 @@ public class HttpManager {
     }
 
 
-    public static void updatesCheck(int version_code, String version_channel, final RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void updatesCheck(boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<UpdatesBean> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .updatesCheck(version_code, version_channel), requestHelper, true, dataClick);
+                .updatesCheck(), requestHelper, showLoadDialog, dataClick);
     }
 
     //    public static void login(String account, String password, final RequestHelper requestHelper, final OnDataCallBack<UserMsgBean> dataClick) {
@@ -218,14 +226,47 @@ public class HttpManager {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .priceSelectAll(user_id), requestHelper, true, dataClick);
     }
+    public static void updatesCheck(boolean showLoadDialog, RequestHelper requestHelper) {
+        HttpManager.updatesCheck(showLoadDialog, requestHelper, updatesBean -> {
+            if (updatesBean.getVersion_code() > BuildConfig.VERSION_CODE) {
+                FunUtils.affirm(requestHelper.getSupportContext(), "发现新版本:" + updatesBean.getVersion_name(), "更新", aBoolean -> {
+                    if (aBoolean) {
+                        boolean delete = new File(Const.FilePath.FileAppUpdatesName).delete();
+                        HttpManager.downloadFileProgress(Const.Api.AppUpdatesDownload, Const.FilePath.FileAppUpdatesName, (msg, finish) -> {
+                            if (!finish) {
+                                RxUtils.runOnUiThread(() -> {
+                                    ProgressDialog progressDialog = requestHelper.getProgressDialog();
+                                    progressDialog.show();
+                                    progressDialog.setProgress(msg);
+                                });
 
+                            } else {
+                                RxUtils.runOnUiThread(() -> {
+                                    requestHelper.getProgressDialog().dismiss();
+                                    LogUtils.e("initEvent*****: " + Const.FilePath.FileAppUpdatesName);
+                                    AppUtils.installApk(requestHelper.getSupportContext(), Const.FilePath.FileAppUpdatesName);
+//                                        AppUtils.checkIsAndroidO(this, Const.FilePath.FileAppUpdatesName, KEY_CHECK_IS_ANDROID_O);
+                                });
+
+                            }
+                        });
+                    }
+                });
+            } else {
+                if (showLoadDialog) {
+                    ToastUtil.showToast("已经是最新版本了!");
+                }
+            }
+//                LogUtils.e("initEvent*****: " + updatesBean.getVersion_code());
+        });
+    }
     /**
      * 下载文件
      *
      * @param fileUrl
      * @return
      */
-    public static Disposable downloadFileNew(final String fileUrl, final String completePath, final OnDataCallBack<Boolean> onDataClick) {
+    public static Disposable downloadFile(final String fileUrl, final String completePath, final OnDataCallBack<Boolean> onDataClick) {
 
         Disposable disposable = RetrofitFactory.getService(ApiService.class).downloadFile(fileUrl)
                 .subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
@@ -239,6 +280,17 @@ public class HttpManager {
                     throwable.printStackTrace();
                     onDataClick.onCallBack(false);
 
+                });
+        return disposable;
+    }
+
+    public static Disposable downloadFileProgress(final String fileUrl, final String completePath, final DownLoadCallback loadCallback) {
+
+        Disposable disposable = RetrofitFactory.getService(ApiService.class).downloadFile(fileUrl)
+                .subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+                .subscribe(responseBodyResponse -> writeResponseBodyToDiskNew(completePath, responseBodyResponse, loadCallback), throwable -> {
+                    throwable.printStackTrace();
+                    loadCallback.onDownLoad("", false);
                 });
         return disposable;
     }

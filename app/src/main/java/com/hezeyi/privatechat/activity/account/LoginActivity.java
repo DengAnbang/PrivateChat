@@ -8,6 +8,8 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import androidx.core.content.ContextCompat;
+
 import com.hezeyi.privatechat.BuildConfig;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MainActivity;
@@ -16,15 +18,15 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
+import com.hezeyi.privatechat.service.VoiceService;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.activity.PrivacyPolicyActivity;
 import com.xhab.utils.utils.FunUtils;
-import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.SpanBuilder;
 import com.xhab.utils.utils.ToastUtil;
 
-import androidx.core.content.ContextCompat;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -58,10 +60,14 @@ public class LoginActivity extends BaseActivity {
         super.initView();
         NotificationManager mgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mgr.cancel(1);
+        mgr.cancel(2);
+        mgr.cancel(3);
         Intent chatService = new Intent(this, ChatService.class);
         chatService.putExtra("stop", "stop");
-        LogUtils.e("initView*****: stop");
         startService(chatService);
+        startService(new Intent(this, VoiceService.class));
+        JuphoonUtils.get().logout();
+
         click(R.id.tv_submit, view -> checkLogin());
         click(R.id.tv_forget, view -> {
             Intent intent = new Intent(this, ForgetActivity.class);
@@ -79,7 +85,7 @@ public class LoginActivity extends BaseActivity {
         String password = SPUtils.getString(Const.Sp.password, "");
         setTextViewString(R.id.et_account, account);
         setTextViewString(R.id.et_password, password);
-        setTextViewString(R.id.tv_version, "版本号:v" + BuildConfig.VERSION_NAME);
+        setTextViewString(R.id.tv_version, "版本号:" + BuildConfig.VERSION_NAME);
     }
 
     @Override
@@ -144,6 +150,7 @@ public class LoginActivity extends BaseActivity {
                     MyApplication.getInstance().setUserMsgBean(data.getData());
                     SPUtils.save(Const.Sp.account, account);
                     SPUtils.save(Const.Sp.password, password);
+                    SPUtils.save(Const.Sp.again_password, System.currentTimeMillis());
                     getUserList();
                 } else {
                     showSnackBar(s);
@@ -186,21 +193,6 @@ public class LoginActivity extends BaseActivity {
                 });
         addDisposable(subscribe);
     }
-//    private void ensurePermissions() {
-//        //检查是否已经授予权限 桌面启动activity的权限
-//        if (!Settings.canDrawOverlays(this)) {
-//            //若未授权则请求权限
-//            FunUtils.affirm(this, "此应用需要显示在其他应用的上层的权限,以便于及时提醒", "去设置", aBoolean -> {
-//                if (aBoolean) {
-//                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-//                    intent.setData(Uri.parse("package:" + getPackageName()));
-//                    startActivityForResult(intent, 1);
-//                }
-//            });
-//        } else {
-//            getHangUpPermission(this);
-//        }
-//    }
 
 
 }
