@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.hezeyi.privatechat.MainActivity;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
@@ -14,6 +17,7 @@ import com.hezeyi.privatechat.service.VoiceFloatingService;
 import com.hezeyi.privatechat.service.VoiceService;
 import com.juphoon.cloud.JCCall;
 import com.juphoon.cloud.JCCallItem;
+import com.juphoon.cloud.JCMediaDevice;
 import com.xhab.chatui.service.BaseVoiceFloatingService;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.chatui.voiceCalls.BaseVoiceActivity;
@@ -23,9 +27,6 @@ import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.RxUtils;
 import com.xhab.utils.utils.TimeUtils;
-
-import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 /**
  * Created by dab on 2021/3/27 14:30
@@ -65,7 +66,7 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
         super.initEvent();
 
         if (checkJcCallItem()) {
-            if (mJcCallItem.getDirection() == JCCall.DIRECTION_IN) {
+            if (mJcCallItem.getDirection() == JCCall.DIRECTION_IN && mJcCallItem.getState() == JCCall.STATE_PENDING) {
                 findViewById(R.id.iv_answer).setVisibility(View.VISIBLE);
                 findViewById(R.id.iv_answer).setOnClickListener(v -> {
                     JuphoonUtils.get().answer(mJcCallItem);
@@ -106,6 +107,9 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
 
         addDisposable(RxUtils.interval(1, () -> {
             if (mJcCallItem.getState() == JCCall.STATE_TALKING) {
+                JCMediaDevice mediaDevice = JuphoonUtils.get().getMediaDevice();
+                mediaDevice.enableSpeaker(false);
+                LogUtils.e("initEvent*****: " + mediaDevice.isSpeakerOn());
                 //如果是通话中,显示通话时间
                 mCallTime = (System.currentTimeMillis() / 1000) - mJcCallItem.getTalkingBeginTime();
                 setTextViewString(R.id.tv_time, "通话时间:" + TimeUtils.getHMS(mCallTime));

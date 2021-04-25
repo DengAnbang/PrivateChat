@@ -158,8 +158,15 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
     private void initSocket() {
         JuphoonUtils.get().setCallBackAdd(item -> {
+//            if (!aBoolean1) {
+//                name = getResources().getString(R.string.app_name);
+//                msg = "收到一条新消息";
+//                portrait = "";
+//            }
+//            Intent intent = ChatActivity.getStartChatActivity(this, targetId, isGroup);
+//            NotificationManagerUtils.showNotification(this, intent,
+//                    Const.Api.API_HOST + portrait, name, msg, message.getPlaceholder(), Const.Notification.CHANNEL_MSG_ID);
 
-//            MyApplication.getInstance().setJCCallItem(item);
             Intent intent = new Intent(ChatService.this, VoiceService.class);
             startService(intent);
 //            Intent intent = new Intent(ChatService.this, ChatVoiceActivity.class);

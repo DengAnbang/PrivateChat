@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.hezeyi.privatechat.net.HttpManager;
+import com.tencent.bugly.beta.Beta;
 import com.xhab.utils.activity.WhitelistActivity;
 
 /**
@@ -44,7 +44,8 @@ public class SetupActivity extends BaseActivity {
             startActivity(intent);
         });
         click(R.id.ttv_check_upgrade, view1 -> {
-            HttpManager.updatesCheck(true, this);
+            Beta.checkUpgrade();
+//            HttpManager.updatesCheck(true, this);
         });
         click(R.id.ttv_privacy, view1 -> {
 
@@ -53,11 +54,11 @@ public class SetupActivity extends BaseActivity {
             MyApplication.getInstance().setLock(false);
             startActivityForResult(new Intent(this, WhitelistActivity.class), KEY_WHITELIST_ACTIVITY);
         });
-        click(R.id.ttv_permission, view1 -> {
-            Intent intent = new Intent(this, ChangePasswordActivity.class);
-            intent.putExtra("account", MyApplication.getInstance().getUserMsgBean().getAccount());
-            startActivity(intent);
-        });
+//        click(R.id.ttv_permission, view1 -> {
+//            Intent intent = new Intent(this, ChangePasswordActivity.class);
+//            intent.putExtra("account", MyApplication.getInstance().getUserMsgBean().getAccount());
+//            startActivity(intent);
+//        });
     }
 
 

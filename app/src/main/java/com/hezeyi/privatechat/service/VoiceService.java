@@ -1,7 +1,9 @@
 package com.hezeyi.privatechat.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
@@ -55,8 +57,11 @@ public class VoiceService extends Service implements RequestHelperImp {
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // 获取服务通知
         Notification notification = NotificationManagerUtils.getNotification(this, intent1, false, "语音通话", Const.Notification.CHANNEL_MSG_ID);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(1,notification);
         //将服务置于启动状态 ,NOTIFICATION_ID指的是创建的通知的ID
-        startForeground(3, notification);
+        startForeground(1, notification);
+
         init();
         return super.onStartCommand(intent, flags, startId);
     }

@@ -2,6 +2,8 @@ package com.xhab.chatui.voiceCalls;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.juphoon.cloud.JCCall;
 import com.juphoon.cloud.JCCallCallback;
 import com.juphoon.cloud.JCCallItem;
@@ -12,8 +14,6 @@ import com.juphoon.cloud.JCMediaDeviceCallback;
 import com.juphoon.cloud.JCMediaDeviceVideoCanvas;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
-
-import androidx.annotation.NonNull;
 
 import static com.juphoon.cloud.JCCall.STATE_OK;
 
@@ -31,6 +31,10 @@ public class JuphoonUtils {
 
     public JCCall getCall() {
         return mCall;
+    }
+
+    public JCMediaDevice getMediaDevice() {
+        return mMediaDevice;
     }
 
     private JCCallItem mJCCallItem;
