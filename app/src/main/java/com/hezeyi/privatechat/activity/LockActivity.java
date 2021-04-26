@@ -1,12 +1,18 @@
 package com.hezeyi.privatechat.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.inputmethod.InputMethodManager;
 
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
 import com.hezeyi.privatechat.base.BaseActivity;
+import com.juphoon.cloud.JCCall;
+import com.juphoon.cloud.JCCallItem;
+import com.xhab.chatui.voiceCalls.JuphoonUtils;
+import com.xhab.utils.StackManager;
 import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.ToastUtil;
 import com.xhab.utils.view.VerificationCodeView;
@@ -80,6 +86,14 @@ public class LockActivity extends BaseActivity {
     private void verification(String code) {
         String string = SPUtils.getString(Const.Sp.SecurityCode+ MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
         if (string.equals(code)) {
+            JCCallItem jcCallItem = JuphoonUtils.get().getJCCallItem();
+            if (jcCallItem != null) {
+                if (jcCallItem.getState() == JCCall.STATE_PENDING) {
+                    Intent intent1 = new Intent(StackManager.currentActivity(), ChatVoiceActivity.class);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent1);
+                }
+            }
             finish();
         } else {
             ToastUtil.showToast("密码错误,如果忘记,请重新登录后设置新的安全码!");

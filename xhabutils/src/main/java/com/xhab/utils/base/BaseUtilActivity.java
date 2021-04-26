@@ -6,16 +6,16 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.xhab.utils.R;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.popupWindow.BasePopupWindow;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.view.TwoTextLinearView;
-
-import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by dab on 2021/3/6 12:02
@@ -91,8 +91,7 @@ public abstract class BaseUtilActivity extends AppCompatActivity implements Requ
 
     public void canLiftClickFinish() {
         visibility(R.id.iv_back, true);
-        click(R.id.iv_back, v -> finish());
-
+        click(R.id.iv_back, v -> onBackPressed());
     }
 
     public TwoTextLinearView setTwoTextLinearRightText(@IdRes int res, CharSequence charSequence) {

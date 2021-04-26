@@ -29,6 +29,7 @@ import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.QRCodeUtils;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.SPUtils;
+import com.xhab.utils.utils.SettingUtils;
 import com.xhab.utils.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -141,6 +142,8 @@ public class MainActivity extends BaseBottomTabUtilActivity {
             Intent intent = new Intent(this, LockActivity.class);
             intent.putExtra("isSetUp", true);
             startActivityForResult(intent, 0x88);
+        }else {
+            RequestWhitelist();
         }
         TextView rightTitle = findViewById(R.id.tv_right);
         rightTitle.setTextSize(DisplayUtils.dp2px(this, 9));
@@ -173,6 +176,14 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         });
     }
 
+    private void RequestWhitelist() {
+        if (!SettingUtils.isBannersPermission(this, WhitelistActivity.CHANNEL_MSG_ID)) {
+            ToastUtil.showToast("请先开启悬浮通知权限,否则将无法正常使用!");
+            MyApplication.getInstance().setLock(false);
+            startActivityForResult(new Intent(this, WhitelistActivity.class), 0x82);
+        }
+    }
+
     //点击返回键返回桌面而不是退出程序
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -192,12 +203,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
         super.onActivityResult(requestCode, resultCode, data);
         MyApplication.getInstance().setLock(true);
         if (requestCode == 0x88) {
-            boolean notFirst = SPUtils.getBoolean("notWhitelist");
-            if (!notFirst) {
-                SPUtils.save("notWhitelist", true);
-                MyApplication.getInstance().setLock(false);
-                startActivityForResult(new Intent(this, WhitelistActivity.class), 0x82);
-            }
+            RequestWhitelist();
         }
 
     }

@@ -10,12 +10,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
-import com.xhab.chatui.R;
-import com.xhab.utils.utils.NetUtils;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.WorkerThread;
 import androidx.core.app.NotificationCompat;
+
+import com.xhab.chatui.R;
+import com.xhab.utils.utils.NetUtils;
 
 /**
  * Created by dab on 2021/3/30 11:56
@@ -27,7 +27,7 @@ public class NotificationManagerUtils {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//Android 8.0及以上
             //只在Android O之上需要渠道
-            NotificationChannel notificationChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notificationChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT);
             //通知才能正常弹出
             notificationChannel.enableVibration(true);//震动不可用
             mNotificationManager.createNotificationChannel(notificationChannel);

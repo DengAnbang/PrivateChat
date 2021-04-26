@@ -14,6 +14,7 @@ import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.FriendReplyActivity;
 import com.hezeyi.privatechat.activity.account.LoginActivity;
 import com.hezeyi.privatechat.activity.chat.ChatActivity;
+import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.SocketData;
 import com.hezeyi.privatechat.bean.UserMsgBean;
@@ -169,9 +170,9 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
             Intent intent = new Intent(ChatService.this, VoiceService.class);
             startService(intent);
-//            Intent intent = new Intent(ChatService.this, ChatVoiceActivity.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
+            Intent intent1 = new Intent(StackManager.currentActivity(), ChatVoiceActivity.class);
+            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent1);
         });
         mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
         addDisposable(Observable.interval(15 * 60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {

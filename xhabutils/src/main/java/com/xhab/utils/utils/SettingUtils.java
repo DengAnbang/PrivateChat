@@ -1,33 +1,36 @@
 package com.xhab.utils.utils;
 
 import android.app.Activity;
+import android.app.AppOpsManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 
+import androidx.annotation.RequiresApi;
+
 import com.xhab.utils.R;
 import com.xhab.utils.bean.WhitelistGuideBean;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.RequiresApi;
 
 /**
  * Created by dab on 2021/4/22 09:29
  */
 public class SettingUtils {
-    public static void enterWhiteListSetting(Activity context,int requestCode) {
+    public static void enterWhiteListSetting(Activity context, int requestCode) {
         try {
-            context.startActivityForResult(getSettingIntent(),requestCode);
+            context.startActivityForResult(getSettingIntent(), requestCode);
         } catch (Exception e) {
-            context.startActivityForResult(new Intent(Settings.ACTION_SETTINGS),requestCode);
+            context.startActivityForResult(new Intent(Settings.ACTION_SETTINGS), requestCode);
         }
     }
 
@@ -154,9 +157,42 @@ public class SettingUtils {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//Android 8.0及以上
             NotificationChannel channel = mNotificationManager.getNotificationChannel(channelId);//CHANNEL_ID是自己定义的渠道ID
-            return channel.getImportance() != NotificationManager.IMPORTANCE_DEFAULT;
+            return channel.getImportance() > NotificationManager.IMPORTANCE_DEFAULT;
         }
         return true;
+    }
+
+    /**
+     * 判断 悬浮窗口权限是否打开
+     *
+     * @param context
+     * @return true 允许  false禁止
+     */
+    public static boolean getAppOps(Context context) {
+        try {
+            Object object = context.getSystemService("appops");
+            if (object == null) {
+                return false;
+            }
+            Class localClass = object.getClass();
+            Class[] arrayOfClass = new Class[3];
+            arrayOfClass[0] = Integer.TYPE;
+            arrayOfClass[1] = Integer.TYPE;
+            arrayOfClass[2] = String.class;
+            Method method = localClass.getMethod("checkOp", arrayOfClass);
+            if (method == null) {
+                return false;
+            }
+            Object[] arrayOfObject1 = new Object[3];
+            arrayOfObject1[0] = Integer.valueOf(24);
+            arrayOfObject1[1] = Integer.valueOf(Binder.getCallingUid());
+            arrayOfObject1[2] = context.getPackageName();
+            int m = ((Integer) method.invoke(object, arrayOfObject1)).intValue();
+            return m == AppOpsManager.MODE_ALLOWED;
+        } catch (Exception ex) {
+
+        }
+        return false;
     }
 
     /**

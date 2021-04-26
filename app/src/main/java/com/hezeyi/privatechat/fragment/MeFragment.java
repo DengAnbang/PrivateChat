@@ -1,9 +1,7 @@
 package com.hezeyi.privatechat.fragment;
 
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.os.Build;
 import android.view.View;
 
 import com.hezeyi.privatechat.Const;
@@ -16,6 +14,7 @@ import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.xhab.chatui.utils.GlideUtils;
+import com.xhab.chatui.voiceCalls.JuphoonUtils;
 import com.xhab.utils.StackManager;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.SPUtils;
@@ -65,6 +64,7 @@ public class MeFragment extends BaseFragment {
         click(R.id.ttv_login_out, view1 -> {
             RxBus.get().post(Const.RxType.TYPE_LOGIN_OUT, Object.class);
             SPUtils.save(Const.Sp.password, "");
+            JuphoonUtils.get().hangup();
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -83,28 +83,5 @@ public class MeFragment extends BaseFragment {
         setTextViewString(R.id.tv_account, "账号:" + userMsgBean.getAccount());
     }
 
-    private void ada() {
-        ComponentName componentName = null;
-        int sdkVersion = Build.VERSION.SDK_INT;
-        try {
-            Intent intent = new Intent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //跳自启动管理
-            if (sdkVersion >= 28) {//9:已测试
-                componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/.startupmgr.ui.StartupNormalAppListActivity");//跳自启动管理
-            } else if (sdkVersion >= 26) {//8：已测试
-                componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/.appcontrol.activity.StartupAppControlActivity");
-            } else if (sdkVersion >= 23) {//7.6：已测试
-                componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/.startupmgr.ui.StartupNormalAppListActivity");
-            } else if (sdkVersion >= 21) {//5
-                componentName = ComponentName.unflattenFromString("com.huawei.systemmanager/com.huawei.permissionmanager.ui.MainActivity");
-            }
-            //componentName = new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity");//锁屏清理
-            intent.setComponent(componentName);
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            //跳转失败
-        }
-    }
+
 }

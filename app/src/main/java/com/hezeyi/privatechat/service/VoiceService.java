@@ -53,12 +53,18 @@ public class VoiceService extends Service implements RequestHelperImp {
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtils.e("onStartCommand*****: ");
         stopForeground(true);
+        mJcCallItem = JuphoonUtils.get().getJCCallItem();
+        if (mJcCallItem == null || mJcCallItem.getState() > JCCall.STATE_TALKING) {
+            JuphoonUtils.get().hangup();
+            stopSelf();
+            return super.onStartCommand(intent, flags, startId);
+        }
         Intent intent1 = new Intent(this, ChatVoiceActivity.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // 获取服务通知
         Notification notification = NotificationManagerUtils.getNotification(this, intent1, false, "语音通话", Const.Notification.CHANNEL_MSG_ID);
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1,notification);
+        mNotificationManager.notify(1, notification);
         //将服务置于启动状态 ,NOTIFICATION_ID指的是创建的通知的ID
         startForeground(1, notification);
 
@@ -76,6 +82,10 @@ public class VoiceService extends Service implements RequestHelperImp {
         //呼入的时候,不会回调onCallItemUpdate 这个方法,所有单独触发一次
         addDisposable(RxBus.get().register("onCallItemUpdate", Integer.class).subscribe(integer -> {
             switch (mJcCallItem.getState()) {
+
+                case JCCall.STATE_INIT://初始化
+                    ringBell();
+                    break;
                 case JCCall.STATE_PENDING://响铃
                     LogUtils.e("initEvent*****:响铃");
                     ringBell();
@@ -117,6 +127,11 @@ public class VoiceService extends Service implements RequestHelperImp {
 
                 } else {
                     LogUtils.e("initEvent*****: " + mJcCallItem.getState());
+                    if (mJcCallItem.getState() > JCCall.STATE_TALKING) {
+                        JuphoonUtils.get().hangup();
+                        stopSelf();
+                    }
+
                 }
 
             } else {
@@ -174,8 +189,12 @@ public class VoiceService extends Service implements RequestHelperImp {
             mMediaPlayer.start();
             Disposable mDisposable = RxUtils.interval(15, () -> {
                 //如果15s没有接听,则挂断!
-                if (mJcCallItem.getState() == JCCall.STATE_PENDING) {
-                    ToastUtil.showToast("对方未接听");
+                if (mJcCallItem.getState() <= JCCall.STATE_PENDING) {
+                    if (mJcCallItem.getState() == JCCall.STATE_INIT) {
+                        ToastUtil.showToast("对方不在线");
+                    } else {
+                        ToastUtil.showToast("对方未接听");
+                    }
                     JuphoonUtils.get().hangup();
                     stopMediaPlayer();
                     mMediaPlayer = MediaPlayer.create(this, R.raw.end);
