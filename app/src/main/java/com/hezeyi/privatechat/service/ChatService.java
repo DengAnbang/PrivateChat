@@ -170,9 +170,12 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
 
             Intent intent = new Intent(ChatService.this, VoiceService.class);
             startService(intent);
-            Intent intent1 = new Intent(StackManager.currentActivity(), ChatVoiceActivity.class);
-            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent1);
+            if (MyApplication.getInstance().isForeground()) {
+                Intent intent1 = new Intent(StackManager.currentActivity(), ChatVoiceActivity.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent1);
+            }
+
         });
         mSocketAbstract.setOnMessageChange(SocketDispense::parseJson);
         addDisposable(Observable.interval(15 * 60, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
@@ -332,7 +335,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
             MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
-            HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
+            HttpManager.groupSelectList(user_id, false,this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
             });
         });
@@ -415,4 +418,5 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         }
         return mRequestHelperAgency;
     }
+
 }

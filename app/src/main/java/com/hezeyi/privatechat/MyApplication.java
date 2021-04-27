@@ -48,6 +48,11 @@ public class MyApplication extends Application {
 
     private static MyApplication instance;
     private boolean isLock = true;
+    private boolean isForeground = true;
+
+    public boolean isForeground() {
+        return isForeground;
+    }
 
     public void setLock(boolean lock) {
         Activity packageContext = StackManager.currentActivity();
@@ -124,8 +129,10 @@ public class MyApplication extends Application {
         ForegroundCallbacks.init(this).addListener(new ForegroundCallbacks.Listener() {
             @Override
             public void onBecameForeground() {
+                isForeground = true;
                 String string = SPUtils.getString(Const.Sp.SecurityCode + MyApplication.getInstance().getUserMsgBean().getUser_id(), "");
                 LogUtils.e("onBecameForeground*****: 进入前台" + isLock + string);
+
                 if (isLock && SPUtils.getBoolean(Const.Sp.isOpenSecurityCode, true) && !string.equals("")) {
                     Activity packageContext = StackManager.currentActivity();
                     if ("com.hezeyi.privatechat.activity.SplashActivity".equals(packageContext.getClass().getName())) {
@@ -149,7 +156,7 @@ public class MyApplication extends Application {
             @Override
             public void onBecameBackground() {
                 LogUtils.e("onBecameForeground*****: 退至后台" + isLock);
-
+                isForeground = false;
 
             }
         });

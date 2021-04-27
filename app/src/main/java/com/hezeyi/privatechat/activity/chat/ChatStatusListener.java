@@ -11,6 +11,8 @@ import android.util.Log;
 
 import com.xhab.chatui.utils.ScreenShotListenManager;
 import com.xhab.utils.inteface.OnDataCallBack;
+import com.xhab.utils.utils.LogUtils;
+import com.xhab.utils.utils.RxUtils;
 
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -35,18 +37,21 @@ public class ChatStatusListener {
             boolean enabled = blueadapter.isEnabled();
             if (enabled && onBluetoothListener != null) {
                 String connectedBtDevice = getConnectedBtDevice();
-                String t = "的蓝牙处于打开状态!";
+
+//                String t = "的蓝牙处于打开状态!";
                 if (!TextUtils.isEmpty(connectedBtDevice)) {
-                    t = t + "连接的设备名称:"+connectedBtDevice;
+                    String t = "的蓝牙";
+                    t = t + "连接的设备名称:" + connectedBtDevice;
+                    onBluetoothListener.onCallBack(t);
                 }
-                onBluetoothListener.onCallBack(t);
             }
         }
         startScreenShotListen();
         // 初始化广播
-        IntentFilter intentFilter = new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
         // 监视蓝牙关闭和打开的状态
         intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        intentFilter.addAction(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
         // 注册广播
         mContext.registerReceiver(mReceiver, intentFilter);
     }
@@ -102,14 +107,50 @@ public class ChatStatusListener {
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            LogUtils.e("onReceive*****: " +action );
+            switch (action) {
+                case BluetoothDevice.ACTION_ACL_CONNECTED:
+                    if (onBluetoothListener != null) {
+                        RxUtils.runOnIoThread(() -> {
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            String connectedBtDevice = getConnectedBtDevice();
+                            LogUtils.e("onReceive*****: " + connectedBtDevice);
+                            if (!TextUtils.isEmpty(connectedBtDevice)) {
+                                onBluetoothListener.onCallBack("的蓝牙连接的设备名称:" + connectedBtDevice);
+                            }
+                        });
+
+                    }
+                    break;
+                case BluetoothDevice.ACTION_ACL_DISCONNECTED:
+                    //当直接关闭蓝牙时此处不会被触发，只有当蓝牙未关闭并且断开蓝牙时才会触发
+
+                    Log.d("BlueToothConnect", "BroadcastReceiver蓝牙已断开：" + device.getName());
+                    break;
+            }
+
+
             int blueState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
+            LogUtils.e("onReceive*****: " + blueState);
             switch (blueState) {
                 case BluetoothAdapter.STATE_TURNING_ON:
 //                    Toast.makeText(context, "蓝牙正在打开", Toast.LENGTH_SHORT).show();
                     break;
                 case BluetoothAdapter.STATE_ON:
                     if (onBluetoothListener != null) {
-                        onBluetoothListener.onCallBack("的蓝牙已经打开了!");
+//                        onBluetoothListener.onCallBack("的蓝牙已经打开了!");
+                        String connectedBtDevice = getConnectedBtDevice();
+
+//                String t = "的蓝牙处于打开状态!";
+                        if (!TextUtils.isEmpty(connectedBtDevice)) {
+                            onBluetoothListener.onCallBack("的蓝牙连接的设备名称:" + connectedBtDevice);
+                        }
                     }
                     break;
                 case BluetoothAdapter.STATE_TURNING_OFF:
@@ -121,6 +162,7 @@ public class ChatStatusListener {
             }
         }
     };
+
 
     //获取已连接的蓝牙设备
     private String getConnectedBtDevice() {

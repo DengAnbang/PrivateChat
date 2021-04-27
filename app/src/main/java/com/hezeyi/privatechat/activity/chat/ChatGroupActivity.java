@@ -3,6 +3,9 @@ package com.hezeyi.privatechat.activity.chat;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.adapter.BuddyAdapter;
@@ -18,8 +21,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
@@ -40,7 +41,7 @@ public class ChatGroupActivity extends BaseActivity {
     public void initData() {
         super.initData();
         String userId = getIntent().getStringExtra("userId");
-        HttpManager.groupSelectList(userId, this, chatGroupBeans -> {
+        HttpManager.groupSelectList(userId, true,this, chatGroupBeans -> {
             MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
             mChatGroupBeans = chatGroupBeans;
             mBuddyAdapter.setDataList(chatGroupBeans);

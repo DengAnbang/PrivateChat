@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 /**
@@ -114,6 +115,40 @@ public final class FileUtils {
     }
 
     private static final String SEPARATOR = File.separator;//路径分隔符
+
+    /**
+     * 转换文件大小
+     *
+     * @param fileS
+     * @return
+     */
+    public static String FormatFileSize(long fileS) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        String fileSizeString = "";
+        String wrongSize = "0B";
+        if (fileS == 0) {
+            return wrongSize;
+        }
+        if (fileS < 1024) {
+            fileSizeString = df.format((double) fileS) + "B";
+        } else if (fileS < 1048576) {
+            fileSizeString = df.format((double) fileS / 1024) + "KB";
+        } else if (fileS < 1073741824) {
+            fileSizeString = df.format((double) fileS / 1048576) + "MB";
+        } else {
+            fileSizeString = df.format((double) fileS / 1073741824) + "GB";
+        }
+        return fileSizeString;
+    }
+
+    public static String FormatFileSize(String fileS) {
+        try {
+            return FormatFileSize(Long.parseLong(fileS));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return FormatFileSize(0);
+    }
 
     //建立一个MIME类型与文件后缀名的匹配表
     private static final String[][] MIME_MapTable = {

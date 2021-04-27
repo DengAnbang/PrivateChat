@@ -165,7 +165,7 @@ public class LoginActivity extends BaseActivity {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
             MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
-            HttpManager.groupSelectList(user_id, this, chatGroupBeans -> {
+            HttpManager.groupSelectList(user_id, true,this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);

@@ -167,9 +167,9 @@ public class HttpManager {
     }
 
 
-    public static void groupSelectList(String user_id, final RequestHelper requestHelper, final OnDataCallBack<List<ChatGroupBean>> dataClick) {
+    public static void groupSelectList(String user_id, boolean showLoadDialog,final RequestHelper requestHelper, final OnDataCallBack<List<ChatGroupBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .groupSelectList(user_id), requestHelper, true, dataClick);
+                .groupSelectList(user_id), requestHelper, showLoadDialog, dataClick);
     }
 
     public static void groupSelectUser(String group_id, final RequestHelper requestHelper, final OnDataCallBack<List<ChatGroupBean>> dataClick) {

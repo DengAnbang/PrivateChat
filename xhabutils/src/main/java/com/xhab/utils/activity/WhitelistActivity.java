@@ -1,6 +1,7 @@
 package com.xhab.utils.activity;
 
 import android.content.Intent;
+import android.text.SpannableStringBuilder;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import com.xhab.utils.R;
 import com.xhab.utils.adapter.WhitelistGuideAdapter;
 import com.xhab.utils.base.BaseUtilActivity;
 import com.xhab.utils.utils.SettingUtils;
+import com.xhab.utils.utils.SpanBuilder;
 import com.xhab.utils.utils.ToastUtil;
 
 /**
@@ -36,7 +38,17 @@ public class WhitelistActivity extends BaseUtilActivity {
         setTitleString("权限设置");
 //        SettingUtils.getAppOps()
         visibility(R.id.layout_battery, !SettingUtils.isIgnoringBatteryOptimizations(this));
-        visibility(R.id.layout_banners, !SettingUtils.isBannersPermission(this, CHANNEL_MSG_ID));
+//        visibility(R.id.layout_banners, !SettingUtils.isBannersPermission(this, CHANNEL_MSG_ID));
+        boolean bannersPermission = SettingUtils.isBannersPermission(this, CHANNEL_MSG_ID);
+        String s = "";
+        if (bannersPermission) {
+            s = "通知横幅权限(已设置)";
+            setTextViewString(R.id.view_05, s);
+        } else {
+            s = "通知横幅权限(未设置)";
+            SpannableStringBuilder build = SpanBuilder.content(s).colorSpan(this, 7, 10, R.color.just_color_FF3859).build();
+            setTextViewString(R.id.view_05, build);
+        }
         RecyclerView recyclerView = findViewById(R.id.rv_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         recyclerView.setAdapter(mWhitelistGuideAdapter);

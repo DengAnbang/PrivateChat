@@ -13,6 +13,7 @@ import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
 import com.xhab.chatui.bean.chat.MsgType;
 import com.xhab.chatui.inteface.ShowUserImageCallback;
+import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.chatui.utils.TimeShowUtils;
 
@@ -188,7 +189,8 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
         } else if (item.getMsgType() == (MsgType.FILE)) {
 
             helper.setText(R.id.msg_tv_file_name, item.getDisplayName());
-            helper.setText(R.id.msg_tv_file_size, item.getSize() + "B");
+            helper.setText(R.id.msg_tv_file_size, FileUtils.FormatFileSize(item.getSize()));
+
         } else if (item.getMsgType() == (MsgType.AUDIO)) {
             helper.setText(R.id.tvDuration, item.getDuration() + "\"");
         } else if (item.getMsgType() == (MsgType.SYSTEM)) {

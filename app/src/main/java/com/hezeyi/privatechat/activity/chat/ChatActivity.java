@@ -24,11 +24,13 @@ import com.xhab.chatui.inteface.ShowUserImageCallback;
 import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.chatui.voiceCalls.JuphoonUtils;
+import com.xhab.utils.dialog.ProgressDialog;
 import com.xhab.utils.net.RequestHelperAgency;
 import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
+import com.xhab.utils.utils.RxUtils;
 import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.ToastUtil;
 
@@ -88,6 +90,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             } else {
                 GlideUtils.loadHeadPortrait(userMsgBeanById.getShowPortrait(), imageView, userMsgBeanById.getPlaceholder());
             }
+
         };
     }
 
@@ -121,13 +124,16 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
                 target_name = chatGroupBeanById.getGroup_name();
             } else {
                 target_name = targetId;
+                HttpManager.groupSelectList(getUserId(), false,this, chatGroupBeans -> {
+                    MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
+                    ChatGroupBean chatGroupBeanById1 = MyApplication.getInstance().getChatGroupBeanById(targetId);
+                    setTitleUser(chatGroupBeanById1==null?targetId:chatGroupBeanById1.getGroup_name());
+                });
             }
         } else {
-
             UserMsgBean userMsgBeanById = MyApplication.getInstance().getUserMsgBeanById(targetId);
             if (userMsgBeanById == null) {
                 target_name = targetId;
-
                 HttpManager.userSelectById(targetId, MyApplication.getInstance().getUserMsgBean().getUser_id(), false, this, userMsgBean -> {
                     MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
                     setTitleUser(userMsgBean.getNickname());
@@ -219,15 +225,35 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         super.openFile(message);
         String completePath = Const.FilePath.chatFileLocalPath + message.getRemoteUrl();
         File file = new File(message.getLocalPath());
+        if (file.exists()) {
+            FileUtils.openFile(message.getLocalPath(), this);
+            return;
+        }
         File file1 = new File(completePath);
-        if ((file.exists()) || file1.exists()) {
+        if (file1.exists()) {
             FileUtils.openFile(completePath, this);
         } else {
             FunUtils.affirm(this, "确定下载?", "确定", aBoolean -> {
                 if (aBoolean) {
-                    addDisposable(HttpManager.downloadFile(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean1 -> {
-                        message.setLocalPath(completePath);
-                        FileUtils.openFile(completePath, this);
+//                    addDisposable(HttpManager.downloadFile(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean1 -> {
+//                        message.setLocalPath(completePath);
+//                        FileUtils.openFile(completePath, this);
+//                    }));
+                    addDisposable(HttpManager.downloadFileProgress(Const.Api.API_HOST + message.getRemoteUrl(), completePath, (msg, finish) -> {
+                        if (finish) {
+                            RxUtils.runOnUiThread(() -> {
+                                getProgressDialog().dismiss();
+                                message.setLocalPath(completePath);
+                                FileUtils.openFile(completePath, this);
+                            });
+
+                        } else {
+                            RxUtils.runOnUiThread(() -> {
+                                ProgressDialog progressDialog = getProgressDialog();
+                                progressDialog.show();
+                                progressDialog.setProgress(msg);
+                            });
+                        }
                     }));
                 }
             });
