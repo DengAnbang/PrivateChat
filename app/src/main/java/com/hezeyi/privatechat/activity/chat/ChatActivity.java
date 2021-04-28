@@ -30,12 +30,13 @@ import com.xhab.utils.net.RequestHelperImp;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
-import com.xhab.utils.utils.RxUtils;
 import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.ToastUtil;
 
 import java.io.File;
 import java.util.Objects;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by dab on 2021/3/17 15:24
@@ -45,6 +46,7 @@ import java.util.Objects;
  */
 public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
     public static final int REQUEST_CODE_CHAT_PWD = 5697;
+    private Disposable disposable;
 
     @Override
     public String getSenderId() {
@@ -124,10 +126,10 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
                 target_name = chatGroupBeanById.getGroup_name();
             } else {
                 target_name = targetId;
-                HttpManager.groupSelectList(getUserId(), false,this, chatGroupBeans -> {
+                HttpManager.groupSelectList(getUserId(), false, this, chatGroupBeans -> {
                     MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
                     ChatGroupBean chatGroupBeanById1 = MyApplication.getInstance().getChatGroupBeanById(targetId);
-                    setTitleUser(chatGroupBeanById1==null?targetId:chatGroupBeanById1.getGroup_name());
+                    setTitleUser(chatGroupBeanById1 == null ? targetId : chatGroupBeanById1.getGroup_name());
                 });
             }
         } else {
@@ -235,26 +237,28 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
         } else {
             FunUtils.affirm(this, "确定下载?", "确定", aBoolean -> {
                 if (aBoolean) {
-//                    addDisposable(HttpManager.downloadFile(Const.Api.API_HOST + message.getRemoteUrl(), completePath, aBoolean1 -> {
-//                        message.setLocalPath(completePath);
-//                        FileUtils.openFile(completePath, this);
-//                    }));
-                    addDisposable(HttpManager.downloadFileProgress(Const.Api.API_HOST + message.getRemoteUrl(), completePath, (msg, finish) -> {
-                        if (finish) {
-                            RxUtils.runOnUiThread(() -> {
-                                getProgressDialog().dismiss();
-                                message.setLocalPath(completePath);
-                                FileUtils.openFile(completePath, this);
-                            });
-
-                        } else {
-                            RxUtils.runOnUiThread(() -> {
-                                ProgressDialog progressDialog = getProgressDialog();
-                                progressDialog.show();
-                                progressDialog.setProgress(msg);
-                            });
+                    ProgressDialog progressDialog = new ProgressDialog(this);
+                    progressDialog.show();
+                    progressDialog.setOnDismissListener(dialog -> {
+                        if (disposable != null) {
+                            disposable.dispose();
                         }
-                    }));
+                    });
+                    disposable = HttpManager.downloadFileProgress(Const.Api.API_HOST + message.getRemoteUrl(), completePath, (msg, finish, e) -> {
+                        if (e != null) {
+                            progressDialog.dismiss();
+                            return;
+                        }
+                        if (!finish) {
+                            progressDialog.setProgress(msg);
+                        } else {
+                            progressDialog.dismiss();
+                            message.setLocalPath(completePath);
+                            FileUtils.openFile(completePath, this);
+                        }
+                    });
+
+
                 }
             });
 

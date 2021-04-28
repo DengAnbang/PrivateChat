@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 
+import androidx.core.content.ContextCompat;
+
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
@@ -19,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Created by dab on 2021/4/23 20:53
@@ -34,6 +37,10 @@ public class CustomerServicePayActivity extends BaseActivity {
     public void initView() {
         super.initView();
         setTitleString("人工充值");
+        String pay_id = getIntent().getStringExtra("pay_id");
+        ImageView imageView = findViewById(R.id.iv_qr_code);
+        imageView.setImageDrawable(ContextCompat.getDrawable(this,Objects.equals(pay_id, "1")?R.mipmap.pay1:R.mipmap.pay2));
+
     }
 
     @Override
@@ -49,8 +56,6 @@ public class CustomerServicePayActivity extends BaseActivity {
                     ToastUtil.showToast("已经保存到目录:" + s);
                 }
             });
-
-
         });
         click(R.id.tv_description, v -> {
             startActivity(new Intent(this, DescriptionActivity.class));

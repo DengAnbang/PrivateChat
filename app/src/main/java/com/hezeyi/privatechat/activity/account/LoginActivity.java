@@ -15,6 +15,7 @@ import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.MainActivity;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
+import com.hezeyi.privatechat.activity.recharge.RechargeActivity;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
@@ -139,6 +140,15 @@ public class LoginActivity extends BaseActivity {
 
     private void login(String account, String password) {
         HttpManager.login(account, password, true, this, data -> {
+            if (data.getCode().equals("2")) {
+                MyApplication.getInstance().setUserMsgBean(data.getData());
+                FunUtils.affirm(this, "前往充值?", "充值", aBoolean -> {
+                    Intent intent = new Intent(this, RechargeActivity.class);
+                    intent.putExtra("user_id", data.getData().getUser_id());
+                    startActivity(intent);
+                });
+                return;
+            }
 
             MyApplication.getInstance().userLogin(data, s -> {
                 if (TextUtils.isEmpty(s)) {
@@ -165,7 +175,7 @@ public class LoginActivity extends BaseActivity {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
             MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
-            HttpManager.groupSelectList(user_id, true,this, chatGroupBeans -> {
+            HttpManager.groupSelectList(user_id, true, this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);

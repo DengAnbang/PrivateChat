@@ -15,10 +15,12 @@ public class RegisterActivity extends BaseActivity {
     public int getContentViewRes() {
         return R.layout.activity_register;
     }
+
     @Override
     public boolean isCanLock() {
         return false;
     }
+
     @Override
     public void initView() {
         super.initView();
@@ -41,7 +43,8 @@ public class RegisterActivity extends BaseActivity {
                 showSnackBar("两次密码不一致!");
                 return;
             }
-            HttpManager.register(account, password, FunUtils.getChineseName(), "", this, userMsgBean -> {
+//            FunUtils.getChineseName()
+            HttpManager.register(account, password, "未设置名称", "", this, userMsgBean -> {
                 showSnackBar("注册成功!");
                 finish();
             });

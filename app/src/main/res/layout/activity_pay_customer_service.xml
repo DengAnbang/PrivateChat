@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/iv_qr_code"
         android:gravity="center"
-        android:text="点击图片,保存二维码,转账后,即可充值成功" />
+        android:text="点击图片,保存二维码,转账后,备注好账号,即可充值成功" />
 
     <TextView
         android:id="@+id/tv_description"

@@ -59,7 +59,9 @@ public class RechargePayActivity extends BaseActivity {
 //            });
 //        });
         click(R.id.rl_customer_service, v -> {
-            startActivity(new Intent(this, CustomerServicePayActivity.class));
+            Intent intent = new Intent(this, CustomerServicePayActivity.class);
+            intent.putExtra("pay_id", getIntent().getStringExtra("pay_id"));
+            startActivity(intent);
         });
     }
 

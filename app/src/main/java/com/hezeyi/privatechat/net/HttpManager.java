@@ -167,7 +167,7 @@ public class HttpManager {
     }
 
 
-    public static void groupSelectList(String user_id, boolean showLoadDialog,final RequestHelper requestHelper, final OnDataCallBack<List<ChatGroupBean>> dataClick) {
+    public static void groupSelectList(String user_id, boolean showLoadDialog, final RequestHelper requestHelper, final OnDataCallBack<List<ChatGroupBean>> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .groupSelectList(user_id), requestHelper, showLoadDialog, dataClick);
     }
@@ -226,13 +226,18 @@ public class HttpManager {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
                 .priceSelectAll(user_id), requestHelper, true, dataClick);
     }
+
     public static void updatesCheck(boolean showLoadDialog, RequestHelper requestHelper) {
         HttpManager.updatesCheck(showLoadDialog, requestHelper, updatesBean -> {
             if (updatesBean.getVersion_code() > BuildConfig.VERSION_CODE) {
                 FunUtils.affirm(requestHelper.getSupportContext(), "发现新版本:" + updatesBean.getVersion_name(), "更新", aBoolean -> {
                     if (aBoolean) {
                         boolean delete = new File(Const.FilePath.FileAppUpdatesName).delete();
-                        HttpManager.downloadFileProgress(Const.Api.AppUpdatesDownload, Const.FilePath.FileAppUpdatesName, (msg, finish) -> {
+                        HttpManager.downloadFileProgress(Const.Api.AppUpdatesDownload, Const.FilePath.FileAppUpdatesName, (msg, finish, e) -> {
+                            if (e != null) {
+                                requestHelper.getProgressDialog().dismiss();
+                                return;
+                            }
                             if (!finish) {
                                 RxUtils.runOnUiThread(() -> {
                                     ProgressDialog progressDialog = requestHelper.getProgressDialog();
@@ -260,6 +265,7 @@ public class HttpManager {
 //                LogUtils.e("initEvent*****: " + updatesBean.getVersion_code());
         });
     }
+
     /**
      * 下载文件
      *
@@ -270,7 +276,7 @@ public class HttpManager {
 
         Disposable disposable = RetrofitFactory.getService(ApiService.class).downloadFile(fileUrl)
                 .subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
-                .subscribe(responseBodyResponse -> writeResponseBodyToDiskNew(completePath, responseBodyResponse, (msg, finish) -> {
+                .subscribe(responseBodyResponse -> writeResponseBodyToDiskNew(completePath, responseBodyResponse, (msg, finish, e) -> {
                     if (!finish) {
 
                     } else {
@@ -290,7 +296,10 @@ public class HttpManager {
                 .subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
                 .subscribe(responseBodyResponse -> writeResponseBodyToDiskNew(completePath, responseBodyResponse, loadCallback), throwable -> {
                     throwable.printStackTrace();
-                    loadCallback.onDownLoad("", false);
+                    RxUtils.runOnUiThread(() -> {
+                        loadCallback.onDownLoad("", false, throwable);
+                    });
+
                 });
         return disposable;
     }
@@ -324,11 +333,19 @@ public class HttpManager {
                     outputStream.write(fileReader, 0, read);
                     fileSizeDownloaded += read;
                     long progress = (long) (((float) fileSizeDownloaded / fileSize) * 100);
-                    downLoadCallback.onDownLoad("正在下载..." + progress + "%", fileSizeDownloaded >= fileSize);
+                    long finalFileSizeDownloaded = fileSizeDownloaded;
+                    RxUtils.runOnUiThread(() -> {
+                        downLoadCallback.onDownLoad("正在下载..." + progress + "%", finalFileSizeDownloaded >= fileSize, null);
+                    });
+
                 }
                 outputStream.flush();
                 return true;
             } catch (IOException e) {
+                RxUtils.runOnUiThread(() -> {
+                    downLoadCallback.onDownLoad("0", false, e);
+                });
+
                 LogUtils.getTag(e.getMessage() + ">>>>下载写入错误");
                 return false;
             } finally {
@@ -341,12 +358,15 @@ public class HttpManager {
                 }
             }
         } catch (IOException e) {
+            RxUtils.runOnUiThread(() -> {
+                downLoadCallback.onDownLoad("0", false, e);
+            });
             LogUtils.getTag(e.getMessage() + ">>>>下载写入错误");
             return false;
         }
     }
 
     public interface DownLoadCallback {
-        void onDownLoad(String msg, boolean finish);
+        void onDownLoad(String msg, boolean finish, Object e);
     }
 }

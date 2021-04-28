@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.xhab.utils.Const;
 import com.xhab.utils.R;
 import com.xhab.utils.dialog.PrivacyDialog;
@@ -26,8 +28,6 @@ import com.xhab.utils.inteface.OnDataCallBack;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Random;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created by dab on 2021/3/9 16:13
@@ -109,7 +109,7 @@ public class FunUtils {
         TextView tv_privacy_tips = dialog.findViewById(R.id.tv_privacy_tips);
         TextView btn_exit = dialog.findViewById(R.id.btn_exit);
         TextView btn_enter = dialog.findViewById(R.id.btn_enter);
-        dialog.show();
+
 
         String string = activity.getResources().getString(R.string.privacy_tips);
         String key1 = activity.getResources().getString(R.string.privacy_tips_key1);
@@ -171,7 +171,7 @@ public class FunUtils {
         final WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.width = (int) (defaultDisplay.getWidth() * 0.80);
         dialog.getWindow().setAttributes(params);
-
+        dialog.show();
         btn_exit.setOnClickListener(v -> {
             dialog.dismiss();
             callBack.onCallBack(3);

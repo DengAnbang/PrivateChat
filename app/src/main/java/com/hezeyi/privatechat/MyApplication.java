@@ -169,6 +169,7 @@ public class MyApplication extends Application {
         }
         if (data.getCode().equals("2")) {
             RxUtils.runOnIoThread(() -> {
+                MyApplication.getInstance().setUserMsgBean(data.getData());
                 Intent intent = new Intent(this, RechargeActivity.class);
                 intent.putExtra("user_id", data.getData().getUser_id());
                 NotificationManagerUtils.showNotification109(this, intent, "你的账号到期时间为:" + TimeUtils.toTimeByString(data.getData().getVip_time()) + ",点击充值", Const.Notification.CHANNEL_ID_109);
@@ -179,6 +180,7 @@ public class MyApplication extends Application {
             callBack.onCallBack(data.getMsg());
         } else {
             try {
+                MyApplication.getInstance().setUserMsgBean(data.getData());
                 long vip_time = TimeUtils.toMillisecond(Long.parseLong(data.getData().getVip_time()));
                 long l = vip_time - System.currentTimeMillis();
                 //如果小于三十天内,就提醒充值

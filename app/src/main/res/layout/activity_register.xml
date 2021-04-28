@@ -14,7 +14,7 @@
         android:drawablePadding="20dp"
         android:hint="请输入账号"
         android:inputType="text"
-        android:maxLength="16" />
+        android:maxLength="10" />
 
     <EditText
         android:id="@+id/et_password"
