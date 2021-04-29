@@ -15,15 +15,19 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.popupWindow.ModifyNameWindow;
 import com.hezeyi.privatechat.popupWindow.ModifyVipWindow;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
 import com.xhab.chatui.utils.GlideUtils;
-import com.xhab.utils.activity.SelectPhotoDialog;
+import com.xhab.chatui.utils.LogUtil;
+import com.xhab.chatui.utils.PictureFileUtil;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.SPUtils;
 import com.xhab.utils.utils.TimeUtils;
 import com.xhab.utils.utils.ToastUtil;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -118,7 +122,9 @@ public class UserDetailsActivity extends BaseActivity {
                 startActivity(intent);
             });
             click(R.id.iv_head_portrait, view -> {
-                startActivityForResult(new Intent(this, SelectPhotoDialog.class), 55);
+                MyApplication.getInstance().setLock(false);
+                PictureFileUtil.openGalleryPic(this, 55);
+//                startActivityForResult(new Intent(this, SelectPhotoDialog.class), 55);
             });
 
         }
@@ -190,6 +196,10 @@ public class UserDetailsActivity extends BaseActivity {
 
         HttpManager.userSelectById(mUserId, MyApplication.getInstance().getUserMsgBean().getUser_id(), true, this, userMsgBean -> {
             if (userMsgBean != null) {
+                if (Objects.equals(mUserId, MyApplication.getInstance().getUserMsgBean().getUser_id())) {
+                    MyApplication.getInstance().setUserMsgBean(userMsgBean);
+                }
+                MyApplication.getInstance().addUserMsgBeanById(userMsgBean);
                 mUserMsgBean = userMsgBean;
                 setTwoTextLinearRightText(R.id.ttv_account, userMsgBean.getAccount()).getRightTextView().setGravity(Gravity.RIGHT);
                 setTwoTextLinearRightText(R.id.ttv_name, userMsgBean.getUser_name()).getRightTextView().setGravity(Gravity.RIGHT);
@@ -211,17 +221,37 @@ public class UserDetailsActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 55 && data != null) {
-            String stringExtra = data.getStringExtra(SelectPhotoDialog.DATA);
 
-            HttpManager.fileUpload(Const.FilePath.userFileType, stringExtra, this, s -> {
-                HttpManager.userUpdate(mUserMsgBean.getAccount(), "", "", "", s, this, userMsgBean1 -> {
-                    mUserMsgBean.setHead_portrait(s);
-                    initView();
-                    showSnackBar("修改完成");
+
+        if (resultCode == RESULT_OK && requestCode == 55 && data != null) {
+            // 图片选择结果回调
+            List<LocalMedia> selectListPic = PictureSelector.obtainMultipleResult(data);
+            for (LocalMedia media : selectListPic) {
+                LogUtil.d("获取图片路径成功:" + media.getCompressPath());
+//                sendImageMessage(media);
+                HttpManager.fileUpload(Const.FilePath.userFileType, media.getCompressPath(), this, s -> {
+                    LogUtils.e("onActivityResult*****: " + s);
+                    HttpManager.userUpdate(mUserMsgBean.getAccount(), "", "", "", s, this, userMsgBean1 -> {
+                        mUserMsgBean.setHead_portrait(s);
+                        initView();
+                        showSnackBar("修改完成");
+                    });
                 });
-            });
-            LogUtils.e("onActivityResult*****: " + stringExtra);
+            }
+
+
+
+//            String stringExtra = data.getStringExtra(SelectPhotoDialog.DATA);
+//            LogUtils.e("onActivityResult*****: " +stringExtra );
+//            HttpManager.fileUpload(Const.FilePath.userFileType, stringExtra, this, s -> {
+//                LogUtils.e("onActivityResult*****: " + s);
+//                HttpManager.userUpdate(mUserMsgBean.getAccount(), "", "", "", s, this, userMsgBean1 -> {
+//                    mUserMsgBean.setHead_portrait(s);
+//                    initView();
+//                    showSnackBar("修改完成");
+//                });
+//            });
+//            LogUtils.e("onActivityResult*****: " + stringExtra);
 
         }
     }

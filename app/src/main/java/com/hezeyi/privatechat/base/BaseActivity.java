@@ -1,5 +1,6 @@
 package com.hezeyi.privatechat.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -21,7 +22,11 @@ public abstract class BaseActivity extends BaseUtilActivity {
         super.onCreate(savedInstanceState);
         MyApplication.getInstance().setLock(isCanLock());
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        MyApplication.getInstance().setLock(isCanLock());
 
-
+    }
 }
 

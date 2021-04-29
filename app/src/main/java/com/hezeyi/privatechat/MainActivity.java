@@ -141,6 +141,7 @@ public class MainActivity extends BaseBottomTabUtilActivity {
             ToastUtil.showToast("未设置安全码,请先设置!");
             Intent intent = new Intent(this, LockActivity.class);
             intent.putExtra("isSetUp", true);
+            MyApplication.getInstance().setLock(false);
             startActivityForResult(intent, 0x88);
         }else {
             RequestWhitelist();

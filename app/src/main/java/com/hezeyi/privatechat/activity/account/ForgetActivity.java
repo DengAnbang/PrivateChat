@@ -2,12 +2,13 @@ package com.hezeyi.privatechat.activity.account;
 
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
+
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.ToastUtil;
-
-import androidx.annotation.Nullable;
 
 /**
  * Created by dab on 2021/3/9 15:07
@@ -43,6 +44,7 @@ public class ForgetActivity extends BaseActivity {
             }
             Intent intent = new Intent(this, SecurityQuestionVerifyActivity.class);
             intent.putExtra("account", account);
+            MyApplication.getInstance().setLock(false);
             startActivityForResult(intent, ResultCode);
         });
     }
@@ -62,6 +64,7 @@ public class ForgetActivity extends BaseActivity {
                 }
                 Intent intent = new Intent(this, ChangePasswordActivity.class);
                 intent.putExtra("account", account);
+                MyApplication.getInstance().setLock(false);
                 startActivityForResult(intent, ResultChangeCode);
                 return;
             }

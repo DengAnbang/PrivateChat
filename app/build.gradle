@@ -8,8 +8,8 @@ android {
         applicationId "com.hezeyi.privatechat"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 29
-        versionName "V1.1.29"
+        versionCode 31
+        versionName "V1.1.31"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
 //            // 设置支持的SO库架构
@@ -126,6 +126,19 @@ dependencies {
     implementation 'com.xdandroid:hellodaemon:+'
     //语音 2f28a4e830fb84d0da705096
     implementation 'com.JuphoonCloud:JC-SDK:2.5'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.1'
+
+////图片查看器
+//    implementation 'com.github.bumptech.glide:glide:4.8.0'
+//    implementation 'com.github.bumptech.glide:okhttp3-integration:4.8.0' // 新增
+//    implementation 'com.github.bumptech.glide:annotations:4.8.0' // 新增
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+////    implementation 'com.github.bumptech.glide:glide:4.5.0'
+//////    implementation 'com.github.bumptech.glide:glide:4.5.0'
+////    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+////    implementation 'com.github.bumptech.glide:annotations:4.8.0' // 新增
+////https图片处理
+//    implementation "com.github.bumptech.glide:okhttp3-integration:4.5.0"
 }
 repositories {
     mavenCentral()

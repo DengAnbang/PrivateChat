@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListPopupWindow;
 
+import androidx.annotation.Nullable;
+
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
@@ -14,8 +16,6 @@ import com.hezeyi.privatechat.net.HttpManager;
 import com.xhab.utils.inteface.OnItemClickListener;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.ToastUtil;
-
-import androidx.annotation.Nullable;
 
 /**
  * Created by dab on 2021/3/12 10:52
@@ -34,6 +34,7 @@ public class SecurityQuestionSetupActivity extends BaseActivity {
         super.initData();
         Intent intent = new Intent(this, SecurityQuestionVerifyActivity.class);
         intent.putExtra("account", MyApplication.getInstance().getUserMsgBean().getAccount());
+        MyApplication.getInstance().setLock(false);
         startActivityForResult(intent, ResultCode);
     }
 

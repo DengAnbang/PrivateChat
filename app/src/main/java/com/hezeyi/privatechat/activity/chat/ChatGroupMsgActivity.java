@@ -2,6 +2,11 @@ package com.hezeyi.privatechat.activity.chat;
 
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.adapter.ChatGroupMsgAdapter;
@@ -10,10 +15,6 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by dab on 2021/3/26 16:40
@@ -66,6 +67,7 @@ public class ChatGroupMsgActivity extends BaseActivity {
                     ids.append("#");
                 }
                 intent.putExtra("ids", ids.toString());
+                MyApplication.getInstance().setLock(false);
                 startActivityForResult(intent, KEY_SELECT);
             }else {
                 Intent intent = new Intent(this, UserDetailsActivity.class);

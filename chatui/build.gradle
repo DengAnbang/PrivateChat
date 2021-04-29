@@ -36,7 +36,23 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     //图片查看器
-    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    // Glide图片加载库
+    api 'com.github.bumptech.glide:glide:4.11.0'
+    // Glide需要处理注解时的依赖库，用于处理注解并生成java类
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    // Glide集成OkHttp时需要使用的库
+    api 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
+
+
+
+
+//    implementation 'com.github.bumptech.glide:glide:4.5.0'
+////    implementation 'com.github.bumptech.glide:glide:4.5.0'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+//    annotationProcessor 'androidx.annotation:annotation:1.0.0'
+////https图片处理
+//    implementation "com.github.bumptech.glide:okhttp3-integration:4.5.0"
+
 
     implementation 'com.google.code.gson:gson:2.8.6'
 //    implementation 'com.github.SuperKotlin:PictureViewer:2.0.1'  //新版本
@@ -47,6 +63,7 @@ dependencies {
     //语音 2f28a4e830fb84d0da705096
     implementation 'com.JuphoonCloud:JC-SDK:2.5'
     implementation project(path: ':xhabutils')
+
 //    compile project(path: ':xhabutils')
 
 

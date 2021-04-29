@@ -11,10 +11,18 @@ import com.hezeyi.privatechat.Const;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -83,14 +91,50 @@ public class RetrofitFactory {
         OkHttpClient okHttpClient = getOkHttpClient();
         builder.client(okHttpClient);
         sRetrofit = builder.build();
+
+//        Glide.get(MyApplication.getInstance())
+//                .register(          //使用okhttp作为图片请求
+//                        GlideUrl.class
+//                        , InputStream.class
+//                        , new OkHttpUrlLoader.Factory(okHttpClient));
         return sRetrofit;
     }
 
     public static OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+        final X509TrustManager trustManager = new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+            }
+
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+        };
+        SSLContext sslContext = null;
+        try {
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, new X509TrustManager[]{trustManager}, new SecureRandom());
+            builder.sslSocketFactory(sslContext.getSocketFactory(), trustManager);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+
+
+
         builder.connectTimeout(30, TimeUnit.SECONDS);
         builder.readTimeout(30, TimeUnit.SECONDS);
-        builder.sslSocketFactory(HttpsUtils.getSSlSocketFactory());
+//        builder.sslSocketFactory(HttpsUtils.getSSlSocketFactory());
+
         builder.hostnameVerifier((hostname, session) -> true);
         //        builder.sslSocketFactory(systemDefaultSslSocketFactory(systemDefaultTrustManager()),systemDefaultTrustManager());
         builder.addInterceptor(chain -> {

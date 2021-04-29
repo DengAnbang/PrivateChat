@@ -297,7 +297,7 @@ public class HttpManager {
                 .subscribe(responseBodyResponse -> writeResponseBodyToDiskNew(completePath, responseBodyResponse, loadCallback), throwable -> {
                     throwable.printStackTrace();
                     RxUtils.runOnUiThread(() -> {
-                        loadCallback.onDownLoad("", false, throwable);
+                        loadCallback.onDownLoad("", false, "下载出错了");
                     });
 
                 });
@@ -309,7 +309,12 @@ public class HttpManager {
             InputStream inputStream = null;
             OutputStream outputStream = null;
             ResponseBody body = response.body();
+            if (response.code() == 404) {
+                downLoadCallback.onDownLoad("", false, "文件已经被后台删除了!");
+                return false;
+            }
             if (response.code() != 200 && response.code() != 201) {
+                downLoadCallback.onDownLoad("", false, "下载错误");
                 return false;
             }
             File futureStudioIconFile = new File(completePath);//创建文件
@@ -343,7 +348,7 @@ public class HttpManager {
                 return true;
             } catch (IOException e) {
                 RxUtils.runOnUiThread(() -> {
-                    downLoadCallback.onDownLoad("0", false, e);
+                    downLoadCallback.onDownLoad("0", false, "下载错误");
                 });
 
                 LogUtils.getTag(e.getMessage() + ">>>>下载写入错误");
@@ -359,7 +364,7 @@ public class HttpManager {
             }
         } catch (IOException e) {
             RxUtils.runOnUiThread(() -> {
-                downLoadCallback.onDownLoad("0", false, e);
+                downLoadCallback.onDownLoad("0", false, "下载错误");
             });
             LogUtils.getTag(e.getMessage() + ">>>>下载写入错误");
             return false;

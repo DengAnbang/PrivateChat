@@ -44,7 +44,7 @@ public class RegisterActivity extends BaseActivity {
                 return;
             }
 //            FunUtils.getChineseName()
-            HttpManager.register(account, password, "未设置名称", "", this, userMsgBean -> {
+            HttpManager.register(account, password, account, "", this, userMsgBean -> {
                 showSnackBar("注册成功!");
                 finish();
             });

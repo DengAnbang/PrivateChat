@@ -125,6 +125,8 @@ public class MyApplication extends Application {
         return null;
     }
 
+    private long backgroundTime;
+
     private void initAppStatusListener() {
         ForegroundCallbacks.init(this).addListener(new ForegroundCallbacks.Listener() {
             @Override
@@ -134,6 +136,11 @@ public class MyApplication extends Application {
                 LogUtils.e("onBecameForeground*****: 进入前台" + isLock + string);
 
                 if (isLock && SPUtils.getBoolean(Const.Sp.isOpenSecurityCode, true) && !string.equals("")) {
+                    long rightNow = System.currentTimeMillis();
+                    if (rightNow - backgroundTime < 5 * 1000) {
+                        return;
+                    }
+
                     Activity packageContext = StackManager.currentActivity();
                     if ("com.hezeyi.privatechat.activity.SplashActivity".equals(packageContext.getClass().getName())) {
                         return;
@@ -157,7 +164,7 @@ public class MyApplication extends Application {
             public void onBecameBackground() {
                 LogUtils.e("onBecameForeground*****: 退至后台" + isLock);
                 isForeground = false;
-
+                backgroundTime = System.currentTimeMillis();
             }
         });
     }

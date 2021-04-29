@@ -246,6 +246,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
                     });
                     disposable = HttpManager.downloadFileProgress(Const.Api.API_HOST + message.getRemoteUrl(), completePath, (msg, finish, e) -> {
                         if (e != null) {
+                            ToastUtil.showToast(e.toString());
                             progressDialog.dismiss();
                             return;
                         }
