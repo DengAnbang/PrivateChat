@@ -4,7 +4,7 @@
     android:id="@+id/ll_text_send"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-     android:orientation="vertical"
+    android:orientation="vertical"
     android:padding="5dp">
 
     <TextView
@@ -14,14 +14,14 @@
         android:layout_gravity="center_horizontal"
         android:textColor="#999999"
         android:textSize="12dp"
-         android:visibility="gone" />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
 
         <com.xhab.chatui.widget.CircleImageView
             android:id="@+id/chat_item_header"
@@ -30,7 +30,7 @@
             android:layout_alignParentRight="true"
             android:scaleType="centerInside"
 
-             android:src="@mipmap/logo" />
+            android:src="@mipmap/logo" />
 
 
         <LinearLayout
@@ -66,6 +66,7 @@
             android:src="@drawable/msg_state_fail_resend"
             android:visibility="invisible" />
 
+
         <ProgressBar
             android:id="@+id/chat_item_progress"
             style="@android:style/Widget.ProgressBar.Small.Inverse"
@@ -76,5 +77,15 @@
             android:layout_toLeftOf="@+id/chat_item_layout_content"
             android:visibility="invisible" />
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginRight="60dp"
+        android:focusable="false"
+        android:text="发送失败"
+        android:textSize="7sp"
+        android:visibility="gone" />
 
 </LinearLayout>

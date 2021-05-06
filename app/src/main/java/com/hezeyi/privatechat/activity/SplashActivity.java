@@ -55,7 +55,7 @@ public class SplashActivity extends BaseActivity {
             if (isFinishing()) return;
             startActivity(new Intent(SplashActivity.this, GuiderActivity.class));
             finish();
-        }, 5000);
+        }, 10000);
         return;
     }
 

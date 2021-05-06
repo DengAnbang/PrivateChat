@@ -310,7 +310,7 @@ public class HttpManager {
             OutputStream outputStream = null;
             ResponseBody body = response.body();
             if (response.code() == 404) {
-                downLoadCallback.onDownLoad("", false, "文件已经被后台删除了!");
+                downLoadCallback.onDownLoad("", false, "文件已过期!");
                 return false;
             }
             if (response.code() != 200 && response.code() != 201) {
