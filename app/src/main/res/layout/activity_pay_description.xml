@@ -17,6 +17,7 @@
         android:background="@color/background_color_f2f3f4" />
 
     <TextView
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
