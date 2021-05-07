@@ -5,8 +5,12 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -16,10 +20,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.xhab.chatui.R;
 import com.xhab.chatui.bean.ImageSize;
-
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 
 public class GlideUtils {
@@ -33,11 +33,12 @@ public class GlideUtils {
         Glide.with(mContext)
                 .load(imgUrl) // 图片地址
                 .apply(options)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         ImageSize imageSize = BitmapUtil.getImageSize(((BitmapDrawable) resource).getBitmap());
-                        RelativeLayout.LayoutParams imageLP = (RelativeLayout.LayoutParams) (imageView.getLayoutParams());
+                        ViewGroup.LayoutParams imageLP = (ViewGroup.LayoutParams) (imageView.getLayoutParams());
                         if (imageSize != null) {
 
                             imageLP.width = imageSize.getWidth();
@@ -65,6 +66,7 @@ public class GlideUtils {
 
         Glide.with(mContext)
                 .load(imgUrl) // 图片地址
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(options)
                 .into(imageView);
     }
@@ -76,6 +78,7 @@ public class GlideUtils {
 
         Glide.with(imageView.getContext())
                 .load(imgUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(options) // 参数
                 .into(imageView);
     }
@@ -95,6 +98,7 @@ public class GlideUtils {
         String replace = imgUrl.replace("\\", "/");
         Glide.with(imageView.getContext())
                 .load(replace)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(options)
 
                 .into(imageView);

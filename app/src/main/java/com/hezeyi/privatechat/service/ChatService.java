@@ -211,8 +211,12 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         //发送消息
         addDisposable(RxBus.get().register(Const.RxType.TYPE_MSG_SEND, ChatMessage.class).subscribe(message -> {
             if (message.getMsgType() == MsgType.TEXT || message.getMsgType() == MsgType.SYSTEM || message.getMsgType() == MsgType.VOICE_CALLS) {
-                sendSendMsgBean(message);
-                message.setSentStatus(MsgSendStatus.SENT);
+                boolean b = sendSendMsgBean(message);
+                if (b) {
+                    message.setSentStatus(MsgSendStatus.SENT);
+                } else {
+                    message.setSentStatus(MsgSendStatus.FAILED);
+                }
                 //消息发送出去了,对方还未收到
                 RxBus.get().post(Const.RxType.TYPE_MSG_UPDATE, message);
             } else {
@@ -222,9 +226,13 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
                 }
                 HttpManager.fileUpload(Const.FilePath.chatFileType, localPath, url -> {
                     message.setRemoteUrl(url);
-                    sendSendMsgBean(message);
+                    boolean b = sendSendMsgBean(message);
+                    if (b) {
+                        message.setSentStatus(MsgSendStatus.SENT);
+                    } else {
+                        message.setSentStatus(MsgSendStatus.FAILED);
+                    }
                     //消息发送出去了,对方还未收到
-                    message.setSentStatus(MsgSendStatus.SENT);
                     RxBus.get().post(Const.RxType.TYPE_MSG_UPDATE, message);
                 });
             }
@@ -288,13 +296,13 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         mSocketAbstract.send(s);
     }
 
-    public void sendSendMsgBean(ChatMessage sendMsg) {
+    public boolean sendSendMsgBean(ChatMessage sendMsg) {
         String type = Const.RxType.TYPE_MSG_SEND;
         if (sendMsg.isGroup()) {
             type = Const.RxType.TYPE_MSG_GROUP_SEND;
         }
         String s = SocketData.create("0", type, sendMsg).toJson();
-        mSocketAbstract.send(s);
+        return mSocketAbstract.send(s);
     }
 
 
@@ -335,7 +343,7 @@ public class ChatService extends AbsWorkService implements RequestHelperImp {
         String user_id = MyApplication.getInstance().getUserMsgBean().getUser_id();
         HttpManager.userSelectFriend(user_id, "1", this, userMsgBeans -> {
             MyApplication.getInstance().setFriendUserMsgBeans(userMsgBeans);
-            HttpManager.groupSelectList(user_id, false,this, chatGroupBeans -> {
+            HttpManager.groupSelectList(user_id, false, this, chatGroupBeans -> {
                 MyApplication.getInstance().setChatGroupBeans(chatGroupBeans);
             });
         });

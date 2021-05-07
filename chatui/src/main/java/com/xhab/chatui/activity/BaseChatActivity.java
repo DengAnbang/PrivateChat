@@ -17,6 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.ToastUtils;
@@ -43,12 +49,6 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 /**
  * Created by dab on 2021/3/17 13:58
  */
@@ -58,6 +58,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
     public static final int REQUEST_CODE_FILE = 2222;
 
     private ChatAdapter mAdapter;
+//    private ChatAdapterNew mAdapterNew=new ChatAdapterNew();
 
     private RecyclerView mRvChat;
     private SwipeRefreshLayout mSwipeRefresh;//下拉刷新
@@ -117,6 +118,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         LinearLayoutManager mLinearLayout = new LinearLayoutManager(this);
         mRvChat.setLayoutManager(mLinearLayout);
         mRvChat.setAdapter(mAdapter);
+//        mRvChat.setAdapter(mAdapterNew);
         mSwipeRefresh.setOnRefreshListener(this);
         initChatUi();
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -447,6 +449,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
             List<ChatMessage> chatMessages = ChatDatabaseHelper.get(this, getUserId()).chatMsgSelect(mAdapter.getData(), targetId);
             mSwipeRefresh.post(() -> {
                 mAdapter.addData(0, chatMessages);
+//                mAdapterNew.setChatMessages(chatMessages);
                 mSwipeRefresh.setRefreshing(false);
                 mRvChat.scrollToPosition(mAdapter.getItemCount() - 1);
             });

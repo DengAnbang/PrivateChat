@@ -136,10 +136,12 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
             int sentStatus = item.getSentStatus();
             boolean isSend = item.getSenderId().equals(mSenderId);
             if (isSend) {
+                helper.setText(R.id.tv_send_status, item.getMsgSendStatusString());
                 if (sentStatus == MsgSendStatus.SENDING) {
                     helper.setVisible(R.id.chat_item_progress, true).setVisible(R.id.chat_item_fail, false);
                 } else if (sentStatus == MsgSendStatus.FAILED) {
-                    helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, true);
+                    helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, false);
+//                    helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, true);
                 } else if (sentStatus == MsgSendStatus.SENT) {
                     helper.setVisible(R.id.chat_item_progress, false).setVisible(R.id.chat_item_fail, false);
                 } else if (sentStatus == MsgSendStatus.RECEIVE) {

@@ -1,8 +1,8 @@
 package com.xhab.utils.net.socket;
 
-import com.xhab.utils.utils.LogUtils;
-
 import androidx.annotation.NonNull;
+
+import com.xhab.utils.utils.LogUtils;
 
 /**
  * Created by dab on 2021/4/7 15:05
@@ -24,8 +24,10 @@ public class TcpSocketIpm implements SocketAbstract {
     }
 
     @Override
-    public void send(@NonNull String sendMsg) {
+    public boolean send(@NonNull String sendMsg) {
         okioSocket.send(sendMsg);
+        // TODO: 2021/5/7 未实现,暂时统一返回成功
+        return true;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class TcpSocketIpm implements SocketAbstract {
 
     @Override
     public void setOnConnectionChange(OnConnectionChange onConnectionChange) {
-        LogUtils.e("setOnConnectionChange*****: 没有实现**********************" );
+        LogUtils.e("setOnConnectionChange*****: 没有实现**********************");
     }
 
 }

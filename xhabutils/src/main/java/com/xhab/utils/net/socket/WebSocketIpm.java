@@ -21,7 +21,8 @@ public class WebSocketIpm implements SocketAbstract {
     public static long reConnectedTime = 4000;//重连间隔
     private boolean isConnect;//是否连接成功
     private OkHttpClient client;
-    public WebSocketIpm(String wbSocketUrl,OkHttpClient client) {
+
+    public WebSocketIpm(String wbSocketUrl, OkHttpClient client) {
         mWbSocketUrl = wbSocketUrl;
         this.client = client;
     }
@@ -98,9 +99,10 @@ public class WebSocketIpm implements SocketAbstract {
     }
 
     @Override
-    public void send(@NonNull String sendMsg) {
+    public boolean send(@NonNull String sendMsg) {
         LogUtils.e("send*****: " + sendMsg);
-        mWebSocket.send(sendMsg);
+        return mWebSocket.send(sendMsg);
+
     }
 
     @Override
@@ -122,6 +124,7 @@ public class WebSocketIpm implements SocketAbstract {
     }
 
     private OnConnectionChange mOnConnectionChange;
+
     @Override
     public void setOnConnectionChange(OnConnectionChange onConnectionChange) {
         mOnConnectionChange = onConnectionChange;

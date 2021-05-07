@@ -2,10 +2,17 @@ package com.xhab.chatui.bean.chat;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.LayoutRes;
 
 import com.google.gson.annotations.Expose;
 import com.xhab.chatui.R;
+import com.xhab.chatui.utils.GlideUtils;
 
+import java.io.File;
 import java.util.UUID;
 
 
@@ -210,6 +217,50 @@ public class ChatMessage {
             return getSenderId();
         }
         return getTargetId();
+    }
+
+    @LayoutRes
+    public int getSpecialRes() {
+        switch (msgType) {
+            case MsgType.TEXT:
+                return R.layout.item_chat_msg_text;
+            case MsgType.IMAGE:
+                return R.layout.item_chat_msg_image;
+        }
+        return R.layout.item_chat_msg_text;
+    }
+
+    public String getMsgSendStatusString() {
+        switch (sentStatus) {
+            case MsgSendStatus.SENDING:
+                return "发送中";
+            case MsgSendStatus.FAILED:
+                return "发送失败(请检查自己的网络)";
+            case MsgSendStatus.RECEIVE:
+                return "已送达";
+            case MsgSendStatus.SENT:
+                return "已发送(对方未收到,对方可能处于离线)";
+        }
+        return "";
+    }
+
+    public void showSpecialRes(View itemView) {
+        switch (msgType) {
+            case MsgType.TEXT:
+                TextView textView = itemView.findViewById(R.id.tv_item_msg_text);
+                textView.setText(msg);
+                return;
+            case MsgType.IMAGE:
+                File file = new File(getLocalPath());
+                if (file.exists()) {
+                    GlideUtils.loadChatImage(itemView.getContext(), getLocalPath(), (ImageView) itemView.findViewById(R.id.tv_item_msg_image));
+                } else {
+                    GlideUtils.loadChatImage(itemView.getContext(), getRemoteUrl(), (ImageView) itemView.findViewById(R.id.tv_item_msg_image));
+                }
+                return;
+        }
+//        TextView textView = itemView.findViewById(R.id.tv_item_msg_text);
+//        textView.setText(msg);
     }
 
     public static ChatMessage create(Cursor cursor) {

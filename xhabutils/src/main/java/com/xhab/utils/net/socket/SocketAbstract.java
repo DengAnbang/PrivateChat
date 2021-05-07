@@ -20,7 +20,7 @@ public interface SocketAbstract {
      *
      * @param sendMsg
      */
-    public void send(@NonNull String sendMsg);
+    public boolean send(@NonNull String sendMsg);
 
     /**
      * 是否处于连接状态

@@ -1,9 +1,9 @@
 package com.xhab.chatui.bean.chat;
 
+import androidx.annotation.IntDef;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import androidx.annotation.IntDef;
 
 /**
  * Created by dab on 2021/3/19 18:01
@@ -16,5 +16,5 @@ public @interface MsgSendStatus {
     int SENDING = 1;//发送中
     int FAILED = 2;//发送失败
     int SENT = 3;//已发送
-    int RECEIVE = 4;//接收成功
+    int RECEIVE = 4;//已送达
 }

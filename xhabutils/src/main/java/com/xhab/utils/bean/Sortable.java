@@ -3,10 +3,10 @@ package com.xhab.utils.bean;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.github.stuxuhai.jpinyin.PinyinException;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created by dab on 2017/8/17 0017 09:32
@@ -41,6 +41,7 @@ public abstract class Sortable implements Comparable<Sortable> {
         if (TextUtils.isEmpty(pinyin)) {
             pinyin = getPinyin();
         }
+        if (TextUtils.isEmpty(pinyin)) return "";
         return pinyin.replace(" ", "").substring(0, 1);
     }
 

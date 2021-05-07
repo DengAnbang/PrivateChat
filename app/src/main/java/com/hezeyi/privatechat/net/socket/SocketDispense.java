@@ -1,6 +1,9 @@
 package com.hezeyi.privatechat.net.socket;
 
 
+import com.google.gson.Gson;
+import com.hezeyi.privatechat.Const;
+import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.utils.utils.AESEncryptUtil;
 import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
@@ -27,7 +30,7 @@ public class SocketDispense {
             if (has) {
                 senderId = jsonObject.get("senderId");
             }
-
+            LogUtils.e("parseJson*****: "+json );
             dispense(type, data, senderId);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -36,16 +39,20 @@ public class SocketDispense {
 
 
     public static void dispense(String type, String content, Object senderId) {
-        LogUtils.e("initSocket*****: "+content );
+
         if (type.equals("2") || type.equals("10002")) {
             if (type.equals("10002")){
 //                LogUtils.e("initSocket*****: "+content );
             }
             return;
         }
+        if (type.equals("20000")) {
+            ChatMessage message = new Gson().fromJson(content, ChatMessage.class);
+            RxBus.get().post(Const.RxType.TYPE_MSG_UPDATE, message);
+            return;
+        }
         if (senderId != null) {
             String decrypt = AESEncryptUtil.decrypt(senderId.toString(), content);
-            LogUtils.e("dispense*****: " + decrypt);
             RxBus.get().post(type, decrypt);
         } else {
             RxBus.get().post(type, content);

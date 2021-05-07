@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_text_send"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-     android:orientation="vertical"
+    android:orientation="vertical"
     android:padding="5dp">
 
     <TextView
@@ -83,5 +84,13 @@
             android:layout_toLeftOf="@+id/chat_item_layout_content"
             android:visibility="invisible" />
     </RelativeLayout>
-
+    <TextView
+        android:id="@+id/tv_send_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginRight="60dp"
+        android:focusable="false"
+        android:textSize="7sp"
+        tools:text="发送失败" />
 </LinearLayout>

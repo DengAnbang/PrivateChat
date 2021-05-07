@@ -67,6 +67,7 @@ public class Const {
                 return "hezeyisoftware.com";
 //                return "192.168.31.213";
             case "zs":
+//                return "192.168.0.102";
                 return "hezeyisoftware.com";
             default:
                 return "192.168.31.213";

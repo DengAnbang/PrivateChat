@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xhab.chatui.widget.BubbleImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_item_msg_image"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_alignParentStart="true"
+    android:layout_marginStart="0dp"
+    android:adjustViewBounds="true"
+    android:scaleType="centerCrop"
+    android:transitionName="sharedView"
+    app:angle="6dp"
+    app:arrowHeight="8dp"
+    app:arrowLocation="right"
+    app:arrowPosition="15dp"
+    app:arrowWidth="5dp" />
