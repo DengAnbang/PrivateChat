@@ -6,15 +6,16 @@
 
     <ImageView
         android:id="@+id/iv_qr_code"
-        android:layout_width="138dp"
-        android:layout_height="138dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
         android:layout_centerInParent="true"
-        android:src="@mipmap/pay" />
+        android:src="@mipmap/pay1" />
 
     <TextView
+        android:id="@+id/tv_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/iv_qr_code"
+        android:layout_below="@+id/iv_qr_code"
         android:gravity="center"
         android:text="点击图片,保存二维码,转账后,备注好账号,即可充值成功" />
 
@@ -22,9 +23,9 @@
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_qr_code"
+        android:layout_below="@+id/tv_hint"
         android:gravity="center"
-        android:text="点击查看充值说明" />
+        android:text="@string/hint" />
 
     <include layout="@layout/title_layout" />
 

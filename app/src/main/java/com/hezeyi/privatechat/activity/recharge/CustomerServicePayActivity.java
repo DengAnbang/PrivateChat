@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.SpannableStringBuilder;
 import android.widget.ImageView;
 
 import androidx.core.content.ContextCompat;
@@ -15,6 +16,7 @@ import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.xhab.utils.utils.FunUtils;
+import com.xhab.utils.utils.SpanBuilder;
 import com.xhab.utils.utils.ToastUtil;
 
 import java.io.File;
@@ -39,8 +41,10 @@ public class CustomerServicePayActivity extends BaseActivity {
         setTitleString("人工充值");
         String pay_id = getIntent().getStringExtra("pay_id");
         ImageView imageView = findViewById(R.id.iv_qr_code);
-        imageView.setImageDrawable(ContextCompat.getDrawable(this,Objects.equals(pay_id, "1")?R.mipmap.pay1:R.mipmap.pay2));
-
+        imageView.setImageDrawable(ContextCompat.getDrawable(this, Objects.equals(pay_id, "1") ? R.mipmap.pay1 : R.mipmap.pay2));
+        SpannableStringBuilder build = SpanBuilder.content("点击图片,保存二维码,转账后,备注好账号,即可充值成功")
+                .colorSpan(this, 15, 20, R.color.just_color_FF3859).build();
+        setTextViewString(R.id.tv_hint, build);
     }
 
     @Override

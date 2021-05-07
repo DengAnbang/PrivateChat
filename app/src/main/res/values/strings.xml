@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">S.O.M11111</string>
+
+    <string name="hint"><u>点击查看充值说明</u></string>
 </resources>
