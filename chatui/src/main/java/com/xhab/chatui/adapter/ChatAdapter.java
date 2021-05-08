@@ -5,9 +5,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.util.MultiTypeDelegate;
+import com.chad.library.adapter.base.BaseDelegateMultiAdapter;
+import com.chad.library.adapter.base.delegate.BaseMultiTypeDelegate;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xhab.chatui.R;
 import com.xhab.chatui.bean.chat.ChatMessage;
 import com.xhab.chatui.bean.chat.MsgSendStatus;
@@ -17,11 +17,13 @@ import com.xhab.chatui.utils.FileUtils;
 import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.chatui.utils.TimeShowUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.List;
 
 
-public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
+public class ChatAdapter extends BaseDelegateMultiAdapter<ChatMessage, BaseViewHolder> {
     private static final long INTERVALS = 1000 * 60 * 5;//显示聊天信息的间隔时间
     private static final int TYPE_SYSTEM = 0;
     private static final int TYPE_SEND_TEXT = 1;
@@ -76,9 +78,10 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
 
     public ChatAdapter(Context context, List<ChatMessage> data) {
         super(data);
-        setMultiTypeDelegate(new MultiTypeDelegate<ChatMessage>() {
+        setMultiTypeDelegate(new BaseMultiTypeDelegate<ChatMessage>() {
             @Override
-            protected int getItemType(ChatMessage entity) {
+            public int getItemType(@NotNull List<? extends ChatMessage> list, int i) {
+                ChatMessage entity = list.get(i);
                 boolean isSend = entity.getSenderId().equals(mSenderId);
                 if (MsgType.TEXT == entity.getMsgType()) {
                     return isSend ? TYPE_SEND_TEXT : TYPE_RECEIVE_TEXT;
@@ -98,26 +101,65 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
                 return 0;
             }
         });
-        getMultiTypeDelegate().registerItemType(TYPE_SEND_TEXT, SEND_TEXT)
-                .registerItemType(TYPE_RECEIVE_TEXT, RECEIVE_TEXT)
-                .registerItemType(TYPE_SEND_IMAGE, SEND_IMAGE)
-                .registerItemType(TYPE_RECEIVE_IMAGE, RECEIVE_IMAGE)
-                .registerItemType(TYPE_SEND_VIDEO, SEND_VIDEO)
-                .registerItemType(TYPE_RECEIVE_VIDEO, RECEIVE_VIDEO)
-                .registerItemType(TYPE_SEND_FILE, SEND_FILE)
-                .registerItemType(TYPE_RECEIVE_FILE, RECEIVE_FILE)
-                .registerItemType(TYPE_SEND_AUDIO, SEND_AUDIO)
-                .registerItemType(TYPE_RECEIVE_AUDIO, RECEIVE_AUDIO)
-                .registerItemType(TYPE_SYSTEM, SEND_RECEIVE_SYSTEM)
-                .registerItemType(TYPE_SEND_VOICE_CALLS, SEND_VOICE_CALLS)
-                .registerItemType(TYPE_RECEIVE_VOICE_CALLS, RECEIVE_VOICE_CALLS);
+
+        // 第二部，绑定 item 类型
+        getMultiTypeDelegate()
+                .addItemType(TYPE_SEND_TEXT, SEND_TEXT)
+                .addItemType(TYPE_RECEIVE_TEXT, RECEIVE_TEXT)
+                .addItemType(TYPE_SEND_IMAGE, SEND_IMAGE)
+                .addItemType(TYPE_RECEIVE_IMAGE, RECEIVE_IMAGE)
+                .addItemType(TYPE_SEND_VIDEO, SEND_VIDEO)
+                .addItemType(TYPE_RECEIVE_VIDEO, RECEIVE_VIDEO)
+                .addItemType(TYPE_SEND_FILE, SEND_FILE)
+                .addItemType(TYPE_RECEIVE_FILE, RECEIVE_FILE)
+                .addItemType(TYPE_SEND_AUDIO, SEND_AUDIO)
+                .addItemType(TYPE_RECEIVE_AUDIO, RECEIVE_AUDIO)
+                .addItemType(TYPE_SYSTEM, SEND_RECEIVE_SYSTEM)
+                .addItemType(TYPE_SEND_VOICE_CALLS, SEND_VOICE_CALLS)
+                .addItemType(TYPE_RECEIVE_VOICE_CALLS, RECEIVE_VOICE_CALLS);
+//        getMultiTypeDelegate().registerItemType(TYPE_SEND_TEXT, SEND_TEXT)
+//                .registerItemType(TYPE_RECEIVE_TEXT, RECEIVE_TEXT)
+//                .registerItemType(TYPE_SEND_IMAGE, SEND_IMAGE)
+//                .registerItemType(TYPE_RECEIVE_IMAGE, RECEIVE_IMAGE)
+//                .registerItemType(TYPE_SEND_VIDEO, SEND_VIDEO)
+//                .registerItemType(TYPE_RECEIVE_VIDEO, RECEIVE_VIDEO)
+//                .registerItemType(TYPE_SEND_FILE, SEND_FILE)
+//                .registerItemType(TYPE_RECEIVE_FILE, RECEIVE_FILE)
+//                .registerItemType(TYPE_SEND_AUDIO, SEND_AUDIO)
+//                .registerItemType(TYPE_RECEIVE_AUDIO, RECEIVE_AUDIO)
+//                .registerItemType(TYPE_SYSTEM, SEND_RECEIVE_SYSTEM)
+//                .registerItemType(TYPE_SEND_VOICE_CALLS, SEND_VOICE_CALLS)
+//                .registerItemType(TYPE_RECEIVE_VOICE_CALLS, RECEIVE_VOICE_CALLS);
+
+//        setMultiTypeDelegate(new MultiTypeDelegate<ChatMessage>() {
+//            @Override
+//            protected int getItemType(ChatMessage entity) {
+//                boolean isSend = entity.getSenderId().equals(mSenderId);
+//                if (MsgType.TEXT == entity.getMsgType()) {
+//                    return isSend ? TYPE_SEND_TEXT : TYPE_RECEIVE_TEXT;
+//                } else if (MsgType.IMAGE == entity.getMsgType()) {
+//                    return isSend ? TYPE_SEND_IMAGE : TYPE_RECEIVE_IMAGE;
+//                } else if (MsgType.VIDEO == entity.getMsgType()) {
+//                    return isSend ? TYPE_SEND_VIDEO : TYPE_RECEIVE_VIDEO;
+//                } else if (MsgType.FILE == entity.getMsgType()) {
+//                    return isSend ? TYPE_SEND_FILE : TYPE_RECEIVE_FILE;
+//                } else if (MsgType.AUDIO == entity.getMsgType()) {
+//                    return isSend ? TYPE_SEND_AUDIO : TYPE_RECEIVE_AUDIO;
+//                } else if (MsgType.SYSTEM == entity.getMsgType()) {
+//                    return isSend ? TYPE_SYSTEM : TYPE_SYSTEM;
+//                } else if (MsgType.VOICE_CALLS == entity.getMsgType()) {
+//                    return isSend ? TYPE_SEND_VOICE_CALLS : TYPE_RECEIVE_VOICE_CALLS;
+//                }
+//                return 0;
+//            }
+//        });
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ChatMessage item) {
         setContent(helper, item);
         setStatus(helper, item);
-        setOnClick(helper, item);
+//        setOnClick(helper, item);
         if (mOnItemLongClickListener != null) {
             helper.itemView.setOnLongClickListener(v -> mOnItemLongClickListener.onLongClick(v, helper.getAdapterPosition(), item));
         }
@@ -172,21 +214,21 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
             helper.setText(R.id.chat_item_content_text, item.getMsg());
         } else if (item.getMsgType() == (MsgType.IMAGE)) {
             if (TextUtils.isEmpty(item.getLocalPath())) {
-                GlideUtils.loadChatImage(mContext, item.getRemoteUrl(), (ImageView) helper.getView(R.id.bivPic));
+                GlideUtils.loadChatImage(helper.itemView.getContext(), item.getRemoteUrl(), (ImageView) helper.getView(R.id.bivPic));
             } else {
                 File file = new File(item.getLocalPath());
                 if (file.exists()) {
-                    GlideUtils.loadChatImage(mContext, item.getLocalPath(), (ImageView) helper.getView(R.id.bivPic));
+                    GlideUtils.loadChatImage(helper.itemView.getContext(), item.getLocalPath(), (ImageView) helper.getView(R.id.bivPic));
                 } else {
-                    GlideUtils.loadChatImage(mContext, item.getRemoteUrl(), (ImageView) helper.getView(R.id.bivPic));
+                    GlideUtils.loadChatImage(helper.itemView.getContext(), item.getRemoteUrl(), (ImageView) helper.getView(R.id.bivPic));
                 }
             }
         } else if (item.getMsgType() == (MsgType.VIDEO)) {
             File file = new File(item.getLocalPath());
             if (file.exists()) {
-                GlideUtils.loadChatImage(mContext, item.getLocalPath(), (ImageView) helper.getView(R.id.bivPic));
+                GlideUtils.loadChatImage(helper.itemView.getContext(), item.getLocalPath(), (ImageView) helper.getView(R.id.bivPic));
             } else {
-                GlideUtils.loadChatImage(mContext, item.getLocalPath(), (ImageView) helper.getView(R.id.bivPic));
+                GlideUtils.loadChatImage(helper.itemView.getContext(), item.getLocalPath(), (ImageView) helper.getView(R.id.bivPic));
             }
         } else if (item.getMsgType() == (MsgType.FILE)) {
 
@@ -197,7 +239,7 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
             helper.setText(R.id.tvDuration, item.getDuration() + "\"");
         } else if (item.getMsgType() == (MsgType.SYSTEM)) {
             helper.setText(R.id.chat_item_content_text, item.getMsg());
-        }else if (item.getMsgType() == (MsgType.VOICE_CALLS)) {
+        } else if (item.getMsgType() == (MsgType.VOICE_CALLS)) {
             helper.setText(R.id.chat_item_content_text, item.getExtra());
         }
         if (mShowImageCallback != null) {
@@ -209,26 +251,28 @@ public class ChatAdapter extends BaseQuickAdapter<ChatMessage, BaseViewHolder> {
 
 
     private void setOnClick(BaseViewHolder helper, ChatMessage item) {
-        if (item.getMsgType() == MsgType.AUDIO) {
-            helper.addOnClickListener(R.id.rlAudio);
-        }
-        if (item.getSentStatus() == (MsgSendStatus.FAILED)) {
-            helper.addOnClickListener(R.id.chat_item_fail);
-            helper.getView(R.id.chat_item_fail).setTag(item);
-        }
-        if (item.getMsgType() == (MsgType.IMAGE)) {
-            helper.addOnClickListener(R.id.bivPic);
-            helper.getView(R.id.bivPic).setTag(R.id.bivPic, item);
-        }
-        if (item.getMsgType() == (MsgType.FILE)) {
-            helper.addOnClickListener(R.id.rc_message);
-            helper.getView(R.id.rc_message).setTag(R.id.rc_message, item);
-        }
-        View view = helper.getView(R.id.chat_item_header);
-        if (view != null) {
-            helper.addOnClickListener(R.id.chat_item_header);
-            view.setTag(R.id.chat_item_header, item);
-        }
+        addChildLongClickViewIds(R.id.rlAudio, R.id.chat_item_fail, R.id.bivPic, R.id.rc_message,R.id.chat_item_header);
+//        if (item.getMsgType() == MsgType.AUDIO) {
+//            helper.addOnClickListener(R.id.rlAudio);
+//
+//        }
+//        if (item.getSentStatus() == (MsgSendStatus.FAILED)) {
+//            helper.addOnClickListener(R.id.chat_item_fail);
+//            helper.getView(R.id.chat_item_fail).setTag(item);
+//        }
+//        if (item.getMsgType() == (MsgType.IMAGE)) {
+//            helper.addOnClickListener(R.id.bivPic);
+//            helper.getView(R.id.bivPic).setTag(R.id.bivPic, item);
+//        }
+//        if (item.getMsgType() == (MsgType.FILE)) {
+//            helper.addOnClickListener(R.id.rc_message);
+//            helper.getView(R.id.rc_message).setTag(R.id.rc_message, item);
+//        }
+//        View view = helper.getView(R.id.chat_item_header);
+//        if (view != null) {
+//            helper.addOnClickListener(R.id.chat_item_header);
+//            view.setTag(R.id.chat_item_header, item);
+//        }
 
     }
 

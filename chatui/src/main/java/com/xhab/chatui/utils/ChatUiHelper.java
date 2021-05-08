@@ -22,7 +22,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.xhab.chatui.R;
 import com.xhab.chatui.bean.EmojiBean;
 import com.xhab.chatui.emoji.EmojiAdapter;
@@ -33,11 +37,6 @@ import com.xhab.chatui.widget.RecordButton;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 public class ChatUiHelper {
     private static final String SHARE_PREFERENCE_NAME = "com.chat.ui";
@@ -117,19 +116,15 @@ public class ChatUiHelper {
             } else {
                 entranceAdapter = new EmojiAdapter(mListEmoji.subList(index * EVERY_PAGE_SIZE, (index + 1) * EVERY_PAGE_SIZE), index, EVERY_PAGE_SIZE);
             }
-            entranceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    EmojiBean mEmojiBean = (EmojiBean) adapter.getData().get(position);
-                    if (mEmojiBean.getId() == 0) {
-                        //如果是删除键
-                        mEditText.dispatchKeyEvent(new KeyEvent(
-                                KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
-                    } else {
-                        mEditText.append(((EmojiBean) adapter.getData().get(position)).getUnicodeInt());
-                    }
-
-
+            entranceAdapter.setOnItemClickListener((adapter, view, position) -> {
+//                EmojiBean mEmojiBean = (EmojiBean) adapter.getData().get(position);
+                EmojiBean emojiBean = (EmojiBean) adapter.getData().get(position);
+                if (emojiBean.getId() == 0) {
+                    //如果是删除键
+                    mEditText.dispatchKeyEvent(new KeyEvent(
+                            KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+                } else {
+                    mEditText.append(((EmojiBean) adapter.getData().get(position)).getUnicodeInt());
                 }
             });
             recyclerView.setAdapter(entranceAdapter);

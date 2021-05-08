@@ -115,6 +115,7 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         mAdapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
         mAdapter.setSenderId(mSenderId);
         mAdapter.setShowImageCallback(getShowImageCallback());
+        mAdapter.addChildLongClickViewIds(R.id.rlAudio, R.id.chat_item_fail, R.id.bivPic, R.id.rc_message,R.id.chat_item_header);
         LinearLayoutManager mLinearLayout = new LinearLayoutManager(this);
         mRvChat.setLayoutManager(mLinearLayout);
         mRvChat.setAdapter(mAdapter);
