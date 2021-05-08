@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import androidx.core.content.ContextCompat;
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
+import com.xhab.chatui.utils.GlideUtils;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.SpanBuilder;
 import com.xhab.utils.utils.ToastUtil;
@@ -23,7 +25,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * Created by dab on 2021/4/23 20:53
@@ -40,8 +41,27 @@ public class CustomerServicePayActivity extends BaseActivity {
         super.initView();
         setTitleString("人工充值");
         String pay_id = getIntent().getStringExtra("pay_id");
+        String pay_image = getIntent().getStringExtra("pay_image");
         ImageView imageView = findViewById(R.id.iv_qr_code);
-        imageView.setImageDrawable(ContextCompat.getDrawable(this, Objects.equals(pay_id, "1") ? R.mipmap.pay1 : R.mipmap.pay2));
+        if (!TextUtils.isEmpty(pay_image)) {
+            GlideUtils.loadImage(this, pay_image, imageView,R.mipmap.pay);
+        } else {
+            int id = R.mipmap.pay;
+            switch (pay_id) {
+                case "1":
+                    id = R.mipmap.pay1;
+                    break;
+                case "2":
+                    id = R.mipmap.pay1;
+                    break;
+                case "365":
+                    id = R.mipmap.pay2;
+                    break;
+            }
+            imageView.setImageDrawable(ContextCompat.getDrawable(this, id));
+        }
+
+
         SpannableStringBuilder build = SpanBuilder.content("点击图片,保存二维码,转账后,备注好账号,即可充值成功")
                 .colorSpan(this, 15, 20, R.color.just_color_FF3859).build();
         setTextViewString(R.id.tv_hint, build);

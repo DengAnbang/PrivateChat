@@ -70,6 +70,17 @@ public class GlideUtils {
                 .apply(options)
                 .into(imageView);
     }
+    public static void loadImage(final Context mContext, String imgUrl, final ImageView imageView,@DrawableRes int placeholder) {
+        final RequestOptions options = new RequestOptions()
+                .placeholder(placeholder)// 正在加载中的图片
+                .error(placeholder); // 加载失败的图片
+        imgUrl = KEY_API_HOST + imgUrl;
+        Glide.with(mContext)
+                .load(imgUrl) // 图片地址
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .apply(options)
+                .into(imageView);
+    }
 
     public static void loadChatImage(@DrawableRes int imgUrl, final ImageView imageView) {
         final RequestOptions options = new RequestOptions()

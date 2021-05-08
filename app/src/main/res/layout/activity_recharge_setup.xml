@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/background_color_f2f3f4"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color_f2f3f4"
+    android:orientation="vertical">
 
-    <include layout="@layout/title_layout"/>
+    <include layout="@layout/title_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingRight="5dp"
-            android:text="金额:"/>
+            android:text="金额:" />
 
         <EditText
             android:id="@+id/et_money"
@@ -33,7 +33,7 @@
             android:hint="请输入金额"
             android:inputType="number"
             android:maxLength="4"
-            android:paddingLeft="15dp"/>
+            android:paddingLeft="15dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingRight="5dp"
-            android:text="天数:"/>
+            android:text="天数:" />
 
         <EditText
             android:id="@+id/et_day"
@@ -57,7 +57,7 @@
             android:hint="请输入天数"
             android:inputType="number"
             android:maxLength="3"
-            android:paddingLeft="15dp"/>
+            android:paddingLeft="15dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -72,7 +72,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingRight="5dp"
-            android:text="赠送:"/>
+            android:text="赠送:" />
 
         <EditText
             android:id="@+id/et_giving_day"
@@ -82,8 +82,15 @@
             android:hint="请输入赠送天数"
             android:inputType="number"
             android:maxLength="3"
-            android:paddingLeft="15dp"/>
+            android:paddingLeft="15dp" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_pay_image"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/pay" />
 
     <TextView
         android:id="@+id/tv_update"
@@ -91,7 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="5dp"
-        android:text="修改"/>
+        android:text="修改" />
 
     <TextView
         android:id="@+id/tv_add"
@@ -99,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="5dp"
-        android:text="新增"/>
+        android:text="新增" />
 
     <TextView
         android:id="@+id/tv_delete"
@@ -107,6 +114,6 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="5dp"
-        android:text="删除"/>
+        android:text="删除" />
 
 </LinearLayout>

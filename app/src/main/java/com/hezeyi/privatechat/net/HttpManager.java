@@ -207,9 +207,9 @@ public class HttpManager {
                 .priceDelete(id), requestHelper, true, dataClick);
     }
 
-    public static void priceUpdate(String money, String day, String giving_day, String id, RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void priceUpdate(String money, String day, String giving_day, String pay_image, String id, RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .priceUpdate(money, day, giving_day, id), requestHelper, true, dataClick);
+                .priceUpdate(money, day, giving_day, pay_image, id), requestHelper, true, dataClick);
     }
 
     public static void priceSelectById(String id, RequestHelper requestHelper, final OnDataCallBack<SelectPriceBean> dataClick) {
@@ -217,9 +217,9 @@ public class HttpManager {
                 .priceSelectById(id), requestHelper, true, dataClick);
     }
 
-    public static void priceAdd(String money, String day, String giving_day, RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
+    public static void priceAdd(String money, String day, String giving_day,String pay_image, RequestHelper requestHelper, final OnDataCallBack<Object> dataClick) {
         ResponseHelper.requestSucceed(RetrofitFactory.getService(ApiService.class)
-                .priceAdd(money, day, giving_day), requestHelper, true, dataClick);
+                .priceAdd(money, day, giving_day, pay_image), requestHelper, true, dataClick);
     }
 
     public static void priceSelectAll(String user_id, final RequestHelper requestHelper, final OnDataCallBack<List<SelectPriceBean>> dataClick) {

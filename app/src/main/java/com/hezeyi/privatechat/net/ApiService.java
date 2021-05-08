@@ -205,7 +205,8 @@ public interface ApiService {
     Observable<ResultData<Object>> priceAdd(
             @Query("money") String money,
             @Query("day") String day,
-            @Query("giving_day") String giving_day
+            @Query("giving_day") String giving_day,
+            @Query("pay_image") String pay_image
     );
 
 
@@ -219,6 +220,7 @@ public interface ApiService {
             @Query("money") String money,
             @Query("day") String day,
             @Query("giving_day") String giving_day,
+            @Query("pay_image") String pay_image,
             @Query("id") String id
     );
 

@@ -40,8 +40,9 @@ dependencies {
 
     //support
     implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:recyclerview-v7:$support_version"
     implementation "com.android.support:design:$support_version"
+
+    implementation 'androidx.recyclerview:recyclerview:+'
     //rxjava
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"

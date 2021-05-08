@@ -35,6 +35,7 @@ public class Const {
         //网络目录
         public static final String chatFileType = "chat/file";
         public static final String userFileType = "user/file";
+        public static final String payFileType = "pay/";
 
     }
 

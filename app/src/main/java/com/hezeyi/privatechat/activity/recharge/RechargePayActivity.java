@@ -41,8 +41,8 @@ public class RechargePayActivity extends BaseActivity {
     @Override
     public void initEvent() {
         super.initEvent();
-        visibility(R.id.rl_alipay,false);
-        visibility(R.id.rl_weixin,false);
+        visibility(R.id.rl_alipay, false);
+        visibility(R.id.rl_weixin, false);
 //        visibility(R.id.rl_customer_service, false);
 //        click(R.id.rl_alipay, v -> {
 //            FunUtils.affirm(this, "模拟充值,点击充值就充值成功了", "充值", aBoolean -> {
@@ -61,6 +61,7 @@ public class RechargePayActivity extends BaseActivity {
         click(R.id.rl_customer_service, v -> {
             Intent intent = new Intent(this, CustomerServicePayActivity.class);
             intent.putExtra("pay_id", getIntent().getStringExtra("pay_id"));
+            intent.putExtra("pay_image", mSelectPriceBean.getPay_image());
             startActivity(intent);
         });
     }

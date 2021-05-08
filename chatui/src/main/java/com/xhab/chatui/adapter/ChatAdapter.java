@@ -187,7 +187,7 @@ public class ChatAdapter extends BaseDelegateMultiAdapter<ChatMessage, BaseViewH
     }
 
     private void setContent(BaseViewHolder helper, ChatMessage item) {
-        int adapterPosition = helper.getAdapterPosition();
+        int adapterPosition = helper.getBindingAdapterPosition();
         boolean isShowTime;
         if (!item.isMessage()) {
             isShowTime = false;

@@ -12,8 +12,17 @@ public class SelectPriceBean implements ChooseAble, Comparable<SelectPriceBean> 
     private String id;
     private String day;
     private String giving_day;
+    private String pay_image;
     private boolean choose;
     private int position;
+
+    public String getPay_image() {
+        return pay_image;
+    }
+
+    public void setPay_image(String pay_image) {
+        this.pay_image = pay_image;
+    }
 
     public String getId() {
         return id;

@@ -142,10 +142,12 @@ public class LoginActivity extends BaseActivity {
         HttpManager.login(account, password, true, this, data -> {
             if (data.getCode().equals("2")) {
                 MyApplication.getInstance().setUserMsgBean(data.getData());
-                FunUtils.affirm(this, "前往充值?", "充值", aBoolean -> {
-                    Intent intent = new Intent(this, RechargeActivity.class);
-                    intent.putExtra("user_id", data.getData().getUser_id());
-                    startActivity(intent);
+                FunUtils.affirm(this, "为了账号安全，到期一月后将清理账号所有信息，包括好友关系,是否前往充值?", "充值", aBoolean -> {
+                    if (aBoolean) {
+                        Intent intent = new Intent(this, RechargeActivity.class);
+                        intent.putExtra("user_id", data.getData().getUser_id());
+                        startActivity(intent);
+                    }
                 });
                 return;
             }
