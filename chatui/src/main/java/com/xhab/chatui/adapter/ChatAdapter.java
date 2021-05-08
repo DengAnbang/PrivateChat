@@ -65,11 +65,7 @@ public class ChatAdapter extends BaseDelegateMultiAdapter<ChatMessage, BaseViewH
         mShowImageCallback = showImageCallback;
     }
 
-    private com.xhab.utils.inteface.OnItemLongClickListener<ChatMessage> mOnItemLongClickListener;
 
-    public void setItemLongClickListener(com.xhab.utils.inteface.OnItemLongClickListener<ChatMessage> onItemLongClickListener) {
-        mOnItemLongClickListener = onItemLongClickListener;
-    }
 
     //设置发送的人
     public void setSenderId(String senderId) {
@@ -159,11 +155,6 @@ public class ChatAdapter extends BaseDelegateMultiAdapter<ChatMessage, BaseViewH
     protected void convert(BaseViewHolder helper, ChatMessage item) {
         setContent(helper, item);
         setStatus(helper, item);
-//        setOnClick(helper, item);
-        if (mOnItemLongClickListener != null) {
-            helper.itemView.setOnLongClickListener(v -> mOnItemLongClickListener.onLongClick(v, helper.getAdapterPosition(), item));
-        }
-
     }
 
 
@@ -250,30 +241,5 @@ public class ChatAdapter extends BaseDelegateMultiAdapter<ChatMessage, BaseViewH
     }
 
 
-    private void setOnClick(BaseViewHolder helper, ChatMessage item) {
-        addChildLongClickViewIds(R.id.rlAudio, R.id.chat_item_fail, R.id.bivPic, R.id.rc_message,R.id.chat_item_header);
-//        if (item.getMsgType() == MsgType.AUDIO) {
-//            helper.addOnClickListener(R.id.rlAudio);
-//
-//        }
-//        if (item.getSentStatus() == (MsgSendStatus.FAILED)) {
-//            helper.addOnClickListener(R.id.chat_item_fail);
-//            helper.getView(R.id.chat_item_fail).setTag(item);
-//        }
-//        if (item.getMsgType() == (MsgType.IMAGE)) {
-//            helper.addOnClickListener(R.id.bivPic);
-//            helper.getView(R.id.bivPic).setTag(R.id.bivPic, item);
-//        }
-//        if (item.getMsgType() == (MsgType.FILE)) {
-//            helper.addOnClickListener(R.id.rc_message);
-//            helper.getView(R.id.rc_message).setTag(R.id.rc_message, item);
-//        }
-//        View view = helper.getView(R.id.chat_item_header);
-//        if (view != null) {
-//            helper.addOnClickListener(R.id.chat_item_header);
-//            view.setTag(R.id.chat_item_header, item);
-//        }
-
-    }
 
 }

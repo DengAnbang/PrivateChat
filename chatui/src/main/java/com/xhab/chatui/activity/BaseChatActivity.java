@@ -115,7 +115,18 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
         mAdapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
         mAdapter.setSenderId(mSenderId);
         mAdapter.setShowImageCallback(getShowImageCallback());
-        mAdapter.addChildLongClickViewIds(R.id.rlAudio, R.id.chat_item_fail, R.id.bivPic, R.id.rc_message,R.id.chat_item_header);
+        mAdapter.addChildClickViewIds(R.id.rlAudio, R.id.chat_item_fail, R.id.bivPic, R.id.rc_message,R.id.chat_item_header);
+        // 先注册需要长按的子控件id（注意，请不要写在convert方法里）
+        mAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            FunUtils.affirm(this, "是否删除?", "删除", aBoolean -> {
+                if (aBoolean) {
+                    LogUtils.e("是否删除*****: " + position);
+                    removedMessage((ChatMessage)adapter.getData().get(position), position);
+                }
+            });
+            return true;
+        });
+
         LinearLayoutManager mLinearLayout = new LinearLayoutManager(this);
         mRvChat.setLayoutManager(mLinearLayout);
         mRvChat.setAdapter(mAdapter);
@@ -157,33 +168,33 @@ public abstract class BaseChatActivity extends AppCompatActivity implements Swip
                     });
                 }
             } else if (view.getId() == R.id.chat_item_fail) {
-                ChatMessage message = (ChatMessage) view.getTag();
+                ChatMessage message = mAdapter.getData().get(position);
                 updateMsg(message.getUuid(), MsgSendStatus.SENDING);
                 sendMsg(message);
             } else if (view.getId() == R.id.bivPic) {
-                ChatMessage message = (ChatMessage) view.getTag(R.id.bivPic);
+                ChatMessage message = mAdapter.getData().get(position);
                 Intent intent = new Intent(this, ZoomImageActivity.class);
                 intent.putExtra("url", message.getLocalPath());
                 startActivity(intent);
 //                FunUtils.showPicture(this, message.getLocalPath());
             } else if (view.getId() == R.id.rc_message) {
-                ChatMessage message = (ChatMessage) view.getTag(R.id.rc_message);
+                ChatMessage message = mAdapter.getData().get(position);
                 openFile(message);
             } else if (view.getId() == R.id.chat_item_header) {
-                ChatMessage message = (ChatMessage) view.getTag(R.id.chat_item_header);
+                ChatMessage message = mAdapter.getData().get(position);
                 clickUser(message);
             }
 
         });
-        mAdapter.setItemLongClickListener((view, position, message) -> {
-            FunUtils.affirm(this, "是否删除?", "删除", aBoolean -> {
-                if (aBoolean) {
-                    LogUtils.e("是否删除*****: " + position);
-                    removedMessage(message, position);
-                }
-            });
-            return true;
-        });
+//        mAdapter.setItemLongClickListener((view, position, message) -> {
+//            FunUtils.affirm(this, "是否删除?", "删除", aBoolean -> {
+//                if (aBoolean) {
+//                    LogUtils.e("是否删除*****: " + position);
+//                    removedMessage(message, position);
+//                }
+//            });
+//            return true;
+//        });
 
     }
 
