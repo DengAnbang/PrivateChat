@@ -1,12 +1,12 @@
 package com.hezeyi.privatechat.activity.recharge;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.adapter.RechargeRecordAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by dab on 2021/4/13 22:06
@@ -27,7 +27,7 @@ public class RechargeRecordActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleString("充值查看(未完成)");
+        setTitleString("充值查看");
         mType = getIntent().getStringExtra("type");
         RecyclerView recyclerView = findViewById(R.id.rv_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
