@@ -56,7 +56,7 @@ public class RetrofitFactory {
             @Override
             public List<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                 if (json.isJsonArray()) {
-                    List list = new ArrayList<>();
+                    List<Object> list = new ArrayList<>();
                     try {
                         JsonArray array = json.getAsJsonArray();
                         Type itemType = ((ParameterizedType) typeOfT).getActualTypeArguments()[0];

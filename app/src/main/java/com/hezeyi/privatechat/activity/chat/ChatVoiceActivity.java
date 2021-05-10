@@ -6,9 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import com.hezeyi.privatechat.MainActivity;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
@@ -27,6 +24,8 @@ import com.xhab.utils.utils.LogUtils;
 import com.xhab.utils.utils.RxBus;
 import com.xhab.utils.utils.RxUtils;
 import com.xhab.utils.utils.TimeUtils;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by dab on 2021/3/27 14:30
@@ -157,7 +156,7 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
     public void showFloatingView() {
         if (FunUtils.isServiceRunning(this, VoiceFloatingService.class.getName())) {
             //通知显示悬浮窗
-            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BaseVoiceFloatingService.ACTION_SHOW_FLOATING));
+           sendBroadcast(new Intent(BaseVoiceFloatingService.ACTION_SHOW_FLOATING));
         } else {
             //启动悬浮窗管理服务
             Intent service = new Intent(this, VoiceFloatingService.class);
@@ -174,7 +173,7 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
     @Override
     public void dismissFloatingView() {
         if (FunUtils.isServiceRunning(this, VoiceFloatingService.class.getName())) {
-            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BaseVoiceFloatingService.ACTION_DISMISS_FLOATING));
+           sendBroadcast(new Intent(BaseVoiceFloatingService.ACTION_DISMISS_FLOATING));
         }
     }
 

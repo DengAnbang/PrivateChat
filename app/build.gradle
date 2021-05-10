@@ -90,7 +90,7 @@ android {
 
 
 }
-ext.support_version = '26.0.2+'
+ext.support_version = '1.1.0'
 ext.retrofit_version = '2.3.0'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -110,9 +110,9 @@ dependencies {
 //    compile project(path: ':chatui')
 
 //support
-    implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:recyclerview-v7:$support_version"
-    implementation "com.android.support:design:$support_version"
+    implementation "androidx.recyclerview:recyclerview:$support_version"
+    implementation "com.google.android.material:material:$support_version"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$support_version"
     //rxjava
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"

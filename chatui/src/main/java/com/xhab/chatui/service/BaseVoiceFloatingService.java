@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.xhab.chatui.voiceCalls.VoiceFloatingView;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 /**
  * Created by dab on 2021/3/31 14:20
@@ -52,7 +52,7 @@ public abstract class BaseVoiceFloatingService extends Service {
         mServiceVoice = this;
         mVoiceFloatingView = new VoiceFloatingView(this);
         IntentFilter intentFilter = new IntentFilter(ACTION_SHOW_FLOATING);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mLocalBroadcastReceiver, intentFilter);
+       registerReceiver(mLocalBroadcastReceiver, intentFilter);
     }
 
     @Override
@@ -67,7 +67,7 @@ public abstract class BaseVoiceFloatingService extends Service {
     public void onDestroy() {
         mVoiceFloatingView.dismiss();
         mVoiceFloatingView = null;
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mLocalBroadcastReceiver);
+       unregisterReceiver(mLocalBroadcastReceiver);
         super.onDestroy();
 
     }

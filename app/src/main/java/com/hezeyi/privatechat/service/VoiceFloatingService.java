@@ -10,7 +10,7 @@ import com.xhab.chatui.voiceCalls.VoiceFloatingView;
 import com.xhab.utils.utils.FunUtils;
 import com.xhab.utils.utils.RxBus;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -54,7 +54,7 @@ public class VoiceFloatingService extends BaseVoiceFloatingService {
         super.onCreate();
         mDisposable = RxBus.get().register("onCallItemRemove", JCCallItem.class).subscribe(jcCallItem -> {
             if (FunUtils.isServiceRunning(this, VoiceFloatingService.class.getName())) {
-                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BaseVoiceFloatingService.ACTION_DISMISS_FLOATING));
+                sendBroadcast(new Intent(BaseVoiceFloatingService.ACTION_DISMISS_FLOATING));
                 stopSelf();
             }
         });

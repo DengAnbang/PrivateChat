@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 
 import com.xhab.chatui.utils.FloatingWindowHelper;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 /**
  * Created by dab on 2021/3/31 14:06
@@ -37,7 +37,7 @@ public class ExampleFloatingService extends Service {
     public void onCreate() {
         super.onCreate();
         isStart = true;
-        LocalBroadcastManager.getInstance(this).registerReceiver(mLocalBroadcastReceiver, new IntentFilter(ACTION_CLICK));
+        registerReceiver(mLocalBroadcastReceiver, new IntentFilter(ACTION_CLICK));
         mFloatingWindowHelper = new FloatingWindowHelper(this);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
 //        mExampleViewA = layoutInflater.inflate(R.layout.widget_test_view, null, false)
@@ -47,9 +47,7 @@ public class ExampleFloatingService extends Service {
 
     @Override
     public void onDestroy() {
-        LocalBroadcastManager
-                .getInstance(this)
-                .unregisterReceiver(mLocalBroadcastReceiver);
+
         mFloatingWindowHelper.destroy();
         isStart = false;
         super.onDestroy();
