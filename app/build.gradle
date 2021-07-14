@@ -32,7 +32,7 @@ android {
             v2SigningEnabled true
         }
     }
-    ext.releaseProguard = true
+    ext.releaseProguard = false
     ext.debugProguard = false
     buildTypes {
         release {

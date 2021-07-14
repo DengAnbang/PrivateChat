@@ -234,7 +234,7 @@ public class ChatAdapter extends BaseDelegateMultiAdapter<ChatMessage, BaseViewH
             helper.setText(R.id.chat_item_content_text, item.getExtra());
         }
         if (mShowImageCallback != null) {
-            mShowImageCallback.showImage(item, helper.getView(R.id.chat_item_header));
+            mShowImageCallback.showImage(item, helper.getViewOrNull(R.id.chat_item_header));
         }
 
 
