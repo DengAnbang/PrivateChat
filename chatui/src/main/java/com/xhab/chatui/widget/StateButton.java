@@ -116,7 +116,7 @@ public class StateButton extends AppCompatButton {
 
         //set radius
         mRadius = a.getDimensionPixelSize(R.styleable.ChatStateButton_radius, 0);
-        mRound = a.getBoolean(R.styleable.ChatStateButton_round, false);
+        mRound = a.getBoolean(R.styleable.ChatStateButton_round_1, false);
         mNormalBackground.setCornerRadius(mRadius);
         mPressedBackground.setCornerRadius(mRadius);
         mUnableBackground.setCornerRadius(mRadius);

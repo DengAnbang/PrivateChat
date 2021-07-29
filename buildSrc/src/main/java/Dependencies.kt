@@ -8,14 +8,14 @@ object Versions {
 object Libs {
     //build
     val appcompat = "androidx.appcompat:appcompat:1.2.0"
-    val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.2"
+    val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.4"
 
 
     //test
     val junit = "junit:junit:4.12"
     val runner = "androidx.test:runner:1.1.1"
     val espresso_core = "androidx.test.espresso:espresso-core:3.3.0"
-    val multidex = "com.android.support:multidex:1.0.3"
+    val multidex = "com.android.support:multidex:2.0.1"
     val crashreport_upgrade = "com.tencent.bugly:crashreport_upgrade:1.4.1"
 
 

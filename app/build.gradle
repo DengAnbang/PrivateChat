@@ -98,8 +98,8 @@ dependencies {
     androidTestImplementation Libs.runner
     androidTestImplementation Libs.espresso_core
 
-    androidTestImplementation Libs.multidex
-    androidTestImplementation Libs.crashreport_upgrade
+    implementation Libs.multidex
+    implementation Libs.crashreport_upgrade
     //support
     implementation Libs.recyclerview
     implementation Libs.material
