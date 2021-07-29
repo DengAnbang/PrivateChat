@@ -30,8 +30,7 @@ object Libs {
     //support
     val recyclerview = "androidx.recyclerview:recyclerview:${Versions.support_version}"
     val material = "com.google.android.material:material:${Versions.support_version}"
-    val swiperefreshlayout =
-        "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.support_version}"
+    val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     val rxandroid = "io.reactivex.rxjava2:rxandroid:2.0.1"
     val rxbinding = "com.jakewharton.rxbinding2:rxbinding:2.0.0"
     val rxpermissions = "com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar"
