@@ -11,7 +11,7 @@
 
 
 
-    <declare-styleable name="StateButton">
+    <declare-styleable name="ChatStateButton">
 
         <!--text color-->
         <attr name="normalTextColor" format="color|reference"/>
