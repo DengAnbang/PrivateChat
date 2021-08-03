@@ -51,3 +51,52 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
+// 进行数字签名
+signing {
+    required { false }
+    sign configurations.archives
+}
+
+// type显示指定任务类型或任务, 这里指定要执行Javadoc这个task,这个task在gradle中已经定义
+task androidJavadocs(type: Javadoc) {
+    // 设置源码所在的位置
+    source = android.sourceSets.main.java.sourceFiles
+}
+
+// 生成javadoc.jar
+task androidJavadocsJar(type: Jar) {
+    // 指定文档名称
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+// 生成sources.jar
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+// 产生相关配置文件的任务
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
+}
+
+tasks.create('uploadArchives', Upload.class) {
+    configuration = project.configurations.archives
+    group = 'upload'
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+        /**
+         * 快照版本，正式发布去掉 -SNAPSHOT 即可
+         */
+        pom.version = '1.0.0-SNAPSHOT'
+        pom.artifactId = 'outmanage'
+        pom.groupId = 'net.chips.android.plugin'
+        pom.name = project.name
+        pom.packaging = 'aar'
+        repository(url: NSAPSHOTS_URL) {
+            authentication(userName: NAME, password: PASSWORD) // maven授权信息
+        }
+    }
+}
