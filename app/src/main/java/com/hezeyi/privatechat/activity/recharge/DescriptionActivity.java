@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.xhab.utils.adapter.WhitelistGuideAdapter;
-import com.xhab.utils.bean.WhitelistGuideBean;
+import com.abxh.utils.adapter.WhitelistGuideAdapter;
+import com.abxh.utils.bean.WhitelistGuideBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class DescriptionActivity extends BaseActivity {
     public void initView() {
         super.initView();
         setTitleString("充值说明");
-        RecyclerView recyclerView = findViewById(com.xhab.utils.R.id.rv_content);
+        RecyclerView recyclerView = findViewById(com.abxh.utils.R.id.rv_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         recyclerView.setAdapter(mWhitelistGuideAdapter);
         List<WhitelistGuideBean> whitelistGuideBeans = new ArrayList<>();

@@ -14,10 +14,10 @@ import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.adapter.ChatListMessageAdapter;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.xhab.chatui.bean.chat.ChatListMessage;
-import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
-import com.xhab.utils.utils.FunUtils;
-import com.xhab.utils.utils.RxBus;
+import com.abxh.chatui.bean.chat.ChatListMessage;
+import com.abxh.chatui.dbUtils.ChatDatabaseHelper;
+import com.abxh.utils.utils.FunUtils;
+import com.abxh.utils.utils.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,7 @@ package com.hezeyi.privatechat.bean;
 import android.text.TextUtils;
 
 import com.hezeyi.privatechat.R;
-import com.xhab.utils.inteface.ChooseAble;
+import com.abxh.utils.inteface.ChooseAble;
 
 import java.util.Objects;
 

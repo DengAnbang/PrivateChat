@@ -1,0 +1,11 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+apply from: "${rootProject.rootDir}/buildSrc/common-build.gradle"
+
+
+dependencies {
+    implementation project(path: ':modluesCore:main')
+    implementation "androidx.activity:activity-ktx:1.2.2"
+}

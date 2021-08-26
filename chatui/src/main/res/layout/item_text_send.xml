@@ -24,7 +24,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp">
 
-        <com.xhab.chatui.widget.CircleImageView
+        <com.abxh.chatui.widget.CircleImageView
             android:id="@+id/chat_item_header"
             android:layout_width="40dp"
             android:layout_height="40dp"

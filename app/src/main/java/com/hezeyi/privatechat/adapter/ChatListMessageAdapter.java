@@ -10,11 +10,11 @@ import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.ChatGroupBean;
 import com.hezeyi.privatechat.bean.UserMsgBean;
-import com.xhab.chatui.bean.chat.ChatListMessage;
-import com.xhab.chatui.utils.GlideUtils;
-import com.xhab.chatui.utils.TimeShowUtils;
-import com.xhab.utils.inteface.OnItemClickListener;
-import com.xhab.utils.inteface.OnItemLongClickListener;
+import com.abxh.chatui.bean.chat.ChatListMessage;
+import com.abxh.chatui.utils.GlideUtils;
+import com.abxh.chatui.utils.TimeShowUtils;
+import com.abxh.utils.inteface.OnItemClickListener;
+import com.abxh.utils.inteface.OnItemLongClickListener;
 
 import java.util.List;
 

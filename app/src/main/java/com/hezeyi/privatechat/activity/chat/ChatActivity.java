@@ -16,22 +16,22 @@ import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.VoiceService;
 import com.juphoon.cloud.JCCallItem;
-import com.xhab.chatui.activity.BaseChatActivity;
-import com.xhab.chatui.bean.chat.ChatMessage;
-import com.xhab.chatui.bean.chat.MsgType;
-import com.xhab.chatui.dbUtils.ChatDatabaseHelper;
-import com.xhab.chatui.inteface.ShowUserImageCallback;
-import com.xhab.chatui.utils.FileUtils;
-import com.xhab.chatui.utils.GlideUtils;
-import com.xhab.chatui.voiceCalls.JuphoonUtils;
-import com.xhab.utils.dialog.ProgressDialog;
-import com.xhab.utils.net.RequestHelperAgency;
-import com.xhab.utils.net.RequestHelperImp;
-import com.xhab.utils.utils.FunUtils;
-import com.xhab.utils.utils.LogUtils;
-import com.xhab.utils.utils.RxBus;
-import com.xhab.utils.utils.SPUtils;
-import com.xhab.utils.utils.ToastUtil;
+import com.abxh.chatui.activity.BaseChatActivity;
+import com.abxh.chatui.bean.chat.ChatMessage;
+import com.abxh.chatui.bean.chat.MsgType;
+import com.abxh.chatui.dbUtils.ChatDatabaseHelper;
+import com.abxh.chatui.inteface.ShowUserImageCallback;
+import com.abxh.chatui.utils.FileUtils;
+import com.abxh.chatui.utils.GlideUtils;
+import com.abxh.chatui.voiceCalls.JuphoonUtils;
+import com.abxh.utils.dialog.ProgressDialog;
+import com.abxh.utils.net.RequestHelperAgency;
+import com.abxh.utils.net.RequestHelperImp;
+import com.abxh.utils.utils.FunUtils;
+import com.abxh.utils.utils.LogUtils;
+import com.abxh.utils.utils.RxBus;
+import com.abxh.utils.utils.SPUtils;
+import com.abxh.utils.utils.ToastUtil;
 
 import java.io.File;
 import java.util.Objects;
@@ -186,7 +186,7 @@ public class ChatActivity extends BaseChatActivity implements RequestHelperImp {
             intent.putExtra("isGroupAdmin", isGroupAdmin);
             startActivity(intent);
         });
-        findViewById(com.xhab.chatui.R.id.rlLocation).setOnClickListener(v -> {
+        findViewById(com.abxh.chatui.R.id.rlLocation).setOnClickListener(v -> {
             // 1. 获取当前活跃通话
             JCCallItem item = JuphoonUtils.get().getCall().getActiveCallItem();
             if (item != null) {

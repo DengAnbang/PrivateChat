@@ -9,7 +9,7 @@ import com.hezeyi.privatechat.activity.account.AccountListActivity;
 import com.hezeyi.privatechat.activity.recharge.RechargeRecordActivity;
 import com.hezeyi.privatechat.activity.recharge.RechargeSetUpActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
-import com.xhab.utils.utils.LogUtils;
+import com.abxh.utils.utils.LogUtils;
 
 
 /**

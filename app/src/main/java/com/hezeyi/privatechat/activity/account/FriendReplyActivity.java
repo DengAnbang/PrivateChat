@@ -9,9 +9,9 @@ import com.hezeyi.privatechat.activity.chat.ChatActivity;
 import com.hezeyi.privatechat.adapter.FriendReplyAdapter;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
-import com.xhab.utils.utils.LogUtils;
-import com.xhab.utils.utils.RxBus;
-import com.xhab.utils.utils.SPUtils;
+import com.abxh.utils.utils.LogUtils;
+import com.abxh.utils.utils.RxBus;
+import com.abxh.utils.utils.SPUtils;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

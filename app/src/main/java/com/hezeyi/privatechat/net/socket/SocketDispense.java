@@ -3,10 +3,10 @@ package com.hezeyi.privatechat.net.socket;
 
 import com.google.gson.Gson;
 import com.hezeyi.privatechat.Const;
-import com.xhab.chatui.bean.chat.ChatMessage;
-import com.xhab.utils.utils.AESEncryptUtil;
-import com.xhab.utils.utils.LogUtils;
-import com.xhab.utils.utils.RxBus;
+import com.abxh.chatui.bean.chat.ChatMessage;
+import com.abxh.utils.utils.AESEncryptUtil;
+import com.abxh.utils.utils.LogUtils;
+import com.abxh.utils.utils.RxBus;
 
 import org.json.JSONException;
 import org.json.JSONObject;

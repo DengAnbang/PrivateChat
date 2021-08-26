@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.SelectPriceBean;
-import com.xhab.utils.inteface.OnItemClickListener;
+import com.abxh.utils.inteface.OnItemClickListener;
 
 import java.util.Collections;
 import java.util.List;

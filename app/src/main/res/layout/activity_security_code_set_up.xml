@@ -10,7 +10,7 @@
     <include layout="@layout/title_layout"/>
 
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_is_open"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -19,7 +19,7 @@
         app:rightDrawable="@mipmap/c25_icon1"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:visibility="gone"
         tools:visibility="visible"
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         app:rightText="退出后立即锁定"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_set_security_code"
         android:layout_width="match_parent"
         android:layout_height="50dp"

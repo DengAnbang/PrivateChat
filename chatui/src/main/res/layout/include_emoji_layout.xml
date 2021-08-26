@@ -13,7 +13,7 @@
         android:orientation="vertical"
         >
 
-    <com.xhab.chatui.widget.WrapContentHeightViewPager
+    <com.abxh.chatui.widget.WrapContentHeightViewPager
         android:id="@+id/vp_emoji"
          android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
 
 
 
-        <com.xhab.chatui.widget.IndicatorView
+        <com.abxh.chatui.widget.IndicatorView
             android:id="@+id/ind_emoji"
             android:layout_width="match_parent"
             android:layout_height="20dp"

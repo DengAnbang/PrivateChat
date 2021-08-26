@@ -8,7 +8,7 @@ import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.tencent.bugly.beta.Beta;
-import com.xhab.utils.activity.WhitelistActivity;
+import com.abxh.utils.activity.WhitelistActivity;
 
 /**
  * Created by dab on 2021/3/12 10:52

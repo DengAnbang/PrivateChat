@@ -9,10 +9,10 @@ import android.content.IntentFilter;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.xhab.chatui.utils.ScreenShotListenManager;
-import com.xhab.utils.inteface.OnDataCallBack;
-import com.xhab.utils.utils.LogUtils;
-import com.xhab.utils.utils.RxUtils;
+import com.abxh.chatui.utils.ScreenShotListenManager;
+import com.abxh.utils.inteface.OnDataCallBack;
+import com.abxh.utils.utils.LogUtils;
+import com.abxh.utils.utils.RxUtils;
 
 import java.lang.reflect.Method;
 import java.util.Set;

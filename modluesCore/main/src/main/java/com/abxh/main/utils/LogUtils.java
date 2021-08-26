@@ -2,13 +2,15 @@ package com.abxh.main.utils;
 
 import android.util.Log;
 
+import com.abxh.main.BuildConfig;
+
 /**
  * Created by Mei on 2017/4/8.
  */
 
 public class LogUtils {
     private static String TAG = "日志";
-    private static boolean showLog = true;
+    private static boolean showLog = BuildConfig.DEBUG;
 
     public static void getTag(String stringInfo) {
         if (!showLog) return;

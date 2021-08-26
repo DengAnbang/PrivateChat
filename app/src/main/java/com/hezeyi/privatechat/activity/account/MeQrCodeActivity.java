@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.xhab.utils.utils.DisplayUtils;
-import com.xhab.utils.utils.QRCodeUtils;
+import com.abxh.utils.utils.DisplayUtils;
+import com.abxh.utils.utils.QRCodeUtils;
 
 /**
  * Created by dab on 2021/3/10 10:11

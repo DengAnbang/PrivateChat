@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.RechargeRecordBean;
-import com.xhab.utils.utils.TimeUtils;
+import com.abxh.utils.utils.TimeUtils;
 
 import java.util.List;
 

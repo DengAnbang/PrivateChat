@@ -67,7 +67,7 @@
 
 
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_setup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -79,7 +79,7 @@
 
 
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="1dp"
@@ -90,7 +90,7 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_contact_us"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -100,7 +100,7 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_login_out"
         android:layout_width="match_parent"
         android:layout_height="50dp"

@@ -13,11 +13,11 @@ import com.hezeyi.privatechat.activity.account.SetupActivity;
 import com.hezeyi.privatechat.activity.account.UserDetailsActivity;
 import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
-import com.xhab.chatui.utils.GlideUtils;
-import com.xhab.chatui.voiceCalls.JuphoonUtils;
-import com.xhab.utils.StackManager;
-import com.xhab.utils.utils.RxBus;
-import com.xhab.utils.utils.SPUtils;
+import com.abxh.chatui.utils.GlideUtils;
+import com.abxh.chatui.voiceCalls.JuphoonUtils;
+import com.abxh.utils.StackManager;
+import com.abxh.utils.utils.RxBus;
+import com.abxh.utils.utils.SPUtils;
 
 
 /**

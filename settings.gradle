@@ -1,2 +1,3 @@
 include ':app', ':xhabutils', ':chatui'
 include ':modluesCore:main'
+include ':modluesCore:jetpack'

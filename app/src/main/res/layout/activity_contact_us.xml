@@ -7,19 +7,19 @@
 
     <include layout="@layout/title_layout" />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftText="电话:"
         app:rightText="18782465362" />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftText="微信:"
         app:rightText="18782465362" />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftText="邮箱:"

@@ -75,7 +75,7 @@
                     android:paddingLeft="13dp"
                     android:textSize="14dp"/>
 
-                <com.xhab.chatui.widget.RecordButton
+                <com.abxh.chatui.widget.RecordButton
                     android:id="@+id/btnAudio"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                 android:layout_marginRight="14px"
                 android:src="@mipmap/ic_add"/>
 
-            <com.xhab.chatui.widget.StateButton
+            <com.abxh.chatui.widget.StateButton
                 android:id="@+id/btn_send"
                 android:layout_width="50dp"
                 android:layout_height="30dp"

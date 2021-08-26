@@ -14,10 +14,10 @@ import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.xhab.chatui.utils.GlideUtils;
-import com.xhab.chatui.utils.LogUtil;
-import com.xhab.chatui.utils.PictureFileUtil;
-import com.xhab.utils.utils.FunUtils;
+import com.abxh.chatui.utils.GlideUtils;
+import com.abxh.chatui.utils.LogUtil;
+import com.abxh.chatui.utils.PictureFileUtil;
+import com.abxh.utils.utils.FunUtils;
 
 import java.util.List;
 

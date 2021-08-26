@@ -1,16 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.xhab.utils">
+          package="com.abxh.utils">
 
     <application>
         <activity
-            android:name=".activity.SelectPhotoDialog"
+            android:name="com.abxh.utils.activity.SelectPhotoDialog"
             android:theme="@style/Dialog"/>
         <activity
-            android:name=".activity.PrivacyPolicyActivity"
+            android:name="com.abxh.utils.activity.PrivacyPolicyActivity"
             />
         <activity
-            android:name=".activity.WhitelistActivity"
+            android:name="com.abxh.utils.activity.WhitelistActivity"
             />
     </application>
 

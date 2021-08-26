@@ -1,102 +1,62 @@
-apply from: "${rootProject.rootDir}/buildSrc/common-build.gradle"
-
 //apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
-android {
-    compileSdkVersion androidId.compileSdkVersion
-    buildToolsVersion androidId.buildToolsVersion
-
-    defaultConfig {
-        minSdkVersion androidId.minSdkVersion
-        targetSdkVersion androidId.targetSdkVersion
-        versionCode androidId.versionCode
-        versionName androidId.versionName
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    buildFeatures {
-        viewBinding true
-    }
-}
-
+apply from: "${rootProject.rootDir}/buildSrc/common-build.gradle"
 dependencies {
+    api Libs.mmkv
+    api Libs.appcompat
+    api Libs.viewmodel
+    //网络库
+    api Libs.retrofit
+    api Libs.converter_gson
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "com.tencent:mmkv-static:1.2.10"
-    implementation 'androidx.core:core-ktx:1.3.1'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
-//    implementation 'com.google.android.material:material:1.2.1'
-//    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-//    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
-//    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
-// 进行数字签名
-signing {
-    required { false }
-    sign configurations.archives
-}
-
-// type显示指定任务类型或任务, 这里指定要执行Javadoc这个task,这个task在gradle中已经定义
-task androidJavadocs(type: Javadoc) {
-    // 设置源码所在的位置
-    source = android.sourceSets.main.java.sourceFiles
-}
-
-// 生成javadoc.jar
-task androidJavadocsJar(type: Jar) {
-    // 指定文档名称
-    classifier = 'javadoc'
-    from androidJavadocs.destinationDir
-}
-
-// 生成sources.jar
-task androidSourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.sourceFiles
-}
-
-// 产生相关配置文件的任务
-artifacts {
-    archives androidSourcesJar
-    archives androidJavadocsJar
-}
-
-tasks.create('uploadArchives', Upload.class) {
-    configuration = project.configurations.archives
-    group = 'upload'
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-        /**
-         * 快照版本，正式发布去掉 -SNAPSHOT 即可
-         */
-        pom.version = '1.0.0-SNAPSHOT'
-        pom.artifactId = 'outmanage'
-        pom.groupId = 'net.chips.android.plugin'
-        pom.name = project.name
-        pom.packaging = 'aar'
-        repository(url: NSAPSHOTS_URL) {
-            authentication(userName: NAME, password: PASSWORD) // maven授权信息
-        }
-    }
-}
+//// 进行数字签名
+//signing {
+//    required { false }
+//    sign configurations.archives
+//}
+//
+//// type显示指定任务类型或任务, 这里指定要执行Javadoc这个task,这个task在gradle中已经定义
+//task androidJavadocs(type: Javadoc) {
+//    // 设置源码所在的位置
+//    source = android.sourceSets.main.java.sourceFiles
+//}
+//
+//// 生成javadoc.jar
+//task androidJavadocsJar(type: Jar) {
+//    // 指定文档名称
+//    classifier = 'javadoc'
+//    from androidJavadocs.destinationDir
+//}
+//
+//// 生成sources.jar
+//task androidSourcesJar(type: Jar) {
+//    classifier = 'sources'
+//    from android.sourceSets.main.java.sourceFiles
+//}
+//
+//// 产生相关配置文件的任务
+//artifacts {
+//    archives androidSourcesJar
+//    archives androidJavadocsJar
+//}
+//
+//tasks.create('uploadArchives', Upload.class) {
+//    configuration = project.configurations.archives
+//    group = 'upload'
+//    repositories.mavenDeployer {
+//        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//        /**
+//         * 快照版本，正式发布去掉 -SNAPSHOT 即可
+//         */
+//        pom.version = '1.0.0-SNAPSHOT'
+//        pom.artifactId = 'outmanage'
+//        pom.groupId = 'net.chips.android.plugin'
+//        pom.name = project.name
+//        pom.packaging = 'aar'
+//        repository(url: NSAPSHOTS_URL) {
+//            authentication(userName: NAME, password: PASSWORD) // maven授权信息
+//        }
+//    }
+//}

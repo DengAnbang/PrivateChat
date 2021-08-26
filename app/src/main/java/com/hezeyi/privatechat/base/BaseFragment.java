@@ -3,8 +3,8 @@ package com.hezeyi.privatechat.base;
 import android.view.View;
 import android.widget.TextView;
 
-import com.xhab.utils.base.LazyFragment;
-import com.xhab.utils.utils.LogUtils;
+import com.abxh.utils.base.LazyFragment;
+import com.abxh.utils.utils.LogUtils;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;

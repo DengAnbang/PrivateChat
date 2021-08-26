@@ -16,9 +16,9 @@ import com.hezeyi.privatechat.base.BaseFragment;
 import com.hezeyi.privatechat.bean.UserMsgBean;
 import com.hezeyi.privatechat.net.HttpManager;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.xhab.utils.utils.RxBus;
-import com.xhab.utils.view.SuspendDecoration;
-import com.xhab.utils.view.WaveSideBar;
+import com.abxh.utils.utils.RxBus;
+import com.abxh.utils.view.SuspendDecoration;
+import com.abxh.utils.view.WaveSideBar;
 
 import java.util.ArrayList;
 import java.util.List;

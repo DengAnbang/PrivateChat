@@ -2,8 +2,8 @@ package com.hezeyi.privatechat.bean;
 
 import com.google.gson.Gson;
 import com.hezeyi.privatechat.Const;
-import com.xhab.chatui.bean.chat.ChatMessage;
-import com.xhab.utils.utils.AESEncryptUtil;
+import com.abxh.chatui.bean.chat.ChatMessage;
+import com.abxh.utils.utils.AESEncryptUtil;
 
 /**
  * Created by dab on 2018/1/4 0004 13:35

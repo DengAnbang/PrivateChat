@@ -15,15 +15,15 @@ import com.hezeyi.privatechat.service.VoiceService;
 import com.juphoon.cloud.JCCall;
 import com.juphoon.cloud.JCCallItem;
 import com.juphoon.cloud.JCMediaDevice;
-import com.xhab.chatui.service.BaseVoiceFloatingService;
-import com.xhab.chatui.utils.GlideUtils;
-import com.xhab.chatui.voiceCalls.BaseVoiceActivity;
-import com.xhab.chatui.voiceCalls.JuphoonUtils;
-import com.xhab.utils.utils.FunUtils;
-import com.xhab.utils.utils.LogUtils;
-import com.xhab.utils.utils.RxBus;
-import com.xhab.utils.utils.RxUtils;
-import com.xhab.utils.utils.TimeUtils;
+import com.abxh.chatui.service.BaseVoiceFloatingService;
+import com.abxh.chatui.utils.GlideUtils;
+import com.abxh.chatui.voiceCalls.BaseVoiceActivity;
+import com.abxh.chatui.voiceCalls.JuphoonUtils;
+import com.abxh.utils.utils.FunUtils;
+import com.abxh.utils.utils.LogUtils;
+import com.abxh.utils.utils.RxBus;
+import com.abxh.utils.utils.RxUtils;
+import com.abxh.utils.utils.TimeUtils;
 
 import androidx.annotation.Nullable;
 
@@ -36,7 +36,7 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
 
     @Override
     public int getContentViewRes() {
-        return com.xhab.chatui.R.layout.activity_voice;
+        return com.abxh.chatui.R.layout.activity_voice;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ChatVoiceActivity extends BaseVoiceActivity {
         super.initView();
         mJcCallItem = JuphoonUtils.get().getJCCallItem();
         if (checkJcCallItem()) {
-            showUser(findViewById(com.xhab.chatui.R.id.tv_name), findViewById(com.xhab.chatui.R.id.iv_head_portrait));
+            showUser(findViewById(com.abxh.chatui.R.id.tv_name), findViewById(com.abxh.chatui.R.id.iv_head_portrait));
         }
     }
 

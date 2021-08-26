@@ -7,8 +7,8 @@ import androidx.annotation.Nullable;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.xhab.utils.utils.FunUtils;
-import com.xhab.utils.utils.ToastUtil;
+import com.abxh.utils.utils.FunUtils;
+import com.abxh.utils.utils.ToastUtil;
 
 /**
  * Created by dab on 2021/3/9 15:07

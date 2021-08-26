@@ -2,7 +2,7 @@ package com.hezeyi.privatechat.bean;
 
 import android.text.TextUtils;
 
-import com.xhab.utils.inteface.ChooseAble;
+import com.abxh.utils.inteface.ChooseAble;
 
 /**
  * Created by dab on 2021/4/13 17:24

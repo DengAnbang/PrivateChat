@@ -1,7 +1,7 @@
 package com.hezeyi.privatechat.bean;
 
 import com.hezeyi.privatechat.inteface.BuddyShowAble;
-import com.xhab.utils.bean.Sortable;
+import com.abxh.utils.bean.Sortable;
 
 /**
  * Created by dab on 2021/4/7 17:16

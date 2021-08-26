@@ -16,10 +16,10 @@ import androidx.core.content.ContextCompat;
 import com.hezeyi.privatechat.Const;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.xhab.chatui.utils.GlideUtils;
-import com.xhab.utils.utils.FunUtils;
-import com.xhab.utils.utils.SpanBuilder;
-import com.xhab.utils.utils.ToastUtil;
+import com.abxh.chatui.utils.GlideUtils;
+import com.abxh.utils.utils.FunUtils;
+import com.abxh.utils.utils.SpanBuilder;
+import com.abxh.utils.utils.ToastUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;

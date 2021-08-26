@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.bean.UserMsgBean;
-import com.xhab.chatui.utils.GlideUtils;
-import com.xhab.utils.inteface.OnItemClickListener;
-import com.xhab.utils.utils.TimeUtils;
+import com.abxh.chatui.utils.GlideUtils;
+import com.abxh.utils.inteface.OnItemClickListener;
+import com.abxh.utils.utils.TimeUtils;
 
 import java.util.List;
 

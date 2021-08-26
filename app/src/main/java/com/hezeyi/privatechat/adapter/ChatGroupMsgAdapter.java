@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.inteface.BuddyShowAble;
-import com.xhab.chatui.utils.GlideUtils;
-import com.xhab.utils.inteface.OnItemClickListener;
+import com.abxh.chatui.utils.GlideUtils;
+import com.abxh.utils.inteface.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

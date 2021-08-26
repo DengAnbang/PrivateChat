@@ -47,7 +47,7 @@
 
     </RelativeLayout>
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_account"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -57,7 +57,7 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -65,7 +65,7 @@
         app:leftText="\u3000名称\u3000"
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_qr"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -74,7 +74,7 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_vip_time"
         android:layout_width="match_parent"
         android:layout_height="50dp"

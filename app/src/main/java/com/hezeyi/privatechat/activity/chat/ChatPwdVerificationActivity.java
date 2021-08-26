@@ -2,10 +2,10 @@ package com.hezeyi.privatechat.activity.chat;
 
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.xhab.utils.utils.LogUtils;
-import com.xhab.utils.utils.SPUtils;
-import com.xhab.utils.utils.ToastUtil;
-import com.xhab.utils.view.PayPsdInputView;
+import com.abxh.utils.utils.LogUtils;
+import com.abxh.utils.utils.SPUtils;
+import com.abxh.utils.utils.ToastUtil;
+import com.abxh.utils.view.PayPsdInputView;
 
 /**
  * Created by dab on 2021/4/20 11:36

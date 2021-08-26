@@ -9,7 +9,7 @@
 
     <include layout="@layout/title_layout"/>
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_security_code"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -18,7 +18,7 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_security_question"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -34,7 +34,7 @@
 <!--        app:leftText="\u3000修改密码\u3000"-->
 <!--        app:rightDrawable="@mipmap/c14_2_icon1" />-->
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_privacy"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -42,7 +42,7 @@
         app:leftText="\u3000隐私\u3000"
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_permission"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -51,7 +51,7 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:visibility="gone"
         tools:visibility="visible"
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
     <!--app:leftDrawable="@mipmap/d1_icon2"-->
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_new_msg_setup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -70,7 +70,7 @@
         app:rightDrawable="@mipmap/c14_2_icon1"
         />
 
-    <com.xhab.utils.view.TwoTextLinearView
+    <com.abxh.utils.view.TwoTextLinearView
         android:id="@+id/ttv_check_upgrade"
         android:layout_width="match_parent"
         android:layout_height="50dp"

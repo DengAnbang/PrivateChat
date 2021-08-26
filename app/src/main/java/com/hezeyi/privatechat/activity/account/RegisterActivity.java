@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
 import com.hezeyi.privatechat.net.HttpManager;
-import com.xhab.utils.utils.FunUtils;
+import com.abxh.utils.utils.FunUtils;
 
 /**
  * Created by dab on 2021/3/9 15:04

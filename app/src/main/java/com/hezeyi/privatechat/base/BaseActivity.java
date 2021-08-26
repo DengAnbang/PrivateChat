@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.hezeyi.privatechat.MyApplication;
-import com.xhab.utils.base.BaseUtilActivity;
+import com.abxh.utils.base.BaseUtilActivity;
 
 /**
  * Created by dab on 2021/3/9 15:40

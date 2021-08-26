@@ -21,12 +21,12 @@ import com.hezeyi.privatechat.net.HttpManager;
 import com.hezeyi.privatechat.service.ChatService;
 import com.hezeyi.privatechat.service.VoiceService;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.xhab.chatui.voiceCalls.JuphoonUtils;
-import com.xhab.utils.activity.PrivacyPolicyActivity;
-import com.xhab.utils.utils.FunUtils;
-import com.xhab.utils.utils.SPUtils;
-import com.xhab.utils.utils.SpanBuilder;
-import com.xhab.utils.utils.ToastUtil;
+import com.abxh.chatui.voiceCalls.JuphoonUtils;
+import com.abxh.utils.activity.PrivacyPolicyActivity;
+import com.abxh.utils.utils.FunUtils;
+import com.abxh.utils.utils.SPUtils;
+import com.abxh.utils.utils.SpanBuilder;
+import com.abxh.utils.utils.ToastUtil;
 
 import io.reactivex.disposables.Disposable;
 

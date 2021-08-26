@@ -19,7 +19,6 @@ object Libs {
     val crashreport_upgrade = "com.tencent.bugly:crashreport_upgrade:1.4.1"
 
 
-
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
     val retrofit_rxjava_adapter =
         "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit_version}"
@@ -44,4 +43,7 @@ object Libs {
     //语音 2f28a4e830fb84d0da705096
     val JuphoonCloud = "com.JuphoonCloud:JC-SDK:2.5"
     val PictureSelector = "com.github.LuckSiege.PictureSelector:picture_library:v2.6.1"
+//    存储
+    val mmkv = "com.tencent:mmkv-static:1.2.10"
+    val viewmodel="androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 }

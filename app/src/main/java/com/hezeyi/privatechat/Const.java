@@ -1,7 +1,7 @@
 package com.hezeyi.privatechat;
 
 
-import com.xhab.chatui.utils.FileUtils;
+import com.abxh.chatui.utils.FileUtils;
 
 /**
  * Created by dab on 2018/4/11 17:40

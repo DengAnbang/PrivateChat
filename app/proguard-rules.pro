@@ -210,9 +210,9 @@
 
 -keep class me.devilsen.czxing.**
 -keep class me.devilsen.czxing.** { *; }
--keep class com.xhab.utils.bean.** { *; }
+-keep class com.abxh.utils.bean.** { *; }
 
--keep class com.xhab.chatui.bean.** { *; }
+-keep class com.abxh.chatui.bean.** { *; }
 -dontwarn com.juphoon.*
 -keep class com.juphoon.**{*;}
 #//底层sdk

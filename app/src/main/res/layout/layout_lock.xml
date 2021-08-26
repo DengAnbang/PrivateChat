@@ -8,7 +8,7 @@
     <include layout="@layout/title_layout"/>
 
 
-    <com.xhab.utils.view.VerificationCodeView
+    <com.abxh.utils.view.VerificationCodeView
         android:id="@+id/verification_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

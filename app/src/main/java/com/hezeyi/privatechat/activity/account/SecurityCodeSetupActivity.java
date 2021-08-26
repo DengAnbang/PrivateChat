@@ -7,8 +7,8 @@ import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.activity.LockActivity;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.xhab.utils.utils.SPUtils;
-import com.xhab.utils.view.TwoTextLinearView;
+import com.abxh.utils.utils.SPUtils;
+import com.abxh.utils.view.TwoTextLinearView;
 
 /**
  * Created by dab on 2021/3/12 10:52
