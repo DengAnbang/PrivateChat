@@ -8,8 +8,8 @@ android {
         applicationId "com.hezeyi.privatechat"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 35
-        versionName "V1.1.36"
+        versionCode 37
+        versionName "V1.1.37"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
 //            // 设置支持的SO库架构
