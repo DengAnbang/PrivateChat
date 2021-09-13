@@ -11,7 +11,13 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url "https://jitpack.io" }
-//
+        maven {
+            credentials {
+                username '61298a031069a2b099fca3e5'
+                password 'xgKKaHS0[]]F'
+            }
+            url 'https://packages.aliyun.com/maven/repository/2132918-snapshot-WJE2ce/'
+        }
 //        maven { url "http://objectbox.net/beta-repo/" }
 //        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases"}
 //        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
@@ -36,7 +42,13 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-//
+        maven {
+            credentials {
+                username '61298a031069a2b099fca3e5'
+                password 'xgKKaHS0[]]F'
+            }
+            url 'https://packages.aliyun.com/maven/repository/2132918-snapshot-WJE2ce/'
+        }
 //        maven { url "http://objectbox.net/beta-repo/" }
 //        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases"}
 //        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
