@@ -41,7 +41,7 @@ object Libs {
     val easySocket = "com.github.jiusetian:EasySocket:v2.1.1"
 
     //语音 2f28a4e830fb84d0da705096
-    val JuphoonCloud = "com.JuphoonCloud:JC-SDK:2.5"
+    val JuphoonCloud = "com.JuphoonCloud:JC-SDK:2.8.1"
     val PictureSelector = "com.github.LuckSiege.PictureSelector:picture_library:v2.6.1"
 //    存储
     val mmkv = "com.tencent:mmkv-static:1.2.10"

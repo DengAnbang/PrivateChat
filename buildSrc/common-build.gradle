@@ -1,6 +1,7 @@
 ext {
     isRelease = true
     androidId = [
+            applicationId    : "com.abxh.dawdler",
             compileSdkVersion: 30,
             buildToolsVersion: "30.0.3",
             minSdkVersion    : 23,
@@ -10,16 +11,27 @@ ext {
     ]
 }
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+//apply plugin: 'kotlin-android-extensions'
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
 
 android {
     compileSdkVersion androidId.compileSdkVersion
     buildToolsVersion androidId.buildToolsVersion
 
     defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
         minSdkVersion androidId.minSdkVersion
         targetSdkVersion androidId.targetSdkVersion
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -38,4 +50,9 @@ android {
     buildFeatures {
         viewBinding true
     }
+}
+dependencies {
+    annotationProcessor "com.alibaba:arouter-compiler:1.5.2"
+    kapt "com.alibaba:arouter-compiler:1.5.2"
+    api 'com.alibaba:arouter-api:1.5.2'
 }
