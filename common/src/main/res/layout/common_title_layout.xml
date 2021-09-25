@@ -3,7 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="78dp"
-                android:background="@color/just_color_19b595"
+                android:background="@color/color_19b595"
                 android:paddingTop="28dp"
 
     >
@@ -17,7 +17,7 @@
         android:padding="5dp"
         android:visibility="gone"
         tools:visibility="visible"
-        android:src="@mipmap/ic_title_back"/>
+        android:src="@mipmap/com_ic_title_back"/>
 
     <TextView
 
@@ -26,7 +26,7 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textColor="@color/just_color_ffffff"
+        android:textColor="@color/color_ffffff"
         android:textSize="18dp"
         tools:text="这是标题"/>
 
@@ -39,7 +39,7 @@
         android:gravity="center"
         android:paddingTop="10dp"
         android:paddingRight="12dp"
-        android:textColor="@color/just_color_ffffff"
+        android:textColor="@color/color_ffffff"
         android:textSize="14sp"
         tools:text="+"/>
 

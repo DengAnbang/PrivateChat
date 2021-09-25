@@ -68,5 +68,10 @@ dependencies {
     implementation 'androidx.compose.ui:ui-tooling:1.0.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07'
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.1'
+
+    implementation 'com.google.accompanist:accompanist-pager:0.18.0'
+    // If using indicators, also depend on
+//    implementation 'com.google.accompanist:accompanist-pager-indicators:0.18.0'
+
     // compose/////////////////////
 }

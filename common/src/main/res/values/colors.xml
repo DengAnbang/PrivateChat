@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="just_color_dedede">#dedede</color>
+    <color name="app_status_bar_color">#ffffff</color>
+    <color name="app_title_bar_color">#ffffff</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_ff8c00">#ff8c00</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_f7f7f7">#f7f7f7</color>
+    <color name="color_f2f3f4">#f2f3f4</color>
+    <color name="color_cccccc">#cccccc</color>
+    <color name="color_ffffff">#ffffff</color>
+    <color name="color_19b595">#19b595</color>
+    <color name="color_00000000">#00000000</color>
+    <color name="color_000000">#000000</color>
+    <color name="color_ff22f033">#ff22f033</color>
+    <color name="color_btn_start">#ffa445</color>
+    <color name="color_btn_end">#ff8200</color>
+    <color name="color_878787">#878787</color>
+    <color name="color_FFE26C25">#FFE26C25</color>
+    <color name="color_FF036EB8">#FF036EB8</color>
+    <color name="color_FF3859">#FF3859</color>
+
+</resources>
