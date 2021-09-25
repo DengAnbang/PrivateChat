@@ -1,9 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 //apply from: "${rootProject.rootDir}/buildSrc/common-build.gradle"
 
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'//不使用缓存，使用仓库中最新的包,一般情况需要注释
-}
+//configurations.all {
+//    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'//不使用缓存，使用仓库中最新的包,一般情况需要注释
+//}
 buildscript {
     ext {
         kotlin_version = '1.5.20'

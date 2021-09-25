@@ -25,7 +25,9 @@ public abstract class BaseActivity<VM extends IViewModel> extends BaseViewModelA
         initData();
     }
 
-    public abstract int getContentViewRes();
+    public int getContentViewRes() {
+        return 0;
+    }
 
     public void initData() {
     }

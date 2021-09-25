@@ -1,1 +1,3 @@
 include ':app', ':xhabutils', ':chatui', ':common'
+include ':main'
+include ':user'

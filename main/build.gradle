@@ -1,0 +1,39 @@
+def isApp = true
+if (isApp) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+apply plugin: 'kotlin-android'
+
+apply from: "${rootProject.rootDir}/buildSrc/common-build.gradle"
+
+
+android {
+    defaultConfig {
+        if (isApp) {
+            applicationId androidId.applicationId
+            applicationIdSuffix ".refactor"
+        }
+    }
+    sourceSets {
+        main {
+            // 作为app与模块时的AndroidManifest.xml会有所不同，在不同状态时选择不同的AndroidManifest.xml
+            if (isApp) {
+                // 记得在 main 文件夹下创建 debug 文件夹，添加AndroidManifest.xml
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+                java {
+                    exclude 'debug/**'
+                }
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
+    }
+}
+
+
+dependencies {
+    implementation project(path: ':common')
+    implementation project(path: ':user')
+}
