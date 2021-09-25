@@ -3,14 +3,20 @@ package com.hezheyi.main.activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.Indication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.abxh.media.audio.R
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -49,6 +55,7 @@ fun PageContent(id: Int) {
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
+            .padding(0.dp,0.dp,0.dp,10.dp)
             .background(color = Color.White)
     ) {
         Image(
@@ -59,5 +66,16 @@ fun PageContent(id: Int) {
                 .fillMaxWidth(),
             contentScale = ContentScale.FillWidth
         )
+        IndicatorHorizontal()
     }
+}
+@Composable
+fun IndicatorHorizontal() {
+    Box(modifier = Modifier
+        .height(10.dp)
+        .width(30.dp)
+        .background(color = Color.White)
+        .clip(
+            CircleShape
+        ))
 }
