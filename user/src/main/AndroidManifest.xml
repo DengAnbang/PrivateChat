@@ -2,4 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hezheyi.user">
 
+    <application>
+        <activity android:name=".activity.UserLoginActivity" />
+    </application>
 </manifest>

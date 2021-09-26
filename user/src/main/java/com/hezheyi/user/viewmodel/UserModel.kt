@@ -1,4 +1,4 @@
-package com.hezheyi.main.viewmodel
+package com.hezheyi.user.viewmodel
 
 import com.abxh.jetpack.IViewModel
 

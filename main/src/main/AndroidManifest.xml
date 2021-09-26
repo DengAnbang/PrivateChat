@@ -2,4 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hezheyi.main">
 
+    <application>
+        <provider
+            android:name="com.hezheyi.main.provider.MainContextProvider"
+            android:authorities="${applicationId}.contextprovider"
+            android:exported="false" />
+    </application>
 </manifest>

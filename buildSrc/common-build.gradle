@@ -71,7 +71,7 @@ dependencies {
 
     implementation 'com.google.accompanist:accompanist-pager:0.18.0'
     // If using indicators, also depend on
-//    implementation 'com.google.accompanist:accompanist-pager-indicators:0.18.0'
+    implementation 'com.google.accompanist:accompanist-pager-indicators:0.18.0'
 
     // compose/////////////////////
 }

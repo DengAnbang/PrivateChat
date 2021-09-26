@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name="com.hezheyi.main.App"
         android:theme="@style/AppTheme.NoActionBar">
 
         <activity
@@ -21,7 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name="com.hezheyi.main.activity.GuiderActivity" />
-
+        <provider
+            android:name="com.hezheyi.main.provider.MainContextProvider"
+            android:authorities="${applicationId}.contextprovider"
+            android:exported="false" />
     </application>
     <!--摄像头权限-->
     <uses-feature android:name="android.hardware.camera.any" />
