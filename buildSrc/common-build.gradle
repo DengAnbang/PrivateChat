@@ -70,8 +70,10 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.1'
 
     implementation 'com.google.accompanist:accompanist-pager:0.18.0'
-    // If using indicators, also depend on
     implementation 'com.google.accompanist:accompanist-pager-indicators:0.18.0'
+
+    implementation "com.google.accompanist:accompanist-insets:0.18.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.18.0"
 
     // compose/////////////////////
 }

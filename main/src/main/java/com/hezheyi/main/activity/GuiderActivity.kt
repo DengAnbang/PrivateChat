@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
@@ -25,11 +26,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
+import com.abxh.core.MmkvHelper
 import com.abxh.media.audio.R
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hezeyi.common.base.BaseActivity
 import com.hezheyi.main.viewmodel.MainModel
 
@@ -40,8 +44,14 @@ class GuiderActivity : BaseActivity<MainModel>() {
     @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             Surface {
+                //实例系统UI控制
+                val systemUiController = rememberSystemUiController()
+                //设置为透明状态栏
+                systemUiController.setStatusBarColor(
+                    Color.Transparent, darkIcons = MaterialTheme.colors.isLight)
                 Content()
             }
         }
@@ -53,9 +63,9 @@ class GuiderActivity : BaseActivity<MainModel>() {
     fun Content() {
         val items = mutableListOf(
             R.mipmap.guider_1,
-            (R.mipmap.guider_2),
-            (R.mipmap.guider_3),
-            (R.mipmap.guider_4)
+            R.mipmap.guider_2,
+            R.mipmap.guider_3,
+            R.mipmap.guider_4,
         )
         val state = rememberPagerState(pageCount = items.size)
         Box(contentAlignment = Alignment.Center) {
@@ -90,6 +100,7 @@ class GuiderActivity : BaseActivity<MainModel>() {
         ) {
             FloatingActionButton(
                 onClick = {
+                    MmkvHelper.getInstance().putBoolean("isGuiderActivity", true)
                     ARouter.getInstance().build("/user/login").navigation()
                     finish()
                 }, backgroundColor = Color.Black, modifier = Modifier.size(width.value)

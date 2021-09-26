@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="78dp"
-                android:background="@color/color_19b595"
-                android:paddingTop="28dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="78dp"
+    android:background="@color/color_19b595"
+    android:paddingTop="28dp"
 
     >
 
     <ImageView
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp"
         android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
         android:padding="5dp"
+        android:src="@drawable/com_ic_title_back"
         android:visibility="gone"
-        tools:visibility="visible"
-        android:src="@mipmap/com_ic_title_back"/>
+        tools:visibility="visible" />
 
     <TextView
 
@@ -28,7 +28,7 @@
         android:gravity="center"
         android:textColor="@color/color_ffffff"
         android:textSize="18dp"
-        tools:text="这是标题"/>
+        tools:text="这是标题" />
 
     <TextView
 
@@ -41,6 +41,6 @@
         android:paddingRight="12dp"
         android:textColor="@color/color_ffffff"
         android:textSize="14sp"
-        tools:text="+"/>
+        tools:text="+" />
 
 </RelativeLayout>
