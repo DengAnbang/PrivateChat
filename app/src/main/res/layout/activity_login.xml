@@ -25,8 +25,7 @@
         android:drawablePadding="20dp"
         android:hint="请输入账号"
         android:inputType="text"
-        android:maxLength="16"
-        />
+        android:maxLength="16" />
 
     <View
         style="@style/Line_Margin_15"
@@ -82,7 +81,7 @@
         android:layout_height="45dp"
         android:layout_below="@+id/et_password"
         android:layout_marginTop="70dp"
-        android:text="登录"/>
+        android:text="登录" />
 
     <TextView
         android:id="@+id/tv_forget"

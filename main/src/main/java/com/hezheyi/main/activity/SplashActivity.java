@@ -30,4 +30,9 @@ public class SplashActivity extends BaseActivity<IViewModel> {
         }
         finish();
     }
+
+    @Override
+    public int getContentViewRes() {
+        return 0;
+    }
 }

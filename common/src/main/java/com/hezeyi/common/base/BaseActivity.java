@@ -16,6 +16,10 @@ public abstract class BaseActivity<VM extends IViewModel> extends BaseViewModelA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        create();
+    }
+
+    public void create() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (getContentViewRes() != 0) {
             setContentView(getContentViewRes());
@@ -24,10 +28,7 @@ public abstract class BaseActivity<VM extends IViewModel> extends BaseViewModelA
         initEvent();
         initData();
     }
-
-    public int getContentViewRes() {
-        return 0;
-    }
+    public abstract int getContentViewRes();
 
     public void initData() {
     }
