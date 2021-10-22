@@ -43,8 +43,7 @@
         android:drawablePadding="20dp"
         android:hint="请输入密码"
         android:inputType="textPassword"
-        android:maxLength="16"
-        />
+        android:maxLength="16" />
 
     <View
         style="@style/Line_Margin_15"
