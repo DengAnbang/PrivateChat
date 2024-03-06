@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
+apply from: "../buildSrc/common_build.gradle"
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    compileSdk BuildVersion.compileSdkVersion
     defaultConfig {
         applicationId "com.hezeyi.privatechat"
-        minSdkVersion 23
-        targetSdkVersion 30
+        minSdkVersion BuildVersion.minSdkVersion
+        targetSdkVersion BuildVersion.targetSdkVersion
         versionCode 37
         versionName "V1.1.37"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -79,11 +79,13 @@ android {
             applicationIdSuffix ".nb"
             dimension "channel"
             manifestPlaceholders = [app_name: "内部测试", CHANNEL: "nb", GD_KEY: "0fc6ecfaf02cb280ef11f881ca205e68"]
+            buildConfigField 'String', 'BaseUrl',  "\"10.10.1.79\""
         }
         zs {
             applicationIdSuffix ".zs"
             dimension "channel"
             manifestPlaceholders = [app_name: "S.O.M.", CHANNEL: "zs", GD_KEY: "0fc6ecfaf02cb280ef11f881ca205e68"]
+            buildConfigField 'String', 'BaseUrl', "\"10.10.1.79\""
         }
 
     }
@@ -92,33 +94,22 @@ android {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation Libs.appcompat
-    implementation Libs.constraintlayout
-    testImplementation Libs.junit
-    androidTestImplementation Libs.runner
-    androidTestImplementation Libs.espresso_core
-
-    implementation Libs.multidex
-    implementation Libs.crashreport_upgrade
-    //support
-    implementation Libs.recyclerview
-    implementation Libs.material
-    implementation Libs.swiperefreshlayout
-    //rxjava
-    implementation Libs.retrofit
-    implementation Libs.converter_gson
-    implementation Libs.adapter_rxjava2
-    implementation Libs.rxandroid
-    implementation Libs.rxbinding
-    implementation Libs.rxpermissions
-    //EasySocket    https://github.com/jiusetian/EasySocket
-    implementation Libs.easySocket
-    //进程保活
-    implementation Libs.hellodaemon
-
     //语音 2f28a4e830fb84d0da705096
-    implementation Libs.JuphoonCloud
-    implementation Libs.PictureSelector
+    implementation "com.JuphoonCloud:JC-SDK:2.5"
+    implementation "com.github.LuckSiege.PictureSelector:picture_library:v2.6.1"
+    //进程保活
+    implementation "com.xdandroid:hellodaemon:+"
+    //EasySocket    https://github.com/jiusetian/EasySocket
+    implementation "com.github.jiusetian:EasySocket:v2.1.1"
+    implementation "com.android.support:multidex:2.0.1"
+//    implementation "com.tencent.bugly:crashreport_upgrade:1.6.1"
+//    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
+    implementation "com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar"
+    implementation "com.jakewharton.rxbinding2:rxbinding:2.0.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+
+
 
     implementation project(path: ':xhabutils')
     implementation project(path: ':chatui')
@@ -126,10 +117,10 @@ dependencies {
 repositories {
     mavenCentral()
 }
-apply plugin: 'bugly'
+//apply plugin: 'bugly'
 
-bugly {
-    appId = "ebd08610e4"
-    appKey = "f46f229e-8467-438d-8cd0-ab37d2643d53"
-    debug = true
-}
+//bugly {
+//    appId = "ebd08610e4"
+//    appKey = "f46f229e-8467-438d-8cd0-ab37d2643d53"
+//    debug = true
+//}

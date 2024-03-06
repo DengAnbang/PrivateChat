@@ -11,19 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftText="电话:"
-        app:rightText="18782465362" />
+        app:rightText="18-------" />
 
     <com.abxh.utils.view.TwoTextLinearView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftText="微信:"
-        app:rightText="18782465362" />
+        app:rightText="18-------" />
 
     <com.abxh.utils.view.TwoTextLinearView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftText="邮箱:"
-        app:rightText="1510951684@qq.com" />
+        app:rightText="18-------@qq.com" />
 
 
 </LinearLayout>

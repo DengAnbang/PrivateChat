@@ -32,6 +32,7 @@ import com.abxh.utils.utils.LogUtils;
 import com.abxh.utils.utils.RxBus;
 import com.abxh.utils.utils.SPUtils;
 import com.abxh.utils.utils.ToastUtil;
+import com.xdandroid.hellodaemon.WakeUpReceiver;
 
 import java.io.File;
 import java.util.Objects;

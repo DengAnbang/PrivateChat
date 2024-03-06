@@ -5,24 +5,9 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.StrictMode;
 import android.text.TextUtils;
 
-import androidx.multidex.MultiDex;
-
-import com.hezeyi.privatechat.activity.LockActivity;
-import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
-import com.hezeyi.privatechat.activity.recharge.RechargeActivity;
-import com.hezeyi.privatechat.bean.ChatGroupBean;
-import com.hezeyi.privatechat.bean.ResultData;
-import com.hezeyi.privatechat.bean.UserMsgBean;
-import com.hezeyi.privatechat.service.ChatService;
-import com.juphoon.cloud.JCCall;
-import com.juphoon.cloud.JCCallItem;
-import com.tencent.bugly.Bugly;
-import com.xdandroid.hellodaemon.DaemonEnv;
 import com.abxh.chatui.ChatUi;
 import com.abxh.chatui.emoji.EmojiDao;
 import com.abxh.chatui.utils.NotificationManagerUtils;
@@ -35,10 +20,22 @@ import com.abxh.utils.utils.LogUtils;
 import com.abxh.utils.utils.RxUtils;
 import com.abxh.utils.utils.SPUtils;
 import com.abxh.utils.utils.TimeUtils;
+import com.hezeyi.privatechat.activity.LockActivity;
+import com.hezeyi.privatechat.activity.chat.ChatVoiceActivity;
+import com.hezeyi.privatechat.activity.recharge.RechargeActivity;
+import com.hezeyi.privatechat.bean.ChatGroupBean;
+import com.hezeyi.privatechat.bean.ResultData;
+import com.hezeyi.privatechat.bean.UserMsgBean;
+import com.hezeyi.privatechat.service.ChatService;
+import com.juphoon.cloud.JCCall;
+import com.juphoon.cloud.JCCallItem;
+import com.xdandroid.hellodaemon.DaemonEnv;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.multidex.MultiDex;
 
 /**
  * Created by Chony on 2017/2/5.
@@ -84,15 +81,15 @@ public class MyApplication extends Application {
         EmojiDao.init(this);
         //初始化Bugly
 //        CrashReport.initCrashReport(getApplicationContext(), "ec8f9b812a", true);
-        Bugly.init(getApplicationContext(), "ebd08610e4", true);
+//        Bugly.init(getApplicationContext(), "ebd08610e4", true);
 
-        try {
-            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-            String channel = appInfo.metaData.getString("CHANNEL");
-            Bugly.setAppChannel(getApplicationContext(), channel);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+//            String channel = appInfo.metaData.getString("CHANNEL");
+//            Bugly.setAppChannel(getApplicationContext(), channel);
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();

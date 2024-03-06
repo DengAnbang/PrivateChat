@@ -2,13 +2,13 @@ package com.hezeyi.privatechat.activity.account;
 
 import android.content.Intent;
 
-import androidx.annotation.Nullable;
-
+import com.abxh.utils.activity.WhitelistActivity;
 import com.hezeyi.privatechat.MyApplication;
 import com.hezeyi.privatechat.R;
 import com.hezeyi.privatechat.base.BaseActivity;
-import com.tencent.bugly.beta.Beta;
-import com.abxh.utils.activity.WhitelistActivity;
+import com.hezeyi.privatechat.net.HttpManager;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by dab on 2021/3/12 10:52
@@ -44,8 +44,8 @@ public class SetupActivity extends BaseActivity {
             startActivity(intent);
         });
         click(R.id.ttv_check_upgrade, view1 -> {
-            Beta.checkUpgrade();
-//            HttpManager.updatesCheck(true, this);
+//            Beta.checkUpgrade();
+            HttpManager.updatesCheck(true, this);
         });
         click(R.id.ttv_privacy, view1 -> {
 

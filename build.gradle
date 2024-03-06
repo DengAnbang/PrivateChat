@@ -1,34 +1,28 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-//apply from: "${rootProject.rootDir}/buildSrc/common-build.gradle"
+//apply from: "${rootProject.rootDir}/buildSrc/common_build.gradle"
 
 
 buildscript {
     ext {
-        kotlin_version = '1.5.20'
+        kotlin_version = '1.8.0'
     }
     repositories {
         google()
         mavenCentral()
-        jcenter()
-        maven { url "https://jitpack.io" }
         maven {
-            credentials {
-                username '61298a031069a2b099fca3e5'
-                password 'xgKKaHS0[]]F'
-            }
-            url 'https://packages.aliyun.com/maven/repository/2132918-snapshot-WJE2ce/'
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/groups/public"
         }
-//        maven { url "http://objectbox.net/beta-repo/" }
-//        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases"}
-//        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-//        maven { url "http://maven.aliyun.com/repositories/google"}
-//        maven { url "http://maven.aliyun.com/repositories/jcenter"}
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.1"
+        classpath "com.android.tools.build:gradle:7.4.1"
 //        classpath 'com.android.tools.build:gradle:3.4.2'
 //        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.51"
-        classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
+//        classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -38,25 +32,16 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral()
         google()
-        jcenter()
-        maven { url "https://jitpack.io" }
+        mavenCentral()
         maven {
-            credentials {
-                username '61298a031069a2b099fca3e5'
-                password 'xgKKaHS0[]]F'
-            }
-            url 'https://packages.aliyun.com/maven/repository/2132918-snapshot-WJE2ce/'
+            allowInsecureProtocol = true
+            url "http://maven.aliyun.com/nexus/content/groups/public"
         }
-//        maven { url "http://objectbox.net/beta-repo/" }
-//        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases"}
-//        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-//        maven { url "http://maven.aliyun.com/repositories/google"}
-//        maven { url "http://maven.aliyun.com/repositories/jcenter"}
-//        maven {
-//            url  "http://dl.bintray.com/lukaville/maven"
-//        }
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
 }
 

@@ -1,30 +1,5 @@
 apply plugin: 'com.android.library'
-
-android {
-    compileSdkVersion 30
-    buildToolsVersion "29.0.3"
-
-
-    defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 30
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
-
+apply from: "../buildSrc/common_build.gradle"
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 

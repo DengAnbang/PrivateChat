@@ -49,10 +49,10 @@ public class Const {
     }
 
     public static class Api {
-        //        public static final String API_HOST = "http://" + getUrl() + ":9090/";
-        public static final String SOCKET_SERVER = "wss://" + getUrl() + ":/" + "websocket";
-        //        public static final String SOCKET_SERVER = "ws://" + getUrl() + ":9090/" + "websocket";
-        public static final String API_HOST = "https://" + getUrl() + "/";
+                public static final String API_HOST = "http://" + BuildConfig.BaseUrl + ":9090/";
+//        public static final String SOCKET_SERVER = "wss://" + BuildConfig.BaseUrl + ":/" + "websocket";
+                public static final String SOCKET_SERVER = "ws://" + BuildConfig.BaseUrl + ":9091/" + "websocket";
+//        public static final String API_HOST = "https://" + BuildConfig.BaseUrl + "/";
         //        public static final String SOCKET_SERVER = "ws://" + getUrl() + "/" + "websocket";
         //        public static final String SOCKET_SERVER = getUrl();
         public static final int SOCKET_PORT = 9091;
@@ -60,20 +60,7 @@ public class Const {
 
     }
 
-    private static String getUrl() {
-        switch (BuildConfig.FLAVOR) {
-            case "nb":
-//                return "192.168.0.107";
-//                return "47.108.172.20";
-                return "hezeyisoftware.com";
-//                return "192.168.31.213";
-            case "zs":
-//                return "192.168.0.102";
-                return "hezeyisoftware.com";
-            default:
-                return "192.168.31.213";
-        }
-    }
+
 
     public static class RxType {
         public static final String CONNECTION = "1";//连接

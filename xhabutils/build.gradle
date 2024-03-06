@@ -1,44 +1,13 @@
 apply plugin: 'com.android.library'
+apply from: "../buildSrc/common_build.gradle"
 
-android {
-    compileSdkVersion 30
-    buildToolsVersion "29.0.3"
-
-
-    defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 30
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            consumerProguardFiles 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
 
 ext.support_version = '26.0.2+'
 ext.retrofit_version = '2.3.0'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation "com.google.android.material:material:1.1.0"
     //rxjava
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
